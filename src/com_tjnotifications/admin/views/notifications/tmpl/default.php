@@ -38,6 +38,14 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 			?>
 		</div>
 	</div>
+
+	<div class="btn-group pull-right hidden-phone">
+		<label for="limit" class="element-invisible">
+			<?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?>
+		</label>
+		<?php echo $this->pagination->getLimitBox(); ?>
+	</div>
+
 	<br>
 		<div class="clearfix"></div>
 		<?php if(empty($this->items)) :?>
@@ -91,26 +99,30 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 					<tbody>
 						<?php if (!empty($this->items)) : ?>
 							<?php foreach ($this->items as $i => $row) :
+							if($this->component):
 								$link = JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id.'&extension=' . $this->component);
+							else :
+								$link = JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id);
+							endif;
 							?>
 								<tr>
 									<td class="center">
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
 									<td class="center">
-										<a href="<?php echo JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id .'&extension=' . $this->component); ?>">
+										<a href="<?php echo $link; ?>">
 											<?php echo $row->id; ?>
 										</a>
 									</td>
 
 									<td class="center">
-										<a href="<?php echo JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id.'&extension=' . $this->component); ?>">
+										<a href="<?php echo $link; ?>">
 											<?php echo $row->client; ?>
 										</a>
 									</td>
 
 									<td class="center">
-									<a href="<?php echo JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id.'&extension=' . $this->component);  ?>">
+									<a href="<?php echo $link;  ?>">
 											<?php echo $row->key; ?>
 										</a>
 									</td>
