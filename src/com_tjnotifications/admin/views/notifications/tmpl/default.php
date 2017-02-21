@@ -64,10 +64,6 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 						</th>
 
 						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
-						</th>
-
-						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CLIENT"), 'client', $listDirn, $listOrder);?>
 						</th>
 						<th width="10%" class="nowrap center">
@@ -86,6 +82,9 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_WEB_STATUS"), 'web_status', $listDirn, $listOrder);?>
 						</th>
 
+						<th width="10%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
+						</th>
 
 					</tr>
 					</thead>
@@ -108,11 +107,6 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 								<tr>
 									<td class="center">
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
-									</td>
-									<td class="center">
-										<a href="<?php echo $link; ?>">
-											<?php echo $row->id; ?>
-										</a>
 									</td>
 
 									<td class="center">
@@ -163,6 +157,11 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php $image = JURI::base(). $no;?>
 										<?php printf('<img src="%s" />', $image); ?>
 										<?php endif; ?>
+									</td>
+									<td class="center">
+										<a href="<?php echo $link; ?>">
+											<?php echo $row->id; ?>
+										</a>
 									</td>
 								</tr>
 							<?php endforeach; ?>
