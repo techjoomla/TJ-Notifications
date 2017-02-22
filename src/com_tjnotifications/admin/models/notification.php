@@ -94,4 +94,29 @@ class TjnotificationsModelNotification extends JModelAdmin
 
 		return $data;
 	}
+
+	/**
+	 * Method to create notifications templates.
+	 *
+	 * @param   array  $templates  An array of data for the notifications templates.
+	 *
+	 * @return  Boolean  true or false
+	 *
+	 * @since    1.6
+	 */
+	public function createTemplates($templates)
+	{
+		$data = $templates;
+
+		if ($data)
+		{
+			parent::save($data);
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

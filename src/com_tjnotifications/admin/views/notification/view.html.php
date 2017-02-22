@@ -57,18 +57,36 @@ class TjnotificationsViewNotification extends JViewLegacy
 		$this->form = $form;
 		$this->item = $item;
 
-		$this->addToolBar();
-
 		$model = JModelAdmin::getInstance('Preferences', 'TJNotificationsModel');
 		$this->count    = $model->count();
+
 		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		if ($extension)
 		{
+			$this->addToolBarExtension();
 			$this->_setToolBar();
 		}
 
+		$this->addToolBar();
+
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolBarExtension()
+	{
+		JToolBarHelper::title(JText::_('COM_TJNOTIFICATIONS'));
+		JToolBarHelper::apply('notification.editSave', 'JTOOLBAR_APPLY');
+		JToolBarHelper::save('notification.saveClose', 'JTOOLBAR_SAVE');
+		JToolBarHelper::custom('notification.saveNew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		JToolBarHelper::cancel('notification.saveCancel', 'JTOOLBAR_CANCEL');
 	}
 
 	/**
@@ -81,9 +99,9 @@ class TjnotificationsViewNotification extends JViewLegacy
 	protected function addToolBar()
 	{
 		JToolBarHelper::title(JText::_('COM_TJNOTIFICATIONS'));
-		JToolBarHelper::apply('notification.editSave', 'JTOOLBAR_APPLY');
-		JToolBarHelper::save('notification.saveClose', 'JTOOLBAR_SAVE');
-		JToolBarHelper::custom('notification.saveNew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		JToolBarHelper::apply('notification.apply', 'JTOOLBAR_APPLY');
+		JToolBarHelper::save('notification.save', 'JTOOLBAR_SAVE');
+		JToolBarHelper::custom('notification.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		JToolBarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
 	}
 

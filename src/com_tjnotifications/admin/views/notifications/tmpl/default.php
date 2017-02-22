@@ -38,6 +38,14 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 			?>
 		</div>
 	</div>
+
+	<div class="btn-group pull-right hidden-phone">
+		<label for="limit" class="element-invisible">
+			<?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?>
+		</label>
+		<?php echo $this->pagination->getLimitBox(); ?>
+	</div>
+
 	<br>
 		<div class="clearfix"></div>
 		<?php if(empty($this->items)) :?>
@@ -53,10 +61,6 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 						<th width="2%" class="nowrap center">
 							<input type="checkbox" name="checkall-toggle" value=""
 										   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
-						</th>
-
-						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
 						</th>
 
 						<th width="10%" class="nowrap center">
@@ -78,6 +82,9 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_WEB_STATUS"), 'web_status', $listDirn, $listOrder);?>
 						</th>
 
+						<th width="10%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
+						</th>
 
 					</tr>
 					</thead>
@@ -91,26 +98,25 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 					<tbody>
 						<?php if (!empty($this->items)) : ?>
 							<?php foreach ($this->items as $i => $row) :
+							if($this->component):
 								$link = JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id.'&extension=' . $this->component);
+							else :
+								$link = JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id);
+							endif;
 							?>
 								<tr>
 									<td class="center">
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
-									<td class="center">
-										<a href="<?php echo JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id .'&extension=' . $this->component); ?>">
-											<?php echo $row->id; ?>
-										</a>
-									</td>
 
 									<td class="center">
-										<a href="<?php echo JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id.'&extension=' . $this->component); ?>">
+										<a href="<?php echo $link; ?>">
 											<?php echo $row->client; ?>
 										</a>
 									</td>
 
 									<td class="center">
-									<a href="<?php echo JRoute::_('index.php?option=com_tjnotifications&task=notification.edit&id=' . $row->id.'&extension=' . $this->component);  ?>">
+									<a href="<?php echo $link;  ?>">
 											<?php echo $row->key; ?>
 										</a>
 									</td>
@@ -152,6 +158,11 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php printf('<img src="%s" />', $image); ?>
 										<?php endif; ?>
 									</td>
+									<td class="center">
+										<a href="<?php echo $link; ?>">
+											<?php echo $row->id; ?>
+										</a>
+									</td>
 								</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>
@@ -161,6 +172,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="extension" value="<?php echo $this->component; ?>" />
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
