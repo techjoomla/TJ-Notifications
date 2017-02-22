@@ -3,6 +3,7 @@ TJ Notifications is an extremely powerful and flexible notifications system for 
 
 
 ## User Docs
+Coming Soon !
 
 ## Technical Docs
 - [Integrating with extensions](https://github.com/techjoomla/TJ-Notifications/wiki/integrating-with-extensions)
