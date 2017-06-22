@@ -34,7 +34,7 @@ class TjnotificationsViewNotifications extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->state         = $this->get('State');
-		$this->component           = $this->state->get('filter.component');
+		$this->component     = $this->state->get('filter.component');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

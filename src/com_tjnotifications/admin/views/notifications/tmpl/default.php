@@ -63,15 +63,19 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
 						</th>
 
+<!--
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CLIENT"), 'client', $listDirn, $listOrder);?>
 						</th>
+-->
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder);?>
 						</th>
+
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_EMAIL_STATUS"), 'email_status', $listDirn, $listOrder);?>
 						</th>
+<!--
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SMS_STASTUS"), 'sms_status', $listDirn, $listOrder);?>
 						</th>
@@ -80,6 +84,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 						</th>
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_WEB_STATUS"), 'web_status', $listDirn, $listOrder);?>
+-->
 						</th>
 
 						<th width="10%" class="nowrap center">
@@ -109,11 +114,13 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
 
+<!--
 									<td class="center">
 										<a href="<?php echo $link; ?>">
 											<?php echo $row->client; ?>
 										</a>
 									</td>
+-->
 
 									<td class="center">
 									<a href="<?php echo $link;  ?>">
@@ -131,6 +138,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php printf('<img src="%s" />', $image); ?>
 										<?php endif; ?>
 									</td>
+<!--
 									<td class="center">
 										<?php if(($row->sms_status)==1): ?>
 										<?php $image = JURI::base(). $tick;?>
@@ -158,6 +166,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php printf('<img src="%s" />', $image); ?>
 										<?php endif; ?>
 									</td>
+-->
 									<td class="center">
 										<a href="<?php echo $link; ?>">
 											<?php echo $row->id; ?>
