@@ -57,9 +57,11 @@ $today= gmdate('Y-m-d');
 					echo JHTML::tooltip(JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TOOLTIP_MESSAGE'), '','', "<h3>". $this->item->client . " / " . $this->item->key ."</h3>");
 					endif ?>
 					<li class= <?php echo $class_name ?> ><a href="#email" aria-controls="email"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Email') ?></a></li>
+<!--
 					<li><a href="#sms" aria-controls="sms"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_SMS') ?></a></li>
 					<li><a href="#push" aria-controls="push"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Push') ?></a></li>
 					<li><a href="#web" aria-controls="web"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Web') ?></a></li>
+-->
 				  </ul>
 
 
@@ -69,7 +71,11 @@ $today= gmdate('Y-m-d');
 							<?php foreach ($this->form->getFieldset('primary_fieldset') as $field): ?>
 							<div class="control-group">
 								<div class="control-label"><?php echo $field->label; ?></div>
-								<div class="controls"><?php echo $field->input ; ?></div>
+								<?php if ($this->component and $field->fieldname == 'client'):?>
+									<div class="controls"><input type="text" readonly='true' name="jform[client]" id="jform_client" value="<?php echo $this->component; ?>"/></div>
+								<?php else : ?>
+									<div class="controls"><?php echo $field->input ; ?></div>
+									<?php endif;?>
 							</div>
 							<?php endforeach;?>
 						</div>
@@ -94,6 +100,7 @@ $today= gmdate('Y-m-d');
                     <?php endforeach; ?>
 					</div>
 
+<!--
 					<div  class="tab-pane" id="sms">
 						<?php foreach ($this->form->getFieldset('sms_fieldset') as $field): ?>
                         <div class="control-group span8">
@@ -102,7 +109,9 @@ $today= gmdate('Y-m-d');
                         </div>
                     <?php endforeach; ?>
 					</div>
+-->
 
+<!--
 					<div  class="tab-pane" id="push">
 						<?php foreach ($this->form->getFieldset('push_fieldset') as $field): ?>
                         <div class="control-group span8">
@@ -111,7 +120,9 @@ $today= gmdate('Y-m-d');
                         </div>
                     <?php endforeach; ?>
 					</div>
+-->
 
+<!--
 					<div  class="tab-pane" id="web">
 						<?php foreach ($this->form->getFieldset('web_fieldset') as $field): ?>
                         <div class="control-group span8">
@@ -120,6 +131,7 @@ $today= gmdate('Y-m-d');
                         </div>
                     <?php endforeach; ?>
 					</div>
+-->
 				</div>
 					<input type="hidden" name="jform[state]" id="jform_state" value="1"/>
 					<input type="hidden" name="jform[created_on]" id="jform_created_on" value="<?php echo $today; ?>"/>

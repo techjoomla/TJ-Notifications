@@ -48,9 +48,21 @@ class TjnotificationsControllerNotification extends JControllerForm
 		parent::save($data);
 		$msg = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
 		$input = JFactory::getApplication()->input;
-		$link = JRoute::_(
-		'index.php?option=com_tjnotifications&view=notifications&extension=' . $input->get('extension', '', 'STRING'), false
-		);
+		$extension = $input->get('extension', '', 'STRING');
+
+		if ($extension)
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
+			);
+		}
+		else
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notifications', false
+			);
+		}
+
 		$this->setRedirect($link, $msg);
 	}
 
@@ -64,16 +76,16 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 		$input    = JFactory::getApplication()->input;
 		$cid      = $input->post->get('cid', array(), 'array');
 		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
 		{
 			$link = JRoute::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit&id= ' . $recordId .
-			'&extension=' . $input->get('extension', '', 'STRING'), false
+			'&extension=' . $extension, false
 			);
 		}
 		else
@@ -93,11 +105,22 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 *
 	 * @return  void
 	 */
-	public function saveCancel($key = null)
+	public function cancel($key = null)
 	{
 		$input = JFactory::getApplication()->input;
-		$link = JRoute::_('index.php?option=com_tjnotifications&view=notifications&extension=' . $input->get('extension', '', 'STRING'), false
+		$extension = $input->get('extension', '', 'STRING');
+
+		if ($extension)
+		{
+			$link = JRoute::_('index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
+			);
+		}
+		else
+		{
+			$link = JRoute::_('index.php?option=com_tjnotifications&view=notifications', false
 		);
+		}
+
 		$this->setRedirect($link);
 	}
 
@@ -117,6 +140,37 @@ class TjnotificationsControllerNotification extends JControllerForm
 		$link = JRoute::_(
 		'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $input->get('extension', '', 'STRING'), false
 		);
+		$this->setRedirect($link);
+	}
+
+	/**
+	 * Function to save field data
+	 *
+	 * @param   string  $key     key
+	 * @param   string  $urlVar  urlVar
+	 *
+	 * @return  void
+	 */
+	public function add($key = null, $urlVar = null)
+	{
+		$input = JFactory::getApplication()->input;
+		$cid      = $input->post->get('cid', array(), 'array');
+		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		$extension = $input->get('extension', '', 'STRING');
+
+		if ($extension)
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $extension, false
+			);
+		}
+		else
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notification&layout=edit', false
+			);
+		}
+
 		$this->setRedirect($link);
 	}
 }
