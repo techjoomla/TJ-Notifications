@@ -59,8 +59,6 @@ class TjnotificationsViewNotification extends JViewLegacy
 
 		$this->addToolBar();
 
-		$model = JModelAdmin::getInstance('Preferences', 'TJNotificationsModel');
-		$this->count    = $model->count();
 		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		if ($extension)

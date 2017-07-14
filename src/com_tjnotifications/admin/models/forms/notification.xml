@@ -6,6 +6,15 @@
 				type="hidden"
 				/>
 		<field
+				name="title"
+				type="text"
+				label="COM_TJNOTIFICATIONS_FIELD_TITLE_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_TITLE_DESC"
+				size="100"
+				required="true"
+				default=""
+				/>
+		<field
 				name="client"
 				label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC"
@@ -26,6 +35,17 @@
 				required="true"
 				default=""
 				/>
+		<field
+			name="user_control"
+			type="radio"
+			default="1"
+			label="COM_TJNOTIFICATIONS_FIELD_USER_CONTROL_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_USER_CONTROL_DESC"
+			class="btn-group btn-group-yesno"
+			>
+		  <option id="on" value="1" >JON</option>
+		  <option id="off" value="0">JOFF</option>
+		</field>
 	</fieldset>
 		
 	<fieldset name="email_fieldset">

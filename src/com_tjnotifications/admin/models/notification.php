@@ -119,4 +119,57 @@ class TjnotificationsModelNotification extends JModelAdmin
 			return false;
 		}
 	}
+
+	/**
+	 * Method to delete notification template
+	 *
+	 * @param   int  &$cid  Id of template.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function delete(&$cid)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$value = array();
+
+		// Create the base select statement.
+		$query->select('id,client,`key`,core');
+		$query->from('#__tj_notification_templates');
+		$query->where($db->quoteName('id') . ' IN ( ' . implode(',', $cid) . ' )');
+		$db->setQuery($query);
+		$clientAndKeys = $db->loadObjectList();
+		$db          = JFactory::getDbo();
+		$deleteQuery = $db->getQuery(true);
+
+		foreach ($clientAndKeys as $clientAndKey)
+		{
+			if ($clientAndKey->core == '0')
+			{
+				$deleteQuery = $db->getQuery(true);
+				$conditions = array(
+					$db->quoteName('client') . ' = ' . $db->quote($clientAndKey->client),
+					$db->quoteName('key') . ' = ' . $db->quote($clientAndKey->key)
+				);
+				$deleteQuery->delete($db->quoteName('#__tj_notification_user_exclusions'));
+				$deleteQuery->where($conditions);
+				$db->setQuery($deleteQuery);
+				$result = $db->execute();
+
+				if ($result)
+				{
+					$value[] = 1;
+					parent::delete($clientAndKey->id);
+				}
+			}
+			else
+			{
+				$value[] = 0;
+			}
+		}
+
+		return $value;
+	}
 }

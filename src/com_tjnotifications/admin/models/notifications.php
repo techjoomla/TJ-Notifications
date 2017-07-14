@@ -136,43 +136,6 @@ class TjnotificationsModelNotifications extends JModelList
 		}
 	}
 
-/**
-	* Method to delete.
-	*
-	* @param   int  $cid  Id of template.
-	*
-	* @return  null             Nothing
-	*
-	* @since    1.6
-	*/
-	public function delete($cid)
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Create the base select statement.
-		$query->select('client,`key`');
-		$query->from('#__tj_notification_templates');
-		$query->where($db->quoteName('id') . ' IN ( ' . implode(',', $cid) . ' )');
-		$db->setQuery($query);
-		$clientAndKeys = $db->loadObjectList();
-		$db          = JFactory::getDbo();
-		$deleteQuery = $db->getQuery(true);
-
-		foreach ($clientAndKeys as $clientAndKey)
-		{
-			$deleteQuery = $db->getQuery(true);
-			$conditions = array(
-				$db->quoteName('client') . ' = ' . $db->quote($clientAndKey->client),
-				$db->quoteName('key') . ' = ' . $db->quote($clientAndKey->key)
-			);
-			$deleteQuery->delete($db->quoteName('#__tj_notification_user_exclusions'));
-			$deleteQuery->where($conditions);
-			$db->setQuery($deleteQuery);
-			$result = $db->execute();
-		}
-	}
-
 	/**
 	 * Method to auto-populate the model state.
 	 *

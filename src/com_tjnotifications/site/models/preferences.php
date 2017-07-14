@@ -56,6 +56,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		$query->select('DISTINCT(`key`)');
 		$query->from($db->quoteName('#__tj_notification_templates'));
 		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('user_control') . ' = 1');
 		$db->setQuery($query);
 		$keys = $db->loadObjectList();
 
