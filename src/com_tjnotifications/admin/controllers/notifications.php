@@ -53,7 +53,7 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 		$modelDelete    = JModelList::getInstance('Notification', 'TjnotificationsModel');
 		$result         = $modelDelete->delete($cid);
 
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			if ($res == '0')
 			{
@@ -140,7 +140,7 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 
 			if ($data->email_body and $data->email_subject)
 			{
-				$this->setState('email_status' ,1);
+				$this->setState('email_status', 1);
 			}
 			else
 			{
@@ -181,6 +181,7 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 * Method to enable state
 	 *
 	 * @param   string  $value  value
+	 * @param   string  $state  state
 	 *
 	 * @return  void
 	 *
