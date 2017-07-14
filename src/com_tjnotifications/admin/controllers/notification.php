@@ -162,7 +162,8 @@ class TjnotificationsControllerNotification extends JControllerForm
 		else
 		{
 			$link = JRoute::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit', false);
+			'index.php?option=com_tjnotifications&view=notification&layout=edit', false
+			);
 		}
 
 		$this->setRedirect($link, $msg);
