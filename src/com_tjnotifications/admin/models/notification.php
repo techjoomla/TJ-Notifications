@@ -131,27 +131,21 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function delete(&$cid)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$value = array();
-
-		// Create the base select statement.
-		$query->select('id,client,`key`,core');
-		$query->from('#__tj_notification_templates');
-		$query->where($db->quoteName('id') . ' IN ( ' . implode(',', $cid) . ' )');
-		$db->setQuery($query);
-		$clientAndKeys = $db->loadObjectList();
 		$db          = JFactory::getDbo();
 		$deleteQuery = $db->getQuery(true);
+		$value       = array();
+		$model       = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
 
-		foreach ($clientAndKeys as $clientAndKey)
+		foreach ($cid as $id)
 		{
-			if ($clientAndKey->core == '0')
+			$data = $model->getItem($id);
+
+			if ($data->core == '0')
 			{
 				$deleteQuery = $db->getQuery(true);
 				$conditions = array(
-					$db->quoteName('client') . ' = ' . $db->quote($clientAndKey->client),
-					$db->quoteName('key') . ' = ' . $db->quote($clientAndKey->key)
+					$db->quoteName('client') . ' = ' . $db->quote($data->client),
+					$db->quoteName('key') . ' = ' . $db->quote($data->key)
 				);
 				$deleteQuery->delete($db->quoteName('#__tj_notification_user_exclusions'));
 				$deleteQuery->where($conditions);
@@ -161,7 +155,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 				if ($result)
 				{
 					$value[] = 1;
-					parent::delete($clientAndKey->id);
+					parent::delete($data->id);
 				}
 			}
 			else

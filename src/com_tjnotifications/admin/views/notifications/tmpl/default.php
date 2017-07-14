@@ -86,17 +86,6 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE"), 'core', $listDirn, $listOrder);?>
 						</th>
-<!--
-						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SMS_STASTUS"), 'sms_status', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_PUSH_STATUS"), 'push_status', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_WEB_STATUS"), 'web_status', $listDirn, $listOrder);?>
--->
-						</th>
 
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
@@ -152,36 +141,8 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									<td class="center">
 										<?php echo $this->count->name; ?>
 									</td>
-<!--
-									<td class="center">
-										<?php if(($row->sms_status)==1): ?>
-										<?php $image = JURI::base(). $tick;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php else :?>
-										<?php $image = JURI::base(). $no;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php endif; ?>
-									</td>
-									<td class="center">
-										<?php if(($row->push_status)==1): ?>
-										<?php $image = JURI::base(). $tick;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php else :?>
-										<?php $image = JURI::base(). $no;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php endif; ?>
-									</td>
-									<td class="center">
-										<?php if(($row->web_status)==1): ?>
-										<?php $image = JURI::base(). $tick;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php else :?>
-										<?php $image = JURI::base(). $no;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php endif; ?>
-									</td>
--->
-									<td headers="aclactionth1" class ="center">
+
+									<td class ="center">
 										<?php if ($row->core):?>
 											<span class="label label-important"><?php echo JText::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE_CORE_VALUE")?></span>
 										<?php else :?>
@@ -208,5 +169,3 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-
-

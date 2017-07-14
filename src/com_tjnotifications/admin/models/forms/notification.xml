@@ -12,7 +12,6 @@
 				description="COM_TJNOTIFICATIONS_FIELD_TITLE_DESC"
 				size="100"
 				required="true"
-				default=""
 				/>
 		<field
 				name="client"
@@ -33,7 +32,6 @@
 				description="COM_TJNOTIFICATIONS_FIELD_KEY_DESC"
 				size="100"
 				required="true"
-				default=""
 				/>
 		<field
 			name="user_control"
@@ -66,7 +64,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_DESC"
-				default="" 
 				/>
 
 		<field
@@ -97,7 +94,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_DESC"
-				default="" 
 				/>
 		
 		<field
@@ -106,7 +102,6 @@
 				label="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_DESC"
 				validation="required"
-				default=""
 				/>
 	</fieldset>
 	
@@ -128,7 +123,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_DESC"
-				default="" 
 				/>
 
 		<field
@@ -137,7 +131,6 @@
 				label="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_DESC"
 				validation="required"
-				default=""
 				/>
 	</fieldset>
 	
@@ -159,7 +152,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_DESC"
-				default="" 
 				/>
 		
 		<field
@@ -168,7 +160,6 @@
 				label="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_DESC"
 				validation="required"
-				default=""
 				/>
 		<field
 				name="created_on"

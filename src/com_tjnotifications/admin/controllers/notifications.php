@@ -43,17 +43,17 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		$input = JFactory::getApplication()->input;
 		$mainframe = JFactory::getApplication();
-		$extension = $input->get('extension', '', 'STRING');
-		$cid = $input->get('cid', array(), 'array');
-		$msg['success'] = array();
-		$msg['error'] = array();
-		$count = 0;
-		$modelDelete = JModelList::getInstance('Notification', 'TjnotificationsModel', array('ignore_request' => true));
-		$result = $modelDelete->delete($cid);
+		$extension = $mainframe->input->get('extension', '', 'STRING');
+		$cid       = $mainframe->input->get('cid', array(), 'array');
+		$count     = 0;
 
-		foreach ($result as $res)
+		$msg['success'] = array();
+		$msg['error']   = array();
+		$modelDelete    = JModelList::getInstance('Notification', 'TjnotificationsModel');
+		$result         = $modelDelete->delete($cid);
+
+		foreach($result as $res)
 		{
 			if ($res == '0')
 			{
@@ -104,12 +104,23 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function enableUserControl()
 	{
-		$value = 'user_control';
-		$this->enableState($value);
+		$this->setState('user_control', 1);
 	}
 
 	/**
-	 * Method to enable email status
+	 * Method to undo checkin for ticket
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function disableUserControl()
+	{
+		$this->setState('user_control', 0);
+	}
+
+	/**
+	 * Method to checkin for ticket
 	 *
 	 * @return  void
 	 *
@@ -117,16 +128,11 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function enableEmailStatus()
 	{
-		$value = 'email_status';
-		$input = JFactory::getApplication()->input;
-		$post  = $input->post;
-		$extension = $input->get('extension', '', 'STRING');
-		$mainframe = JFactory::getApplication();
-
-		// Get some variables from the request
-		$notificationIds = $input->get('cid', array(), 'post', 'array');
-		$model = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
-		$success = 0;
+		$mainframe       = JFactory::getApplication();
+		$extension       = $mainframe->input->get('extension', '', 'STRING');
+		$notificationIds = $mainframe->input->get('cid', array(), 'post', 'array');
+		$model           = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
+		$success         = 0;
 
 		foreach ($notificationIds as $notificationId)
 		{
@@ -134,7 +140,7 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 
 			if ($data->email_body and $data->email_subject)
 			{
-				$this->enableState($value);
+				$this->setState('email_status' ,1);
 			}
 			else
 			{
@@ -168,9 +174,7 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function disableEmailStatus()
 	{
-		$value = 'email_status';
-
-		$this->disableState($value);
+		$this->setState('email_status', 0);
 	}
 
 	/**
@@ -182,24 +186,21 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 *
 	 * @since   1.0
 	 */
-	public function enableState($value)
+	public function setState($value, $state)
 	{
-		$input = JFactory::getApplication()->input;
-		$post  = $input->post;
-
-		// Get some variables from the request
-		$notificationIds = $input->get('cid', array(), 'post', 'array');
-		$extension = $input->get('extension', '', 'STRING');
 		$mainframe = JFactory::getApplication();
-		$sitename = $mainframe->getCfg('sitename');
-		$model = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
-		$success = 0;
+		$sitename  = $mainframe->getCfg('sitename');
+		$model     = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
+		$success   = 0;
+
+		$notificationIds = $mainframe->input->get('cid', array(), 'post', 'array');
+		$extension       = $mainframe->input->get('extension', '', 'STRING');
 
 		foreach ($notificationIds as $notificationId)
 		{
 			$data = array();
 			$data['id'] = $notificationId;
-			$data[$value] = 1;
+			$data[$value] = $state;
 
 			if ($model->createTemplates($data))
 			{
@@ -209,79 +210,15 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 
 		if ($success)
 		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_STATE_ENABLE_SUCCESS_MSG');
-		}
-		else
-		{
-			$msg = $model->getError();
-		}
-
-		if ($extension)
-		{
-			$link = JRoute::_(
-			'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
-			);
-		}
-		else
-		{
-			$link = JRoute::_(
-			'index.php?option=com_tjnotifications&view=notifications', false
-			);
-		}
-
-		$this->setRedirect($link, $msg);
-	}
-
-	/**
-	 * Method to undo disable user control
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function disableUserControl()
-	{
-		$value = "user_control";
-		$this->disableState($value);
-	}
-
-	/**
-	 * Method to undo disable state
-	 *
-	 * @param   string  $value  value
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function disableState($value)
-	{
-		$input = JFactory::getApplication()->input;
-		$post  = $input->post;
-
-		// Get some variables from the request
-		$notificationIds = $input->get('cid', array(), 'post', 'array');
-		$mainframe = JFactory::getApplication();
-		$sitename = $mainframe->getCfg('sitename');
-		$extension = $input->get('extension', '', 'STRING');
-		$model = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
-		$success = 0;
-
-		foreach ($notificationIds as $notificationId)
-		{
-			$data = array();
-			$data['id'] = $notificationId;
-			$data[$value] = 0;
-
-			if ($model->createTemplates($data))
+			if ($state == 1)
 			{
-				$success = 1;
+				$msg = JText::_('COM_TJNOTIFICATIONS_STATE_ENABLE_SUCCESS_MSG');
 			}
-		}
 
-		if ($success)
-		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_STATE_DISABLE_MSG');
+			if ($state == 0)
+			{
+				$msg = JText::_('COM_TJNOTIFICATIONS_STATE_DISABLE_MSG');
+			}
 		}
 		else
 		{
