@@ -119,4 +119,51 @@ class TjnotificationsModelNotification extends JModelAdmin
 			return false;
 		}
 	}
+
+	/**
+	 * Method to delete notification template
+	 *
+	 * @param   int  &$cid  Id of template.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function delete(&$cid)
+	{
+		$db          = JFactory::getDbo();
+		$deleteQuery = $db->getQuery(true);
+		$value       = array();
+		$model       = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
+
+		foreach ($cid as $id)
+		{
+			$data = $model->getItem($id);
+
+			if ($data->core == 0)
+			{
+				$deleteQuery = $db->getQuery(true);
+				$conditions = array(
+					$db->quoteName('client') . ' = ' . $db->quote($data->client),
+					$db->quoteName('key') . ' = ' . $db->quote($data->key)
+				);
+				$deleteQuery->delete($db->quoteName('#__tj_notification_user_exclusions'));
+				$deleteQuery->where($conditions);
+				$db->setQuery($deleteQuery);
+				$result = $db->execute();
+
+				if ($result)
+				{
+					$value[] = 1;
+					parent::delete($data->id);
+				}
+			}
+			else
+			{
+				$value[] = 0;
+			}
+		}
+
+		return $value;
+	}
 }

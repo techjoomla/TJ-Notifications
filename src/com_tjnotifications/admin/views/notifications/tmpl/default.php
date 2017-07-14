@@ -63,28 +63,28 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
 						</th>
 
-<!--
-						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CLIENT"), 'client', $listDirn, $listOrder);?>
+						<th width="10%" class="hidden-phone">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TITLE"), 'title', $listDirn, $listOrder);?>
 						</th>
--->
-						<th width="10%" class="nowrap center">
+
+						<th width="10%" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder);?>
 						</th>
 
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_EMAIL_STATUS"), 'email_status', $listDirn, $listOrder);?>
 						</th>
-<!--
+
 						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SMS_STASTUS"), 'sms_status', $listDirn, $listOrder);?>
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_USER_CONTROL"), 'user_control', $listDirn, $listOrder);?>
 						</th>
+
 						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_PUSH_STATUS"), 'push_status', $listDirn, $listOrder);?>
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_UNSUBCRIBED_USERS"), 'unsubcribed_users', $listDirn, $listOrder);?>
 						</th>
+
 						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_WEB_STATUS"), 'web_status', $listDirn, $listOrder);?>
--->
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE"), 'core', $listDirn, $listOrder);?>
 						</th>
 
 						<th width="10%" class="nowrap center">
@@ -114,59 +114,42 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
 
-<!--
-									<td class="center">
+									<td class="">
 										<a href="<?php echo $link; ?>">
-											<?php echo $row->client; ?>
+											<?php echo $row->title; ?>
 										</a>
 									</td>
--->
 
-									<td class="center">
+									<td class="">
 									<a href="<?php echo $link;  ?>">
 											<?php echo $row->key; ?>
 										</a>
 									</td>
-									<?php $tick='components/com_tjnotifications/images/tick.png';
-									$no='components/com_tjnotifications/images/n.png'; ?>
+
 									<td class="center">
-										<?php if(($row->email_status)==1): ?>
-										<?php $image = JURI::base(). $tick;?>
-										<?php printf('<img src="%s" align="center"/>', $image); ?>
+										<a href="javascript:void(0);" class="hasTooltip" data-original-title="<?php echo ( $row->email_status ) ? JText::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : JText::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>" onclick=" listItemTask('cb<?php echo $i;?>','<?php echo ( $row->email_status ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus';?>')">
+											<img src="<?php echo JUri::root();?>administrator/components/com_tjnotifications/images/<?php echo ( $row->email_status ) ? 'publish.png' : 'unpublish.png';?>" width="16" height="16" border="0" />
+										</a>
+									</td>
+
+									<td class="center">
+										<a href="javascript:void(0);" class="hasTooltip" data-original-title="<?php echo ( $row->user_control ) ? JText::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : JText::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>" onclick=" listItemTask('cb<?php echo $i;?>','<?php echo ( $row->user_control ) ? 'notifications.disableUserControl' : 'notifications.enableUserControl';?>')">
+											<img src="<?php echo JUri::root();?>administrator/components/com_tjnotifications/images/<?php echo ( $row->user_control ) ? 'publish.png' : 'unpublish.png';?>" width="16" height="16" border="0" />
+										</a>
+									</td>
+
+									<td class="center">
+										<?php echo $this->count->name; ?>
+									</td>
+
+									<td class ="center">
+										<?php if ($row->core):?>
+											<span class="label label-important"><?php echo JText::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE_CORE_VALUE")?></span>
 										<?php else :?>
-										<?php $image = JURI::base(). $no;?>
-										<?php printf('<img src="%s" />', $image); ?>
+											<span class="label"><?php echo JText::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE_VALUE")?></span>
 										<?php endif; ?>
 									</td>
-<!--
-									<td class="center">
-										<?php if(($row->sms_status)==1): ?>
-										<?php $image = JURI::base(). $tick;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php else :?>
-										<?php $image = JURI::base(). $no;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php endif; ?>
-									</td>
-									<td class="center">
-										<?php if(($row->push_status)==1): ?>
-										<?php $image = JURI::base(). $tick;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php else :?>
-										<?php $image = JURI::base(). $no;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php endif; ?>
-									</td>
-									<td class="center">
-										<?php if(($row->web_status)==1): ?>
-										<?php $image = JURI::base(). $tick;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php else :?>
-										<?php $image = JURI::base(). $no;?>
-										<?php printf('<img src="%s" />', $image); ?>
-										<?php endif; ?>
-									</td>
--->
+
 									<td class="center">
 										<a href="<?php echo $link; ?>">
 											<?php echo $row->id; ?>
@@ -186,5 +169,3 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-
-

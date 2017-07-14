@@ -6,6 +6,14 @@
 				type="hidden"
 				/>
 		<field
+				name="title"
+				type="text"
+				label="COM_TJNOTIFICATIONS_FIELD_TITLE_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_TITLE_DESC"
+				size="100"
+				required="true"
+				/>
+		<field
 				name="client"
 				label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC"
@@ -24,8 +32,18 @@
 				description="COM_TJNOTIFICATIONS_FIELD_KEY_DESC"
 				size="100"
 				required="true"
-				default=""
 				/>
+		<field
+			name="user_control"
+			type="radio"
+			default="1"
+			label="COM_TJNOTIFICATIONS_FIELD_USER_CONTROL_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_USER_CONTROL_DESC"
+			class="btn-group btn-group-yesno"
+			>
+		  <option id="on" value="1" >JON</option>
+		  <option id="off" value="0">JOFF</option>
+		</field>
 	</fieldset>
 		
 	<fieldset name="email_fieldset">
@@ -46,7 +64,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_DESC"
-				default="" 
 				/>
 
 		<field
@@ -77,7 +94,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_DESC"
-				default="" 
 				/>
 		
 		<field
@@ -86,7 +102,6 @@
 				label="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_DESC"
 				validation="required"
-				default=""
 				/>
 	</fieldset>
 	
@@ -108,7 +123,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_DESC"
-				default="" 
 				/>
 
 		<field
@@ -117,7 +131,6 @@
 				label="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_DESC"
 				validation="required"
-				default=""
 				/>
 	</fieldset>
 	
@@ -139,7 +152,6 @@
 				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_DESC"
-				default="" 
 				/>
 		
 		<field
@@ -148,7 +160,6 @@
 				label="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_DESC"
 				validation="required"
-				default=""
 				/>
 		<field
 				name="created_on"

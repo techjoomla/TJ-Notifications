@@ -24,14 +24,26 @@ class TjnotificationsControllerNotification extends JControllerForm
 	public function editSave()
 	{
 		parent::save($data);
-		$input = JFactory::getApplication()->input;
-		$cid      = $input->post->get('cid', array(), 'array');
-		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
-		$msg = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
-		$link = JRoute::_(
-		'index.php?option=com_tjnotifications&view=notification&layout=edit&id= ' . $recordId .
-		'&extension=' . $input->get('extension', '', 'STRING'), false
-		);
+		$input     = JFactory::getApplication()->input;
+		$cid       = $input->post->get('cid', array(), 'array');
+		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		$msg       = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+		$extension = $input->get('extension', '', 'STRING');
+
+		if ($extension)
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notification&layout=edit&id= ' . $recordId .
+			'&extension=' . $extension, false
+			);
+		}
+		else
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notification&layout=edit&id= ' . $recordId, false
+			);
+		}
+
 		$this->setRedirect($link, $msg);
 	}
 
@@ -46,8 +58,8 @@ class TjnotificationsControllerNotification extends JControllerForm
 	public function saveClose($key = null, $urlVar = null)
 	{
 		parent::save($data);
-		$msg = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
-		$input = JFactory::getApplication()->input;
+		$msg       = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+		$input     = JFactory::getApplication()->input;
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
@@ -76,9 +88,9 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$input    = JFactory::getApplication()->input;
-		$cid      = $input->post->get('cid', array(), 'array');
-		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		$input     = JFactory::getApplication()->input;
+		$cid       = $input->get('cid', array(), 'post', 'array');
+		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
@@ -107,7 +119,7 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		$input = JFactory::getApplication()->input;
+		$input     = JFactory::getApplication()->input;
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
@@ -134,13 +146,27 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function saveNew($key = null, $urlVar = null)
 	{
-		$input = JFactory::getApplication()->input;
+		$input    = JFactory::getApplication()->input;
 		$cid      = $input->post->get('cid', array(), 'array');
 		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
-		$link = JRoute::_(
-		'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $input->get('extension', '', 'STRING'), false
-		);
-		$this->setRedirect($link);
+
+		$msg       = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+		$extension = $input->get('extension', '', 'STRING');
+
+		if ($extension)
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $extension, false
+			);
+		}
+		else
+		{
+			$link = JRoute::_(
+			'index.php?option=com_tjnotifications&view=notification&layout=edit', false
+			);
+		}
+
+		$this->setRedirect($link, $msg);
 	}
 
 	/**
@@ -153,9 +179,9 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function add($key = null, $urlVar = null)
 	{
-		$input = JFactory::getApplication()->input;
-		$cid      = $input->post->get('cid', array(), 'array');
-		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		$input     = JFactory::getApplication()->input;
+		$cid       = $input->post->get('cid', array(), 'array');
+		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
