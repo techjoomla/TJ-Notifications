@@ -140,7 +140,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 		{
 			$data = $model->getItem($id);
 
-			if ($data->core == '0')
+			if ($data->core == 0)
 			{
 				$deleteQuery = $db->getQuery(true);
 				$conditions = array(

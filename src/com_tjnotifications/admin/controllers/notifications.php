@@ -55,12 +55,12 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 
 		foreach ($result as $res)
 		{
-			if ($res == '0')
+			if ($res == 0)
 			{
 				$msg['error'] = JText::_('COM_TJNOTIFICATIONS_CORE_TEMPLATE_DELETE_MESSAGE');
 			}
 
-			if ($res == '1')
+			if ($res == 1)
 			{
 				$count ++;
 				$msg ['success'] = JText::sprintf('COM_TJNOTIFICATIONS_N_ITEMS_DELETED', $count);
