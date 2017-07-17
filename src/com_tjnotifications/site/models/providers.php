@@ -32,8 +32,6 @@ class TJNotificationsModelProviders extends JModelList
 		$query->select('DISTINCT(provider)');
 		$query->from($db->quoteName('#__tj_notification_providers'));
 		$query->where($db->quoteName('state') . '=' . $db->quote('1'));
-		$db->setQuery($query);
-		$query = $db->loadObjectList();
 
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering');
@@ -58,27 +56,6 @@ class TJNotificationsModelProviders extends JModelList
 		$items = parent::getItems();
 
 		return $items;
-	}
-
-	/**
-	 * Method to get an array of getProvider
-	 *
-	 * @return  mixed An array of data on success, false on failure.
-	 */
-	public function getProvider()
-	{
-		// Initialize variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Create the base select statement.
-		$query->select('DISTINCT(provider)');
-		$query->from($db->quoteName('#__tj_notification_providers'));
-		$query->where($db->quoteName('state') . '=' . $db->quote('1'));
-		$db->setQuery($query);
-		$providers = $db->loadObjectList();
-
-		return $providers;
 	}
 
 	/**

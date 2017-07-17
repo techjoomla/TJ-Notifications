@@ -44,7 +44,7 @@ class TJNotificationsViewPreferences extends JViewLegacy
 			$this->preferences = $this->get('States');
 			$model = JModelList::getInstance('Providers', 'TJNotificationsModel');
 
-			$this->providers	= $model->getProvider();
+			$this->providers = $model->getItems();
 
 			$model = $this->getModel();
 

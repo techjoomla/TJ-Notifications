@@ -61,32 +61,64 @@ class TjnotificationsModelNotifications extends JModelList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Create the base select statement.
-		$query->select('*')
+		$client      = $this->getState('filter.client');
+		$provider      = $this->getState('filter.provider');
+		$userControl = $this->getState('user_control');
+
+		if (!empty($provider))
+		{
+			$query->select('client,`key`');
+			$query->from($db->quoteName('#__tj_notification_templates'));
+			$query->where($db->quoteName($provider) . '=' . $db->quote('1'));
+		}
+		elseif (!empty($client) && !empty($userControl))
+		{
+			$query->select('DISTINCT(`key`)')
 			->from($db->quoteName('#__tj_notification_templates'));
 
-			$search = $this->getState('filter.search');
+			$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+			$query->where($db->quoteName('user_control') . ' = ' . $db->quote($userControl));
+		}
+		else
+		{
+			$distictClient = $this->getState('distinct.client');
+			$search        = $this->getState('filter.search');
+			$client        = $this->getState('filter.client');
+			$key           = $this->getState('filter.key');
 
 			if (!empty($search))
 			{
+				// Create the base select statement.
+				$query->select('*');
+				$query->from($db->quoteName('#__tj_notification_templates'));
+
 				$like = $db->quote('%' . $search . '%');
 				$query->where($db->quoteName('client') . ' LIKE ' . $like . ' OR ' . $db->quoteName('key') . ' LIKE ' . $like);
 			}
 
 			if ($extension)
 			{
+				// Create the base select statement.
+				$query->select('*');
+				$query->from($db->quoteName('#__tj_notification_templates'));
 				$query->where($db->quoteName('client') . ' = ' . $db->quote($extension));
+			}
+			elseif (!empty($client) && empty($key))
+			{
+				// Create the base select statement.
+				$query->select('*');
+				$query->from($db->quoteName('#__tj_notification_templates'));
+				$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+			}
+			elseif($distictClient)
+			{
+				$query->select('DISTINCT(client)');
+				$query->from($db->quoteName('#__tj_notification_templates'));
 			}
 			else
 			{
-			// Filter by client
-				$client = $this->getState('filter.client');
-				$key = $this->getState('filter.key');
-
-				if (!empty($client) && empty($key))
-				{
-					$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
-				}
+				$query->select('*');
+				$query->from($db->quoteName('#__tj_notification_templates'));
 			}
 
 			// Fot getting templates
@@ -96,6 +128,7 @@ class TjnotificationsModelNotifications extends JModelList
 				$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' LIKE ' . $like);
 				$query->order('`key` ASC');
 			}
+		}
 
 		return $query;
 	}
