@@ -27,7 +27,7 @@
 		<language tag="en-GB">en-GB.com_tjnotification.ini</language>
         </languages>
 		<administration>
-		<menu link="option=com_tjnotifications" view="notifications">Notifictions</menu>
+		<menu link="option=com_tjnotifications" view="notifications">Notifications</menu>
 		<files folder="admin">
 			<filename>index.html</filename>
 			<filename>tjnotifications.php</filename>
