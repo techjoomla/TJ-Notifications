@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   `is_override` int(1) NOT NULL,
   `user_control` int(1) NOT NULL,
   `core` int(1) NOT NULL,
+  `replacement_tags` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_2` (`client`,`key`),
   KEY `client` (`client`),
