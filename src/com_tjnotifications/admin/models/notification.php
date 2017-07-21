@@ -8,7 +8,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tjnotifications/models');
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
 
 /**
  * notification model.
