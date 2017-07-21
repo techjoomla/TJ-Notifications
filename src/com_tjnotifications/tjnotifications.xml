@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<extension type="component" version="3.0" method="upgrade">
-		<name>TJNotifications</name>
+	<extension method="upgrade" type="component" version="3.1">
+		<name>com_tjnotifications</name>
 		<creationDate>Dec 2016</creationDate>
 		<author>Tekdi Technology</author>
 		<version>1.0.0</version>
@@ -27,7 +27,7 @@
 		<language tag="en-GB">en-GB.com_tjnotification.ini</language>
         </languages>
 		<administration>
-		<menu link="option=com_tjnotifications" view="notifications">Notifications</menu>
+		<menu link="option=com_tjnotifications" view="notifications">com_tjnotifications</menu>
 		<files folder="admin">
 			<filename>index.html</filename>
 			<filename>tjnotifications.php</filename>
