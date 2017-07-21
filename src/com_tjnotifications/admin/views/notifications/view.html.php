@@ -49,6 +49,7 @@ class TjnotificationsViewNotifications extends JViewLegacy
 
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
 
+		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models');
 		$model = JModelAdmin::getInstance('Preferences', 'TJNotificationsModel');
 		$this->count    = $model->count();
 

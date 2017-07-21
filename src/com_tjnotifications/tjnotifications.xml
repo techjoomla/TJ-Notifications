@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<extension type="component" version="3.0" method="upgrade">
+	<extension method="upgrade" type="component" version="3.1">
 		<name>com_tjnotifications</name>
 		<creationDate>Dec 2016</creationDate>
 		<author>Tekdi Technology</author>
