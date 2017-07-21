@@ -4,7 +4,7 @@
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die(';)');
+defined('_JEXEC') or die;
 jimport('joomla.installer.installer');
 jimport('joomla.filesystem.file');
 
@@ -101,7 +101,7 @@ class Com_TjnotificationsInstallerScript
 				{
 					$query = trim($query);
 
-					if ($query != '' && $query{0} != '#')
+					if (!empty($query))
 					{
 						$db->setQuery($query);
 

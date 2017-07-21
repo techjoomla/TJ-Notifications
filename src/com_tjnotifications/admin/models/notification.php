@@ -7,6 +7,8 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
+jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tjnotifications/models');
 
 /**
  * notification model.
@@ -109,6 +111,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 		$data = $templates;
 		$db   = JFactory::getDbo();
 		$query = $db->getQuery(true);
+		$model       = JModelList::getInstance('Notifications', 'TJNotificationsModel');
 
 		if (!empty($data['replacement_tags']))
 		{
@@ -117,19 +120,17 @@ class TjnotificationsModelNotification extends JModelAdmin
 
 		if ($data['client'] and $data['key'])
 		{
-			$conditions = array(
-				$db->quoteName('client') . ' = ' . $db->quote($data['client']),
-				$db->quoteName('key') . ' = ' . $db->quote($data['key'])
-			);
-			$query->select('id');
-			$query->from($db->quoteName('#__tj_notification_templates'));
-			$query->where($conditions);
-			$db->setQuery($query);
-			$result = $db->loadObject();
+			$model->setState('filter.client', $data['client']);
+			$model->setState('filter.key', $data['key']);
 
-			if ($result)
+			$result = $model->getItems();
+
+			foreach ($result as $res)
 			{
-				$data['id'] = $result->id;
+				if ($res->id)
+				{
+					$data['id'] = $res->id;
+				}
 			}
 		}
 
