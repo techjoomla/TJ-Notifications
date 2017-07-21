@@ -87,16 +87,38 @@ $today= gmdate('Y-m-d');
 						<?php endforeach;?>
 					</div>
 
-					<div  class="tab-pane" id="email">
-						<?php foreach ($this->form->getFieldset('email_fieldset') as $field): ?>
-						<div class="control-group">
-							<div class="control-label"><?php echo $field->label; ?></div>
-							<div class="controls"><?php echo $field->input ; ?></div>
+						<div class="tab-pane" id="email">
+							<div class="span8">
+							<?php foreach ($this->form->getFieldset('email_fieldset') as $field): ?>
+								<div class="control-group">
+									<div class="control-label"><?php echo $field->label; ?></div>
+									<div class="controls"><?php echo $field->input ; ?></div>
+								</div>
+							<?php endforeach; ?>
+							</div>
+							<?php if ($this->tags): ?>
+							<div class="span4">
+								<div class="alert alert-info"><?php echo JText::_('COM_TJNOTIFICATIONS_TAGS_DESC'); ?> <br/></div>
+									<table class="table table-bordered">
+										<thead class="thead-default">
+											<tr>
+												<th><?php echo JText::_('COM_TJNOTIFICATIONS_REPLACEMENT_TAGS'); ?></th>
+												<th><?php echo JText::_('COM_TJNOTIFICATIONS_REPLACEMENT_TAGS_DESC'); ?></th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php foreach ($this->tags as $tags): ?>
+											<tr>
+												<td scope="row"><?php echo('{' . $tags->name . '}'); ?></td>
+												<td><?php echo($tags->description); ?></td>
+											</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<?php endif;?>
 						</div>
-					<?php endforeach; ?>
-					</div>
-
-					</div>
 						<input type="hidden" name="jform[state]" id="jform_state" value="1"/>
 						<input type="hidden" name="jform[created_on]" id="jform_created_on" value="<?php echo $today; ?>"/>
 						<input type="hidden" name="jform[updated_on]" id="jform_updated_on" value="<?php echo $today; ?>"/>

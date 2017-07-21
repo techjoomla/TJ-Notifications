@@ -45,4 +45,5 @@
 			<language tag="en-GB">en-GB.com_tjnotifications.sys.ini</language>
 		</languages>
 		</administration>
+		<scriptfile>install.tjnotification.php</scriptfile>
 	</extension>
