@@ -92,8 +92,7 @@ class TjnotificationsModelNotifications extends JModelList
 			// Fot getting templates
 			if (!empty($client) && !empty($key))
 			{
-				$like = $db->quote($key . '%');
-				$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' LIKE ' . $like);
+				$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
 				$query->order('`key` ASC');
 			}
 
