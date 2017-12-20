@@ -192,4 +192,28 @@ class TjnotificationsModelNotification extends JModelAdmin
 
 		return $value;
 	}
+
+	/**
+	 * Method to get existing keys
+	 *
+	 * @param   string  $client  client.
+	 *
+	 * @return  existingkeys
+	 *
+	 * @since   1.0
+	 */
+	public function getKeys($client)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('key'));
+		$query->from($db->quoteName('#__tj_notification_templates'));
+		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$db->setQuery($query);
+
+		$existingKeys = $db->loadColumn();
+
+		return $existingKeys;
+	}
 }
