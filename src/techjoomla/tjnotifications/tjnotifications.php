@@ -131,10 +131,21 @@ class Tjnotifications
 
 		foreach ($recipients as $recipient)
 		{
-			if (!in_array($recipient->id, $unsubscribed_users) && !($recipient->block))
+			if (!empty($unsubscribed_users))
 			{
-				// Make an array of recipients.
-				$addRecipients[] = $recipient->email;
+				if (!in_array($recipient->id, $unsubscribed_users) && !($recipient->block))
+				{
+					// Make an array of recipients.
+					$addRecipients[] = $recipient->email;
+				}
+			}
+			else
+			{
+				if (!isset($recipient->block))
+				{
+					// Make an array of recipients.
+					$addRecipients[] = $recipient->email;
+				}
 			}
 		}
 
