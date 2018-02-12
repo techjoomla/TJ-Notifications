@@ -210,9 +210,6 @@ class Com_TjnotificationsInstallerScript
 		$config = JFactory::getConfig();
 		$dbprefix = $config->get('dbprefix');
 
-		$xml = JFactory::getXML(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tjnotifications.xml');
-		$version = (string) $xml->version;
-		$this->version = (float) ($version);
 		$this->fixTemplateTable($db, $dbprefix, $config);
 	}
 }
