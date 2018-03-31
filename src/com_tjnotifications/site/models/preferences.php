@@ -8,6 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+
 /**
  * TJNotification model.
  *
@@ -25,15 +28,9 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function getClient()
 	{
-		// Initialize variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Create the base select statement.
-		$query->select('DISTINCT(client)');
-		$query->from($db->quoteName('#__tj_notification_templates'));
-		$db->setQuery($query);
-		$clients = $db->loadObjectList();
+		$model   = JModelList::getInstance('Notifications', 'TJNotificationsModel');
+		$model->setState('distinct.client', 1);
+		$clients = $model->getItems();
 
 		return $clients;
 	}
@@ -50,15 +47,11 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function Keys($client)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$model       = JModelList::getInstance('Notifications', 'TJNotificationsModel');
+		$model->setState('filter.client', $client);
+		$model->setState('user_control', 1);
 
-		$query->select('DISTINCT(`key`)');
-		$query->from($db->quoteName('#__tj_notification_templates'));
-		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
-		$query->where($db->quoteName('user_control') . ' = 1');
-		$db->setQuery($query);
-		$keys = $db->loadObjectList();
+		$keys = $model->getItems();
 
 		return $keys;
 	}
@@ -240,15 +233,11 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function adminPreferences($provider)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
 		$provider = strtolower($provider);
-		$query->select('client,`key`');
-		$query->from($db->quoteName('#__tj_notification_templates'));
-		$query->where($db->quoteName($provider . '_status') . '=' . $db->quote('1'));
+		$model       = JModelList::getInstance('Notifications', 'TJNotificationsModel');
+		$model->setState('filter.provider', $provider . '_status');
 
-		$db->setQuery($query);
-		$adminPreferences = $db->loadObjectList();
+		$adminPreferences = $model->getItems();
 
 		return $adminPreferences;
 	}

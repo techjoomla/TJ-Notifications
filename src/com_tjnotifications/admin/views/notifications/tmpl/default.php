@@ -121,9 +121,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									</td>
 
 									<td class="">
-									<a href="<?php echo $link;  ?>">
-											<?php echo $row->key; ?>
-										</a>
+										<?php echo $row->key; ?>
 									</td>
 
 									<td class="center">
@@ -151,9 +149,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									</td>
 
 									<td class="center">
-										<a href="<?php echo $link; ?>">
-											<?php echo $row->id; ?>
-										</a>
+										<?php echo $row->id; ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>
