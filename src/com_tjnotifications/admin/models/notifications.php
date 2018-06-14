@@ -90,7 +90,7 @@ class TjnotificationsModelNotifications extends JModelList
 			}
 		}
 
-		// Fot getting templates
+		// For getting templates
 		if (!empty($client) && !empty($key))
 		{
 			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
