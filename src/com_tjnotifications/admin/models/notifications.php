@@ -32,7 +32,6 @@ class TjnotificationsModelNotifications extends JModelList
 				'client',
 				'key',
 				'state',
-				'a.state',
 				'title'
 			);
 		}
@@ -90,23 +89,19 @@ class TjnotificationsModelNotifications extends JModelList
 			}
 		}
 
-		// For getting templates
+		// Fot getting templates
 		if (!empty($client) && !empty($key))
 		{
 			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
-			$query->order('`key` ASC');
+			$query->order($db->quoteName('key'), 'ASC');
 		}
 
 		$orderCol  = $this->getState('list.ordering');
 		$orderDirn = $this->getState('list.direction');
 
-		if ($orderCol == 'key')
+		if ($orderCol)
 		{
-			$query->order('`key`' . ' ' . $db->escape($orderDirn));
-		}
-		else
-		{
-			$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+			$query->order($db->quoteName($orderCol) . ' ' . $db->escape($orderDirn));
 		}
 
 		return $query;
@@ -165,7 +160,7 @@ class TjnotificationsModelNotifications extends JModelList
 		$app    = JFactory::getApplication();
 
 		$ordering = $app->input->get('filter_order', 'id', 'STRING');
-		$direction = $app->input->get('filter_order_Dir', '', 'STRING');
+		$direction = $app->input->get('filter_order_Dir', 'desc', 'STRING');
 
 		if (!empty($ordering))
 		{
@@ -174,9 +169,9 @@ class TjnotificationsModelNotifications extends JModelList
 
 		if (!empty($direction))
 		{
-			if (!in_array(strtoupper($direction), array('asc', 'desc')))
+			if (!in_array(strtolower($direction), array('asc', 'desc')))
 			{
-				$direction = 'DESC';
+				$direction = 'desc';
 			}
 
 			$this->setState('list.direction', $direction);
