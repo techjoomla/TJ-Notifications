@@ -31,8 +31,8 @@ class TjnotificationsModelNotifications extends JModelList
 				'id',
 				'client',
 				'key',
-				'state', 'a.state'
-
+				'state',
+				'title'
 			);
 		}
 
@@ -65,36 +65,41 @@ class TjnotificationsModelNotifications extends JModelList
 		$query->select('*')
 			->from($db->quoteName('#__tj_notification_templates'));
 
-			$search = $this->getState('filter.search');
+		$search = $this->getState('filter.search');
 
-			if (!empty($search))
-			{
-				$like = $db->quote('%' . $search . '%');
-				$query->where($db->quoteName('client') . ' LIKE ' . $like . ' OR ' . $db->quoteName('key') . ' LIKE ' . $like);
-			}
+		if (!empty($search))
+		{
+			$like = $db->quote('%' . $search . '%');
+			$query->where($db->quoteName('client') . ' LIKE ' . $like . ' OR ' . $db->quoteName('key') . ' LIKE ' . $like);
+		}
 
-			if ($extension)
-			{
-				$query->where($db->quoteName('client') . ' = ' . $db->quote($extension));
-			}
-			else
-			{
+		if ($extension)
+		{
+			$query->where($db->quoteName('client') . ' = ' . $db->quote($extension));
+		}
+		else
+		{
 			// Filter by client
-				$client = $this->getState('filter.client');
-				$key = $this->getState('filter.key');
+			$client = $this->getState('filter.client');
+			$key = $this->getState('filter.key');
 
-				if (!empty($client) && empty($key))
-				{
-					$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
-				}
-			}
-
-			// Fot getting templates
-			if (!empty($client) && !empty($key))
+			if (!empty($client) && empty($key))
 			{
-				$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
-				$query->order('`key` ASC');
+				$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
 			}
+		}
+
+		// Fot getting templates
+		if (!empty($client) && !empty($key))
+		{
+			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
+			$query->order($db->quoteName('key'), 'ASC');
+		}
+
+		$orderCol  = $this->getState('list.ordering');
+		$orderDirn = $this->getState('list.direction');
+
+		$query->order($db->quoteName($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}
@@ -149,6 +154,26 @@ class TjnotificationsModelNotifications extends JModelList
 	 */
 	protected function populateState($ordering = 'id', $direction = 'asc')
 	{
+		$app    = JFactory::getApplication();
+
+		$ordering = $app->input->get('filter_order', 'id', 'STRING');
+		$direction = $app->input->get('filter_order_Dir', 'desc', 'STRING');
+
+		if (!empty($ordering) && in_array($ordering, $this->filter_fields))
+		{
+			$this->setState('list.ordering', $ordering);
+		}
+
+		if (!empty($direction))
+		{
+			if (!in_array(strtolower($direction), array('asc', 'desc')))
+			{
+				$direction = 'desc';
+			}
+
+			$this->setState('list.direction', $direction);
+		}
+
 		parent::populateState($ordering, $direction);
 
 		$mainframe = JFactory::getApplication();
