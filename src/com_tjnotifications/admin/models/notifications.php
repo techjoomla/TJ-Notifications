@@ -159,7 +159,7 @@ class TjnotificationsModelNotifications extends JModelList
 		$ordering = $app->input->get('filter_order', 'id', 'STRING');
 		$direction = $app->input->get('filter_order_Dir', 'desc', 'STRING');
 
-		if (!empty($ordering))
+		if (!empty($ordering) && in_array($ordering, $this->filter_fields))
 		{
 			$this->setState('list.ordering', $ordering);
 		}
