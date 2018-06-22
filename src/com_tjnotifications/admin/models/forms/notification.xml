@@ -71,8 +71,8 @@
 				type="editor"
 				label="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_DESC"
-				default=""
-				filter="safehtml" 
+				buttons="true"
+				filter="JComponentHelper::filterText"
 				/>
 	</fieldset>
 	
