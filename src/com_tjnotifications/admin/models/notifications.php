@@ -99,7 +99,10 @@ class TjnotificationsModelNotifications extends JModelList
 		$orderCol  = $this->getState('list.ordering');
 		$orderDirn = $this->getState('list.direction');
 
-		$query->order($db->quoteName($orderCol) . ' ' . $db->escape($orderDirn));
+		if ($orderCol && $orderDirn)
+		{
+			$query->order($db->quoteName($orderCol) . ' ' . $db->escape($orderDirn));
+		}
 
 		return $query;
 	}
