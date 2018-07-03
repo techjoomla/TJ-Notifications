@@ -101,7 +101,7 @@ class TjnotificationsModelNotifications extends JModelList
 
 		if ($orderCol && $orderDirn)
 		{
-			$query->order($db->quoteName($orderCol) . ' ' . $db->escape($orderDirn));
+			$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 		}
 
 		return $query;
