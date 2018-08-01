@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
     jQuery(this).addClass("active").siblings().removeClass("active");
 });
 
+	var rootUrl = "<?php echo JURI::root(); ?>";
 	function addPreferance(pId,client,provider,key)
 	{
 		if(pId)
@@ -24,7 +25,7 @@ defined('_JEXEC') or die;
 			jQuery.ajaxSetup({
 				global: false,
 				type:'post',
-				url:'index.php?option=com_tjnotifications&task=preferences.save',
+				url:rootUrl+'index.php?option=com_tjnotifications&task=preferences.save',
 				dataType:'json',
 				beforeSend: function () {
 					jQuery('#ajax-loader'+pId).show();
@@ -65,7 +66,7 @@ defined('_JEXEC') or die;
 			jQuery.ajaxSetup({
 				global: false,
 				type:'post',
-				url:'index.php?option=com_tjnotifications&task=preferences.delete',
+				url:rootUrl+'index.php?option=com_tjnotifications&task=preferences.delete',
 
 				beforeSend: function () {
 					jQuery('#ajax-loader'+pId).show();
