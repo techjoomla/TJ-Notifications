@@ -19,12 +19,26 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/model
 class Tjnotifications
 {
 	/**
+	 * The constructor
+	 *
+	 * @since  1.0
+	 */
+	public function __construct()
+	{
+		// Check for component
+		if (!JComponentHelper::getComponent('com_tjnotifications', true)->enabled)
+		{
+			throw new Exception('Tjnotifications not installed');
+		}
+	}
+
+	/**
 	 * Method to send the form data.
 	 *
 	 * @param   string      $client        A requird field same as component name.
 	 * @param   string      $key           Key is unique in client.
 	 * @param   array       $recipients    It's an array of user objects
-	 * @param   array       $replacements  It is a object contains replacement.
+	 * @param   Object      $replacements  It is a object contains replacement.
 	 * @param   JParameter  $options       It is a object contains Jparameters like cc,bcc.
 	 *
 	 * @return  boolean value.
@@ -33,82 +47,117 @@ class Tjnotifications
 	 */
 	public static function send($client, $key, $recipients, $replacements, $options)
 	{
-		$model = JModelList::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
-
-		$template = $model->getTemplate($client, $key);
-		$addRecipients = self::getRecipients($client, $key, $recipients, $options);
-
-		if ($addRecipients)
+		try
 		{
-			// Invoke JMail Class
-			$mailer = JFactory::getMailer();
+			$model = JModelList::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
 
-			if ($options->get('from') != null && $options->get('fromname') != null)
+			$template = $model->getTemplate($client, $key);
+			$addRecipients = self::getRecipients($client, $key, $recipients, $options);
+
+			if (isset($addRecipients))
 			{
-				$from = array($options->get('from'),$options->get('fromname'));
+				// Invoke JMail Class
+				$mailer = JFactory::getMailer();
+
+				if ($options->get('from') != null && $options->get('fromname') != null)
+				{
+					$from = array($options->get('from'),$options->get('fromname'));
+				}
+				else
+				{
+					$config = JFactory::getConfig();
+					$from = array($config->get('mailfrom'), $config->get('fromname'));
+				}
+
+				// Set cc for email
+				if ($options->get('cc') != null)
+				{
+					$mailer->addCC($options->get('cc'));
+				}
+
+				// Set bcc for email
+				if ($options->get('bcc') != null)
+				{
+					$mailer->addBcc($options->get('bcc'));
+				}
+
+				// Set bcc for email
+				if ($options->get('replyTo') != null)
+				{
+					$mailer->addReplyTo($options->get('replyTo'));
+				}
+
+				if ($options->get('attachment') != null)
+				{
+					$mailer->addAttachment($options->get('attachment'));
+				}
+
+				// If you would like to send String Attachment in email
+				if ($options->get('stringAttachment') != null)
+				{
+					$stringAttachment = array();
+					$stringAttachment = $options->get('stringAttachment');
+					$encoding         = isset($stringAttachment['encoding']) ? $stringAttachment['encoding'] : '';
+					$type             = isset($stringAttachment['type']) ? $stringAttachment['type'] : '';
+
+					if (isset($stringAttachment['content']) && isset($stringAttachment['name']))
+					{
+						$mailer->addStringAttachment(
+										$stringAttachment['content'],
+										$stringAttachment['name'],
+										$encoding,
+										$type
+									);
+					}
+				}
+
+				// If you would like to send as HTML, include this line; otherwise, leave it out
+				if (($options->get('isNotHTML')) != 1)
+				{
+					$mailer->isHTML();
+				}
+
+				// Set sender array so that my name will show up neatly in your inbox
+				$mailer->setSender($from);
+
+				// Add a recipient -- this can be a single address (string) or an array of addresses
+				$mailer->addRecipient($addRecipients);
+
+				// Set subject for email
+				$mailer->setSubject(self::getSubject($template->email_subject, $options));
+
+				// Set body for email
+				$mailer->setBody(self::getBody($template->email_body, $replacements));
+
+				// Send once you have set all of your options
+				if ($template->email_status == 1)
+				{
+					$status = $mailer->send();
+
+					if ($status)
+					{
+						$return['success'] = 1;
+						$return['message'] = JText::_('LIB_TECHJOOMLA_TJNOTIFICATION_EMAIL_SEND_SUCCESSFULLY');
+
+						return $return;
+					}
+					else
+					{
+						throw new Exception(JText::_('LIB_TECHJOOMLA_TJNOTIFICATION_EMAIL_SEND_FAILED'));
+					}
+				}
 			}
 			else
 			{
-				$config = JFactory::getConfig();
-				$from = array($config->get('mailfrom'), $config->get('fromname'));
-			}
-
-			// Set cc for email
-			if ($options->get('cc') != null)
-			{
-				$mailer->addCC($options->get('cc'));
-			}
-
-			// Set bcc for email
-			if ($options->get('bcc') != null)
-			{
-				$mailer->addBcc($options->get('bcc'));
-			}
-
-			// Set bcc for email
-			if ($options->get('replyTo') != null)
-			{
-				$mailer->addReplyTo($options->get('replyTo'));
-			}
-
-			if ($options->get('attachment') != null)
-			{
-				$mailer->addAttachment($options->get('attachment'));
-			}
-
-			// Set sender array so that my name will show up neatly in your inbox
-			$mailer->setSender($from);
-
-			// Add a recipient -- this can be a single address (string) or an array of addresses
-			$mailer->addRecipient($addRecipients);
-
-			// Set subject for email
-			$mailer->setSubject(self::getSubject($template->email_subject, $options));
-
-			// Set body for email
-			$mailer->setBody(self::getBody($template->email_body, $replacements));
-
-			// If you would like to send as HTML, include this line; otherwise, leave it out
-			$mailer->isHTML();
-
-			// Send once you have set all of your options
-			if ($template->email_status)
-			{
-				$status = $mailer->send();
-			}
-
-			if ($status)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
+				throw new Exception(JText::_('LIB_TECHJOOMLA_TJNOTIFICATION_ADD_RECIPIENTS_OR_CHECK_PREFERENCES'));
 			}
 		}
-		else
+		catch (Exception $e)
 		{
-			return false;
+			$return['success'] = 0;
+			$return['message'] = $e->getMessage();
+
+			return $return;
 		}
 	}
 
@@ -129,22 +178,27 @@ class Tjnotifications
 		$model = JModelList::getInstance('Preferences', 'TjnotificationsModel', array('ignore_request' => true));
 		$unsubscribed_users = $model->getUnsubscribedUsers($client, $key);
 
-		foreach ($recipients as $recipient)
+		$addRecipients = array();
+
+		if (!empty($recipients))
 		{
-			/* $unsubscribed_users array is not empty.
-			 * $recipient->id is not in $unsubscribed_users array.
-			 * $recipient->block is empty or not set.
-			*/
-			if (!empty($unsubscribed_users) && !in_array($recipient->id, $unsubscribed_users) && !($recipient->block))
+			foreach ($recipients as $recipient)
 			{
-				// Make an array of recipients.
-				$addRecipients[] = $recipient->email;
-			}
-			/*$recipient->block is empty or not set.*/
-			elseif (!isset($recipient->block))
-			{
-				// Make an array of recipients.
-				$addRecipients[] = $recipient->email;
+				/* $unsubscribed_users array is not empty.
+				 * $recipient->id is not in $unsubscribed_users array.
+				 * $recipient->block is empty or not set.
+				*/
+				if (!empty($unsubscribed_users) && !in_array($recipient->id, $unsubscribed_users) && !($recipient->block))
+				{
+					// Make an array of recipients.
+					$addRecipients[] = $recipient->email;
+				}
+				/*$recipient->block is empty or not set.*/
+				elseif (!($recipient->block))
+				{
+					// Make an array of recipients.
+					$addRecipients[] = $recipient->email;
+				}
 			}
 		}
 
@@ -173,19 +227,38 @@ class Tjnotifications
 	{
 		$matches = self::getTags($body_template);
 
-		$tags = $matches[0];
-
+		$replacamentTags = $matches[0];
+		$tags = $matches[1];
 		$index = 0;
 
-		foreach ($tags as $tag)
+		if (isset($replacements))
 		{
-			// Explode e.g doner.name with "." so $data[0]=doner and $data[1]=name
-			$data = explode(".", $matches[1][$index]);
-			$key = $data[0];
-			$value = $data[1];
-			$replaceWith = $replacements->$key->$value;
-			$body_template = str_replace($tag, $replaceWith, $body_template);
-			$index++;
+			foreach ($replacamentTags as $ind => $replacamentTag)
+			{
+				// Explode e.g doner.name with "." so $data[0]=doner and $data[1]=name
+				$data = explode(".", $tags[$ind]);
+
+				if (isset($data))
+				{
+					$key = $data[0];
+					$value = $data[1];
+
+					if (!empty($replacements->$key->$value))
+					{
+						$replaceWith = $replacements->$key->$value;
+					}
+					else
+					{
+						$replaceWith = "";
+					}
+
+					if (isset ($replaceWith))
+					{
+						$body_template = str_replace($replacamentTag, $replaceWith, $body_template);
+						$index++;
+					}
+				}
+			}
 		}
 
 		return $body_template;
