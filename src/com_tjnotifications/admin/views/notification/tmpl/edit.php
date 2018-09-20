@@ -41,7 +41,6 @@ $today= gmdate('Y-m-d');
     method="post" name="adminForm" id="adminForm">
      <input type="hidden" name="jform[state]" value="<?php echo $this->item->state; ?>" />
 
-
 	<div class="form-horizontal">
 		<div class="row-fluid">
 				<div class="span12">
@@ -120,13 +119,13 @@ $today= gmdate('Y-m-d');
 										</tbody>
 									</table>
 								</div>
+								<?php endif;?>
 							</div>
-						<?php endif;?>
 
 					<div  class="tab-pane" id="advance">
 						<?php foreach ($this->form->getFieldset('advance_fieldset') as $field):
 							?>
-					<div class="control-group">
+						<div class="control-group">
 						    <div class="control-label"><?php echo $field->label; ?></div>
 						    <div class="controls"><?php echo $field->input ; ?></div>
 						</div>
@@ -136,11 +135,10 @@ $today= gmdate('Y-m-d');
 						<input type="hidden" name="jform[state]" id="jform_state" value="1"/>
 						<input type="hidden" name="jform[created_on]" id="jform_created_on" value="<?php echo $today; ?>"/>
 						<input type="hidden" name="jform[updated_on]" id="jform_updated_on" value="<?php echo $today; ?>"/>
-					</div>
 				</div>
 			</div>
-			</fieldset>
 		</div>
-		<input type="hidden" name="task" value="notification.edit" />
+	</div>
+	<input type="hidden" name="task" value="notification.edit" />
 		<?php echo JHtml::_('form.token'); ?>
 </form>
