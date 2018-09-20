@@ -121,10 +121,8 @@ $today= gmdate('Y-m-d');
 									</table>
 								</div>
 							</div>
-							<?php endif;?>
 						</div>
 						<?php endif;?>
-					</div>
 
 					<div  class="tab-pane" id="advance">
 						<?php foreach ($this->form->getFieldset('advance_fieldset') as $field):
@@ -141,6 +139,7 @@ $today= gmdate('Y-m-d');
 						<input type="hidden" name="jform[updated_on]" id="jform_updated_on" value="<?php echo $today; ?>"/>
 					</div>
 				</div>
+			</div>
 			</fieldset>
 		</div>
 		<input type="hidden" name="task" value="notification.edit" />
