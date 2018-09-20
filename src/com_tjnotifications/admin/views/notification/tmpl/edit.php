@@ -121,7 +121,6 @@ $today= gmdate('Y-m-d');
 									</table>
 								</div>
 							</div>
-						</div>
 						<?php endif;?>
 
 					<div  class="tab-pane" id="advance">
