@@ -120,6 +120,11 @@ class PlgActionlogTjnotification extends JPlugin
 		$user = Factory::getUser();
 		$userId = $user->id;
 		$userName = $user->name;
+		if ($recordId->client)
+ 		{
+ 			$language = Factory::getLanguage();
+ 			$language->load($recordId->client);
+ 		}
 
 		if ($isNew)
 		{
@@ -134,6 +139,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'title'       => $recordId->title,
 			'userid'      => $userId,
 			'username'    => $userName,
+			'client'      => JText::_(strtoupper($recordId->client)),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			'keylink'     => 'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId->id
 		);
@@ -162,6 +168,11 @@ class PlgActionlogTjnotification extends JPlugin
 		$context = JFactory::getApplication()->input->get('option');
 		$user = Factory::getUser();
 		$userId = $user->id;
+		if ($data["client"])
+ 		{
+ 			$language = Factory::getLanguage();
+ 			$language->load($data["client"]);
+ 		}
 		$userName = $user->name;
 		$messageLanguageKey = 'PLG_ACTIONLOG_TJNOTIFICATION_TEMPLATE_DELETE';
 
@@ -169,6 +180,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'title'       => $data->title,
 			'userid'      => $userId,
 			'username'    => $userName,
+			'client'      => JText::_(strtoupper($data["client"])),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 
 		);
