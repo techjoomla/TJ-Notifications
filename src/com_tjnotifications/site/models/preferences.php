@@ -111,6 +111,9 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		if ($data)
 		{
 			parent::save($data);
+			$dispatcher = JDispatcher::getInstance();
+			JPluginHelper::importPlugin('tjnotification');
+			$dispatcher->trigger('tjnOnAfterUnsubscribeNotification', array($data));
 
 			return true;
 		}

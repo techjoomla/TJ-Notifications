@@ -15,6 +15,18 @@ jimport('joomla.filesystem.file');
  **/
 class Com_TjnotificationsInstallerScript
 {
+	/** @var array The list of extra modules and plugins to install */
+	private $installation_queue = array(
+		// Plugins => { (folder) => { (element) => (published) }* }*
+		'plugins' => array(
+				'actionlog' => array(
+					'tjnotification' => 1
+					),
+				'privacy' => array(
+					'tjnotification' => 1,
+					),
+			),
+		);
 	/**
 	 * method to install the component
 	 *
