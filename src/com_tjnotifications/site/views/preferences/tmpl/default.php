@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 <script src="/jquery.min.js"></script>
 <script type="text/javascript">
-	var baseurl = "<?php echo JUri::root();?>";
+	const tjnBaseurl = "<?php echo JUri::root();?>";
 	jQuery.noConflict();
 	jQuery(".btn-group > .btn").click(function(){
     jQuery(this).addClass("active").siblings().removeClass("active");
@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 			jQuery.ajaxSetup({
 				global: false,
 				type:'post',
-				url:baseurl+'index.php?option=com_tjnotifications&task=preferences.save',
+				url:tjnBaseurl+'index.php?option=com_tjnotifications&task=preferences.save',
 				dataType:'json',
 				beforeSend: function () {
 					jQuery('#ajax-loader'+pId).show();
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 			jQuery.ajaxSetup({
 				global: false,
 				type:'post',
-				url:baseurl+'index.php?option=com_tjnotifications&task=preferences.delete',
+				url:tjnBaseurl+'index.php?option=com_tjnotifications&task=preferences.delete',
 
 				beforeSend: function () {
 					jQuery('#ajax-loader'+pId).show();

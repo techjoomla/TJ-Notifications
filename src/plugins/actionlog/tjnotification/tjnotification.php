@@ -52,9 +52,11 @@ class PlgActionlogTjnotification extends JPlugin
 		$tjTableTemplate->load(array('key' => $data['key']));
 		$context = Factory::getApplication()->input->get('option');
 		$userId = $data["user_id"];
-		$client = $data["client"];
-		$client = substr($client, 4);
-		$client = ucwords($client);
+		if ($data["client"])
+ 		{
+ 			$language = Factory::getLanguage();
+ 			$language->load($data["client"]);
+ 		}
 		$user = Factory::getUser($userId);
 		$messageLanguageKey = 'PLG_ACTIONLOG_TJNOTIFICATION_NOTIFICATION_UNSUBSCRIBE';
 		$message = array(
@@ -62,7 +64,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'userid'      => $userId,
 			'username'    => $user->name,
 			'key'         => $data["key"],
-			'client'      => $client,
+			'client'      => JText::_(strtoupper($data["client"])),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			'keylink'     => 'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $tjTableTemplate->id
 		);
