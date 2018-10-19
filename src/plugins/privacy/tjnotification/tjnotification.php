@@ -150,7 +150,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	/**
 	 * Removes the data associated with a remove information request
 	 *
-	 * This event will pseudoanonymise the user account
+	 * This event will remove the user data
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
 	 * @param   JUser                $user     The user account associated with this request if available
@@ -175,11 +175,11 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 
 		$db = $this->db;
 
-		// 1. Delete TJNotification user unsubscription data :
-		$query1 = $db->getQuery(true)
-					->delete($db->quoteName('#__tj_notification_user_exclusions'))
-					->where('user_id = ' . $user->id);
-		$db->setQuery($query1);
+		// Delete TJNotification user data :
+		$query = $db->getQuery(true)
+				->delete($db->quoteName('#__tj_notification_user_exclusions'))
+				->where('user_id = ' . $user->id);
+		$db->setQuery($query);
 		$db->execute();
 	}
 }
