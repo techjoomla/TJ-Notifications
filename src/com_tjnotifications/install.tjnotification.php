@@ -19,14 +19,15 @@ class Com_TjnotificationsInstallerScript
 	private $queue = array(
 		// Plugins => { (folder) => { (element) => (published) }* }*
 		'plugins' => array(
-				'actionlog' => array(
-					'tjnotification' => 1
-					),
-				'privacy' => array(
-					'tjnotification' => 1,
-					),
+			'actionlog' => array(
+				'tjnotification' => 1
 			),
-		);
+			'privacy' => array(
+				'tjnotification' => 1,
+			),
+		),
+	);
+
 	/**
 	 * method to install the component
 	 *
