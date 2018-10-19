@@ -20,7 +20,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="logActionForNotificationSubscription" type="radio" label="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_UNSUBSCRIBE_NOTIFICATION" description="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_COMMON_DESC" default="0" class="btn-group btn-group-yesno">
+				<field name="logActionForNotificationSubscription" type="radio" label="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_NOTIFICATION_SUBSCRIPTION" description="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_COMMON_DESC" default="0" class="btn-group btn-group-yesno">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
