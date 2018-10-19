@@ -52,11 +52,13 @@ class PlgActionlogTjnotification extends JPlugin
 		$tjTableTemplate->load(array('key' => $data['key']));
 		$context = Factory::getApplication()->input->get('option');
 		$userId = $data["user_id"];
+
 		if ($data["client"])
- 		{
- 			$language = Factory::getLanguage();
- 			$language->load($data["client"]);
- 		}
+		{
+			$language = Factory::getLanguage();
+			$language->load($data["client"]);
+		}
+
 		$user = Factory::getUser($userId);
 		$messageLanguageKey = 'PLG_ACTIONLOG_TJNOTIFICATION_NOTIFICATION_UNSUBSCRIBE';
 		$message = array(
@@ -120,11 +122,12 @@ class PlgActionlogTjnotification extends JPlugin
 		$user = Factory::getUser();
 		$userId = $user->id;
 		$userName = $user->name;
+
 		if ($recordId->client)
- 		{
- 			$language = Factory::getLanguage();
- 			$language->load($recordId->client);
- 		}
+		{
+			$language = Factory::getLanguage();
+			$language->load($recordId->client);
+		}
 
 		if ($isNew)
 		{
@@ -168,11 +171,13 @@ class PlgActionlogTjnotification extends JPlugin
 		$context = JFactory::getApplication()->input->get('option');
 		$user = Factory::getUser();
 		$userId = $user->id;
+
 		if ($data["client"])
- 		{
- 			$language = Factory::getLanguage();
- 			$language->load($data["client"]);
- 		}
+		{
+			$language = Factory::getLanguage();
+			$language->load($data["client"]);
+		}
+
 		$userName = $user->name;
 		$messageLanguageKey = 'PLG_ACTIONLOG_TJNOTIFICATION_TEMPLATE_DELETE';
 
@@ -186,6 +191,7 @@ class PlgActionlogTjnotification extends JPlugin
 		);
 		$this->addLog(array($message), $messageLanguageKey, $context, $userId);
 	}
+
 	/**
 	 * On resubscribing notification logging method
 	 *
@@ -209,11 +215,13 @@ class PlgActionlogTjnotification extends JPlugin
 		$tjTableTemplate->load(array('key' => $data['key']));
 		$context = Factory::getApplication()->input->get('option');
 		$userId = $data["user_id"];
+
 		if ($data["client"])
- 		{
- 			$language = Factory::getLanguage();
- 			$language->load($data["client"]);
- 		}
+		{
+			$language = Factory::getLanguage();
+			$language->load($data["client"]);
+		}
+
 		$user = Factory::getUser($userId);
 		$messageLanguageKey = 'PLG_ACTIONLOG_TJNOTIFICATION_NOTIFICATION_RESUBSCRIBE';
 		$message = array(
