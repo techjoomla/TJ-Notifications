@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="3.9" type="plugin" group="actionlog" method="upgrade">
+	<name>plg_actionlog_tjnotification</name>
+	<author>Techjoomla</author>
+	<creationDate>1st October 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2018 Techjoomla. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>extensions@techjoomla.com</authorEmail>
+	<authorUrl>https://techjoomla.com</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_ACTIONLOG_TJNOTIFICATION_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="tjnotification">tjnotification.php</filename>
+		<file>index.html</file>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_actionlog_tjnotification.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_actionlog_tjnotification.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="logActionForNotificationSubscription" type="radio" label="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_NOTIFICATION_SUBSCRIPTION" description="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_COMMON_DESC" default="0" class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="logActionForNewNotificationTemplate" type="radio" label="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_NEW_TEMPLATE" description="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_COMMON_DESC" default="1" class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="logActionForDeleteNotificationTemplate" type="radio" label="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_DELETE_TEMPLATE" description="PLG_ACTIONLOG_TJNOTIFICATION_LOG_ACTION_COMMON_DESC" default="1" class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
