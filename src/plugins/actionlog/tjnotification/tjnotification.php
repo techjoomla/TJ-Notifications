@@ -42,7 +42,7 @@ class PlgActionlogTjnotification extends JPlugin
 	 */
 	public function tjnOnAfterUnsubscribeNotification($data)
 	{
-		if (!$this->params->get('logActionForUnsubscribeNotification', 1))
+		if (!$this->params->get('logActionForNotificationSubscription', 1))
 		{
 			return;
 		}
@@ -183,6 +183,47 @@ class PlgActionlogTjnotification extends JPlugin
 			'client'      => JText::_(strtoupper($data["client"])),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 
+		);
+		$this->addLog(array($message), $messageLanguageKey, $context, $userId);
+	}
+	/**
+	 * On resubscribing notification logging method
+	 *
+	 * Method is called after user resubscribes for notification.
+	 *
+	 * @param   array  $data  com_tjnotification.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function tjnOnAfterResubscribeNotification($data)
+	{
+		if (!$this->params->get('logActionForNotificationSubscription', 1))
+		{
+			return;
+		}
+
+		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_tjnotifications/tables');
+		$tjTableTemplate   = JTable::getInstance('notification', 'TjnotificationTable', array());
+		$tjTableTemplate->load(array('key' => $data['key']));
+		$context = Factory::getApplication()->input->get('option');
+		$userId = $data["user_id"];
+		if ($data["client"])
+ 		{
+ 			$language = Factory::getLanguage();
+ 			$language->load($data["client"]);
+ 		}
+		$user = Factory::getUser($userId);
+		$messageLanguageKey = 'PLG_ACTIONLOG_TJNOTIFICATION_NOTIFICATION_RESUBSCRIBE';
+		$message = array(
+			'type'        => $data["provider"],
+			'userid'      => $userId,
+			'username'    => $user->name,
+			'key'         => $data["key"],
+			'client'      => JText::_(strtoupper($data["client"])),
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			'keylink'     => 'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $tjTableTemplate->id
 		);
 		$this->addLog(array($message), $messageLanguageKey, $context, $userId);
 	}
