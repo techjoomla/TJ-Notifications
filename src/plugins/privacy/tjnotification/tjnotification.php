@@ -19,7 +19,7 @@ JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Privacy plugin managing TJNotifications user data
  *
- * @since  3.2.11
+ * @since  __DEPLOY_VERSION__
  */
 class PlgPrivacyTjnotification extends PrivacyPlugin
 {
@@ -28,7 +28,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  3.2.11
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
