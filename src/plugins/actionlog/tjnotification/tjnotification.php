@@ -172,10 +172,10 @@ class PlgActionlogTjnotification extends JPlugin
 		$user = Factory::getUser();
 		$userId = $user->id;
 
-		if ($data["client"])
+		if ($data->client)
 		{
 			$language = Factory::getLanguage();
-			$language->load($data["client"]);
+			$language->load($data->client);
 		}
 
 		$userName = $user->name;
@@ -185,7 +185,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'title'       => $data->title,
 			'userid'      => $userId,
 			'username'    => $userName,
-			'client'      => JText::_(strtoupper($data["client"])),
+			'client'      => JText::_(strtoupper($data->client)),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 
 		);
