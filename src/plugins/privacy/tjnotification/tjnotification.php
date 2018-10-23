@@ -116,7 +116,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 		{
 			foreach ($userUnsubscriptionData as $unsubscriptionData)
 			{
-				$domain->addItem($this->createItemFromArray($unsubscriptionData, $unsubscriptionData['id']));
+				$domain->addItem($this->createItemFromArray($unsubscriptionData, $unsubscriptionData['user_id']));
 			}
 		}
 
