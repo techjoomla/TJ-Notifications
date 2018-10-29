@@ -287,7 +287,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 						);
 		$db->setQuery($query);
 		$userIds = $db->loadObjectList();
-		$unsubscribed_users = '';
+		$unsubscribed_users = array();
 
 		foreach ($userIds as $userId)
 		{
