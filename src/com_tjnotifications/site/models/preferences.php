@@ -291,7 +291,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 
 		foreach ($userIds as $userId)
 		{
-			$unsubscribed_users[] = $userId->user_id;
+			$unsubscribed_users = $userId->user_id;
 		}
 
 		return $unsubscribed_users;
