@@ -102,6 +102,7 @@ class Com_TjnotificationsInstallerScript
 		// Install SQL FIles
 		$this->installSqlFiles($parent);
 		$this->fix_db_on_update();
+		$this->fixMenuLinks();
 	}
 
 	/**
@@ -340,5 +341,28 @@ class Com_TjnotificationsInstallerScript
 		$dbprefix = $config->get('dbprefix');
 
 		$this->fixTemplateTable($db, $dbprefix, $config);
+	}
+
+	/**
+	 * Fix Duplicate menu created for Notification
+	 *
+	 * @return  void
+	 *
+	 * @Since 1.1
+	 */
+	public function fixMenuLinks()
+	{
+		$db = JFactory::getDbo();
+		$link = 'index.php?option=com_tjnotifications&view=notifications&extension=com_jticketing';
+		$link1 = 'index.php?option=com_tjnotifications&extension=com_tjvendors';
+		$allLinks = '"' . $link . '","'. $link1 . '"';
+
+		// Delete the mainmenu from menu table
+		$deleteMenu = $db->getQuery(true);
+		$deleteMenu->delete($db->quoteName('#__menu'));
+		$deleteMenu->where($db->quoteName('link') . 'IN (' . $allLinks . ')');
+		$deleteMenu->where($db->quoteName('level') . " = 1");
+		$db->setQuery($deleteMenu);
+		$db->execute();
 	}
 }
