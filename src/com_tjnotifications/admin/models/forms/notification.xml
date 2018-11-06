@@ -18,7 +18,7 @@
 				label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC"
 				type="sql"
-				query="select name from `#__extensions` where type='component' "
+				query="select LOWER(name) as name from `#__extensions` where type='component' "
 				key_field="name"
 				value_field="name"
 				required="true"
