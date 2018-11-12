@@ -24,7 +24,7 @@ class TJNotificationsControllerPreferences extends JControllerForm
 	 * @since   1.6
 	 */
 
-		public function save()
+		public function save($key = null, $urlVar = '')
 		{
 			$jinput = JFactory::getApplication()->input;
 			$clientName = $jinput->get('client_name', '');

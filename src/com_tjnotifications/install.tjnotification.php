@@ -15,6 +15,19 @@ jimport('joomla.filesystem.file');
  **/
 class Com_TjnotificationsInstallerScript
 {
+	/** @var array The list of extra modules and plugins to install */
+	private $queue = array(
+		// Plugins => { (folder) => { (element) => (published) }* }*
+		'plugins' => array(
+			'actionlog' => array(
+				'tjnotification' => 1
+			),
+			'privacy' => array(
+				'tjnotification' => 1,
+			),
+		),
+	);
+
 	/**
 	 * method to install the component
 	 *
@@ -24,6 +37,57 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function install($parent)
 	{
+	}
+
+	/**
+ 	* This method is called after a component is uninstalled.
+ 	*
+ 	* @param   \stdClass  $parent  Parent object calling this method.
+ 	*
+ 	* @return void
+ 	*/
+	public function uninstall($parent)
+	{
+		jimport('joomla.installer.installer');
+		$db              = JFactory::getDBO();
+		$status          = new JObject;
+		$status->plugins = array();
+		$src             = $parent->getParent()->getPath('source');
+
+		// Plugins uninstallation
+		if (count($this->queue['plugins']))
+		{
+			foreach ($this->queue['plugins'] as $folder => $plugins)
+			{
+				if (count($plugins))
+				{
+					foreach ($plugins as $plugin => $published)
+					{
+						$sql = $db->getQuery(true)->select($db->qn('extension_id'))
+						->from($db->qn('#__extensions'))
+						->where($db->qn('type') . ' = ' . $db->q('plugin'))
+						->where($db->qn('element') . ' = ' . $db->q($plugin))
+						->where($db->qn('folder') . ' = ' . $db->q($folder));
+						$db->setQuery($sql);
+
+						$id = $db->loadResult();
+
+						if ($id)
+						{
+							$installer         = new JInstaller;
+							$result            = $installer->uninstall('plugin', $id);
+							$status->plugins[] = array(
+								'name' => 'plg_' . $plugin,
+								'group' => $folder,
+								'result' => $result
+							);
+						}
+					}
+				}
+			}
+		}
+
+		return $status;
 	}
 
 	/**
@@ -38,6 +102,7 @@ class Com_TjnotificationsInstallerScript
 		// Install SQL FIles
 		$this->installSqlFiles($parent);
 		$this->fix_db_on_update();
+		$this->fixMenuLinks();
 	}
 
 	/**
@@ -62,6 +127,71 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function postflight($type, $parent)
 	{
+		$src             = $parent->getParent()->getPath('source');
+		$db              = JFactory::getDbo();
+		$status          = new JObject;
+		$status->plugins = array();
+
+		// Plugins installation
+		if (count($this->queue['plugins']))
+		{
+			foreach ($this->queue['plugins'] as $folder => $plugins)
+			{
+				if (count($plugins))
+				{
+					foreach ($plugins as $plugin => $published)
+					{
+						$path = "$src/plugins/$folder/$plugin";
+
+						if (!is_dir($path))
+						{
+							$path = "$src/plugins/$folder/plg_$plugin";
+						}
+
+						if (!is_dir($path))
+						{
+							$path = "$src/plugins/$plugin";
+						}
+
+						if (!is_dir($path))
+						{
+							$path = "$src/plugins/plg_$plugin";
+						}
+
+						if (!is_dir($path))
+						{
+							continue;
+						}
+
+						// Was the plugin already installed?
+						$query = $db->getQuery(true)
+							->select('COUNT(*)')
+							->from($db->qn('#__extensions'))
+							->where($db->qn('element') . ' = ' . $db->q($plugin))
+							->where($db->qn('folder') . ' = ' . $db->q($folder));
+						$db->setQuery($query);
+						$count = $db->loadResult();
+
+						$installer = new JInstaller;
+						$result = $installer->install($path);
+
+						$status->plugins[] = array('name' => 'plg_' . $plugin, 'group' => $folder, 'result' => $result);
+
+						if ($published && !$count)
+						{
+							$query = $db->getQuery(true)
+								->update($db->qn('#__extensions'))
+								->set($db->qn('enabled') . ' = ' . $db->q('1'))
+								->where($db->qn('element') . ' = ' . $db->q($plugin))
+								->where($db->qn('folder') . ' = ' . $db->q($folder));
+							$db->setQuery($query);
+							$db->execute();
+						}
+					}
+				}
+			}
+		}
+
 		// Install SQL FIles
 		$this->installSqlFiles($parent);
 	}
@@ -211,5 +341,28 @@ class Com_TjnotificationsInstallerScript
 		$dbprefix = $config->get('dbprefix');
 
 		$this->fixTemplateTable($db, $dbprefix, $config);
+	}
+
+	/**
+	 * Fix Duplicate menu created for Notification
+	 *
+	 * @return  void
+	 *
+	 * @Since 1.1
+	 */
+	public function fixMenuLinks()
+	{
+		$db = JFactory::getDbo();
+		$link = 'index.php?option=com_tjnotifications&view=notifications&extension=com_jticketing';
+		$link1 = 'index.php?option=com_tjnotifications&extension=com_tjvendors';
+		$allLinks = '"' . $link . '","'. $link1 . '"';
+
+		// Delete the mainmenu from menu table
+		$deleteMenu = $db->getQuery(true);
+		$deleteMenu->delete($db->quoteName('#__menu'));
+		$deleteMenu->where($db->quoteName('link') . 'IN (' . $allLinks . ')');
+		$deleteMenu->where($db->quoteName('level') . " = 1");
+		$db->setQuery($deleteMenu);
+		$db->execute();
 	}
 }

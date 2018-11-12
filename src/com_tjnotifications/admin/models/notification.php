@@ -18,6 +18,19 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotificati
 class TjnotificationsModelNotification extends JModelAdmin
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   3.2
+	 */
+	public function __construct($config = array())
+	{
+		$config['event_after_save'] = 'tjnOnAfterSaveNotificationTemplate';
+		parent::__construct($config);
+	}
+
+	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate
@@ -182,6 +195,9 @@ class TjnotificationsModelNotification extends JModelAdmin
 				{
 					$value[] = 1;
 					parent::delete($data->id);
+					$dispatcher = JDispatcher::getInstance();
+					JPluginHelper::importPlugin('tjnotification');
+					$dispatcher->trigger('tjnOnAfterDeleteNotificationTemplate', array($data));
 				}
 			}
 			else
