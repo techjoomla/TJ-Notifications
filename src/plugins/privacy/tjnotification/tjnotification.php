@@ -19,7 +19,7 @@ JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Privacy plugin managing TJNotifications user data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.2
  */
 class PlgPrivacyTjnotification extends PrivacyPlugin
 {
@@ -28,7 +28,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	protected $autoloadLanguage = true;
 
@@ -36,7 +36,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.2
 	 */
 	protected $db;
 
@@ -45,7 +45,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	public function onPrivacyCollectAdminCapabilities()
 	{
@@ -70,7 +70,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -98,7 +98,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	private function createTJNotificationsUnsubscriptionDomain(JTableUser $user)
 	{
@@ -133,7 +133,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @return  PrivacyRemovalStatus
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -157,7 +157,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	public function onPrivacyRemoveData(PrivacyTableRequest $request, JUser $user = null)
 	{

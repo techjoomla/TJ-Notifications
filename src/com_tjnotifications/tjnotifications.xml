@@ -4,10 +4,10 @@
 	<author>Techjoomla</author>
 	<authorEmail>extensions@techjoomla.com</authorEmail>
 	<authorUrl>https://techjoomla.com</authorUrl>
-	<copyright>Copyright (C) 2009-2018 Techjoomla. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2016 - 2018 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<creationDate>25th June 2018</creationDate>
-	<version>1.0.1</version>
+	<creationDate>16th Nov 2018</creationDate>
+	<version>1.0.2</version>
 	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
