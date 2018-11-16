@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 /**
  * TJ Notification Actions Logging Plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.2
  */
 class PlgActionlogTjnotification extends JPlugin
 {
@@ -25,7 +25,7 @@ class PlgActionlogTjnotification extends JPlugin
 	 * Load plugin language file automatically so that it can be used inside component
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.2
 	 */
 	protected $autoloadLanguage = true;
 
@@ -38,7 +38,7 @@ class PlgActionlogTjnotification extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	public function tjnOnAfterUnsubscribeNotification($data)
 	{
@@ -85,7 +85,7 @@ class PlgActionlogTjnotification extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 
 	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
@@ -108,7 +108,7 @@ class PlgActionlogTjnotification extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 
 	public function tjnOnAfterSaveNotificationTemplate($data, $recordId, $isNew)
@@ -158,7 +158,7 @@ class PlgActionlogTjnotification extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 
 	public function tjnOnAfterDeleteNotificationTemplate($data)
@@ -201,7 +201,7 @@ class PlgActionlogTjnotification extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.2
 	 */
 	public function tjnOnAfterResubscribeNotification($data)
 	{
