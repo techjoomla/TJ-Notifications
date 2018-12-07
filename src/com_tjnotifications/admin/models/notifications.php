@@ -134,9 +134,7 @@ class TjnotificationsModelNotifications extends JModelList
 			$key = preg_replace('/#[^#]*$/', '', $key);
 
 			// Call function recursively with modified key
-			$template = $object->getTemplate($client, $key);
-
-			return $template;
+			return $object->getTemplate($client, $key);
 		}
 
 		return $templates[0];
