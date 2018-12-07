@@ -92,7 +92,7 @@ class TjnotificationsModelNotifications extends JModelList
 		// For getting templates
 		if (!empty($client) && !empty($key))
 		{
-			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' LIKE ' . $db->quote($key . '%'));
+			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
 			$query->order($db->quoteName('key'), 'ASC');
 		}
 
@@ -119,48 +119,32 @@ class TjnotificationsModelNotifications extends JModelList
 	 */
 	public function getTemplate($client, $key)
 	{
-		// Explode the key at #. e.g : donate#vendor1#store1
-		$key_parts = explode('#', $key);
-
-		if (isset($key_parts[1]))
-		{
-			$newKey = $key_parts[0];
-			$this->setState('filter.key', $newKey);
-		}
-		else
-		{
-			$this->setState('filter.key', $key);
-		}
-
+		$this->setState('filter.key', $key);
 		$this->setState('filter.client', $client);
 
 		$templates = $this->getItems();
 
-		$templateObject = new stdClass;
-		$setTemplate = 0;
-
-		foreach ($templates as $template)
+		if (!empty($templates))
 		{
-			if ($key == $template->key)
+			return $templates[0];
+		}
+		else
+		{
+			if (strpos($key, '#'))
 			{
-				$templateObject = $template;
+				// Regex for removing last part of the string
+				// Eg if input string is global#vendor#course then the output is global.vendor
 
-				$setTemplate = 1;
+				$key = preg_replace('/#[^#]*$/', '', $key);
+
+				$model = JModelList::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
+
+				// Call function recursively with modified key
+				$template = $model->getTemplate($client, $key);
+
+				return $template;
 			}
 		}
-
-		if ($setTemplate == 0)
-		{
-			foreach ($templates as $template)
-			{
-				if ($key_parts[0] == $template->key)
-				{
-					$templateObject = $template;
-				}
-			}
-		}
-
-		return $templateObject;
 	}
 
 	/**
