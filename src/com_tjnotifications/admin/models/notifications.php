@@ -142,7 +142,7 @@ class TjnotificationsModelNotifications extends JModelList
 				// Call function recursively with modified key
 				$template = $model->getTemplate($client, $key);
 
-				return $template;
+				return $template[0];
 			}
 		}
 	}
