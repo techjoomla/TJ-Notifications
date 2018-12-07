@@ -89,10 +89,10 @@ class TjnotificationsModelNotifications extends JModelList
 			}
 		}
 
-		// Fot getting templates
+		// For getting templates
 		if (!empty($client) && !empty($key))
 		{
-			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
+			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' LIKE ' . $db->quote($key . '%'));
 			$query->order($db->quoteName('key'), 'ASC');
 		}
 
@@ -117,30 +117,50 @@ class TjnotificationsModelNotifications extends JModelList
 	 *
 	 * @since    1.6
 	 */
-	public function getTemplate($client,$key)
+	public function getTemplate($client, $key)
 	{
-		$this->setState('filter.client', $client);
-		$this->setState('filter.key', $key);
-
 		// Explode the key at #. e.g : donate#vendor1#store1
 		$key_parts = explode('#', $key);
-		$templates = $this->getItems();
 
-		// If $key_parts[1] i.e vendor1 is set means overrided then it will return latest template. i.e donate#vendor1#store1
 		if (isset($key_parts[1]))
 		{
-			// Get index of latest template.
-			$latest = sizeof($templates) - 1;
-			$template = $templates[$latest];
-
-			return $template;
+			$newKey = $key_parts[0];
+			$this->setState('filter.key', $newKey);
 		}
 		else
 		{
-			// If template is not overrided then return original template e.g: donate
-
-			return $templates[0];
+			$this->setState('filter.key', $key);
 		}
+
+		$this->setState('filter.client', $client);
+
+		$templates = $this->getItems();
+
+		$templateObject = new stdClass;
+		$setTemplate = 0;
+
+		foreach ($templates as $template)
+		{
+			if ($key == $template->key)
+			{
+				$templateObject = $template;
+
+				$setTemplate = 1;
+			}
+		}
+
+		if ($setTemplate == 0)
+		{
+			foreach ($templates as $template)
+			{
+				if ($key_parts[0] == $template->key)
+				{
+					$templateObject = $template;
+				}
+			}
+		}
+
+		return $templateObject;
 	}
 
 	/**
