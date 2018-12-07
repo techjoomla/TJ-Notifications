@@ -126,25 +126,20 @@ class TjnotificationsModelNotifications extends JModelList
 
 		$templates = $this->getItems();
 
-		if (!empty($templates))
+		if (empty($templates) && strpos($key, '#'))
 		{
-			return $templates[0];
+			// Regex for removing last part of the string
+			// Eg if input string is global#vendor#course then the output is global#vendor
+
+			$key = preg_replace('/#[^#]*$/', '', $key);
+
+			// Call function recursively with modified key
+			$template = $object->getTemplate($client, $key);
+
+			return $template;
 		}
-		else
-		{
-			if (strpos($key, '#'))
-			{
-				// Regex for removing last part of the string
-				// Eg if input string is global#vendor#course then the output is global#vendor
 
-				$key = preg_replace('/#[^#]*$/', '', $key);
-
-				// Call function recursively with modified key
-				$template = $object->getTemplate($client, $key);
-
-				return $template;
-			}
-		}
+		return $templates[0];
 	}
 
 	/**
