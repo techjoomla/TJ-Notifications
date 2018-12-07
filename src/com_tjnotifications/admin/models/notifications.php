@@ -119,6 +119,8 @@ class TjnotificationsModelNotifications extends JModelList
 	 */
 	public function getTemplate($client, $key)
 	{
+		$object = clone $this;
+
 		$this->setState('filter.key', $key);
 		$this->setState('filter.client', $client);
 
@@ -133,16 +135,14 @@ class TjnotificationsModelNotifications extends JModelList
 			if (strpos($key, '#'))
 			{
 				// Regex for removing last part of the string
-				// Eg if input string is global#vendor#course then the output is global.vendor
+				// Eg if input string is global#vendor#course then the output is global#vendor
 
 				$key = preg_replace('/#[^#]*$/', '', $key);
 
-				$model = JModelList::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
-
 				// Call function recursively with modified key
-				$template = $model->getTemplate($client, $key);
+				$template = $object->getTemplate($client, $key);
 
-				return $template[0];
+				return $template;
 			}
 		}
 	}
