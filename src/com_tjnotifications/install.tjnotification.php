@@ -29,9 +29,11 @@ class Com_TjnotificationsInstallerScript
 	);
 
 	/** @var array Obsolete files and folders to remove*/
-	private $removeFiles = array(
+	private $removeFilesAndFolders = array(
 		'files' => array(
 			'administrator/components/com_tjnotifications/tjnotifications.xml'
+		),
+		'folders' => array(
 		)
 	);
 
@@ -202,7 +204,7 @@ class Com_TjnotificationsInstallerScript
 		// Install SQL FIles
 		$this->installSqlFiles($parent);
 
-		$this->removeObsoleteFiles($this->removeFiles);
+		$this->removeObsoleteFilesAndFolders($this->removeFilesAndFolders);
 	}
 
 	/**
@@ -378,18 +380,20 @@ class Com_TjnotificationsInstallerScript
 	/**
 	 * Removes obsolete files and folders
 	 *
-	 * @param   array  $removeFiles  Array of the files to be removed
+	 * @param   array  $removeFilesAndFolders  Array of the files and folders to be removed
 	 *
 	 * @return  void
+	 *
+	 * @since  1.1.0
 	 */
-	private function removeObsoleteFiles($removeFiles)
+	private function removeObsoleteFilesAndFolders($removeFilesAndFolders)
 	{
 		// Remove files
 		jimport('joomla.filesystem.file');
 
-		if (!empty($removeFiles['files']))
+		if (!empty($removeFilesAndFolders['files']))
 		{
-			foreach ($removeFiles['files'] as $file)
+			foreach ($removeFilesAndFolders['files'] as $file)
 			{
 				$f = JPATH_ROOT . '/' . $file;
 
@@ -399,6 +403,24 @@ class Com_TjnotificationsInstallerScript
 				}
 
 				JFile::delete($f);
+			}
+		}
+
+		// Remove folders
+		jimport('joomla.filesystem.file');
+
+		if (!empty($removeFilesAndFolders['folders']))
+		{
+			foreach ($removeFilesAndFolders['folders'] as $folder)
+			{
+				$f = JPATH_ROOT . '/' . $folder;
+
+				if (!JFolder::exists($f))
+				{
+					continue;
+				}
+
+				JFolder::delete($f);
 			}
 		}
 	}
