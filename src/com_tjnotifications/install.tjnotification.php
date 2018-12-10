@@ -28,6 +28,13 @@ class Com_TjnotificationsInstallerScript
 		),
 	);
 
+	/** @var array Obsolete files and folders to remove*/
+	private $removeFiles = array(
+		'files' => array(
+			'administrator/components/com_tjnotifications/tjnotifications.xml'
+		)
+	);
+
 	/**
 	 * method to install the component
 	 *
@@ -194,6 +201,8 @@ class Com_TjnotificationsInstallerScript
 
 		// Install SQL FIles
 		$this->installSqlFiles($parent);
+
+		$this->removeObsoleteFiles($this->removeFiles);
 	}
 
 	/**
@@ -355,7 +364,7 @@ class Com_TjnotificationsInstallerScript
 		$db = JFactory::getDbo();
 		$link = 'index.php?option=com_tjnotifications&view=notifications&extension=com_jticketing';
 		$link1 = 'index.php?option=com_tjnotifications&extension=com_tjvendors';
-		$allLinks = '"' . $link . '","'. $link1 . '"';
+		$allLinks = '"' . $link . '","' . $link1 . '"';
 
 		// Delete the mainmenu from menu table
 		$deleteMenu = $db->getQuery(true);
@@ -364,5 +373,33 @@ class Com_TjnotificationsInstallerScript
 		$deleteMenu->where($db->quoteName('level') . " = 1");
 		$db->setQuery($deleteMenu);
 		$db->execute();
+	}
+
+	/**
+	 * Removes obsolete files and folders
+	 *
+	 * @param   array  $removeFiles  Array of the files to be removed
+	 *
+	 * @return  void
+	 */
+	private function removeObsoleteFiles($removeFiles)
+	{
+		// Remove files
+		jimport('joomla.filesystem.file');
+
+		if (!empty($removeFiles['files']))
+		{
+			foreach ($removeFiles['files'] as $file)
+			{
+				$f = JPATH_ROOT . '/' . $file;
+
+				if (!JFile::exists($f))
+				{
+					continue;
+				}
+
+				JFile::delete($f);
+			}
+		}
 	}
 }
