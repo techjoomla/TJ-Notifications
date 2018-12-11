@@ -384,13 +384,11 @@ class Com_TjnotificationsInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since  1.1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function removeObsoleteFilesAndFolders($removeFilesAndFolders)
 	{
 		// Remove files
-		jimport('joomla.filesystem.file');
-
 		if (!empty($removeFilesAndFolders['files']))
 		{
 			foreach ($removeFilesAndFolders['files'] as $file)
@@ -407,8 +405,6 @@ class Com_TjnotificationsInstallerScript
 		}
 
 		// Remove folders
-		jimport('joomla.filesystem.file');
-
 		if (!empty($removeFilesAndFolders['folders']))
 		{
 			foreach ($removeFilesAndFolders['folders'] as $folder)
