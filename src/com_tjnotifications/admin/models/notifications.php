@@ -89,7 +89,7 @@ class TjnotificationsModelNotifications extends JModelList
 			}
 		}
 
-		// Fot getting templates
+		// For getting templates
 		if (!empty($client) && !empty($key))
 		{
 			$query->where($db->quoteName('client') . ' = ' . $db->quote($client) . ' AND ' . $db->quoteName('key') . ' = ' . $db->quote($key));
@@ -110,37 +110,36 @@ class TjnotificationsModelNotifications extends JModelList
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array  $client  An optional array of data for the form to interogate.
-	 * @param   array  $key     True if the form is to load its own data (default case), false if not.
+	 * @param   String  $client  An optional array of data for the form to interogate.
+	 * @param   String  $key     True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
 	 *
 	 * @since    1.6
 	 */
-	public function getTemplate($client,$key)
+	public function getTemplate($client, $key)
 	{
-		$this->setState('filter.client', $client);
-		$this->setState('filter.key', $key);
+		$object = clone $this;
 
-		// Explode the key at #. e.g : donate#vendor1#store1
-		$key_parts = explode('#', $key);
+		$this->setState('filter.key', $key);
+		$this->setState('filter.client', $client);
+
+		// Return exact template according key and client
 		$templates = $this->getItems();
 
-		// If $key_parts[1] i.e vendor1 is set means overrided then it will return latest template. i.e donate#vendor1#store1
-		if (isset($key_parts[1]))
+		// If templates object is empty and key contain # then check for default (fallback) template.
+		if (empty($templates) && strpos($key, '#'))
 		{
-			// Get index of latest template.
-			$latest = sizeof($templates) - 1;
-			$template = $templates[$latest];
+			// Regex for removing last part of the string
+			// Eg if input string is global#vendor#course then the output is global#vendor
 
-			return $template;
-		}
-		else
-		{
-			// If template is not overrided then return original template e.g: donate
+			$key = preg_replace('/#[^#]*$/', '', $key);
 
-			return $templates[0];
+			// Call function recursively with modified key
+			return $object->getTemplate($client, $key);
 		}
+
+		return $templates[0];
 	}
 
 	/**
