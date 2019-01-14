@@ -124,8 +124,10 @@ class TjnotificationsModelNotifications extends JModelList
 		$this->setState('filter.key', $key);
 		$this->setState('filter.client', $client);
 
+		// Return exact template according key and client
 		$templates = $this->getItems();
 
+		// If templates object is empty and key contain # then check for default template.
 		if (empty($templates) && strpos($key, '#'))
 		{
 			// Regex for removing last part of the string
