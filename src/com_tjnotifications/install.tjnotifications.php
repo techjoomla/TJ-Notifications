@@ -31,7 +31,6 @@ class Com_TjnotificationsInstallerScript
 	/** @var array Obsolete files and folders to remove*/
 	private $removeFilesAndFolders = array(
 		'files' => array(
-			'administrator/components/com_tjnotifications/tjnotifications.xml'
 		),
 		'folders' => array(
 		)
@@ -395,12 +394,10 @@ class Com_TjnotificationsInstallerScript
 			{
 				$f = JPATH_ROOT . '/' . $file;
 
-				if (!JFile::exists($f))
+				if (JFile::exists($f))
 				{
-					continue;
+					JFile::delete($f);
 				}
-
-				JFile::delete($f);
 			}
 		}
 
@@ -411,12 +408,10 @@ class Com_TjnotificationsInstallerScript
 			{
 				$f = JPATH_ROOT . '/' . $folder;
 
-				if (!JFolder::exists($f))
+				if (JFolder::exists($f))
 				{
-					continue;
+					JFolder::delete($f);
 				}
-
-				JFolder::delete($f);
 			}
 		}
 	}
