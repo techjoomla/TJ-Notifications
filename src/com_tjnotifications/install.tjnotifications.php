@@ -383,7 +383,7 @@ class Com_TjnotificationsInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.3
 	 */
 	private function removeObsoleteFilesAndFolders($removeFilesAndFolders)
 	{
