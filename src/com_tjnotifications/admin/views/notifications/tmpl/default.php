@@ -80,7 +80,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 						</th>
 
 						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_UNSUBCRIBED_USERS"), 'unsubcribed_users', $listDirn, $listOrder);?>
+							<?php echo JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_UNSUBCRIBED_USERS");?>
 						</th>
 
 						<th width="10%" class="nowrap center">
