@@ -28,21 +28,21 @@ class TJNotificationsControllerPreferences extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = '')
 	{
-		$jinput = JFactory::getApplication()->input;
-		$clientName = $jinput->get('client_name', '');
-		$user = JFactory::getUser();
-		$id = $user->id;
-		$providerName = $jinput->get('provider_name', '');
-		$key = $jinput->get('key', '');
-		$data = array (
-						'user_id'	=> $id,
+		$jinput                   = JFactory::getApplication()->input;
+		$clientName               = $jinput->get('client_name', '');
+		$user                     = JFactory::getUser();
+		$id                       = $user->id;
+		$providerName             = $jinput->get('provider_name', '');
+		$key                      = $jinput->get('key', '');
+		$data                     = array (
+						'user_id' => $id,
 						'client'  => $clientName,
-						'provider' => $providerName,
-						'key'	  => $key
+						'provider'=> $providerName,
+						'key'     => $key
 					);
-		$app   = JFactory::getApplication();
-		$model = $this->getModel('Preferences', 'TJNotificationsModel');
-		$result = $model->save($data);
+		$app                      = JFactory::getApplication();
+		$model                    = $this->getModel('Preferences', 'TJNotificationsModel');
+		$result                   = $model->save($data);
 		echo json_encode($result);
 		jexit();
 	}
@@ -56,21 +56,21 @@ class TJNotificationsControllerPreferences extends JControllerForm
 	 */
 	public function delete()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$clientName = $jinput->get('client_name', '');
-		$user = JFactory::getUser();
-		$id = $user->id;
-		$providerName = $jinput->get('provider_name', '');
-		$key = $jinput->get('key', '');
-		$data = array (
-						'user_id'	=> $id,
+		$jinput                   = JFactory::getApplication()->input;
+		$clientName               = $jinput->get('client_name', '');
+		$user                     = JFactory::getUser();
+		$id                       = $user->id;
+		$providerName             = $jinput->get('provider_name', '');
+		$key                      = $jinput->get('key', '');
+		$data                     = array (
+						'user_id' => $id,
 						'client'  => $clientName,
-						'provider' => $providerName,
-						'key'	  => $key
+						'provider'=> $providerName,
+						'key'     => $key
 					);
-		$app   = JFactory::getApplication();
-		$model = $this->getModel('Preferences', 'TJNotificationsModel');
-		$result = $model->deletePreference($data);
+		$app                      = JFactory::getApplication();
+		$model                    = $this->getModel('Preferences', 'TJNotificationsModel');
+		$result                   = $model->deletePreference($data);
 		echo json_encode($result);
 		jexit();
 	}
