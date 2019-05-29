@@ -1,13 +1,14 @@
 <?php
-
 /**
- * @package     Joomla.Site
+ * @package     TJNotification
  * @subpackage  com_tjnotification
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
-defined('_JEXEC') or die;
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * This controller to redirect to model of tjnotification.
@@ -28,21 +29,24 @@ class TJNotificationsControllerPreferences extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = '')
 	{
-		$jinput                   = JFactory::getApplication()->input;
-		$clientName               = $jinput->get('client_name', '');
-		$user                     = JFactory::getUser();
-		$id                       = $user->id;
-		$providerName             = $jinput->get('provider_name', '');
-		$key                      = $jinput->get('key', '');
-		$data                     = array (
-						'user_id' => $id,
-						'client'  => $clientName,
-						'provider'=> $providerName,
-						'key'     => $key
-					);
-		$app                      = JFactory::getApplication();
-		$model                    = $this->getModel('Preferences', 'TJNotificationsModel');
-		$result                   = $model->save($data);
+		$jinput       = JFactory::getApplication()->input;
+		$clientName   = $jinput->get('client_name', '');
+		$user         = JFactory::getUser();
+		$id           = $user->id;
+		$providerName = $jinput->get('provider_name', '');
+		$key          = $jinput->get('key', '');
+
+		$data         = array (
+			'user_id'  => $id,
+			'client'   => $clientName,
+			'provider' => $providerName,
+			'key'      => $key
+		);
+
+		$app          = JFactory::getApplication();
+		$model        = $this->getModel('Preferences', 'TJNotificationsModel');
+		$result       = $model->save($data);
+
 		echo json_encode($result);
 		jexit();
 	}
@@ -56,21 +60,24 @@ class TJNotificationsControllerPreferences extends JControllerForm
 	 */
 	public function delete()
 	{
-		$jinput                   = JFactory::getApplication()->input;
-		$clientName               = $jinput->get('client_name', '');
-		$user                     = JFactory::getUser();
-		$id                       = $user->id;
-		$providerName             = $jinput->get('provider_name', '');
-		$key                      = $jinput->get('key', '');
-		$data                     = array (
-						'user_id' => $id,
-						'client'  => $clientName,
-						'provider'=> $providerName,
-						'key'     => $key
-					);
-		$app                      = JFactory::getApplication();
-		$model                    = $this->getModel('Preferences', 'TJNotificationsModel');
-		$result                   = $model->deletePreference($data);
+		$jinput       = JFactory::getApplication()->input;
+		$clientName   = $jinput->get('client_name', '');
+		$user         = JFactory::getUser();
+		$id           = $user->id;
+		$providerName = $jinput->get('provider_name', '');
+		$key          = $jinput->get('key', '');
+
+		$data         = array (
+			'user_id'  => $id,
+			'client'   => $clientName,
+			'provider' => $providerName,
+			'key'      => $key
+		);
+
+		$app          = JFactory::getApplication();
+		$model        = $this->getModel('Preferences', 'TJNotificationsModel');
+		$result       = $model->deletePreference($data);
+
 		echo json_encode($result);
 		jexit();
 	}
