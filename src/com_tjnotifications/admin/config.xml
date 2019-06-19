@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset label="COM_TJNOTIFICATION" name="Notifications">
+        <field name="allow_save" type="radio" class="btn-group btn-group-yesno" default="No" label="COM_TJNOTIFICATIONS_ALLOW_SAVE_OPTION" description="COM_JOURNEY_APPLICATION_OPTION_DESC">
+            <option value="No">NO</option>
+            <option value="Yes">YES</option>
+        </field>
+    </fieldset>
+    <fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+        <field name="rules" type="rules" component="com_tjnotifications" class="inputbox" filter="rules" validate="rules" label="JCONFIG_PERMISSIONS_LABEL" section="component" />
+	</fieldset>
+</config>
+
