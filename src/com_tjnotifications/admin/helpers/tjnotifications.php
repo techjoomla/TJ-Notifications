@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_tjnotifications
  * @since       2.2
  */
-class TjnotificationsHelper
+class TjnotificationsHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
@@ -63,5 +63,35 @@ class TjnotificationsHelper
 				}
 			}
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
+			'index.php?option=com_tjnotifications&view=notifications',
+			$view == 'rounds'
+		);
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONLOGS'),
+			'index.php?option=com_tjnotifications&view=logs',
+			$view == 'logs'
+		);
+	}
+
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   string   $component  The component name.
+	 * @param   string   $section    The access section name.
+	 * @param   integer  $id         The item ID.
+	 *
+	 * @return  JObject
+	 *
+	 * @since   3.2
+	 */
+	public static function getActions($component = 'com_tjnotifications', $section = '', $id = 0)
+	{
+		$result = parent::getActions($component, $section, $id);
+
+		return $result;
 	}
 }

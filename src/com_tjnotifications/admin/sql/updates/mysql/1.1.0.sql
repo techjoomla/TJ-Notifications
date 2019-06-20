@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__tjnotification_logs` (
   `client` varchar(100) NOT NULL,
   `provider` varchar(100) NOT NULL,
   `subject` varchar(250) NOT NULL,
+  `title` varchar(100) NOT NULL,
   `body` text NOT NULL,
   `from` varchar(100) NOT NULL,
   `to` varchar(100) NOT NULL,

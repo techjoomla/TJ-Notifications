@@ -58,11 +58,6 @@ class TjnotificationsViewLogs extends HtmlView
 	{
 		$title = JText::_('COM_TJNOTIFICATIONS_LOGS');
 
-		if ($this->pagination->total)
-		{
-			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'></span>";
-		}
-
 		JToolBarHelper::title($title, 'log');
 
 		if ($this->canDo->get('core.export'))
@@ -73,9 +68,9 @@ class TjnotificationsViewLogs extends HtmlView
 			$bar = JToolBar::getInstance('toolbar');
 
 			$message = array();
-			$message['success'] = JText::_("COM_TJLMS_EXPORT_FILE_SUCCESS");
-			$message['error'] = JText::_("COM_TJLMS_EXPORT_FILE_ERROR");
-			$message['inprogress'] = JText::_("COM_TJLMS_EXPORT_FILE_NOTICE");
+			$message['success'] = JText::_("COM_TJNOTIFICATIONS_EXPORT_FILE_SUCCESS");
+			$message['error'] = JText::_("COM_TJNOTIFICATIONS_EXPORT_FILE_ERROR");
+			$message['inprogress'] = JText::_("COM_TJNOTIFICATIONS_EXPORT_FILE_NOTICE");
 
 			$bar->appendButton('CsvExport',  $message);
 		}

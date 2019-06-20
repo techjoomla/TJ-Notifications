@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+include 'header.html';
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -17,6 +18,12 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 ?>
+<style>
+	.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;}
+</style>
 
 <form action="index.php?option=com_tjnotifications&view=logs" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty($this->sidebar)):?>
@@ -30,10 +37,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 
 
 <?php
-			//~ echo "<pre>";print_r($this);die;
-
-//echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => 1,'filtersHidden' => 0)));?>
-
+echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => 1,'filtersHidden' => 0)));?>
 
 	<div class="btn-group pull-right hidden-phone">
 		<label for="limit" class="element-invisible">
@@ -41,29 +45,20 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 		</label>
 		<?php echo $this->pagination->getLimitBox(); ?>
 	</div>
-
-				<table class="table table-striped table-hover">
+				<div class="table-responsive">
+				<table class="table table-striped">
 					<thead>
 					<tr>
 						<th width="2%" class="nowrap center">
 							<input type="checkbox" name="checkall-toggle" value=""
 										   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
 						</th>
+						<th width="2%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TITLE"), 'title', $listDirn, $listOrder);?>
+						</th>
 
 						<th width="2%" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder);?>
-						</th>
-
-						<th width="2%" class="hidden-phone">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder);?>
-						</th>
-
-						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PROVIDER"), 'provider', $listDirn, $listOrder);?>
-						</th>
-
-						<th width="10%" class="nowrap center">
-							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder);?>
 						</th>
 
 						<th width="10%" class="nowrap center">
@@ -73,7 +68,6 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CC"), 'cc', $listDirn, $listOrder);?>
 						</th>
-
 
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BCC"), 'bcc', $listDirn, $listOrder);?>
@@ -87,6 +81,17 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder);?>
 						</th>
 
+						<th width="2%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder);?>
+						</th>
+
+						<th width="10%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PROVIDER"), 'provider', $listDirn, $listOrder);?>
+						</th>
+
+						<th width="10%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder);?>
+						</th>
 						<th width="10%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PARAMS"), 'params', $listDirn, $listOrder);?>
 						</th>
@@ -101,14 +106,15 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									<td class="center">
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
-
-
+									<td class="center">
+											<?php echo htmlspecialchars($row->title, ENT_COMPAT, 'UTF-8');
+									?>
+									</td>
 									<td class="">
 									<a data-toggle="modal" href="#bodyModal">
-										<?php echo $row->subject; ?>
+										<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8');?>
 									</a>
 									</td>
-
 									  <div class="modal fade" id="bodyModal" role="dialog">
 										<div class="modal-dialog">
 
@@ -120,9 +126,13 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 											  JText::_("COM_TJNOTIFICATIONS_VIEW_EMAIL_BODY");
 											  ?></h4>
 											</div>
-											<div class="modal-body">
-											 <p><?php echo $row->body; ?>
+											<div class="modal-body p-15">
+											<div class="col-xs-12">
+											 <p><?php
+											 echo $row->body;
+											  //echo htmlspecialchars($row->body, ENT_COMPAT, 'UTF-8');?>
 											</p>
+											</div>
 											</div>
 											<div class="modal-footer">
 											  <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo
@@ -130,39 +140,36 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 											  ?></button>
 											</div>
 										  </div>
-
-									<td class="">
-											<?php echo $row->key; ?>
+									<td class="center">
+											<?php echo htmlspecialchars($row->to, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
 
 									<td class="center">
-											<?php echo $row->provider; ?>
+											<?php echo htmlspecialchars($row->cc, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
 
 									<td class="center">
-											<?php echo $row->from; ?>
+											<?php echo htmlspecialchars($row->bcc, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+									<td class="center">
+											<?php echo htmlspecialchars($row->date, ENT_COMPAT, 'UTF-8');?>
 									</td>
 
 									<td class="center">
-											<?php echo $row->to; ?>
+											<?php echo htmlspecialchars($row->state, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+									<td class="center">
+											<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8');
+									?>
 									</td>
 
 									<td class="center">
-											<?php echo $row->cc; ?>
+											<?php echo htmlspecialchars($row->provider, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
 
 									<td class="center">
-											<?php echo $row->bcc; ?>
+											<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
-
-									<td class="center">
-											<?php echo $row->date; ?>
-									</td>
-
-									<td class="center">
-											<?php echo $row->state; ?>
-									</td>
-
 									<td class="">
 									<a data-toggle="modal" href="#paramsModal">
 										<?php echo "show params"; ?>
@@ -181,25 +188,27 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 											  ?></h4>
 											</div>
 											<div class="modal-body">
-											 <p><?php echo $row->params; ?>
+											<div class="col-xs-12">
+											 <p><?php echo htmlspecialchars($row->params, ENT_COMPAT, 'UTF-8'); ?>
 											</p>
+											</div>
 											</div>
 											<div class="modal-footer">
 											  <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo
 											  JText::_("COM_TJNOTIFICATIONS_VIEW_EMAIL_POPUP_CLOSE");
 											  ?></button>
 											</div>
-										  </div>
-								</tr>
+										</div>
+									</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>
 					</tbody>
 				</table>
+			</div>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="extension" value="<?php echo $this->component; ?>" />
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
