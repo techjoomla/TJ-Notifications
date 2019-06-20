@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_tjnotifications
  * @since       2.2
  */
-class TjnotificationsHelper extends JHelperContent
+class TjnotificationsHelper
 {
 	/**
 	 * Configure the Linkbar.
