@@ -59,6 +59,9 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 										   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
 						</th>
 						<th width="2%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder);?>
+						</th>
+						<th width="2%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TITLE"), 'title', $listDirn, $listOrder);?>
 						</th>
 
@@ -110,6 +113,10 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 								<tr>
 									<td class="center">
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
+									</td>
+									<td class="center">
+											<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8');
+									?>
 									</td>
 									<td class="center">
 											<?php echo htmlspecialchars($row->title, ENT_COMPAT, 'UTF-8');
