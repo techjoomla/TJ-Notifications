@@ -16,10 +16,7 @@ CREATE TABLE IF NOT EXISTS `#__tjnotification_logs` (
   `date` date NOT NULL,
   `state` int(11) NOT NULL,
   `params` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `client` (`client`),
-  KEY `key` (`key`)
+  PRIMARY KEY (`id`)
 )
  DEFAULT CHARSET=utf8
  AUTO_INCREMENT=0 ;
-
