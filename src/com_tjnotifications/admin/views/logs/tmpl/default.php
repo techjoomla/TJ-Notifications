@@ -41,7 +41,6 @@ $(document).ready(function() {
 		<div id="j-main-container">
 	<?php endif;?>
 
-
 <?php
 echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => 1,'filtersHidden' => 0)));?>
 
@@ -117,7 +116,7 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 									?>
 									</td>
 									<td class="">
-										<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&subject=true&view=logs&layout=popup&id='. $row->id); ?>"><?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?></a>
+										<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>"><?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?></a>
 
 									<td class="center">
 											<?php echo htmlspecialchars($row->to, ENT_COMPAT, 'UTF-8'); ?>
@@ -149,9 +148,15 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 									<td class="center">
 											<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
-									<td class="">
-									<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=popup&id='. $row->id); ?>"><?php echo JText::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
+									<td class="center">
+									<?php if(!empty($row->params)){ ?>
+									<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>"><?php echo JText::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
 									</a>
+									<?php }
+									else
+									{
+										echo JText::_('COM_TJNOTIFICATIONS_EMPTY_PARAMS');
+									}?>
 									</td>
 									</tr>
 							<?php endforeach; ?>
