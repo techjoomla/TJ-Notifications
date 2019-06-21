@@ -21,13 +21,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 ?>
-<style>
-	.table-responsive {
-    display: block;
-    width: 100%;
-    overflow-x: auto;}
-</style>
-
 <script type="text/javascript">
 $(document).ready(function() {
     var width = $(window).width();
