@@ -56,9 +56,7 @@ class TjnotificationsViewLogs extends HtmlView
 	 */
 	protected function addToolBar()
 	{
-		$title = JText::_('COM_TJNOTIFICATIONS_LOGS');
-
-		JToolBarHelper::title($title, 'log');
+		JToolBarHelper::title(JText::_('COM_TJNOTIFICATIONS_LOGS'), 'log');
 
 		if ($this->canDo->get('core.export'))
 		{

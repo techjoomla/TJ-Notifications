@@ -21,13 +21,14 @@ if($logId)
 	$logTable->load(array('id' => $logId));
 }
 ?>
-	<div>
-	<h4 class="modal-title"><?php echo
-	JText::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");
-	  ?></h4>
+<div class="container">
+	<h4 class="modal-title">
+		<?php echo JText::_("COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL");
+	  ?>
+	 </h4>
+		<div class="col-xs-12">
+			<p><?php echo $logTable->params; ?>
+			</p>
+		</div>
 	</div>
-	<div class="col-xs-12">
-	 <p><?php echo $logTable->params; ?>
-	</p>
-	</div>
-	</div>
+
