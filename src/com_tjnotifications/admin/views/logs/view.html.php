@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
-JLoader::register('TjnotificationsHelper', JPATH_ADMINISTRATOR . '/components/com_tjnotifications/helpers/tjnotifications.php');
 use Joomla\CMS\MVC\View\HtmlView;
 
 /**
@@ -62,7 +61,7 @@ class TjnotificationsViewLogs extends HtmlView
 
 		if ($this->canDo->get('core.export'))
 		{
-			// adding techjoomla library for csv Export
+			// Adding techjoomla library for csv Export
 			jimport('techjoomla.tjtoolbar.button.csvexport');
 
 			$bar = JToolBar::getInstance('toolbar');
