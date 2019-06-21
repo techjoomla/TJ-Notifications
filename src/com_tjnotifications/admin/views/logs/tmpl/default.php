@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 include 'header.html';
 
+
+
+JHTML::_('behavior.modal', 'a.modal');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
@@ -24,6 +27,16 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
     width: 100%;
     overflow-x: auto;}
 </style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var width = $(window).width();
+    var height = $(window).height();
+
+    //ID of container
+    $('a#modal_info').attr('rel','{handler: "iframe", size: {x: '+(width-(width*0.10))+', y: '+(height-(height*0.10))+'}}');
+});
+</script>
 
 <form action="index.php?option=com_tjnotifications&view=logs" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty($this->sidebar)):?>
@@ -111,35 +124,8 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 									?>
 									</td>
 									<td class="">
-									<a data-toggle="modal" href="#bodyModal">
-										<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8');?>
-									</a>
-									</td>
-									  <div class="modal fade" id="bodyModal" role="dialog">
-										<div class="modal-dialog">
+										<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&subject=true&view=logs&layout=popup&id='. $row->id); ?>"><?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?></a>
 
-										  <!-- Modal content-->
-										  <div class="modal-content">
-											<div class="modal-header">
-											  <button type="button" class="close" data-dismiss="modal">&times;</button>
-											  <h4 class="modal-title"><?php echo
-											  JText::_("COM_TJNOTIFICATIONS_VIEW_EMAIL_BODY");
-											  ?></h4>
-											</div>
-											<div class="modal-body p-15">
-											<div class="col-xs-12">
-											 <p><?php
-											 echo $row->body;
-											  //echo htmlspecialchars($row->body, ENT_COMPAT, 'UTF-8');?>
-											</p>
-											</div>
-											</div>
-											<div class="modal-footer">
-											  <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo
-											  JText::_("COM_TJNOTIFICATIONS_VIEW_EMAIL_POPUP_CLOSE");
-											  ?></button>
-											</div>
-										  </div>
 									<td class="center">
 											<?php echo htmlspecialchars($row->to, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
@@ -171,34 +157,9 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 											<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
 									<td class="">
-									<a data-toggle="modal" href="#paramsModal">
-										<?php echo "show params"; ?>
+									<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=popup&id='. $row->id); ?>"><?php echo JText::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
 									</a>
 									</td>
-
-									  <div class="modal fade" id="paramsModal" role="dialog">
-										<div class="modal-dialog">
-
-										  <!-- Modal content-->
-										  <div class="modal-content">
-											<div class="modal-header">
-											  <button type="button" class="close" data-dismiss="modal">&times;</button>
-											  <h4 class="modal-title"><?php echo
-											  JText::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");
-											  ?></h4>
-											</div>
-											<div class="modal-body">
-											<div class="col-xs-12">
-											 <p><?php echo htmlspecialchars($row->params, ENT_COMPAT, 'UTF-8'); ?>
-											</p>
-											</div>
-											</div>
-											<div class="modal-footer">
-											  <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo
-											  JText::_("COM_TJNOTIFICATIONS_VIEW_EMAIL_POPUP_CLOSE");
-											  ?></button>
-											</div>
-										</div>
 									</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>

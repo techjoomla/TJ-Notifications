@@ -8,8 +8,4 @@
 		<action name="core.export" title="JACTION_EXPORT" description="JACTION_EXPORT_COMPONENT_DESC" />
 		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
 	</section>
-	<section name="notifications">
-		<action name="core.view" title="JACTION_VIEW" description="JACTION_VIEW_COMPONENT_DESC" />
-		<action name="core.export" title="JACTION_EXPORT" description="JACTION_EXPORT_COMPONENT_DESC" />
-	</section>
 </access>

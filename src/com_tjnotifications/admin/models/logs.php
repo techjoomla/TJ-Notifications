@@ -30,15 +30,14 @@ class TjnotificationsModelLogs extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'to',
-				'key',
-				'from',
-				'cc',
-				'provider',
-				'state',
-				'subject',
-				'search',
+				'id', 'tjl.id',
+				'to', 'tjl.to',
+				'key', 'tjl.key',
+				'from', 'tjl.from',
+				'cc', 'tjl.cc',
+				'state', 'tjl.state',
+				'subject', 'tjl.subject',
+				'search'
 			);
 		}
 
@@ -57,27 +56,9 @@ class TjnotificationsModelLogs extends ListModel
 	 *
 	 * @since   1.1.0
 	 */
-	protected function populateState($ordering = 'id', $direction = 'asc')
+	protected function populateState($ordering = 'tjl.id', $direction = 'asc')
 	{
-		$app    = JFactory::getApplication('administrator');
-
-		$ordering = $app->input->get('filter_order', 'id', 'STRING');
-		$direction = $app->input->get('filter_order_Dir', 'desc', 'STRING');
-
-		if (!empty($ordering) && in_array($ordering, $this->filter_fields))
-		{
-			$this->setState('list.ordering', $ordering);
-		}
-
-		if (!empty($direction))
-		{
-			if (!in_array(strtolower($direction), array('asc', 'desc')))
-			{
-				$direction = 'desc';
-			}
-
-			$this->setState('list.direction', $direction);
-		}
+		$app    = JFactory::getApplication();
 
 		// Load the filter search
 		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search');
@@ -85,13 +66,11 @@ class TjnotificationsModelLogs extends ListModel
 
 		parent::populateState($ordering, $direction);
 
-		$mainframe = JFactory::getApplication();
-
 		// Get pagination request variables
-		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
-		// In case limit has been changed, adjust it
+		//~ // In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('list.limit', $limit);
@@ -113,22 +92,16 @@ class TjnotificationsModelLogs extends ListModel
 
 		// Create the base select statement.
 		$query->select('*')
-			->from($db->quoteName('#__tjnotification_logs', 'cs'));
+			->from($db->quoteName('#__tjnotification_logs', 'tjl'));
 
 		$search = $this->getState('filter.search');
 
-		if (!empty($search))
-		{
-			$like = $db->quote('%' . $search . '%');
-			$query->where($db->quoteName('subject') . ' LIKE ' . $like . ' OR ' . $db->quoteName('from') . ' LIKE ' . $like . ' OR ' . $db->quoteName('to') . ' LIKE ' . $like);
-		}
-
 		// Filter by client
 		$client = $this->getState('filter.client');
+
 		if ($client)
 		{
-			$client = $db->quote($client);
-			$query->where('client = ' . $client);
+			$query->where($db->quoteName('tjl.client') . ' = ' . $db->quote($client));
 		}
 
 		// Filter by provider
@@ -136,24 +109,31 @@ class TjnotificationsModelLogs extends ListModel
 
 		if ($provider)
 		{
-			$provider = $db->quote($provider);
-			$query->where('provider = ' . $provider);
+			$query->where($db->quoteName('tjl.provider') . ' = ' . $db->quote($provider));
 		}
 
 		// Filter by key
 		$key = $this->getState('filter.key');
+
 		if ($key)
 		{
-			$key = $db->quote($key);
-			$query->where('cs.key = ' . $key);
+			$query->where($db->quoteName('tjl.key') . ' = ' . $db->quote($key));
 		}
+
 
 		// Filter by client
 		$state = $this->getState('filter.state');
 
-		$state = $db->quote($state);
-		$query->where('cs.state = ' . $state);
+		if (is_numeric($state))
+		{
+			$query->where($db->quoteName('tjl.state') . ' = ' . $db->quote($state));
+		}
 
+		if (!empty($search))
+		{
+			$like = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->quoteName('tjl.subject') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.from') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.to') . ' LIKE ' . $like);
+		}
 
 		$orderCol  = $this->getState('list.ordering');
 		$orderDirn = $this->getState('list.direction');

@@ -29,7 +29,7 @@ class TjnotificationsViewLogs extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->canDo = TjnotificationsHelper::getActions();
+		$this->canDo = JHelperContent::getActions('com_tjnotifications');
 
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');

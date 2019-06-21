@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="List Logs" option="View">
+    <layout title="COM_TJNOTIFICATIONS_LIST_LOGS" option="View">
         <message>
 			<![CDATA[List all notifications Logs]]>
         </message>
