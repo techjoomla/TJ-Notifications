@@ -9,10 +9,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
+
 include 'header.html';
-
-
-
+JHtml::_('behavior.keepalive');
 JHTML::_('behavior.modal', 'a.modal');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -20,6 +20,10 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
+
+$doc = Factory::getDocument();
+
+$doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications/assets/css/tjnotifcations.css');
 ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
@@ -54,53 +58,53 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 				<table class="table table-striped">
 					<thead>
 					<tr>
-						<th width="2%" class="nowrap center">
+						<th width="2%" class="">
 							<input type="checkbox" name="checkall-toggle" value=""
 										   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
 						</th>
-						<th width="2%" class="nowrap center">
+						<th width="2%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder);?>
 						</th>
-						<th width="2%" class="nowrap center">
+						<th class="minwidth-150px">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TITLE"), 'title', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="2%" class="hidden-phone">
+						<th class="minwidth-150px">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TO"), 'to', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CC"), 'cc', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BCC"), 'bcc', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_DATE"), 'date', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="10%" class="nowrap center">
+						<th width="" class="minwidth-150px">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="2%" class="nowrap center">
+						<th width="" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PROVIDER"), 'provider', $listDirn, $listOrder);?>
 						</th>
 
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder);?>
 						</th>
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="">
 							<?php echo JHtml::_('grid.sort', JText::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PARAMS"), 'params', $listDirn, $listOrder);?>
 						</th>
 					</tr>
@@ -111,51 +115,57 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 								$link
 							?>
 								<tr>
-									<td class="center">
+									<td class="">
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
-									<td class="center">
+									<td class="">
 											<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8');
 									?>
 									</td>
-									<td class="center">
+									<td class="">
 											<?php echo htmlspecialchars($row->title, ENT_COMPAT, 'UTF-8');
 									?>
 									</td>
 									<td class="">
 										<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>"><?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?></a>
 
-									<td class="center">
-											<?php echo htmlspecialchars($row->to, ENT_COMPAT, 'UTF-8'); ?>
+									<td class="">
+											<?php
+											$emailTo = str_replace(',', '<br />', $row->to);
+											 echo $emailTo; ?>
 									</td>
 
-									<td class="center">
-											<?php echo htmlspecialchars($row->cc, ENT_COMPAT, 'UTF-8'); ?>
+									<td class="">
+											<?php
+											$emailCc = str_replace(',', '<br />', $row->cc);
+											 echo $emailCc; ?>
 									</td>
 
-									<td class="center">
-											<?php echo htmlspecialchars($row->bcc, ENT_COMPAT, 'UTF-8'); ?>
+									<td class="">
+											<?php
+											$emailBcc = str_replace(',', '<br />', $row->bcc);
+											 echo $emailBcc; ?>
 									</td>
-									<td class="center">
+									<td class="">
 											<?php echo htmlspecialchars($row->date, ENT_COMPAT, 'UTF-8');?>
 									</td>
 
-									<td class="center">
+									<td class="">
 											<?php echo htmlspecialchars($row->state, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
-									<td class="center">
+									<td class="">
 											<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8');
 									?>
 									</td>
 
-									<td class="center">
+									<td class="">
 											<?php echo htmlspecialchars($row->provider, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
 
-									<td class="center">
+									<td class="">
 											<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
-									<td class="center">
+									<td class="">
 									<?php if(!empty($row->params)){ ?>
 									<a id="modal_info" class="modal" href="<?php echo JRoute::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>"><?php echo JText::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
 									</a>
