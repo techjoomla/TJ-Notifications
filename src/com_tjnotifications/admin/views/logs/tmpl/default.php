@@ -22,12 +22,12 @@ $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 ?>
 <script type="text/javascript">
-$(document).ready(function() {
-    var width = $(window).width();
-    var height = $(window).height();
+jQuery(document).ready(function() {
+    var width = jQuery(window).width();
+    var height = jQuery(window).height();
 
     //ID of container
-    $('a#modal_info').attr('rel','{handler: "iframe", size: {x: '+(width-(width*0.10))+', y: '+(height-(height*0.10))+'}}');
+    jQuery('a#modal_info').attr('rel','{handler: "iframe", size: {x: '+(width-(width*0.10))+', y: '+(height-(height*0.10))+'}}');
 });
 </script>
 

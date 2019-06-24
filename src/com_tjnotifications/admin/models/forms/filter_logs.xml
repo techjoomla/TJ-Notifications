@@ -44,7 +44,7 @@
 				onchange="this.form.submit();"
 				type="sql"
 				class="inputbox"
-				query="SELECT notemp.key as tmpkey FROM `#__tj_notification_templates` as notemp"
+				query="SELECT DISTINCT(notemp.key)as tmpkey FROM `#__tj_notification_templates` as notemp"
 				key_field="tmpkey"
 				value_field="tmpkey"
 				>
@@ -53,6 +53,7 @@
         	<field
 			name="state"
 			type="list"
+			default="1"
 			class="inputbox"
 			label="COM_TJNOTIFICATIONS_FIELD_STATE_LABEL"
 			description="COM_TJNOTIFICATIONS_FIELD_STATE_DESC"
@@ -60,7 +61,6 @@
 			key_field="provider"
 			value_field="provider"
 			>
-			<option value="1">COM_TJNOTIFICATIONS_FIELD_STATE_OPTION</option>
 			<option value="1">COM_TJNOTIFICATIONS_STATE_SENT</option>
 			<option value="0">COM_TJNOTIFICATIONS_STATE_FAILED</option>
 		</field>

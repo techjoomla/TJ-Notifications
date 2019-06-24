@@ -60,7 +60,7 @@ class TjnotificationsViewLogs extends HtmlView
 
 		if ($this->canDo->get('core.export'))
 		{
-			// adding techjoomla library for csv Export
+			// Adding techjoomla library for csv Export
 			jimport('techjoomla.tjtoolbar.button.csvexport');
 
 			$bar = JToolBar::getInstance('toolbar');

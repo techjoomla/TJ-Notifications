@@ -70,7 +70,7 @@ class TjnotificationsModelLogs extends ListModel
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
-		//~ // In case limit has been changed, adjust it
+		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('list.limit', $limit);
@@ -119,7 +119,6 @@ class TjnotificationsModelLogs extends ListModel
 		{
 			$query->where($db->quoteName('tjl.key') . ' = ' . $db->quote($key));
 		}
-
 
 		// Filter by client
 		$state = $this->getState('filter.state');

@@ -32,5 +32,4 @@ class TjnotificationsControllerLogs extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-
 }
