@@ -33,9 +33,10 @@
 			value_field="provider"
 			>
 			<option value="">COM_TJNOTIFICATIONS_FIELD_PROVIDER_OPTION</option>
-			<option value="Email">COM_TJNOTIFICATIONS_PROVIDER_EMAIL</option>
-			<option value="Sms">COM_TJNOTIFICATIONS_PROVIDER_SMS</option>
-			<option value="Push Message">COM_TJNOTIFICATIONS_PROVIDER_PUSH</option>
+			<option value="email">COM_TJNOTIFICATIONS_PROVIDER_EMAIL</option>
+			<option value="sms">COM_TJNOTIFICATIONS_PROVIDER_SMS</option>
+			<option value="push">COM_TJNOTIFICATIONS_PROVIDER_PUSH</option>
+			<option value="web">COM_TJNOTIFICATIONS_PROVIDER_WEB</option>
 		</field>
 		 <field
            name="key"
