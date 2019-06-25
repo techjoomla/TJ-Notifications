@@ -11,24 +11,31 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 
+$app  = Factory::getApplication();
 $jinput  = Factory::getApplication()->input;
 $logId = $jinput->get('id', 0, 'INT');
 
-if($logId)
+if(!empty($logId))
 {
 	Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
 	$logTable = Table::getInstance('Log', 'TjnotificationsTable');
 	$logTable->load(array('id' => $logId));
 }
+else
+{
+	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+	return false;
+}
 ?>
 <div class="container">
-	<h4 class="modal-title">
+	<?php if ($logTable->id) : ?>
+	<h3 class="modal-title">
 		<?php echo JText::_("COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL");
 	  ?>
-	 </h4>
-		<div class="col-xs-12">
-			<p><?php echo $logTable->params; ?>
-			</p>
-		</div>
+	 </h3>
+	<div class="col-xs-12">
+		<?php echo $logTable->params; ?>
 	</div>
+	<?php endif; ?>
+</div>
 

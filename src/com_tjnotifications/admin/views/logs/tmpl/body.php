@@ -22,12 +22,15 @@ if($logId)
 }
 ?>
 <div class="container">
-	<h4 class="modal-title">
+	<?php if ($logTable->id) : ?>
+	<h3 class="modal-title">
 		<?php echo JText::_("COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL");
 	  ?>
-	 </h4>
-		<div class="col-xs-12">
-			<p><?php echo $logTable->body; ?>
-			</p>
-		</div>
+	 </h3>
+	<div class="col-xs-12">
+		<?php echo $logTable->body; ?>
 	</div>
+	<?php endif; ?>
+</div>
+
+
