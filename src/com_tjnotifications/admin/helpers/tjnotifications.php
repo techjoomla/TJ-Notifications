@@ -67,7 +67,7 @@ class TjnotificationsHelper extends JHelperContent
 		JHtmlSidebar::addEntry(
 			JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
 			'index.php?option=com_tjnotifications&view=notifications',
-			$view == 'rounds'
+			$view == 'notifications'
 		);
 
 		JHtmlSidebar::addEntry(

@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 $jinput  = Factory::getApplication()->input;
 $logId = $jinput->get('id', 0, 'INT');
@@ -21,10 +22,10 @@ if($logId)
 	$logTable->load(array('id' => $logId));
 }
 ?>
-<div class="container">
+<div>
 	<?php if ($logTable->id) : ?>
 	<h3 class="modal-title">
-		<?php echo JText::_("COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL");
+		<?php echo Text::_("COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL");
 	  ?>
 	 </h3>
 	<div class="col-xs-12">
@@ -32,5 +33,4 @@ if($logId)
 	</div>
 	<?php endif; ?>
 </div>
-
 

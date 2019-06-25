@@ -10,7 +10,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 JLoader::register('TjnotificationsHelper', JPATH_ADMINISTRATOR . '/components/com_tjnotifications/helpers/tjnotifications.php');
 use Joomla\CMS\MVC\View\HtmlView;
-
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 /**
  * View class for a list of notifications logs.
  *
@@ -56,26 +58,26 @@ class TjnotificationsViewLogs extends HtmlView
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('COM_TJNOTIFICATIONS_LOGS'), 'log');
+		ToolbarHelper::title(Text::_('COM_TJNOTIFICATIONS_LOGS'), 'list');
 
 		if ($this->canDo->get('core.export'))
 		{
 			// Adding techjoomla library for csv Export
 			jimport('techjoomla.tjtoolbar.button.csvexport');
 
-			$bar = JToolBar::getInstance('toolbar');
+			$bar = Toolbar::getInstance('toolbar');
 
 			$message = array();
-			$message['success'] = JText::_("COM_TJNOTIFICATIONS_EXPORT_FILE_SUCCESS");
-			$message['error'] = JText::_("COM_TJNOTIFICATIONS_EXPORT_FILE_ERROR");
-			$message['inprogress'] = JText::_("COM_TJNOTIFICATIONS_EXPORT_FILE_NOTICE");
+			$message['success'] = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_SUCCESS");
+			$message['error'] = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_ERROR");
+			$message['inprogress'] = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_NOTICE");
 
 			$bar->appendButton('CsvExport',  $message);
 		}
 
 		if ($this->canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'logs.delete');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'logs.delete', 'JTOOLBAR_DELETE');
 		}
 	}
 }
