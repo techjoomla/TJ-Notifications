@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_logs` (
   `to` text NOT NULL,
   `cc` text NOT NULL,
   `bcc` text NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `state` tinyint(2) NOT NULL,
   `params` text NOT NULL,
   `priority`int(11) NOT NULL,
