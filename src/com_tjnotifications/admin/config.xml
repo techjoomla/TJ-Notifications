@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <fieldset label="COM_TJNOTIFICATION" name="Notifications">
-        <field name="allow_save" type="radio" class="btn-group btn-group-yesno" default="No" label="COM_TJNOTIFICATIONS_ALLOW_SAVE_OPTION" description="COM_TJNOTIFICATIONS_APPLICATION_OPTION_DESC">
+        <field name="enable_logs" type="radio" class="btn-group btn-group-yesno" default="No" label="COM_TJNOTIFICATIONS_ALLOW_SAVE_OPTION" description="COM_TJNOTIFICATIONS_APPLICATION_OPTION_DESC">
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>

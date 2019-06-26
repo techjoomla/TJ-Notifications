@@ -1,7 +1,7 @@
 --
--- Notifications Logs Tables : Table structure for table `#__tjnotification_logs`
+-- Notifications Logs Tables : Table structure for table `#__tj_notification_logs`
 --
-CREATE TABLE IF NOT EXISTS `#__tjnotification_logs` (
+CREATE TABLE IF NOT EXISTS `#__tj_notification_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `key` varchar(100) NOT NULL,
   `client` varchar(100) NOT NULL,

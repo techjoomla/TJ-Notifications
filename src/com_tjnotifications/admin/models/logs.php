@@ -92,7 +92,7 @@ class TjnotificationsModelLogs extends ListModel
 
 		// Create the base select statement.
 		$query->select('*')
-			->from($db->quoteName('#__tjnotification_logs', 'tjl'));
+			->from($db->quoteName('#__tj_notification_logs', 'tjl'));
 
 		$search = $this->getState('filter.search');
 
