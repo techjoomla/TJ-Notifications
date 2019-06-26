@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
     var height = jQuery(window).height();
 
     //ID of container
-    jQuery('a#modal_info').attr('rel','{handler: "iframe", size: {x: '+(width-(width*0.10))+', y: '+(height-(height*0.10))+'}}');
+    jQuery('.modal notification').attr('rel','{handler: "iframe", size: {x: '+(width-(width*0.10))+', y: '+(height-(height*0.10))+'}}');
 });
 </script>
 
@@ -113,7 +113,6 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 					<tbody>
 						<?php if (!empty($this->items)) : ?>
 							<?php foreach ($this->items as $i => $row) :
-								$link
 							?>
 								<tr>
 									<td class="">
@@ -124,7 +123,7 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 									?>
 									</td>
 									<td class="">
-									<a id="modal_info" class="modal" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>"><?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS");?></a>
+									<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>"><?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS");?></a>
 									</a>
 									<td class="">
 											<?php
@@ -169,7 +168,7 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 									</td>
 									<td class="">
 									<?php if(!empty($row->params)){ ?>
-									<a id="modal_info" class="modal" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>"><?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
+									<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>"><?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
 									</a>
 									<?php }
 									else
