@@ -24,6 +24,6 @@ class TjnotificationsTableLog extends Table
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__tjnotification_logs', 'id', $db);
+		parent::__construct('#__tj_notification_logs', 'id', $db);
 	}
 }

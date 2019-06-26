@@ -68,7 +68,7 @@ class TjnotificationsModelLogs extends ListModel
 
 		// Get pagination request variables
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = $app->input->post->get('limitstart', 0, '', 'int');
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
