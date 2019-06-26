@@ -8,7 +8,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-use \Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * notifications model.
@@ -56,7 +56,7 @@ class TjnotificationsModelLogs extends ListModel
 	 *
 	 * @since   1.1.0
 	 */
-	protected function populateState($ordering = 'tjl.id', $direction = 'asc')
+	protected function populateState($ordering = 'tjl.id', $direction = 'desc')
 	{
 		$app    = JFactory::getApplication();
 
