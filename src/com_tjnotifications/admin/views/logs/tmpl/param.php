@@ -28,8 +28,7 @@ if($logId)
 <div>
 	<?php if ($logTable->id) : ?>
 	<h3 class="modal-title">
-		<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");
-	  ?>
+		<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
 	 </h3>
 	<div class="col-xs-12">
 		<?php echo $logTable->params; ?>
