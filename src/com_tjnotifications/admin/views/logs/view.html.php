@@ -1,14 +1,18 @@
 <?php
 /**
- * @package    Com_Tjnotifications
- * @author     Techjoomla <extensions@techjoomla.com>
- * @copyright  Copyright (c) 2009-2019 TechJoomla. All rights reserved.
- * @license    GNU General Public License version 2 or later.
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
 JLoader::register('TjnotificationsHelper', JPATH_ADMINISTRATOR . '/components/com_tjnotifications/helpers/tjnotifications.php');
+
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -33,9 +37,9 @@ class TjnotificationsViewLogs extends HtmlView
 	{
 		$this->canDo = JHelperContent::getActions('com_tjnotifications');
 
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
@@ -68,8 +72,8 @@ class TjnotificationsViewLogs extends HtmlView
 			$bar = Toolbar::getInstance('toolbar');
 
 			$message = array();
-			$message['success'] = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_SUCCESS");
-			$message['error'] = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_ERROR");
+			$message['success']    = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_SUCCESS");
+			$message['error']      = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_ERROR");
 			$message['inprogress'] = Text::_("COM_TJNOTIFICATIONS_EXPORT_FILE_NOTICE");
 
 			$bar->appendButton('CsvExport',  $message);

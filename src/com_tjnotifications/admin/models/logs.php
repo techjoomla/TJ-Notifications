@@ -1,13 +1,18 @@
 <?php
 /**
- * @package    Com_Tjnotifications
- * @copyright  Copyright (c) 2009-2019 TechJoomla. All rights reserved.
- * @license    GNU General Public License version 2 or later.
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.model');
+
 use Joomla\CMS\MVC\Model\ListModel;
 
 /**
@@ -67,7 +72,7 @@ class TjnotificationsModelLogs extends ListModel
 		parent::populateState($ordering, $direction);
 
 		// Get pagination request variables
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+		$limit      = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
 		$limitstart = $app->input->post->get('limitstart', 0, '', 'int');
 
 		// In case limit has been changed, adjust it

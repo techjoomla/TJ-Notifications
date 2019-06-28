@@ -2,7 +2,7 @@
 <metadata>
     <layout title="COM_TJNOTIFICATIONS_LIST_LOGS" option="View">
         <message>
-			<![CDATA[List all notifications Logs]]>
+			<![CDATA[COM_TJNOTIFICATIONS_LIST_LOGS_DESC]]>
         </message>
     </layout>
 </metadata>

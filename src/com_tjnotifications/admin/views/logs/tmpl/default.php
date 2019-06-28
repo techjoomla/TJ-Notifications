@@ -1,31 +1,29 @@
 <?php
 /**
- * @package    Com_Tjnotifications
- * @copyright  Copyright (c) 2009-2019 TechJoomla. All rights reserved.
- * @license    GNU General Public License version 2 or later.
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
-include 'header.html';
-HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.modal', 'a.modal');
-HTMLHelper::_('bootstrap.tooltip');
-HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('formbehavior.chosen', 'select');
 
-$listOrder     = $this->escape($this->state->get('list.ordering'));
-$listDirn      = $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 $doc = Factory::getDocument();
-
 $doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications/assets/css/tjnotifcations.css');
 ?>
 <script type="text/javascript">
@@ -39,31 +37,32 @@ jQuery(document).ready(function() {
 </script>
 
 <form action="index.php?option=com_tjnotifications&view=logs" method="post" id="adminForm" name="adminForm">
-	<?php if (!empty($this->sidebar)):?>
+	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar;?>
+		<?php echo $this->sidebar; ?>
 		</div>
 		<div id="j-main-container" class="span10">
-	<?php else :?>
+	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
-
-<?php
-echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => 1,'filtersHidden' => 0)));?>
-
-	<div class="btn-group pull-right hidden-phone">
-		<label for="limit" class="element-invisible">
-			<?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?>
-		</label>
-		<?php echo $this->pagination->getLimitBox(); ?>
-	</div>
-				<div class="table-responsive">
+	<?php endif; ?>
+			<?php
+			// Search tools bar
+			echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => 1,'filtersHidden' => 0)));
+			?>
+			<div class="btn-group pull-right hidden-phone">
+				<label for="limit" class="element-invisible">
+					<?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?>
+				</label>
+				<?php echo $this->pagination->getLimitBox(); ?>
+			</div>
+			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
 					<tr>
 						<th width="2%" class="">
 							<input type="checkbox" name="checkall-toggle" value=""
-										   title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
+								title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>"
+								onclick="Joomla.checkAll(this)"/>
 						</th>
 						<th class="minwidth-150px">
 							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder);?>
@@ -119,30 +118,25 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
 									<td class="">
-											<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8');
-									?>
+										<?php
+											echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8');
+										?>
 									</td>
 									<td class="">
 									<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>"><?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS");?></a>
 									</a>
 									<td class="">
-											<?php
-											echo str_replace(',', '<br />', $row->to); ?>
+											<?php echo str_replace(',', '<br />', $row->to); ?>
 									</td>
-
 									<td class="">
-											<?php
-											echo str_replace(',', '<br />', $row->cc); ?>
+											<?php echo str_replace(',', '<br />', $row->cc); ?>
 									</td>
-
 									<td class="">
-											<?php
-											echo str_replace(',', '<br />', $row->bcc); ?>
+											<?php echo str_replace(',', '<br />', $row->bcc); ?>
 									</td>
 									<td class="">
 											<?php echo htmlspecialchars($row->date, ENT_COMPAT, 'UTF-8');?>
 									</td>
-
 									<td class="">
 											<?php
 											if($row->state ==1)
@@ -152,15 +146,15 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 											elseif($row->state ==0)
 											{
 												echo Text::_('COM_TJNOTIFICATIONS_STATE_FAILED');
-											} ?>
+											}
+											?>
 									</td>
 									<td class="">
-											<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8');
-									?>
+											<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8');?>
 									</td>
 
 									<td class="">
-											<?php echo htmlspecialchars($row->provider, ENT_COMPAT, 'UTF-8'); ?>
+											<?php echo htmlspecialchars($row->provider, ENT_COMPAT, 'UTF-8');?>
 									</td>
 
 									<td class="">
@@ -177,8 +171,7 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 									}?>
 									</td>
 									<td class="">
-											<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8');
-									?>
+											<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8');?>
 									</td>
 									</tr>
 							<?php endforeach; ?>
@@ -186,12 +179,12 @@ echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, '
 					</tbody>
 				</table>
 			</div>
-					<?php echo $this->pagination->getListFooter(); ?>
+			<?php echo $this->pagination->getListFooter(); ?>
 
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
-	<?php echo JHtml::_('form.token'); ?>
+		<input type="hidden" name="task" value=""/>
+		<input type="hidden" name="boxchecked" value="0"/>
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
