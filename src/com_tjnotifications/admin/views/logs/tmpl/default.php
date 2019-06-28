@@ -118,9 +118,7 @@ jQuery(document).ready(function() {
 										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 									</td>
 									<td class="">
-										<?php
-											echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8');
-										?>
+										<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?>
 									</td>
 									<td class="">
 									<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>"><?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS");?></a>
