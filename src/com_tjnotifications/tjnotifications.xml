@@ -49,5 +49,13 @@
 			<language tag="en-GB">en-GB.com_tjnotifications.sys.ini</language>
 		</languages>
 	</administration>
+	<!-- default component params values backend -->
+	<config>
+		<fields>
+			<fieldset>
+				<!--general_settings-->
+				<field name="enable_logs" default="0"/>
+			</fieldset>
+		</fields>
 	<scriptfile>install.tjnotifications.php</scriptfile>
 </extension>
