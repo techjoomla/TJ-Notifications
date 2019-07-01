@@ -22,14 +22,14 @@ use Joomla\CMS\MVC\Model\ListModel;
  */
 class TjnotificationsModelLogs extends ListModel
 {
-/**
-	* Constructor.
-	*
-	* @param   array  $config  An optional associative array of configuration settings.
-	*
-	* @see        JController
-	* @since      1.1.0
-	*/
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see        JController
+	 * @since      1.1.0
+	 */
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
@@ -72,8 +72,8 @@ class TjnotificationsModelLogs extends ListModel
 		parent::populateState($ordering, $direction);
 
 		// Get pagination request variables
-		$limit      = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
-		$limitstart = $app->input->post->get('limitstart', 0, '', 'int');
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -136,8 +136,7 @@ class TjnotificationsModelLogs extends ListModel
 		if (!empty($search))
 		{
 			$like = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where($db->quoteName('tjl.subject') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.to') . ' LIKE ' . $like);
-			$query->where($db->quoteName('tjl.from') . ' LIKE ' . $like);
+			$query->where($db->quoteName('tjl.subject') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.from') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.to') . ' LIKE ' . $like);
 		}
 
 		$orderCol  = $this->getState('list.ordering');
