@@ -57,5 +57,6 @@
 				<field name="enable_logs" default="0"/>
 			</fieldset>
 		</fields>
+	<config>
 	<scriptfile>install.tjnotifications.php</scriptfile>
 </extension>
