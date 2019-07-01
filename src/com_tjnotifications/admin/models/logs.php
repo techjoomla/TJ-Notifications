@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 
 /**
@@ -63,7 +64,7 @@ class TjnotificationsModelLogs extends ListModel
 	 */
 	protected function populateState($ordering = 'tjl.id', $direction = 'desc')
 	{
-		$app    = JFactory::getApplication();
+		$app    = Factory::getApplication();
 
 		// Load the filter search
 		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search');
@@ -73,7 +74,7 @@ class TjnotificationsModelLogs extends ListModel
 
 		// Get pagination request variables
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = Factory::getApplication()->input->post->get('limitstart');
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -92,7 +93,7 @@ class TjnotificationsModelLogs extends ListModel
 	protected function getListQuery()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
