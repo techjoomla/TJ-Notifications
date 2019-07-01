@@ -16,7 +16,7 @@ use Joomla\CMS\Table\Table;
 /**
  * table class for notification
  *
- * @since  1.6
+ * @since  1.1.0
  */
 class TjnotificationsTableLog extends Table
 {
