@@ -12,8 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+
 $jinput  = Factory::getApplication()->input;
 $logId = $jinput->get('id', 0, 'INT');
+
 if($logId)
 {
 	Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
