@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="filter">
-		<field name="search" type="text" label="search" hint="search" class="js-stools-search-string" />
-		<field name="client" label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL" description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC" onchange="this.form.submit();" type="sql" class="inputbox" query="SELECT DISTINCT(client) FROM `#__tj_notification_templates`" key_field="client" value_field="client">
-			<option value=''>COM_TJNOTIFICATIONS_FIELD_CLIENT_OPTION</option>
-		</field>
-		<field name="provider" type="list" class="inputbox" label="COM_TJNOTIFICATIONS_FIELD_PROVIDER_LABEL" default="email" description="COM_TJNOTIFICATIONS_FIELD_PROVIDER_DESC" onchange="this.form.submit();" key_field="provider" value_field="provider">
-			<option value="email">COM_TJNOTIFICATIONS_PROVIDER_EMAIL</option>
-			<option value="sms">COM_TJNOTIFICATIONS_PROVIDER_SMS</option>
-			<option value="push">COM_TJNOTIFICATIONS_PROVIDER_PUSH</option>
-			<option value="web">COM_TJNOTIFICATIONS_PROVIDER_WEB</option>
-		</field>
-		<field name="key" label="COM_TJNOTIFICATIONS_FIELD_KEY_LABEL" description="COM_TJNOTIFICATIONS_FIELD_KEY_DESC" onchange="this.form.submit();" type="sql" class="inputbox" query="SELECT DISTINCT(notemp.key as tmpkey FROM `#__tj_notification_templates` as notemp" key_field="tmpkey" value_field="tmpkey">
-			<option value=''>COM_TJNOTIFICATIONS_FIELD_KEY_OPTION</option>
-		</field>
-		<field name="state" type="list" class="inputbox" label="COM_TJNOTIFICATIONS_FIELD_STATE_LABEL" description="COM_TJNOTIFICATIONS_FIELD_STATE_DESC" onchange="this.form.submit();" key_field="provider" value_field="provider">
-			<option value="">COM_TJNOTIFICATIONS_FIELD_STATE_OPTION</option>
-			<option value="1">COM_TJNOTIFICATIONS_STATE_SENT</option>
-			<option value="0">COM_TJNOTIFICATIONS_STATE_FAILED</option>
-		</field>
-	</fields>
+  <fields name="filter">
+    <field name="search" type="text" label="search" hint="search" class="js-stools-search-string" />
+    <field name="client" label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL" description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC" onchange="this.form.submit();" type="sql" class="inputbox" query="SELECT DISTINCT(client) FROM `#__tj_notification_templates`" key_field="client" value_field="client">
+      <option value=''>COM_TJNOTIFICATIONS_FIELD_CLIENT_OPTION</option>
+    </field>
+    <field name="provider" type="list" class="inputbox" label="COM_TJNOTIFICATIONS_FIELD_PROVIDER_LABEL" default="email" description="COM_TJNOTIFICATIONS_FIELD_PROVIDER_DESC" onchange="this.form.submit();" key_field="provider" value_field="provider">
+      <option value="email">COM_TJNOTIFICATIONS_PROVIDER_EMAIL</option>
+      <option value="sms">COM_TJNOTIFICATIONS_PROVIDER_SMS</option>
+      <option value="push">COM_TJNOTIFICATIONS_PROVIDER_PUSH</option>
+      <option value="web">COM_TJNOTIFICATIONS_PROVIDER_WEB</option>
+    </field>
+    <field name="key" label="COM_TJNOTIFICATIONS_FIELD_KEY_LABEL" description="COM_TJNOTIFICATIONS_FIELD_KEY_DESC" onchange="this.form.submit();" type="sql" class="inputbox" query="SELECT DISTINCT(notemp.key as tmpkey FROM `#__tj_notification_templates` as notemp" key_field="tmpkey" value_field="tmpkey">
+      <option value=''>COM_TJNOTIFICATIONS_FIELD_KEY_OPTION</option>
+    </field>
+    <field name="state" type="list" class="inputbox" label="COM_TJNOTIFICATIONS_FIELD_STATE_LABEL" description="COM_TJNOTIFICATIONS_FIELD_STATE_DESC" onchange="this.form.submit();" key_field="provider" value_field="provider">
+      <option value="">COM_TJNOTIFICATIONS_FIELD_STATE_OPTION</option>
+      <option value="1">COM_TJNOTIFICATIONS_STATE_SENT</option>
+      <option value="0">COM_TJNOTIFICATIONS_STATE_FAILED</option>
+    </field>
+  </fields>
 </form>
