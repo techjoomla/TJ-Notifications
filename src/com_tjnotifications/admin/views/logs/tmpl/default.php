@@ -14,10 +14,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+
 HTMLHelper::_('behavior.modal', 'a.modal');
 HTMLHelper::_('formbehavior.chosen', 'select');
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
 $doc = Factory::getDocument();
 $doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications/assets/css/tjnotifcations.css');
 ?>
