@@ -143,8 +143,8 @@ jQuery('.modal notification').attr('rel','{handler: "iframe", size: {x: '+(width
 								<?php
 								if(!empty($row->params))
 								{ ?>
-								<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>">
-								<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
+									<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>">
+									<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP");?></a>
 								<?php
 								}
 								else
