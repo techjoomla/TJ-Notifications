@@ -136,7 +136,8 @@ class TjnotificationsModelLogs extends ListModel
 		if (!empty($search))
 		{
 			$like = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where($db->quoteName('tjl.subject') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.from') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.to') . ' LIKE ' . $like);
+			$query->where($db->quoteName('tjl.subject') . ' LIKE ' . $like . ' OR ' . $db->quoteName('tjl.to') . ' LIKE ' . $like);
+			$query->where($db->quoteName('tjl.from') . ' LIKE ' . $like);
 		}
 
 		$orderCol  = $this->getState('list.ordering');
