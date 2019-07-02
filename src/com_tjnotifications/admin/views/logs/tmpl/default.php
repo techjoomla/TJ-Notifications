@@ -82,7 +82,7 @@ jQuery('.modal notification').attr('rel','{handler: "iframe", size: {x: '+(width
 							<th width="" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder); ?>
 							</th>
-							<th width="" class="">
+							<th width="" class="nowrap center">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder); ?>
 							</th>
 							<th width="10%" class="">
