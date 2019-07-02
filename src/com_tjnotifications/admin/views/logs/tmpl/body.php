@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Table;
 $jinput  = Factory::getApplication()->input;
 $logId = $jinput->get('id', 0, 'INT');
 
-if($logId)
+if ($logId)
 {
 	Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
 	$logTable = Table::getInstance('Log', 'TjnotificationsTable');
