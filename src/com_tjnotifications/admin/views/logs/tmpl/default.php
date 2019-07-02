@@ -52,119 +52,118 @@ jQuery('.modal notification').attr('rel','{handler: "iframe", size: {x: '+(width
 			</label>
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
-		<div class="table-responsive">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th width="2%" class="">
-							<input type="checkbox" name="checkall-toggle" value=""
-							title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>"
-							onclick="Joomla.checkAll(this)"/>
-						</th>
-						<th class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder);?>
-						</th>
-						<th class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BODY"), 'title', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TO"), 'to', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CC"), 'cc', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BCC"), 'bcc', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_DATE"), 'date', $listDirn, $listOrder);?>
-						</th>
-						<th width="" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder);?>
-						</th>
-						<th width="" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PROVIDER"), 'provider', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder);?>
-						</th>
-						<th width="10%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PARAMS"), 'params', $listDirn, $listOrder);?>
-						</th>
-						<th width="2%" class="">
-							<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder);?>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php if (!empty($this->items)) : ?>
-					<?php foreach ($this->items as $i => $row) :
-					?>
-					<tr>
-						<td class="">
-							<?php echo JHtml::_('grid.id', $i, $row->id); ?>
-						</td>
-						<td class="">
-							<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?>
-						</td>
-						<td class="">
-							<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>">
-								<?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS"); ?>
-							</a>
-						</td>
-						<td class="">
-							<?php echo str_replace(',', '<br />', $row->to); ?>
-						</td>
-						<td class="">
-							<?php echo str_replace(',', '<br />', $row->cc); ?>
-						</td>
-						<td class="">
-							<?php echo str_replace(',', '<br />', $row->bcc); ?>
-						</td>
-						<td class="">
-							<?php echo htmlspecialchars($row->date, ENT_COMPAT, 'UTF-8'); ?>
-						</td>
-						<td class="">
-							<?php
-								echo ($row->state === 1) ? Text::_('COM_TJNOTIFICATIONS_STATE_SENT') :  Text::_('COM_TJNOTIFICATIONS_STATE_FAILED');
-							?>
-						</td>
-						<td class="">
-							<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8'); ?>
-						</td>
-						<td class="">
-							<?php echo htmlspecialchars($row->provider, ENT_COMPAT, 'UTF-8'); ?>
-						</td>
-						<td class="">
-							<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
-						</td>
-						<td class="">
-							<?php if(!empty($row->params)): ?>
-								<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>">
-									<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th width="2%" class="">
+								<input type="checkbox" name="checkall-toggle" value=""
+								title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>"
+								onclick="Joomla.checkAll(this)"/>
+							</th>
+							<th class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder); ?>
+							</th>
+							<th class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BODY"), 'title', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TO"), 'to', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CC"), 'cc', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BCC"), 'bcc', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_DATE"), 'date', $listDirn, $listOrder); ?>
+							</th>
+							<th width="" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder); ?>
+							</th>
+							<th width="" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PROVIDER"), 'provider', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PARAMS"), 'params', $listDirn, $listOrder); ?>
+							</th>
+							<th width="2%" class="">
+								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php if (!empty($this->items)) : ?>
+						<?php foreach ($this->items as $i => $row) :?>
+						<tr>
+							<td class="">
+								<?php echo JHtml::_('grid.id', $i, $row->id); ?>
+							</td>
+							<td class="">
+								<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?>
+							</td>
+							<td class="">
+								<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>">
+									<?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS"); ?>
 								</a>
-							<?php else : ?>
-								<?php echo Text::_('COM_TJNOTIFICATIONS_EMPTY_PARAMS'); ?>
-							<?php endif; ?>
-						</td>
-						<td class="">
-							<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8'); ?>
-						</td>
-					</tr>
-					<?php endforeach; ?>
-					<?php endif; ?>
-				</tbody>
-			</table>
+							</td>
+							<td class="">
+								<?php echo str_replace(',', '<br />', $row->to); ?>
+							</td>
+							<td class="">
+								<?php echo str_replace(',', '<br />', $row->cc); ?>
+							</td>
+							<td class="">
+								<?php echo str_replace(',', '<br />', $row->bcc); ?>
+							</td>
+							<td class="">
+								<?php echo htmlspecialchars($row->date, ENT_COMPAT, 'UTF-8'); ?>
+							</td>
+							<td class="">
+								<?php
+									echo ($row->state === 1) ? Text::_('COM_TJNOTIFICATIONS_STATE_SENT') :  Text::_('COM_TJNOTIFICATIONS_STATE_FAILED');
+								?>
+							</td>
+							<td class="">
+								<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8'); ?>
+							</td>
+							<td class="">
+								<?php echo htmlspecialchars($row->provider, ENT_COMPAT, 'UTF-8'); ?>
+							</td>
+							<td class="">
+								<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
+							</td>
+							<td class="">
+								<?php if(!empty($row->params)): ?>
+									<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>">
+										<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
+									</a>
+								<?php else : ?>
+									<?php echo Text::_('COM_TJNOTIFICATIONS_EMPTY_PARAMS'); ?>
+								<?php endif; ?>
+							</td>
+							<td class="">
+								<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8'); ?>
+							</td>
+						</tr>
+						<?php endforeach; ?>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+			<?php echo $this->pagination->getListFooter(); ?>
+			<input type="hidden" name="task" value=""/>
+			<input type="hidden" name="boxchecked" value="0"/>
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
+			<?php echo JHtml::_('form.token'); ?>
 		</div>
-		<?php echo $this->pagination->getListFooter(); ?>
-		<input type="hidden" name="task" value=""/>
-		<input type="hidden" name="boxchecked" value="0"/>
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
-		<?php echo JHtml::_('form.token'); ?>
 	</div>
-</div>
 </form>
