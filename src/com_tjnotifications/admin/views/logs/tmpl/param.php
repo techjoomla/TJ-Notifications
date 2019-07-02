@@ -9,12 +9,15 @@
 */
 // No direct access
 defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+
 $jinput  = Factory::getApplication()->input;
 $logId = $jinput->get('id', 0, 'INT');
-if($logId)
+
+if ($logId)
 {
 	Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
 	$logTable = Table::getInstance('Log', 'TjnotificationsTable');
@@ -24,7 +27,7 @@ if($logId)
 <div>
 	<?php if ($logTable->id) : ?>
 	<h3 class="modal-title">
-	<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
+		<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
 	</h3>
 	<div class="col-xs-12">
 		<?php echo $logTable->params; ?>
