@@ -1,10 +1,11 @@
 <?php
 /**
- * @version    SVN: <svn_id>
- * @package    Tjfields
- * @author     Techjoomla <extensions@techjoomla.com>
- * @copyright  Copyright (c) 2009-2016 TechJoomla. All rights reserved.
- * @license    GNU General Public License version 2 or later.
+ * @package     TJNotification
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access

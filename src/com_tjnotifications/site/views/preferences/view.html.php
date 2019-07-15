@@ -1,9 +1,10 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * @package     TJNotification
+ * @subpackage  com_tjnotifications
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
