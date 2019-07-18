@@ -241,7 +241,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 *
 	 * @return  integer  replacement tags count
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.4
 	 */
 	public function getReplacementTagsCount($key, $client)
 	{
@@ -264,7 +264,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.4
 	 */
 	public function updateReplacementTags($data)
 	{
