@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   UNIQUE KEY `client_2` (`client`,`key`),
   KEY `client` (`client`),
   KEY `key` (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) AUTO_INCREMENT=1 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
  CREATE TABLE IF NOT EXISTS `#__tj_notification_user_exclusions` (
   `user_id` int(11) NOT NULL,
