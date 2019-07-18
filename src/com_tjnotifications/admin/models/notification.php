@@ -239,9 +239,9 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 * @param   string  $key     Template key.
 	 * @param   string  $client  client.
 	 *
-	 * @return  existingkeys
+	 * @return  replacement tags count
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getReplacementTagCount($key, $client)
 	{
@@ -254,7 +254,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 		$db->setQuery($query);
 		$replacementTags = $db->loadResult();
 
-		return json_decode($replacementTags);
+		return count(json_decode($replacementTags));
 	}
 
 	/**
@@ -264,7 +264,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function replaceTag($data)
 	{
