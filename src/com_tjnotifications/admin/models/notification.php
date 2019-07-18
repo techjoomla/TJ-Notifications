@@ -239,11 +239,11 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 * @param   string  $key     Template key.
 	 * @param   string  $client  client.
 	 *
-	 * @return  replacement tags count
+	 * @return  integer  replacement tags count
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getReplacementTagCount($key, $client)
+	public function getReplacementTagsCount($key, $client)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -266,7 +266,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function replaceTag($data)
+	public function updateReplacementTags($data)
 	{
 		if (!empty($data['replacement_tags']))
 		{
