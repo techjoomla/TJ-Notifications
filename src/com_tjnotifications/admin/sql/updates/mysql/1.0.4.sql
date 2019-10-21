@@ -1,6 +1,4 @@
 
-
-
 --
 -- Change default table CHARACTER to utf8mb4 and COLLATE to utf8mb4_unicode_ci;
 --
