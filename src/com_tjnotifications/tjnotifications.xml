@@ -6,13 +6,18 @@
 	<authorUrl>https://techjoomla.com</authorUrl>
 	<copyright>Copyright (C) 2016 - 2019 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<creationDate>18th Jul 2019</creationDate>
+	<creationDate>7th Feb 2019</creationDate>
 	<version>1.0.4</version>
 	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 		</sql>
 	</install>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
 	<uninstall>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
