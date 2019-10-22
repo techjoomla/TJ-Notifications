@@ -3,10 +3,6 @@
 -- Change default table CHARACTER to utf8mb4 and COLLATE to utf8mb4_unicode_ci;
 --
 
-ALTER TABLE `#__tj_notification_providers` ENGINE = InnoDB;
-ALTER TABLE `#__tj_notification_templates` ENGINE = InnoDB;
-ALTER TABLE `#__tj_notification_user_exclusions` ENGINE = InnoDB;
-
 SET FOREIGN_KEY_CHECKS = 0;
 -- #__tj_notification_providers columns
 ALTER TABLE `#__tj_notification_providers` CHANGE `provider` `provider` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
