@@ -160,7 +160,6 @@ class TjnotificationsControllerNotification extends JControllerForm
 	public function saveNew($key = null, $urlVar = null)
 	{
 		$input    = JFactory::getApplication()->input;
-		$cid      = $input->post->get('cid', array(), 'array');
 		$extension = $input->get('extension', '', 'STRING');
 
 		if (parent::save($data))
@@ -199,7 +198,6 @@ class TjnotificationsControllerNotification extends JControllerForm
 	public function add($key = null, $urlVar = null)
 	{
 		$input     = JFactory::getApplication()->input;
-		$cid       = $input->post->get('cid', array(), 'array');
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
