@@ -121,10 +121,8 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function createTemplates($templates)
 	{
-		$data = $templates;
-		$db   = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$model       = JModelList::getInstance('Notifications', 'TJNotificationsModel');
+		$data  = $templates;
+		$model = JModelList::getInstance('Notifications', 'TJNotificationsModel');
 
 		if (!empty($data['replacement_tags']))
 		{

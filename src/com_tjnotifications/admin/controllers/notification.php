@@ -162,7 +162,6 @@ class TjnotificationsControllerNotification extends JControllerForm
 	{
 		$input    = JFactory::getApplication()->input;
 		$cid      = $input->post->get('cid', array(), 'array');
-		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if (parent::save($data))
@@ -202,7 +201,6 @@ class TjnotificationsControllerNotification extends JControllerForm
 	{
 		$input     = JFactory::getApplication()->input;
 		$cid       = $input->post->get('cid', array(), 'array');
-		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)

@@ -78,7 +78,6 @@ class TjnotificationsViewNotifications extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
-		$state = $this->get('State');
 		$title = JText::_('COM_TJNOTIFICATIONS');
 
 		if ($this->pagination->total)

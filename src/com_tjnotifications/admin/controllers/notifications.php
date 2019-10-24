@@ -132,7 +132,6 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 		$extension       = $mainframe->input->get('extension', '', 'STRING');
 		$notificationIds = $mainframe->input->get('cid', array(), 'post', 'array');
 		$model           = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
-		$success         = 0;
 
 		foreach ($notificationIds as $notificationId)
 		{
@@ -190,7 +189,6 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	public function setState($value, $state)
 	{
 		$mainframe = JFactory::getApplication();
-		$sitename  = $mainframe->getCfg('sitename');
 		$model     = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
 		$success   = 0;
 
