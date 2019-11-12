@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   `client` varchar(100) NOT NULL,
   `key` varchar(100) NOT NULL,
   `provider` varchar(100) NOT NULL,
-   KEY `client1` (`client`,`provider`,`key`),
+   KEY `client1` (`client`(100),`provider`(50),`key`(100)),
    KEY `key` (`key`),
    KEY `provider` (`provider`),
    CONSTRAINT `#__tj_notification_user_exclusions_ibfk_1` FOREIGN KEY (`provider`) REFERENCES `#__tj_notification_providers` (`provider`)
