@@ -10,6 +10,9 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Filesystem\Path;
+
 /**
  * helper class for tjnotificationss
  *
@@ -28,15 +31,14 @@ class TjnotificationsHelper
 	 */
 	public static function addSubmenu($view = '')
 	{
-		$input = JFactory::getApplication()->input;
+		$input       = Factory::getApplication()->input;
 		$full_client = $input->get('extension', '', 'STRING');
-
 		$full_client = explode('.', $full_client);
 
 		// Eg com_jgive
 		$component = $full_client[0];
-		$eName = str_replace('com_', '', $component);
-		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$eName     = str_replace('com_', '', $component);
+		$file      = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
@@ -49,14 +51,14 @@ class TjnotificationsHelper
 			{
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
-					$lang = JFactory::getLanguage();
+					$lang = Factory::getLanguage();
 
 					// Loading language file from the administrator/language directory then
 					// Loading language file from the administrator/components/*extension*/language directory
 					$lang->load($component, JPATH_BASE, null, false, false)
-					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
+					|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
 					|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
+					|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
 
 					// Call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 					call_user_func(array($cName, 'addSubmenu'), $view . (isset($section) ? '.' . $section : ''));

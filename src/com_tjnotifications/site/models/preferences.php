@@ -8,12 +8,16 @@
  */
 defined('_JEXEC') or die;
 
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\CMS\Table\Table;
+
 /**
  * TJNotification model.
  *
  * @since  1.6
  */
-class TJNotificationsModelPreferences extends JModelAdmin
+class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 {
 	/**
 	 * Method to getClient the form data.
@@ -26,7 +30,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	public function getClient()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
@@ -50,7 +54,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function Keys($client)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('DISTINCT(`key`)');
@@ -74,9 +78,9 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	public function getStates()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$uid   = JFactory::getUser()->id;
+		$uid   = Factory::getUser()->id;
 			$query->select('client,`key`,provider');
 			$query->from($db->quoteName('#__tj_notification_user_exclusions'));
 
@@ -112,7 +116,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		{
 			parent::save($data);
 			$dispatcher = JDispatcher::getInstance();
-			JPluginHelper::importPlugin('tjnotification');
+			PluginHelper::importPlugin('tjnotification');
 			$dispatcher->trigger('tjnOnAfterUnsubscribeNotification', array($data));
 
 			return true;
@@ -137,9 +141,9 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		if ($data)
 		{
 			$dispatcher = JDispatcher::getInstance();
-			JPluginHelper::importPlugin('tjnotification');
+			PluginHelper::importPlugin('tjnotification');
 			$dispatcher->trigger('tjnOnAfterResubscribeNotification', array($data));
-			$db = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$conditions = array(
 				$db->quoteName('user_id') . ' = ' . $db->quote($data['user_id']),
@@ -196,16 +200,16 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	/**
 	 * Method to get the table
 	 *
-	 * @param   string  $type    Name of the JTable class
+	 * @param   string  $type    Name of the Table class
 	 * @param   string  $prefix  Optional prefix for the table class name
-	 * @param   array   $config  Optional configuration array for JTable object
+	 * @param   array   $config  Optional configuration array for Table object
 	 *
-	 * @return  JTable|boolean JTable if found, boolean false on failure
+	 * @return  Table|boolean Table if found, boolean false on failure
 	 */
 
 	public function getTable($type ='Preferences', $prefix = 'TJNotificationTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -219,7 +223,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	public function count()
 	{
 			// Initialize variables.
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Create the base select statement.
@@ -246,8 +250,8 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function adminPreferences($provider)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db       = Factory::getDbo();
+		$query    = $db->getQuery(true);
 		$provider = strtolower($provider);
 		$query->select('client,`key`');
 		$query->from($db->quoteName('#__tj_notification_templates'));
@@ -273,7 +277,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function getUnsubscribedUsers($client,$key)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.

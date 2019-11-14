@@ -3,9 +3,13 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-		$language = JFactory::getLanguage();
-		$language->load('com_tjnotification', JPATH_SITE, 'en-GB', true);
-		$language->load('com_tjnotification', JPATH_SITE, null, true);
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\HTML\HTMLHelper;
+
+$language = Factory::getLanguage();
+$language->load('com_tjnotification', JPATH_SITE, 'en-GB', true);
+$language->load('com_tjnotification', JPATH_SITE, null, true);
 
 
 ?>
@@ -162,8 +166,8 @@ defined('_JEXEC') or die;
 												<fieldset class="btn-group btn-group-yesno radio pull-left" >
 													<input type="radio" id="<?php echo $value.$i; ?>" name="prefer" value="1" onclick="removePreferance('<?php echo $value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
 													<input type="radio" id="<?php echo $key.$i; ?>" name="prefer1" value="0" onclick="addPreferance('<?php echo $value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
-													<label class="btn-success" for="<?php echo $value.$i; ?>" ><?php echo JText::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
-													<label class="btn" for="<?php echo $key.$i; ?>" ><?php echo JText::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
+													<label class="btn-success" for="<?php echo $value.$i; ?>" ><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
+													<label class="btn" for="<?php echo $key.$i; ?>" ><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
 												</fieldset>
 											</div>
 
@@ -178,8 +182,8 @@ defined('_JEXEC') or die;
 												<fieldset class="btn-group btn-group-yesno radio pull-left" >
 														<input type="radio" id="<?php echo $menu->client.$value.$i; ?>" name="prefer" value="1" onclick="removePreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')"  />
 														<input type="radio" id="<?php echo $menu->client.$key.$i; ?>" name="prefer1" value="0" onclick="addPreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
-														<label class="btn" for="<?php echo $menu->client.$value.$i; ?>" ><?php echo JText::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
-														<label class="btn-danger" for="<?php echo $menu->client.$key.$i; ?>" ><?php echo JText::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
+														<label class="btn" for="<?php echo $menu->client.$value.$i; ?>" ><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
+														<label class="btn-danger" for="<?php echo $menu->client.$key.$i; ?>" ><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
 												</fieldset>
 											</div>
 											<?php endif;?>
@@ -190,8 +194,8 @@ defined('_JEXEC') or die;
 													<fieldset class="btn-group btn-group-yesno radio pull-left" >
 														<input type="radio" id="<?php echo $menu->client.$value.$i; ?>" name="prefer" value="1" onclick="removePreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')"  checked="checked" />
 														<input type="radio" id="<?php echo $menu->client.$key.$i; ?>" name="prefer1" value="0"  onclick="addPreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
-														<label class="btn-success" for="<?php echo $menu->client.$value.$i; ?>" ><?php echo JText::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
-														<label class="btn" for="<?php echo $menu->client.$key.$i; ?>" ><?php echo JText::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
+														<label class="btn-success" for="<?php echo $menu->client.$value.$i; ?>" ><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
+														<label class="btn" for="<?php echo $menu->client.$key.$i; ?>" ><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
 													</fieldset>
 												</div>
 											<?php endif; ?>
@@ -203,7 +207,7 @@ defined('_JEXEC') or die;
 									<?php endforeach; ?>
 
 									<?php if ($temp == 0): ?>
-										<span class="label label-warning"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_PREFERENCES_TAB_UNSUBSCRIBED'); ?></span>
+										<span class="label label-warning"><?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_PREFERENCES_TAB_UNSUBSCRIBED'); ?></span>
 									<?php endif; ?>
 									<div class="pull-right" id="<?php echo 'ajax-loader'.$menu->client.$value.$i; ?>" ></div>
 									<div class="pull-right" id="<?php echo 'tick'.$menu->client.$value.$i; ?>" ></div>
@@ -222,6 +226,6 @@ defined('_JEXEC') or die;
 
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
 
