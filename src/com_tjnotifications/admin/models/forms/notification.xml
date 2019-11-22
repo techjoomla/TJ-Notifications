@@ -75,7 +75,47 @@
 				filter="JComponentHelper::filterText"
 				/>
 	</fieldset>
-	
+
+	<fieldset name="advance_fieldset">
+		<field
+			name="from_email"
+			type="email"
+			label="COM_TJNOTIFICATIONS_FIELD_MAIL_FROM_EMAIL_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_MAIL_FROM_EMAIL_DESC"
+			filter="string"
+			size="30"
+			validate="email"
+			/>
+
+		<field
+			name="from_name"
+			type="text"
+			label="COM_TJNOTIFICATIONS_FIELD_MAIL_FROM_NAME_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_MAIL_FROM_NAME_DESC"
+			filter="string"
+			size="30"
+		/>
+
+		<field
+			name="reply_to"
+			type="email"
+			label="COM_TJNOTIFICATIONS_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_MAIL_REPLY_TO_EMAIL_DESC"
+			filter="string"
+			size="30"
+			validate="email"
+		/>
+
+		<field
+			name="replyto_name"
+			type="text"
+			label="COM_TJNOTIFICATIONS_FIELD_MAIL_REPLY_TO_NAME_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_MAIL_REPLY_TO_NAME_DESC"
+			filter="string"
+			size="30"
+		/>
+	</fieldset>
+
 	<fieldset name="sms_fieldset">
 		<field 
 			name="sms_status" 
