@@ -47,8 +47,7 @@ class TjnotificationsControllerNotification extends JControllerForm
 		}
 		else
 		{
-			$link = JRoute::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId , false);
+			$link = JRoute::_('index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -161,8 +160,6 @@ class TjnotificationsControllerNotification extends JControllerForm
 	public function saveNew($key = null, $urlVar = null)
 	{
 		$input    = JFactory::getApplication()->input;
-		$cid      = $input->post->get('cid', array(), 'array');
-		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if (parent::save($data))
@@ -201,8 +198,6 @@ class TjnotificationsControllerNotification extends JControllerForm
 	public function add($key = null, $urlVar = null)
 	{
 		$input     = JFactory::getApplication()->input;
-		$cid       = $input->post->get('cid', array(), 'array');
-		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
