@@ -4,7 +4,13 @@
 defined('_JEXEC') or die;
 JHtml::_('formbehavior.chosen','select');
 JHtml::_('behavior.formvalidator');
+use Joomla\CMS\Language\Text;
+
 $today= gmdate('Y-m-d');
+
+$options['relative'] = true;
+
+JHtml::_('script', 'com_tjnotifications/template.js', $options);
 ?>
 <script>
 	jQuery(document).ready(function()
@@ -128,4 +134,35 @@ $today= gmdate('Y-m-d');
 		</div>
 		<input type="hidden" name="task" value="notification.edit" />
 		<?php echo JHtml::_('form.token'); ?>
+
+<!-- Modal -->
+<style>
+	.modal-body {
+	    overflow-y: auto;
+	}
+</style>
+<div id="templatePreview" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+	<button type="button" class="close" data-dismiss="modal" style="width: 40px;opacity: 0.7;">&times;</button>
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title"><?php echo Text::_('COM_TJNOTIFICATIONS_TEMPLATE_MODAL_PREVIEW_TITLE'); ?></h4>
+			<p class="alert alert-info hide" id="show-info"><?php echo Text::_('COM_TJNOTIFICATIONS_CERTIFICATE_TEMPLATE_MODAL_HEADER_INFO'); ?></p>
+		</div>
+		<div class="modal-body" id="previewTempl">
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+
+	</div>
+</div>
 </form>
+<script type="text/javascript">
+	jQuery(document).ready(function () {
+
+		template.previewTemplate();
+	});
+</script>
