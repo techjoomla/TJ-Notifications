@@ -9,12 +9,19 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\MVC\Model\ListModel;
+use \Joomla\CMS\MVC\Model\AdminModel;
+use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\Router\Route;
+use \Joomla\CMS\Session\Session;
+
 /**
  * Notifications list controller class.
  *
  * @since  0.0.1
  */
-class TjnotificationsControllerNotifications extends JControllerAdmin
+class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\AdminController
 {
 /**
 	* Proxy for getModel.
@@ -43,27 +50,30 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		$mainframe = JFactory::getApplication();
+		// Check for request forgeries
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		$mainframe = Factory::getApplication();
 		$extension = $mainframe->input->get('extension', '', 'STRING');
 		$cid       = $mainframe->input->get('cid', array(), 'array');
 		$count     = 0;
 
 		$msg['success'] = array();
 		$msg['error']   = array();
-		$modelDelete    = JModelList::getInstance('Notification', 'TjnotificationsModel');
+		$modelDelete    = ListModel::getInstance('Notification', 'TjnotificationsModel');
 		$result         = $modelDelete->delete($cid);
 
 		foreach ($result as $res)
 		{
 			if ($res == 0)
 			{
-				$msg['error'] = JText::_('COM_TJNOTIFICATIONS_CORE_TEMPLATE_DELETE_MESSAGE');
+				$msg['error'] = Text::_('COM_TJNOTIFICATIONS_CORE_TEMPLATE_DELETE_MESSAGE');
 			}
 
 			if ($res == 1)
 			{
 				$count ++;
-				$msg ['success'] = JText::sprintf('COM_TJNOTIFICATIONS_N_ITEMS_DELETED', $count);
+				$msg ['success'] = Text::sprintf('COM_TJNOTIFICATIONS_N_ITEMS_DELETED', $count);
 			}
 		}
 
@@ -79,13 +89,13 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 
 		if ($extension)
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notifications', false
 			);
 		}
@@ -104,6 +114,13 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function enableUserControl()
 	{
+		$user  = Factory::getUser();
+
+		if (empty($user->authorise('core.usercontrol', 'com_tjnotifications')))
+		{
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$this->setState('user_control', 1);
 	}
 
@@ -116,6 +133,13 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function disableUserControl()
 	{
+		$user  = Factory::getUser();
+
+		if (empty($user->authorise('core.usercontrol', 'com_tjnotifications')))
+		{
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$this->setState('user_control', 0);
 	}
 
@@ -128,11 +152,16 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function enableEmailStatus()
 	{
-		$mainframe       = JFactory::getApplication();
+		$mainframe       = Factory::getApplication();
 		$extension       = $mainframe->input->get('extension', '', 'STRING');
 		$notificationIds = $mainframe->input->get('cid', array(), 'post', 'array');
-		$model           = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
-		$success         = 0;
+		$model           = AdminModel::getInstance('Notification', 'TJNotificationsModel');
+		$user            = Factory::getUser();
+
+		if (empty($user->authorise('core.emailstatus', 'com_tjnotifications')))
+		{
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		foreach ($notificationIds as $notificationId)
 		{
@@ -144,18 +173,18 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 			}
 			else
 			{
-				$msg = JText::_('COM_TJNOTIFICATIONS_STATE_DISABLE_FAIL_MSG');
+				$msg = Text::_('COM_TJNOTIFICATIONS_STATE_DISABLE_FAIL_MSG');
 				$mainframe->enqueueMessage($msg, 'error');
 
 				if ($extension)
 				{
-					$link = JRoute::_(
+					$link = Route::_(
 					'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
 					);
 				}
 				else
 				{
-					$link = JRoute::_(
+					$link = Route::_(
 					'index.php?option=com_tjnotifications&view=notifications', false
 					);
 				}
@@ -174,6 +203,13 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function disableEmailStatus()
 	{
+		$user = Factory::getUser();
+
+		if (empty($user->authorise('core.emailstatus', 'com_tjnotifications')))
+		{
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$this->setState('email_status', 0);
 	}
 
@@ -189,9 +225,9 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 	 */
 	public function setState($value, $state)
 	{
-		$mainframe = JFactory::getApplication();
+		$mainframe = Factory::getApplication();
 		$sitename  = $mainframe->getCfg('sitename');
-		$model     = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
+		$model     = AdminModel::getInstance('Notification', 'TJNotificationsModel');
 		$success   = 0;
 
 		$notificationIds = $mainframe->input->get('cid', array(), 'post', 'array');
@@ -213,12 +249,12 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 		{
 			if ($state == 1)
 			{
-				$msg = JText::_('COM_TJNOTIFICATIONS_STATE_ENABLE_SUCCESS_MSG');
+				$msg = Text::_('COM_TJNOTIFICATIONS_STATE_ENABLE_SUCCESS_MSG');
 			}
 
 			if ($state == 0)
 			{
-				$msg = JText::_('COM_TJNOTIFICATIONS_STATE_DISABLE_MSG');
+				$msg = Text::_('COM_TJNOTIFICATIONS_STATE_DISABLE_MSG');
 			}
 		}
 		else
@@ -228,13 +264,13 @@ class TjnotificationsControllerNotifications extends JControllerAdmin
 
 		if ($extension)
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notifications', false
 			);
 		}

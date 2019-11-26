@@ -41,6 +41,8 @@
 			<filename>index.html</filename>
 			<filename>tjnotifications.php</filename>
 			<filename>controller.php</filename>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
 			<folder>tables</folder>
 			<folder>views</folder>
 			<folder>sql</folder>
