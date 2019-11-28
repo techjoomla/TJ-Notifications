@@ -56,7 +56,8 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 		else
 		{
 			$link = Route::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId , false);
+			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
+			);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -113,9 +114,6 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-
 		$input = Factory::getApplication()->input;
 		$user  = Factory::getUser();
 
