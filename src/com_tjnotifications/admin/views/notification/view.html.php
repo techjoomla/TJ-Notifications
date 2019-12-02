@@ -28,6 +28,8 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 	 */
 	protected $form = null;
 
+	public $user;
+
 	/**
 	 * Display the Hello World view
 	 *
@@ -48,6 +50,7 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->state         = $this->get('State');
 		$this->component     = $this->state->get('filter.component');
+		$this->user          = Factory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
