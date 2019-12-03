@@ -5,12 +5,13 @@ defined('_JEXEC') or die;
 JHtml::_('formbehavior.chosen','select');
 JHtml::_('behavior.formvalidator');
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $today= gmdate('Y-m-d');
 
 $options['relative'] = true;
 
-JHtml::_('script', 'com_tjnotifications/template.js', $options);
+HTMLHelper::_('script', 'com_tjnotifications/template.min.js', $options);
 ?>
 <script>
 	jQuery(document).ready(function()
@@ -148,7 +149,7 @@ JHtml::_('script', 'com_tjnotifications/template.js', $options);
 	<div class="modal-content">
 		<div class="modal-header">
 			<h4 class="modal-title"><?php echo Text::_('COM_TJNOTIFICATIONS_TEMPLATE_MODAL_PREVIEW_TITLE'); ?></h4>
-			<p class="alert alert-info hide" id="show-info"><?php echo Text::_('COM_TJNOTIFICATIONS_CERTIFICATE_TEMPLATE_MODAL_HEADER_INFO'); ?></p>
+			<p class="alert alert-info hide" id="show-info"><?php echo Text::_('COM_TJNOTIFICATIONS_TEMPLATE_MODAL_HEADER_INFO'); ?></p>
 		</div>
 		<div class="modal-body" id="previewTempl">
 		</div>
