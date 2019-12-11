@@ -253,7 +253,7 @@ class Tjnotifications
 	 */
 	public static function getSampleBodyData()
 	{
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$id = $input->get('id');
 
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
