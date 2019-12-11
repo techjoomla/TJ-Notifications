@@ -9,6 +9,9 @@
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models', 'NotificationsModel');
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models', 'NotificationsModel');
 
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+
 /**
  * Tjnotifications
  *
@@ -239,5 +242,54 @@ class Tjnotifications
 
 		//  $matches[0]= stores tag like {doner.name} and $matches[1] stores doner.name. Explode it and make it doner->name
 			return $matches;
+	}
+
+	/**
+	 * Method to get Sample data for email template.
+	 *
+	 * @return  string  $body
+	 *
+	 * @since 1.0
+	 */
+	public static function getSampleBodyData()
+	{
+		$input = JFactory::getApplication()->input;
+		$id = $input->get('id');
+
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
+		$storeTable = Table::getInstance('Notification', 'TjnotificationTable');
+		$storeTable->load($id);
+
+		$bodyTemplate = $storeTable->email_body;
+
+		$matches = self::getTags($bodyTemplate);
+		$replacamentTags = $matches[0];
+
+		$index = 0;
+		$replacementsdata = $storeTable->replacement_tags;
+		$replacements = json_decode($replacementsdata);
+
+		$tags = $matches[1];
+
+		foreach ($replacamentTags as $ind => $replacamentTag)
+		{
+			$replaceWith = '';
+
+			foreach ($replacements as $value)
+			{
+				if ($replacamentTag == $value->name)
+				{
+					$replaceWith = !empty($value->sampledata) ? $value->sampledata : " ";
+				}
+
+				if (!empty($replaceWith))
+				{
+					$bodyTemplate = str_replace($replacamentTag, $replaceWith, $bodyTemplate);
+					break;
+				}
+			}
+		}
+
+		return $bodyTemplate;
 	}
 }

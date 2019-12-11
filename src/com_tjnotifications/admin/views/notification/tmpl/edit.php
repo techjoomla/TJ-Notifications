@@ -2,10 +2,11 @@
 
 // No direct access
 defined('_JEXEC') or die;
-JHtml::_('formbehavior.chosen','select');
-JHtml::_('behavior.formvalidator');
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('formbehavior.chosen','select');
+HTMLHelper::_('behavior.formvalidator');
 
 $today= gmdate('Y-m-d');
 
@@ -100,6 +101,7 @@ HTMLHelper::_('script', 'com_tjnotifications/template.min.js', $options);
 								<div class="control-group">
 									<div class="control-label"><?php echo $field->label; ?></div>
 									<div class="controls"><?php echo $field->input ; ?></div>
+
 								</div>
 							<?php endforeach; ?>
 							</div>
@@ -116,7 +118,7 @@ HTMLHelper::_('script', 'com_tjnotifications/template.min.js', $options);
 										<tbody>
 											<?php foreach ($this->tags as $tags): ?>
 											<tr>
-												<td scope="row"><?php echo('{' . $tags->name . '}'); ?></td>
+												<td scope="row"><?php echo $tags->name; ?></td>
 												<td><?php echo($tags->description); ?></td>
 											</tr>
 											<?php endforeach; ?>
@@ -165,5 +167,6 @@ HTMLHelper::_('script', 'com_tjnotifications/template.min.js', $options);
 	jQuery(document).ready(function () {
 
 		template.previewTemplate();
+
 	});
 </script>

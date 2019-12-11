@@ -220,4 +220,17 @@ class TjnotificationsControllerNotification extends JControllerForm
 
 		$this->setRedirect($link);
 	}
+
+	/**
+	 * Function to print sample data for email template
+	 *
+	 * @return  void
+	 */
+	public function getSampleData()
+	{
+		$data = Tjnotifications::getSampleBodyData();
+
+		echo $data;
+		jexit();
+	}
 }
