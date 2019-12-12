@@ -19,9 +19,6 @@ var template = {
 			jQuery.ajax({
 				url: Joomla.getOptions('system.paths').base + "/index.php?option=com_tjnotifications&task=notification.getSampleData&id=" + id,
 				type: 'GET',
-				 data: {
-					data: jQuery("#jform_email_body").serialize()
-				},
 				success: function(data) {
 
 						jQuery("#previewTempl").append(data);
