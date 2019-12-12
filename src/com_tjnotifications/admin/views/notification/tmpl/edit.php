@@ -118,7 +118,7 @@ HTMLHelper::_('script', 'com_tjnotifications/template.min.js', $options);
 										<tbody>
 											<?php foreach ($this->tags as $tags): ?>
 											<tr>
-												<td scope="row"><?php echo $tags->name; ?></td>
+												<td scope="row"><?php echo ('{' . $tags->name . '}'); ?></td>
 												<td><?php echo($tags->description); ?></td>
 											</tr>
 											<?php endforeach; ?>

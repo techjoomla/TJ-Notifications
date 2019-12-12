@@ -269,8 +269,6 @@ class Tjnotifications
 		$replacementsdata = $storeTable->replacement_tags;
 		$replacements = json_decode($replacementsdata);
 
-		$tags = $matches[1];
-
 		foreach ($replacamentTags as $ind => $replacamentTag)
 		{
 			$replaceWith = '';
