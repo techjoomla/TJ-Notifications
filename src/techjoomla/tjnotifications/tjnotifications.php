@@ -263,7 +263,7 @@ class Tjnotifications
 		$bodyTemplate = $storeTable->email_body;
 
 		$matches = self::getTags($bodyTemplate);
-		$replacamentTags = $matches[0];
+		$replacamentTags = $matches[1];
 
 		$index = 0;
 		$replacementsdata = $storeTable->replacement_tags;
