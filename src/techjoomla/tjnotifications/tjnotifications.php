@@ -272,17 +272,18 @@ class Tjnotifications
 		foreach ($replacamentTags as $ind => $replacamentTag)
 		{
 			$replaceWith = '';
+			$replacamentTagName = '{' . $replacamentTag . '}';
 
 			foreach ($replacements as $value)
 			{
-				if ($replacamentTag == $value->name)
+				if ($replacamentTagName == $value->name)
 				{
 					$replaceWith = !empty($value->sampledata) ? $value->sampledata : " ";
 				}
 
 				if (!empty($replaceWith))
 				{
-					$bodyTemplate = str_replace($replacamentTag, $replaceWith, $bodyTemplate);
+					$bodyTemplate = str_replace($replacamentTagName, $replaceWith, $bodyTemplate);
 					break;
 				}
 			}
