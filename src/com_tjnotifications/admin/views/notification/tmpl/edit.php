@@ -10,9 +10,9 @@ HTMLHelper::_('behavior.formvalidator');
 
 $today= gmdate('Y-m-d');
 
-$options['relative'] = true;
+$options = array("relative" => true);
 
-HTMLHelper::_('script', 'com_tjnotifications/template.min.js', $options);
+HTMLHelper::_('script', 'com_tjnotifications/template.js', $options);
 ?>
 <script>
 	jQuery(document).ready(function()
@@ -156,7 +156,7 @@ HTMLHelper::_('script', 'com_tjnotifications/template.min.js', $options);
 		<div class="modal-body" id="previewTempl">
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo Text::_('COM_TJNOTIFICATIONS_TEMPLATE_MODAL_CLOSE'); ?></button>
 		</div>
 	</div>
 

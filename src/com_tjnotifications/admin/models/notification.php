@@ -9,6 +9,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
 
 /**
  * notification model.
