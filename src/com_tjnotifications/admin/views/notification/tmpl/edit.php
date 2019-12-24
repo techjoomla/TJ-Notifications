@@ -14,37 +14,6 @@ $options = array("relative" => true);
 
 HTMLHelper::_('script', 'com_tjnotifications/template.js', $options);
 ?>
-<script>
-	jQuery(document).ready(function()
-	{
-		jQuery("fieldset").click(function()
-		{
-			status=this.id+'0';
-			statusChange=this.id+'1';
-			var check=(jQuery("#"+status).attr("checked"));
-
-			if(check=="checked")
-			{
-				var body=(this.id).replace("status", "body_ifr");
-				var bodyData=(jQuery("#"+body).contents().find("body").find("p").html());
-				if(bodyData=='<br data-mce-bogus="1">')
-				{
-					alert('Please fill the data');
-					jQuery('#'+this.id).find('label[for='+statusChange+']').attr('class','btn active btn-danger');
-					jQuery('#'+this.id).find('label[for='+status+']').attr('class','btn');
-					return false;
-				}
-				else
-				{
-					jQuery('#'+this.id).find('label[for='+status+']').attr('class','btn active btn-success');
-					jQuery('#'+this.id).find('label[for='+statusChange+']').attr('class','btn');
-				}
-			}
-		});
-	});
-</script>
-
-
 <form action="<?php echo JRoute::_('index.php?option=com_tjnotifications&layout=edit&id=' . (int) $this->item->id . '&extension='.$this->component); ?>"
     method="post" name="adminForm" id="adminForm">
      <input type="hidden" name="jform[state]" value="<?php echo $this->item->state; ?>" />
@@ -167,6 +136,6 @@ HTMLHelper::_('script', 'com_tjnotifications/template.js', $options);
 	jQuery(document).ready(function () {
 
 		template.previewTemplate();
-
+		template.init();
 	});
 </script>
