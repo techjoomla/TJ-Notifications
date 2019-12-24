@@ -296,4 +296,32 @@ class TjnotificationsModelNotification extends JModelAdmin
 
 		$result = $db->execute();
 	}
+
+	/**
+	 * Method to get Sample data for email template.
+	 *
+	 * @return  string  $body
+	 *
+	 * @since _DEPLOY_VERSION_
+	 */
+	public static function getSampleBodyData($id)
+	{
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
+		$storeTable = Table::getInstance('Notification', 'TjnotificationTable');
+		$storeTable->load($id);
+
+		$bodyTemplate = $storeTable->email_body;
+
+		$replacementsdata = $storeTable->replacement_tags;
+		$replacements = json_decode($replacementsdata);
+
+		foreach ($replacements as $value)
+		{
+			$replaceWith = !empty($value->sampledata) ? $value->sampledata : $value->name;
+
+			$bodyTemplate = str_replace($value->name, $replaceWith, $bodyTemplate);
+		}
+
+		return $bodyTemplate;
+	}
 }

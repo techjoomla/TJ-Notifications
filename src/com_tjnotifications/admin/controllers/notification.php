@@ -9,6 +9,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Notification controller class.
@@ -232,7 +233,10 @@ class TjnotificationsControllerNotification extends JControllerForm
 		$input = Factory::getApplication()->input;
 		$id = $input->get('id');
 
-		$data = Tjnotifications::getSampleBodyData($id);
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+		$notificationsModel = BaseDatabaseModel::getInstance('Notification', 'TJNotificationsModel');
+
+		$data = $notificationsModel->getSampleBodyData($id);
 
 		echo $data;
 		jexit();
