@@ -9,9 +9,6 @@
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models', 'NotificationsModel');
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models', 'NotificationsModel');
 
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Factory;
-
 /**
  * Tjnotifications
  *
