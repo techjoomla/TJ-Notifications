@@ -49,8 +49,7 @@ class TjnotificationsControllerNotification extends JControllerForm
 		}
 		else
 		{
-			$link = JRoute::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId , false);
+			$link = JRoute::_('index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -227,6 +226,8 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 * Function to print sample data for email template
 	 *
 	 * @return  void
+	 *
+	 * @since _DEPLOY_VERSION_
 	 */
 	public function getSampleData()
 	{
