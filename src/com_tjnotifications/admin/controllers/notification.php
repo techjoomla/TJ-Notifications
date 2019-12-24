@@ -8,6 +8,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 
 /**
  * Notification controller class.
@@ -228,7 +229,10 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function getSampleData()
 	{
-		$data = Tjnotifications::getSampleBodyData();
+		$input = Factory::getApplication()->input;
+		$id = $input->get('id');
+
+		$data = Tjnotifications::getSampleBodyData($id);
 
 		echo $data;
 		jexit();

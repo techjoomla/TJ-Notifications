@@ -27,14 +27,5 @@ var template = {
 			})
 
 	});
-		jQuery('#templatePreview').on('hidden.bs.modal', function () {
-
-			if (typeof tinyMCE != "undefined")
-			{
-			   tinyMCE.execCommand('mceToggleEditor', false, 'jform_body');
-			}
-
-			jQuery('#previewTempl').empty();
-		});
 	}
 }
