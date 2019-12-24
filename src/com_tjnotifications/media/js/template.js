@@ -23,7 +23,7 @@ var template = {
                 error: function(e, t, a) {}
             })
         })
-    }
+    },
 
 		init: function() {
 		jQuery("fieldset").click(function()
@@ -49,6 +49,6 @@ var template = {
 					jQuery('#'+this.id).find('label[for='+statusChange+']').attr('class','btn');
 				}
 			}
-		});
+		})
     }
 };
