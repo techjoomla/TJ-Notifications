@@ -304,7 +304,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 *
 	 * @return  string  $body
 	 *
-	 * @since _DEPLOY_VERSION_
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function getSampleBodyData($id)
 	{

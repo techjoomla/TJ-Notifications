@@ -227,7 +227,7 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since _DEPLOY_VERSION_
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getSampleData()
 	{
