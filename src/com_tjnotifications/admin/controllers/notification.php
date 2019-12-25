@@ -231,12 +231,10 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function getSampleData()
 	{
-		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
-		$notificationsModel = BaseDatabaseModel::getInstance('Notification', 'TJNotificationsModel');
-
 		$input = Factory::getApplication()->input;
 		$id = $input->get('id');
 
+		$notificationsModel  = $this->getModel('notification');
 		$data = $notificationsModel->getSampleBodyData($id);
 
 		echo $data;
