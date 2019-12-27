@@ -9,6 +9,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
 
 /**
  * notification model.
@@ -295,5 +297,33 @@ class TjnotificationsModelNotification extends JModelAdmin
 		$db->setQuery($query);
 
 		$result = $db->execute();
+	}
+
+	/**
+	 * Method to get Sample data for email template.
+	 *
+	 * @return  string  $body
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function getSampleBodyData($id)
+	{
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
+		$storeTable = Table::getInstance('Notification', 'TjnotificationTable');
+		$storeTable->load($id);
+
+		$bodyTemplate = $storeTable->email_body;
+
+		$replacementsdata = $storeTable->replacement_tags;
+		$replacements = json_decode($replacementsdata);
+
+		foreach ($replacements as $value)
+		{
+			$replaceWith = !empty($value->sampledata) ? $value->sampledata : $value->name;
+
+			$bodyTemplate = str_replace($value->name, $replaceWith, $bodyTemplate);
+		}
+
+		return $bodyTemplate;
 	}
 }

@@ -83,6 +83,10 @@ class TjnotificationsViewNotification extends JViewLegacy
 		JToolBarHelper::apply('notification.editSave', 'JTOOLBAR_APPLY');
 		JToolBarHelper::save('notification.saveClose', 'JTOOLBAR_SAVE');
 		JToolBarHelper::custom('notification.saveNew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+
+		// Add preview toolbar
+		JToolbarHelper::modal('templatePreview', 'icon-eye', 'COM_TJNOTIFICATIONS_TEMPLATE_PREVIEW');
+
 		JToolBarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
 	}
 

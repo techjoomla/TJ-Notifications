@@ -18,6 +18,10 @@
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
 		</schemas>
 	</update>
+	<!-- Media files -->
+	<media destination="com_tjnotifications" folder="media">
+		<folder>js</folder>
+	</media>
 	<uninstall>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>

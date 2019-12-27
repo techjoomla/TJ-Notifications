@@ -8,6 +8,8 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Notification controller class.
@@ -47,8 +49,7 @@ class TjnotificationsControllerNotification extends JControllerForm
 		}
 		else
 		{
-			$link = JRoute::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId , false);
+			$link = JRoute::_('index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -219,5 +220,24 @@ class TjnotificationsControllerNotification extends JControllerForm
 		}
 
 		$this->setRedirect($link);
+	}
+
+	/**
+	 * Function to print sample data for email template
+	 *
+	 * @return  void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getSampleData()
+	{
+		$input = Factory::getApplication()->input;
+		$id = $input->get('id');
+
+		$notificationsModel  = $this->getModel('notification');
+		$data = $notificationsModel->getSampleBodyData($id);
+
+		echo $data;
+		jexit();
 	}
 }

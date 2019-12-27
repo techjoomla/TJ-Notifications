@@ -2,41 +2,18 @@
 
 // No direct access
 defined('_JEXEC') or die;
-JHtml::_('formbehavior.chosen','select');
-JHtml::_('behavior.formvalidator');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('formbehavior.chosen','select');
+HTMLHelper::_('behavior.formvalidator');
+
 $today= gmdate('Y-m-d');
+
+$options = array("relative" => true);
+
+HTMLHelper::_('script', 'com_tjnotifications/template.js', $options);
 ?>
-<script>
-	jQuery(document).ready(function()
-	{
-		jQuery("fieldset").click(function()
-		{
-			status=this.id+'0';
-			statusChange=this.id+'1';
-			var check=(jQuery("#"+status).attr("checked"));
-
-			if(check=="checked")
-			{
-				var body=(this.id).replace("status", "body_ifr");
-				var bodyData=(jQuery("#"+body).contents().find("body").find("p").html());
-				if(bodyData=='<br data-mce-bogus="1">')
-				{
-					alert('Please fill the data');
-					jQuery('#'+this.id).find('label[for='+statusChange+']').attr('class','btn active btn-danger');
-					jQuery('#'+this.id).find('label[for='+status+']').attr('class','btn');
-					return false;
-				}
-				else
-				{
-					jQuery('#'+this.id).find('label[for='+status+']').attr('class','btn active btn-success');
-					jQuery('#'+this.id).find('label[for='+statusChange+']').attr('class','btn');
-				}
-			}
-		});
-	});
-</script>
-
-
 <form action="<?php echo JRoute::_('index.php?option=com_tjnotifications&layout=edit&id=' . (int) $this->item->id . '&extension='.$this->component); ?>"
     method="post" name="adminForm" id="adminForm">
      <input type="hidden" name="jform[state]" value="<?php echo $this->item->state; ?>" />
@@ -93,6 +70,7 @@ $today= gmdate('Y-m-d');
 								<div class="control-group">
 									<div class="control-label"><?php echo $field->label; ?></div>
 									<div class="controls"><?php echo $field->input ; ?></div>
+
 								</div>
 							<?php endforeach; ?>
 							</div>
@@ -109,7 +87,7 @@ $today= gmdate('Y-m-d');
 										<tbody>
 											<?php foreach ($this->tags as $tags): ?>
 											<tr>
-												<td scope="row"><?php echo('{' . $tags->name . '}'); ?></td>
+												<td scope="row"><?php echo ('{' . $tags->name . '}'); ?></td>
 												<td><?php echo($tags->description); ?></td>
 											</tr>
 											<?php endforeach; ?>
@@ -128,4 +106,36 @@ $today= gmdate('Y-m-d');
 		</div>
 		<input type="hidden" name="task" value="notification.edit" />
 		<?php echo JHtml::_('form.token'); ?>
+
+<!-- Modal -->
+<style>
+	.modal-body {
+	    overflow-y: auto;
+	}
+</style>
+<div id="templatePreview" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+	<button type="button" class="close" data-dismiss="modal" style="width: 40px;opacity: 0.7;">&times;</button>
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title"><?php echo Text::_('COM_TJNOTIFICATIONS_TEMPLATE_MODAL_PREVIEW_TITLE'); ?></h4>
+			<p class="alert alert-info hide" id="show-info"><?php echo Text::_('COM_TJNOTIFICATIONS_TEMPLATE_MODAL_HEADER_INFO'); ?></p>
+		</div>
+		<div class="modal-body" id="previewTempl">
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo Text::_('COM_TJNOTIFICATIONS_TEMPLATE_MODAL_CLOSE'); ?></button>
+		</div>
+	</div>
+
+	</div>
+</div>
 </form>
+<script type="text/javascript">
+	jQuery(document).ready(function () {
+
+		template.previewTemplate();
+		template.init();
+	});
+</script>
