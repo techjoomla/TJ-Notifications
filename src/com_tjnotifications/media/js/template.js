@@ -18,7 +18,8 @@ var template = {
                     data: jQuery("#jform_email_body").serialize()
                 },
                 success: function(e) {
-                    jQuery("#previewTempl").append(e)
+                    jQuery("#previewTempl").empty();
+                    jQuery("#previewTempl").append(e);
                 },
                 error: function(e, t, a) {}
             })
