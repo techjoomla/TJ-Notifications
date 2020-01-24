@@ -188,7 +188,7 @@ class Tjnotifications
 			$key = $data[0];
 			$value = $data[1];
 			$replaceWith = $replacements->$key->$value;
-			$body_template = str_replace($tag, $replaceWith, $body_template->email_body);
+			$body_template->email_body = str_replace($tag, $replaceWith, $body_template->email_body);
 			$index++;
 		}
 
