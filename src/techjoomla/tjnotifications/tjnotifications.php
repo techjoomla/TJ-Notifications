@@ -162,7 +162,7 @@ class Tjnotifications
 	/**
 	 * Method to get Body.
 	 *
-	 * @param   string  $body_template  A template body for email.
+	 * @param   Object  $body_template  A template body for email.
 	 * @param   array   $replacements   It is a object contains replacement.
 	 * @param   string  $client         A field same as component name.
 	 *
@@ -173,7 +173,7 @@ class Tjnotifications
 	public static function getBody($body_template, $replacements, $client)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeMailSend', array(&$replacements,  &$body_template, $client));
+		$dispatcher->trigger('onTjNotificationTemplatePrepare', array(&$replacements,  &$body_template, $client));
 
 		$matches = self::getTags($body_template->email_body);
 
