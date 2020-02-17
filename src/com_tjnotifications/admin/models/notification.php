@@ -235,4 +235,68 @@ class TjnotificationsModelNotification extends JModelAdmin
 
 		return $existingKeys;
 	}
+
+	/**
+	 * Method to get tag replacement count
+	 *
+	 * @param   string  $key     Template key.
+	 * @param   string  $client  client.
+	 *
+	 * @return  integer  replacement tags count
+	 *
+	 * @since   1.0.4
+	 */
+	public function getReplacementTagsCount($key, $client)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('replacement_tags'));
+		$query->from($db->quoteName('#__tj_notification_templates'));
+		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
+		$db->setQuery($query);
+		$replacementTags = $db->loadResult();
+
+		return count(json_decode($replacementTags));
+	}
+
+	/**
+	 * Method to replace tags if they are changed
+	 *
+	 * @param   array  $data  template data
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.4
+	 */
+	public function updateReplacementTags($data)
+	{
+		if (!empty($data['replacement_tags']))
+		{
+			$replacementTags = json_encode($data['replacement_tags']);
+		}
+		else
+		{
+			return;
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Fields to update.
+		$fields = array(
+			$db->quoteName('replacement_tags') . ' = ' . $db->quote($replacementTags)
+		);
+
+		// Conditions for which records should be updated.
+		$conditions = array(
+			$db->quoteName('client') . ' = ' . $db->quote($data['client']),
+			$db->quoteName('key') . ' = ' . $db->quote($data['key'])
+		);
+
+		$query->update($db->quoteName('#__tj_notification_templates'))->set($fields)->where($conditions);
+		$db->setQuery($query);
+
+		$result = $db->execute();
+	}
 }
