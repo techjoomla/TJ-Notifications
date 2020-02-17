@@ -46,7 +46,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 		{
 			?>
 			<div id="j-main-container">
-			<?php 
+			<?php
 		}
 		?>
 		<div class="row-fluid">
@@ -83,14 +83,14 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<?php 
+						<?php
 						if ($this->user->authorise('core.edit', 'com_tjnotifications') || $this->user->authorise('core.delete', 'com_tjnotifications'))
 						{
 							?>
 							<th width="2%" class="nowrap center">
 								<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
 							</th>
-							<?php 
+							<?php
 						}
 						?>
 						<th width="10%" class="hidden-phone">
@@ -124,7 +124,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 					</tr>
 				</tfoot>
 				<tbody>
-					<?php 
+					<?php
 					if (!empty($this->items))
 					{
 						foreach ($this->items as $i => $row)
@@ -139,14 +139,14 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 							}
 							?>
 							<tr>
-								<?php 
+								<?php
 								if ($this->user->authorise('core.edit', 'com_tjnotifications') || $this->user->authorise('core.delete', 'com_tjnotifications'))
 								{
 									?>
 									<td class="center">
 										<?php echo HTMLHelper::_('grid.id', $i, $row->id); ?>
 									</td>
-									<?php 
+									<?php
 								}
 								?>
 								<td class="">
@@ -167,14 +167,14 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 								</td>
 
 								<td class="">
-									<?php 
+									<?php
 									if ($this->user->authorise('core.edit', 'com_tjnotifications'))
 									{
 										?>
 										<a href="<?php echo $link; ?>">
 											<?php echo $row->key; ?>
 										</a>
-										<?php 
+										<?php
 									}
 									else
 									{
@@ -184,12 +184,12 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 								</td>
 
 								<td class="center">
-									<?php 
+									<?php
 									if ($this->user->authorise('core.emailstatus', 'com_tjnotifications'))
 									{
 										?>
 										<a href="javascript:void(0);" class="hasTooltip" data-original-title="<?php echo ( $row->email_status ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>" onclick=" listItemTask('cb<?php echo $i;?>','<?php echo ( $row->email_status ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus';?>')">
-										<?php 
+										<?php
 									}
 										?>
 										<img src="<?php echo Uri::root();?>administrator/components/com_tjnotifications/images/<?php echo ( $row->email_status ) ? 'publish.png' : 'unpublish.png';?>" width="16" height="16" border="0" />
@@ -197,7 +197,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 								</td>
 
 								<td class="center">
-									<?php 
+									<?php
 									if ($this->user->authorise('core.usercontrol', 'com_tjnotifications'))
 									{
 										?>
@@ -214,31 +214,31 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 								</td>
 
 								<td class ="center">
-									<?php 
+									<?php
 									if ($row->core)
 									{
 										?>
 										<span class="label label-important"><?php echo Text::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE_CORE_VALUE")?></span>
-										<?php 
+										<?php
 									}
 									else
 									{
 										?>
 										<span class="label"><?php echo Text::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE_VALUE")?></span>
-										<?php 
+										<?php
 									}
 									?>
 								</td>
 
 								<td class="center">
-									<?php 
+									<?php
 									if ($this->user->authorise('core.edit', 'com_tjnotifications'))
 									{
 										?>
 										<a href="<?php echo $link; ?>">
 											<?php echo $row->id; ?>
 										</a>
-										<?php 
+										<?php
 									}
 									else
 									{
@@ -247,7 +247,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									?>
 								</td>
 							</tr>
-							<?php 
+							<?php
 						}
 					}
 					?>
