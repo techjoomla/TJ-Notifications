@@ -10,12 +10,18 @@
 
 defined('_JEXEC') or die;
 
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\MVC\Model\ListModel;
+use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\Uri\Uri;
+use \Joomla\CMS\Router\Route;
+
 /**
  * Content categories view.
  *
  * @since  1.6
  */
-class TJNotificationsViewPreferences extends JViewLegacy
+class TJNotificationsViewPreferences extends \Joomla\CMS\MVC\View\HtmlView
 {
 	/**
 	 * Execute and display a template script.
@@ -29,7 +35,7 @@ class TJNotificationsViewPreferences extends JViewLegacy
 	{
 		// Get data from the model
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->id)
 		{
@@ -43,7 +49,7 @@ class TJNotificationsViewPreferences extends JViewLegacy
 			}
 
 			$this->preferences = $this->get('States');
-			$model = JModelList::getInstance('Providers', 'TJNotificationsModel');
+			$model = ListModel::getInstance('Providers', 'TJNotificationsModel');
 
 			$this->providers	= $model->getProvider();
 
@@ -58,9 +64,9 @@ class TJNotificationsViewPreferences extends JViewLegacy
 		}
 		else
 		{
-			$message = JText::sprintf('JGLOBAL_YOU_MUST_LOGIN_FIRST');
-			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_(JURI::root()), $message);
+			$message = Text::sprintf('JGLOBAL_YOU_MUST_LOGIN_FIRST');
+			$app     = Factory::getApplication();
+			$app->redirect(Route::_(Uri::root()), $message);
 		}
 	}
 }

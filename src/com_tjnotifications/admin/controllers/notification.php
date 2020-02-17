@@ -11,12 +11,17 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+
 /**
  * Notification controller class.
  *
  * @since  0.0.1
  */
-class TjnotificationsControllerNotification extends JControllerForm
+class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\FormController
 {
 	/**
 	 * Function to add field data
@@ -25,31 +30,34 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function editSave()
 	{
-		$input     = JFactory::getApplication()->input;
+		// Check for request forgeries
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		$input     = Factory::getApplication()->input;
 		$cid       = $input->post->get('cid', array(), 'array');
 		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 
 		if (parent::save($data))
 		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
 		}
 		else
 		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
+			$msg = Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
 		}
 
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
 			'&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
 			);
 		}
@@ -67,27 +75,30 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function saveClose($key = null, $urlVar = null)
 	{
-		$input     = JFactory::getApplication()->input;
+		// Check for request forgeries
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		$input     = Factory::getApplication()->input;
 		$extension = $input->get('extension', '', 'STRING');
 
 		if (parent::save($data))
 		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
 		}
 		else
 		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
+			$msg = Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
 		}
 
 		if ($extension)
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notifications', false
 			);
 		}
@@ -105,21 +116,28 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$input     = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
+		$user  = Factory::getUser();
+
+		if (empty($user->authorise('core.edit', 'com_tjnotifications')))
+		{
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$cid       = $input->get('cid', array(), 'post', 'array');
 		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
 			'&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
 			);
 		}
@@ -136,17 +154,17 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		$input     = JFactory::getApplication()->input;
+		$input     = Factory::getApplication()->input;
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
 		{
-			$link = JRoute::_('index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
+			$link = Route::_('index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_tjnotifications&view=notifications', false
+			$link = Route::_('index.php?option=com_tjnotifications&view=notifications', false
 		);
 		}
 
@@ -163,29 +181,32 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function saveNew($key = null, $urlVar = null)
 	{
-		$input    = JFactory::getApplication()->input;
+		// Check for request forgeries
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		$input    = Factory::getApplication()->input;
 		$cid      = $input->post->get('cid', array(), 'array');
 		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if (parent::save($data))
 		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
 		}
 		else
 		{
-			$msg = JText::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
+			$msg = Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
 		}
 
 		if ($extension)
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit', false
 			);
 		}
@@ -203,20 +224,23 @@ class TjnotificationsControllerNotification extends JControllerForm
 	 */
 	public function add($key = null, $urlVar = null)
 	{
-		$input     = JFactory::getApplication()->input;
+		// Check for request forgeries
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		$input     = Factory::getApplication()->input;
 		$cid       = $input->post->get('cid', array(), 'array');
 		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $extension, false
 			);
 		}
 		else
 		{
-			$link = JRoute::_(
+			$link = Route::_(
 			'index.php?option=com_tjnotifications&view=notification&layout=edit', false
 			);
 		}
