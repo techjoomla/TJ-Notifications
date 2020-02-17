@@ -11,12 +11,14 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use \Joomla\CMS\Factory;
+
 /**
  * This controller to redirect to model of tjnotification.
  *
  * @since  1.6
  */
-class TJNotificationsControllerPreferences extends JControllerForm
+class TJNotificationsControllerPreferences extends \Joomla\CMS\MVC\Controller\FormController
 {
 	/**
 	 * Method to save the model state.
@@ -30,24 +32,21 @@ class TJNotificationsControllerPreferences extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = '')
 	{
-		$jinput       = JFactory::getApplication()->input;
+		$jinput       = Factory::getApplication()->input;
 		$clientName   = $jinput->get('client_name', '');
-		$user         = JFactory::getUser();
+		$user         = Factory::getUser();
 		$id           = $user->id;
 		$providerName = $jinput->get('provider_name', '');
 		$key          = $jinput->get('key', '');
-
-		$data         = array (
-			'user_id'  => $id,
-			'client'   => $clientName,
-			'provider' => $providerName,
-			'key'      => $key
-		);
-
-		$app          = JFactory::getApplication();
-		$model        = $this->getModel('Preferences', 'TJNotificationsModel');
-		$result       = $model->save($data);
-
+		$data = array (
+						'user_id'	=> $id,
+						'client'  => $clientName,
+						'provider' => $providerName,
+						'key'	  => $key
+					);
+		$app   = Factory::getApplication();
+		$model = $this->getModel('Preferences', 'TJNotificationsModel');
+		$result = $model->save($data);
 		echo json_encode($result);
 		jexit();
 	}
@@ -61,24 +60,21 @@ class TJNotificationsControllerPreferences extends JControllerForm
 	 */
 	public function delete()
 	{
-		$jinput       = JFactory::getApplication()->input;
+		$jinput       = Factory::getApplication()->input;
 		$clientName   = $jinput->get('client_name', '');
-		$user         = JFactory::getUser();
+		$user         = Factory::getUser();
 		$id           = $user->id;
 		$providerName = $jinput->get('provider_name', '');
 		$key          = $jinput->get('key', '');
-
-		$data         = array (
-			'user_id'  => $id,
-			'client'   => $clientName,
-			'provider' => $providerName,
-			'key'      => $key
-		);
-
-		$app          = JFactory::getApplication();
-		$model        = $this->getModel('Preferences', 'TJNotificationsModel');
-		$result       = $model->deletePreference($data);
-
+		$data = array (
+						'user_id'	=> $id,
+						'client'  => $clientName,
+						'provider' => $providerName,
+						'key'	  => $key
+					);
+		$app    = Factory::getApplication();
+		$model  = $this->getModel('Preferences', 'TJNotificationsModel');
+		$result = $model->deletePreference($data);
 		echo json_encode($result);
 		jexit();
 	}

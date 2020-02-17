@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class TJNotificationTablePreferences extends JTable
+class TJNotificationTablePreferences extends \Joomla\CMS\Table\Table
 {
 	/**
 	 * Constructor.

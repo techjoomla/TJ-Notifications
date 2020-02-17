@@ -9,12 +9,13 @@
  */
 
 defined('_JEXEC') or die;
+
 /**
  * Methods supporting a list of tjnotification records.
  *
  * @since  1.6
  */
-class TJNotificationsTableProvider extends JTable
+class TJNotificationsTableProvider extends \Joomla\CMS\Table\Table
 {
 	/**
 	 * Constructor.

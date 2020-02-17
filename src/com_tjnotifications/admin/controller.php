@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @since  0.0.1
  */
 
-class TjnotificationsController extends JControllerLegacy
+class TjnotificationsController extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
 	 * The default view for the display method.
