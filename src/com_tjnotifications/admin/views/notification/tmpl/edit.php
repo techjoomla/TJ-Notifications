@@ -42,7 +42,7 @@ $today = gmdate('Y-m-d');
 	});
 </script>
 
-<?php 
+<?php
 if (empty($this->user->authorise('core.create', 'com_tjnotifications')) || empty($this->user->authorise('core.edit', 'com_tjnotifications')))
 {
 	$app = Factory::getApplication();
@@ -56,8 +56,8 @@ else
 	<form action="<?php echo Route::_('index.php?option=com_tjnotifications&layout=edit&id=' . (int) $this->item->id . '&extension='.$this->component); ?>"
 	    method="post" name="adminForm" id="adminForm">
 	     <input type="hidden" name="jform[state]" value="<?php echo $this->item->state; ?>" />
-
-
+	     <input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
+	     
 		<div class="form-horizontal">
 			<div class="row-fluid">
 					<div class="span12">
@@ -75,6 +75,8 @@ else
 
 					<div class="tab-content">
 						<div  class="tab-pane active" id="notification">
+							
+								
 							<?php foreach ($this->form->getFieldset('primary_fieldset') as $field): ?>
 								<?php if(empty($this->item->id)) :?>
 									<div class="control-group">
@@ -97,6 +99,7 @@ else
 										<div class="controls"><?php echo $field->input ; ?></div>
 									<?php endif;?>
 								</div>
+							
 									<input type="hidden" name="jform[key]" id="jform_key" value="<?php echo $this->item->key; ?>"/>
 									<input type="hidden" name="jform[client]" id="jform_client" value="<?php echo $this->item->client; ?>"/>
 								<?php endif; ?>
@@ -112,7 +115,7 @@ else
 									</div>
 								<?php endforeach; ?>
 								</div>
-								<?php if ($this->tags): ?>
+								<?php if (!empty($this->item->email['replacement_tags'])): ?>
 								<div class="span4">
 									<div class="alert alert-info"><?php echo Text::_('COM_TJNOTIFICATIONS_TAGS_DESC'); ?> <br/></div>
 										<table class="table table-bordered">
@@ -123,7 +126,7 @@ else
 												</tr>
 											</thead>
 											<tbody>
-												<?php foreach ($this->tags as $tags): ?>
+												<?php foreach (json_decode($this->item->email['replacement_tags']) as $tags): ?>
 												<tr>
 													<td scope="row"><?php echo('{' . $tags->name . '}'); ?></td>
 													<td><?php echo($tags->description); ?></td>

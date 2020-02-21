@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   `key` varchar(100) NOT NULL,
   `client` varchar(100) NOT NULL,
   `title` varchar(100) NOT NULL,
+  `state` int(11) NOT NULL,
   `created_on` date NOT NULL,
   `updated_on` date NOT NULL,
   `user_control` int(1) NOT NULL,

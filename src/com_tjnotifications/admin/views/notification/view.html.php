@@ -65,7 +65,6 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 		// Assign the Data
 		$this->form = $form;
 		$this->item = $item;
-		$this->tags = json_decode($this->item->replacement_tags);
 
 		$this->addToolBar();
 

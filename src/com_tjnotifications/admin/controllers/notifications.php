@@ -169,9 +169,9 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		{
 			$data = $model->getItem($notificationId);
 
-			if ($data->email_body and $data->email_subject)
+			if ($data->email['body'] and $data->email['subject'])
 			{
-				$this->setState('email_status', 1);
+				$this->setState('state', 1);
 			}
 			else
 			{
@@ -212,7 +212,7 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$this->setState('email_status', 0);
+		$this->setState('state', 0);
 	}
 
 	/**

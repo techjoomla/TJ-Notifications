@@ -27,7 +27,7 @@ BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotif
  *
  * @since  1.6
  */
-class TjnotificationsModelNotification extends \Joomla\CMS\MVC\Model\AdminModel
+class TjnotificationsModelNotification extends AdminModel
 {
 	/**
 	 * Constructor.
@@ -314,5 +314,110 @@ class TjnotificationsModelNotification extends \Joomla\CMS\MVC\Model\AdminModel
 		$db->setQuery($query);
 
 		$result = $db->execute();
+	}
+
+	/**
+	 * Method to  save notification date
+	 *
+	 * @param   ARRAY  $data  notification data
+	 *
+	 * @return  id
+	 *
+	 * @since    1.0.0
+	 */
+	public function save($data)
+	{
+		if (parent::save($data))
+		{
+			// Get current Template id
+			$templateId = (int) $this->getState($this->getName() . '.id');
+			$db    = Factory::getDBO();
+
+			if (!empty($templateId))
+			{
+				$params = array();
+				$templateConfigs = array();
+
+				foreach ($data as $key => $record)
+				{
+					// For email provider
+					if ($key == 'email')
+					{
+						$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+						$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
+
+						$templateConfigTable->template_id = $templateId;
+						$templateConfigTable->provider = $key;
+						$templateConfigTable->subject = $record['subject'];
+						$templateConfigTable->body = $record['body'];
+						$params['cc'] = $record['cc'];
+						$params['bcc'] = $record['bcc'];
+						$params['from_name'] = $record['from_name'];
+						$params['from_email'] = $record['from_email'];
+						$templateConfigTable->params = json_encode($params);
+						$templateConfigTable->state = $record['state'];
+						$templateConfigTable->created_on = $data['created_on'];
+						$templateConfigTable->updated_on = $data['updated_on'];
+
+						$templateConfigTable->save($templateConfigTable);
+					}
+				}
+			}
+
+			if (empty($templateId))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+
+		return $templateId;
+	}
+
+	/**
+	 * Method to get an object.
+	 *
+	 * @param   integer  $id  The id of the object to get.
+	 *
+	 * @return  mixed    Object on success, false on failure.
+	 */
+	public function getItem($id = null)
+	{
+		$item = parent::getItem($id);
+
+		if (!empty($item->id))
+		{
+			$db    = Factory::getDBO();
+			$query = $db->getQuery(true);
+			$query->select('ntc.*');
+			$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+			$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+			$db->setQuery($query);
+			$templates = $db->loadObjectlist();
+
+			$fields = array();
+
+			foreach ($templates as $key => $template)
+			{
+				$fields['state'] = $template->state;
+				$json = json_decode($template->params);
+				$fields['cc'] = $json->cc;
+				$fields['bcc'] = $json->bcc;
+				$fields['from_name'] = $json->from_name;
+				$fields['from_email'] = $json->from_email;
+				$fields['subject'] = $template->subject;
+				$fields['body'] = $template->body;
+				$fields['is_override'] = $template->is_override;
+				$fields['replacement_tags'] = $template->replacement_tags;
+				$provider = $template->provider;
+
+				$item->$provider = $fields;
+			}
+		}
+
+		return $item;
 	}
 }

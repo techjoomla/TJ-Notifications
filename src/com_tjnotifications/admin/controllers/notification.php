@@ -32,18 +32,55 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 	{
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$app   = Factory::getApplication();
 
-		$input     = Factory::getApplication()->input;
-		$cid       = $input->post->get('cid', array(), 'array');
-		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		$input     = $app->input;
+		$data  = $input->post->get('jform', array(), 'array');
+		$model     = $this->getModel('Notification', 'TjnotificationsModel');
 
-		if (parent::save($data))
+		$form = $model->getForm();
+
+		if (!$form)
 		{
-			$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			JError::raiseError(500, $model->getError());
+
+			return false;
+		}
+
+		// Validate the posted data.
+		$return = $model->validate($form, $data);
+
+		if ($return == false)
+		{
+			$errors = $model->getErrors();
+
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+				}
+				else
+				{
+					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			$cid       = $input->get('cid', array(), 'post', 'array');
+			$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		}
 		else
 		{
-			$msg = Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
+			$recordId = $model->save($data);
+
+			if ($recordId === false)
+			{
+				$msg = $app->enqueueMessage(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'), 'error');
+			}
+			else
+			{
+				$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			}
 		}
 
 		$extension = $input->get('extension', '', 'STRING');
@@ -77,17 +114,56 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 	{
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$app   = Factory::getApplication();
 
-		$input     = Factory::getApplication()->input;
+		$input     = $app->input;
 		$extension = $input->get('extension', '', 'STRING');
+		$model     = $this->getModel('Notification', 'TjnotificationsModel');
+		$data  = $input->post->get('jform', array(), 'array');
 
-		if (parent::save($data))
+		$form = $model->getForm();
+
+		if (!$form)
 		{
-			$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			JError::raiseError(500, $model->getError());
+
+			return false;
+		}
+
+		// Validate the posted data.
+		$return = $model->validate($form, $data);
+
+		if ($return == false)
+		{
+			$errors = $model->getErrors();
+
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+				}
+				else
+				{
+					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			$cid       = $input->get('cid', array(), 'post', 'array');
+			$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		}
 		else
 		{
-			$msg = Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
+			$recordId = $model->save($data);
+
+			if ($recordId === false)
+			{
+				$msg = $app->enqueueMessage(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'), 'error');
+			}
+			else
+			{
+				$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			}
 		}
 
 		if ($extension)
@@ -184,18 +260,54 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$input    = Factory::getApplication()->input;
-		$cid      = $input->post->get('cid', array(), 'array');
-		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		$app   = Factory::getApplication();
+		$input    = $app->input;
 		$extension = $input->get('extension', '', 'STRING');
+		$model     = $this->getModel('Notification', 'TjnotificationsModel');
+		$data  = $input->post->get('jform', array(), 'array');
+		$form = $model->getForm();
 
-		if (parent::save($data))
+		if (!$form)
 		{
-			$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			JError::raiseError(500, $model->getError());
+
+			return false;
+		}
+
+		// Validate the posted data.
+		$return = $model->validate($form, $data);
+
+		if ($return == false)
+		{
+			$errors = $model->getErrors();
+
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+				}
+				else
+				{
+					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			$cid       = $input->get('cid', array(), 'post', 'array');
+			$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		}
 		else
 		{
-			$msg = Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE');
+			$recordId = $model->save($data);
+
+			if ($recordId === false)
+			{
+				$msg = $app->enqueueMessage(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'), 'error');
+			}
+			else
+			{
+				$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+			}
 		}
 
 		if ($extension)

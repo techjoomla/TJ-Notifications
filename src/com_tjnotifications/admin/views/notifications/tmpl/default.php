@@ -186,13 +186,13 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 								<td class="center">
 									<?php
 									if ($this->user->authorise('core.emailstatus', 'com_tjnotifications'))
-									{
+									{ 
 										?>
-										<a href="javascript:void(0);" class="hasTooltip" data-original-title="<?php echo ( $row->email_status ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>" onclick=" listItemTask('cb<?php echo $i;?>','<?php echo ( $row->email_status ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus';?>')">
+										<a href="javascript:void(0);" class="hasTooltip" data-original-title="<?php echo ( $row->email['state'] ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>" onclick=" listItemTask('cb<?php echo $i;?>','<?php echo ( $row->email['state'] ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus';?>')">
 										<?php
 									}
 										?>
-										<img src="<?php echo Uri::root();?>administrator/components/com_tjnotifications/images/<?php echo ( $row->email_status ) ? 'publish.png' : 'unpublish.png';?>" width="16" height="16" border="0" />
+										<img src="<?php echo Uri::root();?>administrator/components/com_tjnotifications/images/<?php echo ( $row->email['state'] ) ? 'publish.png' : 'unpublish.png';?>" width="16" height="16" border="0" />
 									</a>
 								</td>
 

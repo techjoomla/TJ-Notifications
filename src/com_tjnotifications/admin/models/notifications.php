@@ -195,4 +195,52 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);
 	}
+
+	/**
+	 * get items
+	 *
+	 * @return  JDatabaseQuery
+	 *
+	 * @since   1.0.0
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		foreach ($items as $key => $item)
+		{
+			if (!empty($item->id))
+			{
+				$db    = Factory::getDBO();
+				$query = $db->getQuery(true);
+				$query->select('ntc.*');
+				$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+				$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+
+				$db->setQuery($query);
+				$templates = $db->loadObjectlist();
+
+				$fields = array();
+
+				foreach ($templates as $key => $template)
+				{
+					$fields['state'] = $template->state;
+					$json = json_decode($template->params);
+					$fields['cc'] = $json->cc;
+					$fields['bcc'] = $json->bcc;
+					$fields['from_name'] = $json->from_name;
+					$fields['from_email'] = $json->from_email;
+					$fields['subject'] = $template->subject;
+					$fields['body'] = $template->body;
+					$fields['is_override'] = $template->is_override;
+					$fields['replacement_tags'] = $template->replacement_tags;
+					$provider = $template->provider;
+
+					$item->$provider = $fields;
+				}
+			}
+		}
+
+		return $items;
+	}
 }
