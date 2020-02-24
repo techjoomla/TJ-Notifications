@@ -350,10 +350,27 @@ class TjnotificationsModelNotification extends AdminModel
 						$templateConfigTable->provider = $key;
 						$templateConfigTable->subject = $record['subject'];
 						$templateConfigTable->body = $record['body'];
-						$params['cc'] = $record['cc'];
-						$params['bcc'] = $record['bcc'];
-						$params['from_name'] = $record['from_name'];
-						$params['from_email'] = $record['from_email'];
+
+						if (!empty($record['cc']))
+						{
+							$params['cc'] = $record['cc'];
+						}
+
+						if (!empty($record['bcc']))
+						{
+							$params['bcc'] = $record['bcc'];
+						}
+
+						if (!empty($record['from_name']))
+						{
+							$params['from_name'] = $record['from_name'];
+						}
+
+						if (!empty($record['from_email']))
+						{
+							$params['from_email'] = $record['from_email'];
+						}
+
 						$templateConfigTable->params = json_encode($params);
 						$templateConfigTable->state = $record['state'];
 						$templateConfigTable->created_on = $data['created_on'];
@@ -404,10 +421,15 @@ class TjnotificationsModelNotification extends AdminModel
 			{
 				$fields['state'] = $template->state;
 				$json = json_decode($template->params);
-				$fields['cc'] = $json->cc;
-				$fields['bcc'] = $json->bcc;
-				$fields['from_name'] = $json->from_name;
-				$fields['from_email'] = $json->from_email;
+
+				if (!empty($json))
+				{
+					$fields['cc'] = $json->cc;
+					$fields['bcc'] = $json->bcc;
+					$fields['from_name'] = $json->from_name;
+					$fields['from_email'] = $json->from_email;
+				}
+
 				$fields['subject'] = $template->subject;
 				$fields['body'] = $template->body;
 				$fields['is_override'] = $template->is_override;

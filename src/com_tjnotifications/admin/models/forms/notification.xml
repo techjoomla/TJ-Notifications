@@ -83,6 +83,7 @@
 				type="text"
 				label="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_DESC"
+				validate="email"
 				/>
 		<field
 				name="subject"
@@ -104,7 +105,7 @@
 	<fields name="sms">
 	<fieldset name="sms_fieldset">
 		<field
-			name="status"
+			name="state"
 			type="radio"
 			default="0"
 			label="COM_TJNOTIFICATIONS_FIELD_SMS_STATUS_LABEL"
@@ -114,32 +115,6 @@
 		  <option value="1">JON</option>
 		  <option value="0">JOFF</option>
 		</field>
-
-		<field
-				name="cc"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_CC_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_CC_DESC"
-				/>
-		<field
-				name="bcc"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_BCC_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_BCC_DESC"
-				/>
-		<field
-				name="from_name"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_FROM_NAME_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_FROM_NAME_DESC"
-				/>
-		<field
-				name="from_email"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_DESC"
-				/>
-
 		<field
 				name="subject"
 				type="textarea"
@@ -159,7 +134,7 @@
 	<fields name="push">
 	<fieldset name="push_fieldset">
 		<field
-			name="status"
+			name="state"
 			type="radio"
 			default="0"
 			label="COM_TJNOTIFICATIONS_FIELD_PUSH_STATUS_LABEL"
@@ -169,32 +144,6 @@
 		  <option value="1">JON</option>
 		  <option value="0">JOFF</option>
 		</field>
-
-		<field
-				name="cc"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_CC_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_CC_DESC"
-				/>
-		<field
-				name="bcc"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_BCC_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_BCC_DESC"
-				/>
-		<field
-				name="from_name"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_FROM_NAME_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_FROM_NAME_DESC"
-				/>
-		<field
-				name="from_email"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_DESC"
-				/>
-
 		<field
 				name="subject"
 				type="textarea"
@@ -214,7 +163,7 @@
 	<fields name="web">
 	<fieldset name="web_fieldset">
 		<field
-			name="status"
+			name="state"
 			type="radio"
 			default="0"
 			label="COM_TJNOTIFICATIONS_FIELD_WEB_STATUS_LABEL"
@@ -224,32 +173,6 @@
 		  <option value="1">JON</option>
 		  <option value="0">JOFF</option>
 		</field>
-
-		<field
-				name="cc"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_CC_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_CC_DESC"
-				/>
-		<field
-				name="bcc"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_BCC_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_BCC_DESC"
-				/>
-		<field
-				name="from_name"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_FROM_NAME_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_FROM_NAME_DESC"
-				/>
-		<field
-				name="from_email"
-				type="text"
-				label="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_FROM_EMAIL_DESC"
-				/>
-
 		<field
 				name="subject"
 				type="textarea"

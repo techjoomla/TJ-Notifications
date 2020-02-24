@@ -33,12 +33,10 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 		$app   = Factory::getApplication();
-
-		$input     = $app->input;
+		$input = $app->input;
 		$data  = $input->post->get('jform', array(), 'array');
-		$model     = $this->getModel('Notification', 'TjnotificationsModel');
-
-		$form = $model->getForm();
+		$model = $this->getModel('Notification', 'TjnotificationsModel');
+		$form  = $model->getForm();
 
 		if (!$form)
 		{
@@ -114,14 +112,12 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 	{
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-		$app   = Factory::getApplication();
-
+		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$extension = $input->get('extension', '', 'STRING');
 		$model     = $this->getModel('Notification', 'TjnotificationsModel');
-		$data  = $input->post->get('jform', array(), 'array');
-
-		$form = $model->getForm();
+		$data      = $input->post->get('jform', array(), 'array');
+		$form      = $model->getForm();
 
 		if (!$form)
 		{
@@ -260,12 +256,12 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$app   = Factory::getApplication();
-		$input    = $app->input;
+		$app       = Factory::getApplication();
+		$input     = $app->input;
 		$extension = $input->get('extension', '', 'STRING');
 		$model     = $this->getModel('Notification', 'TjnotificationsModel');
-		$data  = $input->post->get('jform', array(), 'array');
-		$form = $model->getForm();
+		$data      = $input->post->get('jform', array(), 'array');
+		$form      = $model->getForm();
 
 		if (!$form)
 		{

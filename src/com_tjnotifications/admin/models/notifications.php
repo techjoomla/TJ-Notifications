@@ -225,15 +225,6 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 				foreach ($templates as $key => $template)
 				{
 					$fields['state'] = $template->state;
-					$json = json_decode($template->params);
-					$fields['cc'] = $json->cc;
-					$fields['bcc'] = $json->bcc;
-					$fields['from_name'] = $json->from_name;
-					$fields['from_email'] = $json->from_email;
-					$fields['subject'] = $template->subject;
-					$fields['body'] = $template->body;
-					$fields['is_override'] = $template->is_override;
-					$fields['replacement_tags'] = $template->replacement_tags;
 					$provider = $template->provider;
 
 					$item->$provider = $fields;
