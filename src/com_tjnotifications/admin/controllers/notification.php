@@ -106,7 +106,7 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 	 * @param   string  $key     key
 	 * @param   string  $urlVar  urlVar
 	 *
-	 * @return  void
+	 * @return  boolean
 	 */
 	public function saveClose($key = null, $urlVar = null)
 	{
@@ -249,7 +249,7 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 	 * @param   string  $key     key
 	 * @param   string  $urlVar  urlVar
 	 *
-	 * @return  void
+	 * @return  boolean
 	 */
 	public function saveNew($key = null, $urlVar = null)
 	{
