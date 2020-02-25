@@ -26,7 +26,7 @@ class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\F
 	/**
 	 * Function to add field data
 	 *
-	 * @return  void
+	 * @return  boolean
 	 */
 	public function editSave()
 	{

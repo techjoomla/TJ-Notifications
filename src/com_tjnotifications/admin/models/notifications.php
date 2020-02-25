@@ -223,7 +223,7 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 
 				$fields = array();
 
-				foreach ($templates as $key => $template)
+				foreach ($templates as $keytemplate => $template)
 				{
 					$fields['state'] = $template->state;
 					$json = json_decode($template->params);
@@ -278,11 +278,11 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 
 			if ($db->execute())
 			{
-				return 1;
+				return true;
 			}
 			else
 			{
-				return 0;
+				return false;
 			}
 		}
 		catch (Exception $e)

@@ -321,7 +321,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 *
 	 * @param   ARRAY  $data  notification data
 	 *
-	 * @return  id
+	 * @return  mixed Template ID
 	 *
 	 * @since    1.0.0
 	 */
@@ -336,7 +336,6 @@ class TjnotificationsModelNotification extends AdminModel
 			if (!empty($templateId))
 			{
 				$params = array();
-				$templateConfigs = array();
 
 				foreach ($data as $key => $record)
 				{

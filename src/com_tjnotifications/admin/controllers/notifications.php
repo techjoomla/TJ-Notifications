@@ -56,8 +56,9 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$mainframe = Factory::getApplication();
-		$extension = $mainframe->input->get('extension', '', 'STRING');
-		$cid       = $mainframe->input->get('cid', array(), 'array');
+		$input     = $mainframe->input;
+		$extension = $input->get('extension', '', 'STRING');
+		$cid       = $input->get('cid', array(), 'array');
 		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$count     = 0;
 
