@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 use \Joomla\CMS\Factory;
+use \Joomla\CMS\Table\Table;
 
 jimport('joomla.application.component.model');
 /**
@@ -233,5 +234,48 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Delete Template Config
+	 *
+	 * @param   integer  $templateId  template id
+	 * 
+	 * @return  boolean
+	 *
+	 * @since   1.0.0
+	 */
+	public function  deleteTemplateConfig($templateId)
+	{
+		$db    = Factory::getDBO();
+
+		try
+		{
+			$query = $db->getQuery(true);
+
+		// Delete record condition
+		$conditions = array(
+			$db->qn('template_id') . '=' . $templateId
+		);
+
+		$query->delete($db->qn('#__tj_notification_template_configs'));
+		$query->where($conditions);
+		$db->setQuery($query);
+
+			if ($db->execute())
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
 	}
 }
