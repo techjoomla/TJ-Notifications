@@ -375,6 +375,7 @@ class TjnotificationsModelNotification extends AdminModel
 						$templateConfigTable->created_on = $data['created_on'];
 						$templateConfigTable->updated_on = $data['updated_on'];
 
+						// Save provider in config table
 						$templateConfigTable->save($templateConfigTable);
 					}
 				}
