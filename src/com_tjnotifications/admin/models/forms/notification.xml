@@ -77,13 +77,13 @@
 				/>
 				<field
 				name="cc"
-				type="text"
+				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_CC_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_CC_DESC"
 				/>
 		<field
 				name="bcc"
-				type="text"
+				type="textarea"
 				label="COM_TJNOTIFICATIONS_FIELD_BCC_LABEL"
 				description="COM_TJNOTIFICATIONS_FIELD_BCC_DESC"
 				/>

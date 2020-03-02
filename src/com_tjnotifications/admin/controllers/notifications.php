@@ -66,7 +66,7 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		$msg['error']   = array();
 
 		$model = $this->getModel('Notifications', 'TjnotificationsModel');
-		$model->deleteTemplateConfig($recordId);
+		$model->deleteTemplateConfig($cid);
 
 		$modelDelete    = ListModel::getInstance('Notification', 'TjnotificationsModel');
 		$result         = $modelDelete->delete($cid);
