@@ -228,27 +228,24 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 					$fields['state'] = $template->state;
 					$json = json_decode($template->params);
 
-					if (!empty($json))
+					if (!empty($json->cc))
 					{
-						if (!empty($json->cc))
-						{
-							$fields['cc'] = $json->cc;
-						}
+						$fields['cc'] = $json->cc;
+					}
 
-						if (!empty($json->bcc))
-						{
-							$fields['bcc'] = $json->bcc;
-						}
+					if (!empty($json->bcc))
+					{
+						$fields['bcc'] = $json->bcc;
+					}
 
-						if (!empty($json->from_name))
-						{
-							$fields['from_name'] = $json->from_name;
-						}
+					if (!empty($json->from_name))
+					{
+						$fields['from_name'] = $json->from_name;
+					}
 
-						if (!empty($json->from_email))
-						{
-							$fields['from_email'] = $json->from_email;
-						}
+					if (!empty($json->from_email))
+					{
+						$fields['from_email'] = $json->from_email;
 					}
 
 					$fields['subject'] = $template->subject;
