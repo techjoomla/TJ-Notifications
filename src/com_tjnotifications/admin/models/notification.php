@@ -18,6 +18,7 @@ use \Joomla\CMS\MVC\Model\AdminModel;
 use \Joomla\CMS\MVC\Model\ListModel;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\CMS\Date\Date;
 
 jimport('joomla.application.component.model');
 BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
@@ -134,34 +135,16 @@ class TjnotificationsModelNotification extends AdminModel
 	public function createTemplates($templates)
 	{
 		$data  = $templates;
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$model = ListModel::getInstance('Notifications', 'TJNotificationsModel');
+		$date = new Date;
 
-		if (!empty($data['replacement_tags']))
+		if (empty($data['created_on']))
 		{
-			$data['replacement_tags'] = json_encode($data['replacement_tags']);
-		}
-
-		if ($data['client'] and $data['key'])
-		{
-			$model->setState('filter.client', $data['client']);
-			$model->setState('filter.key', $data['key']);
-
-			$result = $model->getItems();
-
-			foreach ($result as $res)
-			{
-				if ($res->id)
-				{
-					$data['id'] = $res->id;
-				}
-			}
+			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_JS1'));
 		}
 
 		if ($data)
 		{
-			parent::save($data);
+			$this->save($data);
 
 			return true;
 		}
@@ -266,10 +249,11 @@ class TjnotificationsModelNotification extends AdminModel
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('replacement_tags'));
-		$query->from($db->quoteName('#__tj_notification_templates'));
-		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
-		$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
+		$query->select($db->quoteName('ntc.replacement_tags'));
+		$query->from('#__tj_notification_template_configs AS ntc');
+		$query->join('LEFT', '#__tj_notification_templates AS nt ON nt.id = ntc.template_id');
+		$query->where($db->quoteName('nt.client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('nt.key') . ' = ' . $db->quote($key));
 		$db->setQuery($query);
 		$replacementTags = $db->loadResult();
 
@@ -371,6 +355,12 @@ class TjnotificationsModelNotification extends AdminModel
 						}
 
 						$templateConfigTable->params = json_encode($params);
+
+						if (!empty($record['replacement_tags']))
+						{
+							$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
+						}
+
 						$templateConfigTable->state = $record['state'];
 						$templateConfigTable->created_on = $data['created_on'];
 						$templateConfigTable->updated_on = $data['updated_on'];
