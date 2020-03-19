@@ -15,13 +15,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Notification controller class.
  *
  * @since  0.0.1
  */
-class TjnotificationsControllerNotification extends \Joomla\CMS\MVC\Controller\FormController
+class TjnotificationsControllerNotification extends FormController
 {
 	/**
 	 * Function to add field data
