@@ -210,6 +210,11 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 
 		foreach ($items as $key => $item)
 		{
+			if (empty($item->id))
+			{
+				return false;
+			}
+
 			if (!empty($item->id))
 			{
 				$db    = Factory::getDBO();

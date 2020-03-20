@@ -317,63 +317,60 @@ class TjnotificationsModelNotification extends AdminModel
 			$templateId = (int) $this->getState($this->getName() . '.id');
 			$db    = Factory::getDBO();
 
-			if (!empty($templateId))
-			{
-				$params = array();
-
-				foreach ($data as $key => $record)
-				{
-					// For email provider
-					if ($key == 'email')
-					{
-						$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
-						$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
-
-						$templateConfigTable->template_id = $templateId;
-						$templateConfigTable->provider = $key;
-						$templateConfigTable->subject = $record['subject'];
-						$templateConfigTable->body = $record['body'];
-
-						if (!empty($record['cc']))
-						{
-							$params['cc'] = $record['cc'];
-						}
-
-						if (!empty($record['bcc']))
-						{
-							$params['bcc'] = $record['bcc'];
-						}
-
-						if (!empty($record['from_name']))
-						{
-							$params['from_name'] = $record['from_name'];
-						}
-
-						if (!empty($record['from_email']))
-						{
-							$params['from_email'] = $record['from_email'];
-						}
-
-						$templateConfigTable->params = json_encode($params);
-
-						if (!empty($record['replacement_tags']))
-						{
-							$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
-						}
-
-						$templateConfigTable->state = $record['state'];
-						$templateConfigTable->created_on = $data['created_on'];
-						$templateConfigTable->updated_on = $data['updated_on'];
-
-						// Save provider in config table
-						$templateConfigTable->save($templateConfigTable);
-					}
-				}
-			}
-
 			if (empty($templateId))
 			{
 				return false;
+			}
+
+			$params = array();
+
+			foreach ($data as $key => $record)
+			{
+				// For email provider
+				if ($key == 'email')
+				{
+					$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+					$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
+
+					$templateConfigTable->template_id = $templateId;
+					$templateConfigTable->provider = $key;
+					$templateConfigTable->subject = $record['subject'];
+					$templateConfigTable->body = $record['body'];
+
+					if (!empty($record['cc']))
+					{
+						$params['cc'] = $record['cc'];
+					}
+
+					if (!empty($record['bcc']))
+					{
+						$params['bcc'] = $record['bcc'];
+					}
+
+					if (!empty($record['from_name']))
+					{
+						$params['from_name'] = $record['from_name'];
+					}
+
+					if (!empty($record['from_email']))
+					{
+						$params['from_email'] = $record['from_email'];
+					}
+
+					$templateConfigTable->params = json_encode($params);
+
+					if (!empty($record['replacement_tags']))
+					{
+						$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
+					}
+
+					$templateConfigTable->state = $record['state'];
+					$templateConfigTable->created_on = $data['created_on'];
+					$templateConfigTable->updated_on = $data['updated_on'];
+
+					// Save provider in config table
+					$templateConfigTable->save($templateConfigTable);
+				}
 			}
 		}
 		else
@@ -395,51 +392,53 @@ class TjnotificationsModelNotification extends AdminModel
 	{
 		$item = parent::getItem($id);
 
-		if (!empty($item->id))
+		if (empty($item->id))
 		{
-			$db    = Factory::getDBO();
-			$query = $db->getQuery(true);
-			$query->select('ntc.*');
-			$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
-			$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
-			$db->setQuery($query);
-			$templateConfigs = $db->loadObjectlist();
+			return false;
+		}
 
-			$providerConfigs = array();
+		$db    = Factory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('ntc.*');
+		$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+		$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+		$db->setQuery($query);
+		$templateConfigs = $db->loadObjectlist();
 
-			foreach ($templateConfigs as $key => $tConfig)
+		$providerConfigs = array();
+
+		foreach ($templateConfigs as $key => $tConfig)
+		{
+			$providerConfigs['state'] = $tConfig->state;
+			$json = json_decode($tConfig->params);
+
+			if (!empty($json->cc))
 			{
-				$providerConfigs['state'] = $tConfig->state;
-				$json = json_decode($tConfig->params);
-
-				if (!empty($json->cc))
-				{
-					$providerConfigs['cc'] = $json->cc;
-				}
-
-				if (!empty($json->bcc))
-				{
-					$providerConfigs['bcc'] = $json->bcc;
-				}
-
-				if (!empty($json->from_name))
-				{
-					$providerConfigs['from_name'] = $json->from_name;
-				}
-
-				if (!empty($json->from_email))
-				{
-					$providerConfigs['from_email'] = $json->from_email;
-				}
-
-				$providerConfigs['subject'] = $tConfig->subject;
-				$providerConfigs['body'] = $tConfig->body;
-				$providerConfigs['is_override'] = $tConfig->is_override;
-				$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
-				$provider = $tConfig->provider;
-
-				$item->$provider = $providerConfigs;
+				$providerConfigs['cc'] = $json->cc;
 			}
+
+			if (!empty($json->bcc))
+			{
+				$providerConfigs['bcc'] = $json->bcc;
+			}
+
+			if (!empty($json->from_name))
+			{
+				$providerConfigs['from_name'] = $json->from_name;
+			}
+
+			if (!empty($json->from_email))
+			{
+				$providerConfigs['from_email'] = $json->from_email;
+			}
+
+			$providerConfigs['subject'] = $tConfig->subject;
+			$providerConfigs['body'] = $tConfig->body;
+			$providerConfigs['is_override'] = $tConfig->is_override;
+			$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
+			$provider = $tConfig->provider;
+
+			$item->$provider = $providerConfigs;
 		}
 
 		return $item;
