@@ -403,42 +403,42 @@ class TjnotificationsModelNotification extends AdminModel
 			$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
 			$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
 			$db->setQuery($query);
-			$templates = $db->loadObjectlist();
+			$templateConfigs = $db->loadObjectlist();
 
-			$fields = array();
+			$providerConfigs = array();
 
-			foreach ($templates as $key => $template)
+			foreach ($templateConfigs as $key => $tConfig)
 			{
-				$fields['state'] = $template->state;
-				$json = json_decode($template->params);
+				$providerConfigs['state'] = $tConfig->state;
+				$json = json_decode($tConfig->params);
 
 				if (!empty($json->cc))
 				{
-					$fields['cc'] = $json->cc;
+					$providerConfigs['cc'] = $json->cc;
 				}
 
 				if (!empty($json->bcc))
 				{
-					$fields['bcc'] = $json->bcc;
+					$providerConfigs['bcc'] = $json->bcc;
 				}
 
 				if (!empty($json->from_name))
 				{
-					$fields['from_name'] = $json->from_name;
+					$providerConfigs['from_name'] = $json->from_name;
 				}
 
 				if (!empty($json->from_email))
 				{
-					$fields['from_email'] = $json->from_email;
+					$providerConfigs['from_email'] = $json->from_email;
 				}
 
-				$fields['subject'] = $template->subject;
-				$fields['body'] = $template->body;
-				$fields['is_override'] = $template->is_override;
-				$fields['replacement_tags'] = $template->replacement_tags;
-				$provider = $template->provider;
+				$providerConfigs['subject'] = $tConfig->subject;
+				$providerConfigs['body'] = $tConfig->body;
+				$providerConfigs['is_override'] = $tConfig->is_override;
+				$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
+				$provider = $tConfig->provider;
 
-				$item->$provider = $fields;
+				$item->$provider = $providerConfigs;
 			}
 		}
 
