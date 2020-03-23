@@ -289,7 +289,7 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 			$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
 			$deleteQuery->where($conditions);
 			$db->setQuery($deleteQuery);
-			$result = $db->execute();
+			$db->execute();
 		}
 	}
 }

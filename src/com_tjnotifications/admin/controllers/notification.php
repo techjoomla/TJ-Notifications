@@ -278,7 +278,7 @@ class TjnotificationsControllerNotification extends FormController
 					);
 				}
 
-				$this->setRedirect($link, $msg);
+				$this->setRedirect($link);
 			break;
 
 			default:
@@ -378,8 +378,6 @@ class TjnotificationsControllerNotification extends FormController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$input     = Factory::getApplication()->input;
-		$cid       = $input->post->get('cid', array(), 'array');
-		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$extension = $input->get('extension', '', 'STRING');
 
 		if ($extension)
