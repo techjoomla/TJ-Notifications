@@ -25,34 +25,121 @@ use Joomla\CMS\MVC\Controller\FormController;
 class TjnotificationsControllerNotification extends FormController
 {
 	/**
-	 * Function to add field data
+	 * Save notification data
 	 *
-	 * @return  boolean
+	 * @param   integer  $key     key.
+	 *
+	 * @param   integer  $urlVar  url
+	 *
+	 * @return  boolean|string  The arguments to append to the redirect URL.
 	 */
-	public function editSave()
+	public function save($key = null, $urlVar = '')
 	{
-		// Check for request forgeries
+		// Check for request forgeries.
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		// Initialise variables.
 		$app   = Factory::getApplication();
 		$input = $app->input;
-		$data  = $input->post->get('jform', array(), 'array');
 		$model = $this->getModel('Notification', 'TjnotificationsModel');
-		$form  = $model->getForm();
+		$table = $model->getTable();
+
+		$data = $input->post->get('jform', array(), 'array');
+		$task = $this->getTask();
+
+		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
+
+		// Determine the name of the primary key for the data.
+		if (empty($key))
+		{
+			$key = $table->getKeyName();
+		}
+
+		// To avoid data collisions the urlVar may be different from the primary key.
+		if (empty($urlVar))
+		{
+			$urlVar = $key;
+		}
+
+		$cid       = $input->get('cid', array(), 'post', 'array');
+		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// The save2copy task needs to be handled slightly differently.
+		if ($task === 'save2copy')
+		{
+			// Check-in the original row.
+			if ($checkin && $model->checkin($data[$key]) === false)
+			{
+				// Check-in failed. Go back to the item and display a notice.
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				$extension = $input->get('extension', '', 'STRING');
+
+				// Redirect back to the edit screen.
+				if ($extension)
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
+					'&extension=' . $extension, false
+					);
+				}
+				else
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
+					);
+				}
+
+				$this->setRedirect($link);
+
+				return false;
+			}
+
+			// Reset the ID, the multilingual associations and then treat the request as for Apply.
+			$data[$key] = 0;
+
+			$task = 'apply';
+		}
+
+		// Access check.
+		if (!$this->allowSave($data, $key))
+		{
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=com_tjnotifications&view=notification' . $this->getRedirectToListAppend(),
+					false
+				)
+			);
+
+			return false;
+		}
+
+		// Get form
+		// Sometimes the form needs some posted data, such as for plugins and modules.
+		$form = $model->getForm($data, false);
 
 		if (!$form)
 		{
-			JError::raiseError(500, $model->getError());
+			$app->enqueueMessage($model->getError(), 'error');
 
 			return false;
 		}
 
 		// Validate the posted data.
-		$return = $model->validate($form, $data);
+		$validData = $model->validate($form, $data);
 
-		if ($return == false)
+		// Check for errors.
+		if ($validData === false)
 		{
+			// Get the validation messages.
 			$errors = $model->getErrors();
 
+			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof Exception)
@@ -65,118 +152,151 @@ class TjnotificationsControllerNotification extends FormController
 				}
 			}
 
-			$cid       = $input->get('cid', array(), 'post', 'array');
-			$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
-		}
-		else
-		{
-			$recordId = $model->save($data);
+			// Redirect back to the edit screen
+			$extension = $input->get('extension', '', 'STRING');
 
-			if ($recordId === false)
+			// Redirect back to the edit screen.
+			if ($extension)
 			{
-				$msg = $app->enqueueMessage(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'), 'error');
+				$link = Route::_(
+				'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
+				'&extension=' . $extension, false
+				);
 			}
 			else
 			{
-				$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+				$link = Route::_(
+				'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
+				);
 			}
+
+			$this->setRedirect($link);
 		}
 
-		$extension = $input->get('extension', '', 'STRING');
+		$recordId = $model->save($validData);
 
-		if ($extension)
+		// Attempt to save the data.
+		if (!$recordId)
 		{
-			$link = Route::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
-			'&extension=' . $extension, false
-			);
-		}
-		else
-		{
-			$link = Route::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
-			);
-		}
+			// Redirect back to the edit screen.
+			$this->setError(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'));
+			$this->setMessage($this->getError(), 'error');
 
-		$this->setRedirect($link, $msg);
-	}
+			$extension = $input->get('extension', '', 'STRING');
 
-	/**
-	 * Function to save field data
-	 *
-	 * @param   string  $key     key
-	 * @param   string  $urlVar  urlVar
-	 *
-	 * @return  boolean
-	 */
-	public function saveClose($key = null, $urlVar = null)
-	{
-		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-		$app       = Factory::getApplication();
-		$input     = $app->input;
-		$extension = $input->get('extension', '', 'STRING');
-		$model     = $this->getModel('Notification', 'TjnotificationsModel');
-		$data      = $input->post->get('jform', array(), 'array');
-		$form      = $model->getForm();
+			// Redirect back to the edit screen.
+			if ($extension)
+			{
+				$link = Route::_(
+				'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
+				'&extension=' . $extension, false
+				);
+			}
+			else
+			{
+				$link = Route::_(
+				'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
+				);
+			}
 
-		if (!$form)
-		{
-			JError::raiseError(500, $model->getError());
+			$this->setRedirect($link);
 
 			return false;
 		}
 
-		// Validate the posted data.
-		$return = $model->validate($form, $data);
-
-		if ($return == false)
+		// Save succeeded, so check-in the record.
+		if ($checkin && $model->checkin($validData['id']) === false)
 		{
-			$errors = $model->getErrors();
+			// Check-in failed, so go back to the record and display a notice.
+			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			$this->setMessage($this->getError(), 'error');
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			$extension = $input->get('extension', '', 'STRING');
+
+			// Redirect back to the edit screen.
+			if ($extension)
 			{
-				if ($errors[$i] instanceof Exception)
-				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
-				{
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
-
-			$cid       = $input->get('cid', array(), 'post', 'array');
-			$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
-		}
-		else
-		{
-			$recordId = $model->save($data);
-
-			if ($recordId === false)
-			{
-				$msg = $app->enqueueMessage(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'), 'error');
+				$link = Route::_(
+				'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
+				'&extension=' . $extension, false
+				);
 			}
 			else
 			{
-				$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
+				$link = Route::_(
+				'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
+				);
 			}
+
+			$this->setRedirect($link);
+
+			return false;
 		}
 
-		if ($extension)
-		{
-			$link = Route::_(
-			'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
-			);
-		}
-		else
-		{
-			$link = Route::_(
-			'index.php?option=com_tjnotifications&view=notifications', false
-			);
-		}
+		$this->setMessage(Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY'));
 
-		$this->setRedirect($link, $msg);
+		// Redirect the user and adjust session state based on the chosen task.
+		switch ($task)
+		{
+			case 'apply':
+				$extension = $input->get('extension', '', 'STRING');
+
+				// Redirect back to the edit screen.
+				if ($extension)
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
+					'&extension=' . $extension, false
+					);
+				}
+				else
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
+					);
+				}
+
+				$this->setRedirect($link);
+
+			break;
+
+			case 'save2new':
+				// Redirect back to the edit screen.
+				$extension = $input->get('extension', '', 'STRING');
+
+				// Redirect back to the edit screen.
+				if ($extension)
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $extension, false
+					);
+				}
+				else
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notification&layout=edit', false
+					);
+				}
+
+				$this->setRedirect($link, $msg);
+			break;
+
+			default:
+				$url = 'index.php?option=com_tjnotifications&view=notifications' . $this->getRedirectToListAppend();
+
+				// Check if there is a return value
+				$return = $this->input->get('return', null, 'base64');
+
+				if (!is_null($return) && Uri::isInternal(base64_decode($return)))
+				{
+					$url = base64_decode($return);
+				}
+
+				// Redirect to the list screen.
+				$this->setRedirect(Route::_($url, false));
+
+			break;
+		}
 	}
 
 	/**
@@ -242,85 +362,6 @@ class TjnotificationsControllerNotification extends FormController
 		}
 
 		$this->setRedirect($link);
-	}
-
-	/**
-	 * Function to save field data
-	 *
-	 * @param   string  $key     key
-	 * @param   string  $urlVar  urlVar
-	 *
-	 * @return  boolean
-	 */
-	public function saveNew($key = null, $urlVar = null)
-	{
-		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-
-		$app       = Factory::getApplication();
-		$input     = $app->input;
-		$extension = $input->get('extension', '', 'STRING');
-		$model     = $this->getModel('Notification', 'TjnotificationsModel');
-		$data      = $input->post->get('jform', array(), 'array');
-		$form      = $model->getForm();
-
-		if (!$form)
-		{
-			JError::raiseError(500, $model->getError());
-
-			return false;
-		}
-
-		// Validate the posted data.
-		$return = $model->validate($form, $data);
-
-		if ($return == false)
-		{
-			$errors = $model->getErrors();
-
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if ($errors[$i] instanceof Exception)
-				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
-				{
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
-
-			$cid       = $input->get('cid', array(), 'post', 'array');
-			$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
-		}
-		else
-		{
-			$recordId = $model->save($data);
-
-			if ($recordId === false)
-			{
-				$msg = $app->enqueueMessage(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'), 'error');
-			}
-			else
-			{
-				$msg = Text::_('COM_TJNOTIFICATIONS_FIELD_CREATED_SUCCESSFULLY');
-			}
-		}
-
-		if ($extension)
-		{
-			$link = Route::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $extension, false
-			);
-		}
-		else
-		{
-			$link = Route::_(
-			'index.php?option=com_tjnotifications&view=notification&layout=edit', false
-			);
-		}
-
-		$this->setRedirect($link, $msg);
 	}
 
 	/**

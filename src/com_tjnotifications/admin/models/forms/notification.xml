@@ -44,6 +44,18 @@
 		  <option id="on" value="1" >JON</option>
 		  <option id="off" value="0">JOFF</option>
 		</field>
+		<field
+				name="created_on"
+				type="hidden"
+				/>
+		<field
+				name="updated_on"
+				type="hidden"
+				/>
+		<field
+				name="state"
+				type="hidden"
+				/>
 	</fieldset>
 
 	<fields name="email">
@@ -189,18 +201,6 @@
 					label="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_LABEL"
 					description="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_DESC"
 					validation="required"
-					/>
-			<field
-					name="created_on"
-					type="hidden"
-					/>
-			<field
-					name="updated_on"
-					type="hidden"
-					/>
-			<field
-					name="state"
-					type="hidden"
 					/>
 		</fieldset>
 	</fields>

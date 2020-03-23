@@ -139,7 +139,7 @@ class TjnotificationsModelNotification extends AdminModel
 
 		if (empty($data['created_on']))
 		{
-			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_JS1'));
+			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_FILTER_DATETIME'));
 		}
 
 		if ($data)
@@ -311,6 +311,17 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function save($data)
 	{
+		$date = Factory::getDate();
+
+		if ($data['id'])
+		{
+			$data['updated_on'] = $date->toSql(true);
+		}
+		else
+		{
+			$data['created_on'] = $date->toSql(true);
+		}
+
 		if (parent::save($data))
 		{
 			// Get current Template id
@@ -390,55 +401,51 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function getItem($id = null)
 	{
-		$item = parent::getItem($id);
-
-		if (empty($item->id))
+		if ($item = parent::getItem($id))
 		{
-			return false;
-		}
+			$db    = Factory::getDBO();
+			$query = $db->getQuery(true);
+			$query->select('ntc.*');
+			$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+			$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+			$db->setQuery($query);
+			$templateConfigs = $db->loadObjectlist();
 
-		$db    = Factory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('ntc.*');
-		$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
-		$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
-		$db->setQuery($query);
-		$templateConfigs = $db->loadObjectlist();
+			$providerConfigs = array();
 
-		$providerConfigs = array();
-
-		foreach ($templateConfigs as $key => $tConfig)
-		{
-			$providerConfigs['state'] = $tConfig->state;
-			$json = json_decode($tConfig->params);
-
-			if (!empty($json->cc))
+			foreach ($templateConfigs as $key => $tConfig)
 			{
-				$providerConfigs['cc'] = $json->cc;
+				$providerConfigs['state'] = $tConfig->state;
+				$json = json_decode($tConfig->params);
+
+				if (!empty($json->cc))
+				{
+					$providerConfigs['cc'] = $json->cc;
+				}
+
+				if (!empty($json->bcc))
+				{
+					$providerConfigs['bcc'] = $json->bcc;
+				}
+
+				if (!empty($json->from_name))
+				{
+					$providerConfigs['from_name'] = $json->from_name;
+				}
+
+				if (!empty($json->from_email))
+				{
+					$providerConfigs['from_email'] = $json->from_email;
+				}
+
+				$providerConfigs['subject'] = $tConfig->subject;
+				$providerConfigs['body'] = $tConfig->body;
+				$providerConfigs['is_override'] = $tConfig->is_override;
+				$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
+				$provider = $tConfig->provider;
+
+				$item->$provider = $providerConfigs;
 			}
-
-			if (!empty($json->bcc))
-			{
-				$providerConfigs['bcc'] = $json->bcc;
-			}
-
-			if (!empty($json->from_name))
-			{
-				$providerConfigs['from_name'] = $json->from_name;
-			}
-
-			if (!empty($json->from_email))
-			{
-				$providerConfigs['from_email'] = $json->from_email;
-			}
-
-			$providerConfigs['subject'] = $tConfig->subject;
-			$providerConfigs['body'] = $tConfig->body;
-			$providerConfigs['is_override'] = $tConfig->is_override;
-			$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
-			$provider = $tConfig->provider;
-
-			$item->$provider = $providerConfigs;
 		}
 
 		return $item;

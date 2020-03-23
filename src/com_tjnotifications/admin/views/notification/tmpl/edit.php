@@ -10,7 +10,6 @@ use \Joomla\CMS\Router\Route;
 
 HTMLHelper::_('formbehavior.chosen','select');
 HTMLHelper::_('behavior.formvalidator');
-$today = gmdate('Y-m-d');
 ?>
 <script>
 	jQuery(document).ready(function()
@@ -74,9 +73,7 @@ else
 					  </ul>
 
 					<div class="tab-content">
-						<div  class="tab-pane active" id="notification">
-							
-								
+						<div  class="tab-pane active" id="notification">			
 							<?php foreach ($this->form->getFieldset('primary_fieldset') as $field): ?>
 								<?php if(empty($this->item->id)) :?>
 									<div class="control-group">
@@ -139,13 +136,11 @@ else
 								<?php endif;?>
 							</div>
 							<input type="hidden" name="jform[state]" id="jform_state" value="1"/>
-							<input type="hidden" name="jform[created_on]" id="jform_created_on" value="<?php echo $today; ?>"/>
-							<input type="hidden" name="jform[updated_on]" id="jform_updated_on" value="<?php echo $today; ?>"/>
 						</div>
 					</div>
 				</fieldset>
 			</div>
-			<input type="hidden" name="task" value="notification.edit" />
+			<input type="hidden" name="task" value="" />
 			<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 	<?php

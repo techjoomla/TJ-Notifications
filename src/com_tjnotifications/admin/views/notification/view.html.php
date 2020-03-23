@@ -87,11 +87,43 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 	 */
 	protected function addToolBar()
 	{
-		ToolbarHelper::title(Text::_('COM_TJNOTIFICATIONS'));
-		ToolbarHelper::apply('notification.editSave', 'JTOOLBAR_APPLY');
-		ToolbarHelper::save('notification.saveClose', 'JTOOLBAR_SAVE');
-		ToolbarHelper::custom('notification.saveNew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-		ToolbarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
+		Factory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->id == 0);
+
+		if (isset($this->item->checked_out))
+		{
+			$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $this->user->get('id'));
+		}
+		else
+		{
+			$checkedOut = false;
+		}
+
+		JToolBarHelper::title(Text::_('COM_TJNOTIFICATIONS'), 'edit.png');
+
+		// If not checked out, can save the item.
+		if (!$checkedOut)
+		{
+			JToolBarHelper::apply('notification.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('notification.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::custom('notification.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
+
+		// If an existing item, can save to a copy.
+		if (!$isNew)
+		{
+			JToolBarHelper::custom('notification.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+		}
+
+		if (empty($this->item->id))
+		{
+			JToolBarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
+		}
+		else
+		{
+			JToolBarHelper::cancel('notification.cancel', 'JTOOLBAR_CLOSE');
+		}
 	}
 
 	/**
