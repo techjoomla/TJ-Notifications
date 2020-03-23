@@ -200,7 +200,7 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 	/**
 	 * get items
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  mixed    Object on success, false on failure.
 	 *
 	 * @since   1.0.0
 	 */
