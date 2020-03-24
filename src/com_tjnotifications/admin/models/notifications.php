@@ -270,7 +270,7 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 	/**
 	 * Delete Template Config
 	 *
-	 * @param   integer  $templateId  template id
+	 * @param   array  $templateId  template id
 	 *
 	 * @return  boolean
 	 *
