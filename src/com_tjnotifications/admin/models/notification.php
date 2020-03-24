@@ -403,6 +403,11 @@ class TjnotificationsModelNotification extends AdminModel
 	{
 		if ($item = parent::getItem($id))
 		{
+			if (empty($item->id))
+			{
+				return $item;
+			}
+
 			$db    = Factory::getDBO();
 			$query = $db->getQuery(true);
 			$query->select('ntc.*');
