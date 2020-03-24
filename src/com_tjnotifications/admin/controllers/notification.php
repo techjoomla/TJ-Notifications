@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Notification controller class.
@@ -55,13 +56,7 @@ class TjnotificationsControllerNotification extends FormController
 			$key = $table->getKeyName();
 		}
 
-		// To avoid data collisions the urlVar may be different from the primary key.
-		if (empty($urlVar))
-		{
-			$urlVar = $key;
-		}
-
-		$cid       = $input->get('cid', array(), 'post', 'array');
+		$cid       = $input->get('cid', array(), post, 'array');
 		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 
 		// Populate the row id from the session.
