@@ -30,6 +30,10 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 	 */
 	protected $form = null;
 
+	protected $state;
+
+	protected $item;
+
 	public $user;
 
 	/**
@@ -41,16 +45,14 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Get the Data
-		$form = $this->get('Form');
-		$item = $this->get('Item');
-
 		// Get data from the model
 		$this->items		 = $this->get('Items');
 		$this->pagination	 = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->state         = $this->get('State');
+		$this->form 		 = $this->get('Form');
+		$this->item          = $this->get('Item');
 		$this->component     = $this->state->get('filter.component');
 		$this->user          = Factory::getUser();
 
@@ -61,10 +63,6 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 
 			return false;
 		}
-
-		// Assign the Data
-		$this->form = $form;
-		$this->item = $item;
 
 		$this->addToolBar();
 
