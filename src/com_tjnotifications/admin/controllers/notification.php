@@ -56,7 +56,7 @@ class TjnotificationsControllerNotification extends FormController
 			$key = $table->getKeyName();
 		}
 
-		$cid       = $input->get('cid', array(), post, 'array');
+		$cid       = $input->get('cid', array(), 'post', 'array');
 		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 
 		// Populate the row id from the session.
