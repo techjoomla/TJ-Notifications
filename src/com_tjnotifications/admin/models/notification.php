@@ -401,56 +401,55 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function getItem($id = null)
 	{
-		if ($item = parent::getItem($id))
+		$item = parent::getItem($id);
+
+		if (empty($item->id))
 		{
-			if (empty($item->id))
+			return $item;
+		}
+
+		$db    = Factory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('ntc.*');
+		$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+		$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+		$db->setQuery($query);
+		$templateConfigs = $db->loadObjectlist();
+
+		$providerConfigs = array();
+
+		foreach ($templateConfigs as $key => $tConfig)
+		{
+			$providerConfigs['state'] = $tConfig->state;
+			$json = json_decode($tConfig->params);
+
+			if (!empty($json->cc))
 			{
-				return $item;
+				$providerConfigs['cc'] = $json->cc;
 			}
 
-			$db    = Factory::getDBO();
-			$query = $db->getQuery(true);
-			$query->select('ntc.*');
-			$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
-			$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
-			$db->setQuery($query);
-			$templateConfigs = $db->loadObjectlist();
-
-			$providerConfigs = array();
-
-			foreach ($templateConfigs as $key => $tConfig)
+			if (!empty($json->bcc))
 			{
-				$providerConfigs['state'] = $tConfig->state;
-				$json = json_decode($tConfig->params);
-
-				if (!empty($json->cc))
-				{
-					$providerConfigs['cc'] = $json->cc;
-				}
-
-				if (!empty($json->bcc))
-				{
-					$providerConfigs['bcc'] = $json->bcc;
-				}
-
-				if (!empty($json->from_name))
-				{
-					$providerConfigs['from_name'] = $json->from_name;
-				}
-
-				if (!empty($json->from_email))
-				{
-					$providerConfigs['from_email'] = $json->from_email;
-				}
-
-				$providerConfigs['subject'] = $tConfig->subject;
-				$providerConfigs['body'] = $tConfig->body;
-				$providerConfigs['is_override'] = $tConfig->is_override;
-				$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
-				$provider = $tConfig->provider;
-
-				$item->$provider = $providerConfigs;
+				$providerConfigs['bcc'] = $json->bcc;
 			}
+
+			if (!empty($json->from_name))
+			{
+				$providerConfigs['from_name'] = $json->from_name;
+			}
+
+			if (!empty($json->from_email))
+			{
+				$providerConfigs['from_email'] = $json->from_email;
+			}
+
+			$providerConfigs['subject'] = $tConfig->subject;
+			$providerConfigs['body'] = $tConfig->body;
+			$providerConfigs['is_override'] = $tConfig->is_override;
+			$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
+			$provider = $tConfig->provider;
+
+			$item->$provider = $providerConfigs;
 		}
 
 		return $item;
