@@ -311,82 +311,83 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function save($data)
 	{
-		$date = Factory::getDate();
-
-		if ($data['id'])
+		if (!empty($data))
 		{
-			$data['updated_on'] = $date->toSql(true);
-		}
-		else
-		{
-			$data['created_on'] = $date->toSql(true);
-		}
+			$date = Factory::getDate();
 
-		if (parent::save($data))
-		{
-			// Get current Template id
-			$templateId = (int) $this->getState($this->getName() . '.id');
-			$db    = Factory::getDBO();
-
-			if (empty($templateId))
+			if ($data['id'])
 			{
-				return false;
+				$data['updated_on'] = $date->toSql(true);
 			}
-
-			$params = array();
-
-			foreach ($data as $key => $record)
+			else
 			{
-				// For email provider
-				if ($key == 'email')
-				{
-					$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
-					$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
-
-					$templateConfigTable->template_id = $templateId;
-					$templateConfigTable->provider = $key;
-					$templateConfigTable->subject = $record['subject'];
-					$templateConfigTable->body = $record['body'];
-
-					if (!empty($record['cc']))
-					{
-						$params['cc'] = $record['cc'];
-					}
-
-					if (!empty($record['bcc']))
-					{
-						$params['bcc'] = $record['bcc'];
-					}
-
-					if (!empty($record['from_name']))
-					{
-						$params['from_name'] = $record['from_name'];
-					}
-
-					if (!empty($record['from_email']))
-					{
-						$params['from_email'] = $record['from_email'];
-					}
-
-					$templateConfigTable->params = json_encode($params);
-
-					if (!empty($record['replacement_tags']))
-					{
-						$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
-					}
-
-					$templateConfigTable->state = $record['state'];
-					$templateConfigTable->created_on = $data['created_on'];
-					$templateConfigTable->updated_on = $data['updated_on'];
-
-					// Save provider in config table
-					$templateConfigTable->save($templateConfigTable);
-				}
+				$data['created_on'] = $date->toSql(true);
 			}
 		}
-		else
+
+		if (!parent::save($data))
 		{
 			return false;
+		}
+
+		// Get current Template id
+		$templateId = (int) $this->getState($this->getName() . '.id');
+		$db    = Factory::getDBO();
+
+		if (empty($templateId))
+		{
+			return false;
+		}
+
+		$params = array();
+
+		foreach ($data as $key => $record)
+		{
+			// For email provider
+			if ($key == 'email')
+			{
+				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+				$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
+
+				$templateConfigTable->template_id = $templateId;
+				$templateConfigTable->provider = $key;
+				$templateConfigTable->subject = $record['subject'];
+				$templateConfigTable->body = $record['body'];
+
+				if (!empty($record['cc']))
+				{
+					$params['cc'] = $record['cc'];
+				}
+
+				if (!empty($record['bcc']))
+				{
+					$params['bcc'] = $record['bcc'];
+				}
+
+				if (!empty($record['from_name']))
+				{
+					$params['from_name'] = $record['from_name'];
+				}
+
+				if (!empty($record['from_email']))
+				{
+					$params['from_email'] = $record['from_email'];
+				}
+
+				$templateConfigTable->params = json_encode($params);
+
+				if (!empty($record['replacement_tags']))
+				{
+					$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
+				}
+
+				$templateConfigTable->state = $record['state'];
+				$templateConfigTable->created_on = $data['created_on'];
+				$templateConfigTable->updated_on = $data['updated_on'];
+
+				// Save provider in config table
+				$templateConfigTable->save($templateConfigTable);
+			}
 		}
 
 		return $templateId;
