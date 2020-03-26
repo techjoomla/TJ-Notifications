@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
 
 /**
- * Migration file for merging duplicate stats for SocialAds
+ * Migration file for templates
  *
  * @since  3.2.0
  */
@@ -27,7 +27,7 @@ class TjHouseKeepingTemplateData extends TjModelHouseKeeping
 	public $description = "Migrate the Template entries in config table.s";
 
 	/**
-	 * This function migrate duplicate archive stats
+	 * This function migrate templates
 	 *
 	 * @return  array  $result
 	 *
