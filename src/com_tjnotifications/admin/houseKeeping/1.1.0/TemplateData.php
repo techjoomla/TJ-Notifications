@@ -17,15 +17,15 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
 
 /**
- * Migration file for templates
+ * Migration file for templates migration
  *
  * @since  3.2.0
  */
 class TjHouseKeepingTemplateData extends TjModelHouseKeeping
 {
-	public $title       = "Migrate Template Data";
+	public $title       = "Migrate Template configs";
 
-	public $description = "Migrate the Template entries in config table.s";
+	public $description = "Migrate the Template configs in tj_notification_template_configs table";
 
 	/**
 	 * This function migrate templates
