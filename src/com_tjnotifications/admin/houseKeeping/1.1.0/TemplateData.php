@@ -30,7 +30,7 @@ class TjHouseKeepingTemplateData extends TjModelHouseKeeping
 	/**
 	 * This function migrate templates
 	 *
-	 * @return  array  $result
+	 * @return  mixed    Array on success, false on failure.
 	 *
 	 * @since   3.2.0
 	 */
@@ -92,14 +92,13 @@ class TjHouseKeepingTemplateData extends TjModelHouseKeeping
 			$result['status']   = true;
 			$result['message']  = "Migration successful";
 
-			if ($result['status'] == true)
+			if ($result['status'])
 			{
-				$query = $db->getQuery(true);
 				$query = "ALTER TABLE `#__tj_notification_templates` DROP `email_status`, DROP `sms_status`, DROP `push_status`, DROP `web_status`,  
 				DROP `email_body`, DROP `sms_body`, DROP `push_body`, DROP `web_body`, DROP `email_subject`, DROP `sms_subject`, DROP `push_subject`, 
 				DROP `web_subject`, DROP `is_override`, DROP `replacement_tags`";
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 		catch (Exception $e)
