@@ -18,13 +18,14 @@ use \Joomla\CMS\MVC\Model\AdminModel;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Router\Route;
 use \Joomla\CMS\Session\Session;
+use \Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Notifications list controller class.
  *
  * @since  0.0.1
  */
-class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\AdminController
+class TjnotificationsControllerNotifications extends AdminController
 {
 	use TjControllerHouseKeeping;
 

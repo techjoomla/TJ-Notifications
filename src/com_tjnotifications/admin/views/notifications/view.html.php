@@ -16,6 +16,7 @@ use \Joomla\CMS\MVC\Model\AdminModel;
 use \Joomla\CMS\Toolbar\ToolbarHelper;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Toolbar\Toolbar;
+use \Joomla\CMS\MVC\View\HtmlView;
 
 jimport('joomla.application.component.view');
 
@@ -24,7 +25,7 @@ jimport('joomla.application.component.view');
  *
  * @since  1.6
  */
-class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
+class TjnotificationsViewNotifications extends HtmlView
 {
 	public $user;
 
