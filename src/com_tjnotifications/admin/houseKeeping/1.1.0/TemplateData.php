@@ -88,17 +88,14 @@ class TjHouseKeepingTemplateData extends TjModelHouseKeeping
 				}
 			}
 
+			$query = "ALTER TABLE `#__tj_notification_templates` DROP `email_status`, DROP `sms_status`, DROP `push_status`, DROP `web_status`,  
+			DROP `email_body`, DROP `sms_body`, DROP `push_body`, DROP `web_body`, DROP `email_subject`, DROP `sms_subject`, DROP `push_subject`, 
+			DROP `web_subject`, DROP `is_override`, DROP `replacement_tags`";
+			$db->setQuery($query);
+			$db->execute();
+
 			$result['status']   = true;
 			$result['message']  = "Migration successful";
-
-			if ($result['status'])
-			{
-				$query = "ALTER TABLE `#__tj_notification_templates` DROP `email_status`, DROP `sms_status`, DROP `push_status`, DROP `web_status`,  
-				DROP `email_body`, DROP `sms_body`, DROP `push_body`, DROP `web_body`, DROP `email_subject`, DROP `sms_subject`, DROP `push_subject`, 
-				DROP `web_subject`, DROP `is_override`, DROP `replacement_tags`";
-				$db->setQuery($query);
-				$db->execute();
-			}
 		}
 		catch (Exception $e)
 		{
