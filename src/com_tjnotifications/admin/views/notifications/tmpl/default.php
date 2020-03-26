@@ -17,6 +17,7 @@ use \Joomla\CMS\Router\Route;
 use \Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::script('libraries/techjoomla/assets/js/houseKeeping.js');
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -268,3 +269,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
+<script type="text/javascript">
+	var tjHouseKeepingView = "notifications";
+</script>
+

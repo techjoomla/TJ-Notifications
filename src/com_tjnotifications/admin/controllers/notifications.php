@@ -10,6 +10,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
+JLoader::register('TjControllerHouseKeeping', JPATH_SITE . "/libraries/techjoomla/controller/houseKeeping.php");
 
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\MVC\Model\ListModel;
@@ -25,6 +26,8 @@ use \Joomla\CMS\Session\Session;
  */
 class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\AdminController
 {
+	use TjControllerHouseKeeping;
+
 /**
 	* Proxy for getModel.
 	*

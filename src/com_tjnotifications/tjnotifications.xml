@@ -43,6 +43,7 @@
 			<filename>controller.php</filename>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
+			<folder>houseKeeping</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 			<folder>sql</folder>

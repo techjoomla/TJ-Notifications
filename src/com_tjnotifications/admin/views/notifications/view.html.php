@@ -15,6 +15,7 @@ use \Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use \Joomla\CMS\MVC\Model\AdminModel;
 use \Joomla\CMS\Toolbar\ToolbarHelper;
 use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\Toolbar\Toolbar;
 
 jimport('joomla.application.component.view');
 
@@ -98,6 +99,11 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 		}
 
 		ToolbarHelper::title($title, 'notification');
+
+		$toolbar = Toolbar::getInstance('toolbar');
+		$toolbar->appendButton(
+				'Custom', '<a id="tjHouseKeepingFixDatabasebutton" class="btn btn-default hidden"><span class="icon-refresh"></span>'
+				. Text::_('COM_TJNOTIFICATIONS_FIX_DATABASE') . '</a>');
 
 		if ($this->user->authorise('core.create', 'com_tjnotifications'))
 		{
