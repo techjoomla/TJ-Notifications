@@ -56,12 +56,18 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$mainframe = Factory::getApplication();
-		$extension = $mainframe->input->get('extension', '', 'STRING');
-		$cid       = $mainframe->input->get('cid', array(), 'array');
+		$input     = $mainframe->input;
+		$extension = $input->get('extension', '', 'STRING');
+		$cid       = $input->get('cid', array(), 'array');
+		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$count     = 0;
 
 		$msg['success'] = array();
 		$msg['error']   = array();
+
+		$model = $this->getModel('Notifications', 'TjnotificationsModel');
+		$model->deleteTemplateConfig($cid);
+
 		$modelDelete    = ListModel::getInstance('Notification', 'TjnotificationsModel');
 		$result         = $modelDelete->delete($cid);
 
@@ -169,9 +175,9 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		{
 			$data = $model->getItem($notificationId);
 
-			if ($data->email_body and $data->email_subject)
+			if ($data->email['body'] and $data->email['subject'])
 			{
-				$this->setState('email_status', 1);
+				$this->setState('state', 1);
 			}
 			else
 			{
@@ -212,7 +218,7 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$this->setState('email_status', 0);
+		$this->setState('state', 0);
 	}
 
 	/**

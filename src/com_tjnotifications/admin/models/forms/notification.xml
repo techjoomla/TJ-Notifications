@@ -44,123 +44,6 @@
 		  <option id="on" value="1" >JON</option>
 		  <option id="off" value="0">JOFF</option>
 		</field>
-	</fieldset>
-		
-	<fieldset name="email_fieldset">
-		<field 
-			name="email_status" 
-			type="radio" 
-			default="0" 
-			label="COM_TJNOTIFICATIONS_FIELD_EMAIL_STATUS_LABEL" 
-			description="COM_TJNOTIFICATIONS_FIELD_EMAIL_STATUS_DESC" 
-			class="btn-group btn-group-yesno"
-			>
-		  <option id="on" value="1" >JON</option>
-		  <option id="off" value="0">JOFF</option>
-		</field>
-
-		<field
-				name="email_subject"
-				type="textarea"
-				label="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_DESC"
-				/>
-
-		<field
-				name="email_body"
-				type="editor"
-				label="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_DESC"
-				buttons="true"
-				filter="JComponentHelper::filterText"
-				/>
-	</fieldset>
-	
-	<fieldset name="sms_fieldset">
-		<field 
-			name="sms_status" 
-			type="radio" 
-			default="0" 
-			label="COM_TJNOTIFICATIONS_FIELD_SMS_STATUS_LABEL" 
-			description="COM_TJNOTIFICATIONS_FIELD_SMS_STATUS_DESC" 
-			class="btn-group btn-group-yesno"
-			>
-		  <option value="1">JON</option>
-		  <option value="0">JOFF</option>
-		</field>
-		
-		<field
-				name="sms_subject"
-				type="textarea"
-				label="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_DESC"
-				/>
-		
-		<field
-				name="sms_body"
-				type="editor"
-				label="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_DESC"
-				validation="required"
-				/>
-	</fieldset>
-	
-	<fieldset name="push_fieldset">
-		<field 
-			name="push_status" 
-			type="radio" 
-			default="0" 
-			label="COM_TJNOTIFICATIONS_FIELD_PUSH_STATUS_LABEL" 
-			description="COM_TJNOTIFICATIONS_FIELD_PUSH_STATUS_DESC" 
-			class="btn-group btn-group-yesno"
-			>
-		  <option value="1">JON</option>
-		  <option value="0">JOFF</option>
-		</field>
-		
-		<field
-				name="push_subject"
-				type="textarea"
-				label="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_DESC"
-				/>
-
-		<field
-				name="push_body"
-				type="editor"
-				label="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_DESC"
-				validation="required"
-				/>
-	</fieldset>
-	
-	<fieldset name="web_fieldset">
-		<field 
-			name="web_status" 
-			type="radio" 
-			default="0" 
-			label="COM_TJNOTIFICATIONS_FIELD_WEB_STATUS_LABEL" 
-			description="COM_TJNOTIFICATIONS_FIELD_WEB_STATUS_DESC" 
-			class="btn-group btn-group-yesno"
-			>
-		  <option value="1">JON</option>
-		  <option value="0">JOFF</option>
-		</field>
-		
-		<field
-				name="web_subject"
-				type="textarea"
-				label="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_DESC"
-				/>
-		
-		<field
-				name="web_body"
-				type="editor"
-				label="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_DESC"
-				validation="required"
-				/>
 		<field
 				name="created_on"
 				type="hidden"
@@ -168,10 +51,157 @@
 		<field
 				name="updated_on"
 				type="hidden"
-				/>	
+				/>
 		<field
 				name="state"
 				type="hidden"
-				/>						
+				/>
 	</fieldset>
+
+	<fields name="email">
+		<fieldset name="email_fieldset">
+			<field
+				name="state"
+				type="radio"
+				default="0"
+				label="COM_TJNOTIFICATIONS_FIELD_EMAIL_STATUS_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_EMAIL_STATUS_DESC"
+				class="btn-group btn-group-yesno"
+				>
+			<option id="on" value="1" >JON</option>
+			<option id="off" value="0">JOFF</option>
+			</field>
+		
+			<field
+					name="subject"
+					type="textarea"
+					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_DESC"
+					/>
+
+			<field
+					name="body"
+					type="editor"
+					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_DESC"
+					buttons="true"
+					filter="JComponentHelper::filterText"
+					/>
+			<field
+					name="cc"
+					type="textarea"
+					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_CC_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_EMAIL_CC_DESC"
+					/>
+			<field
+					name="bcc"
+					type="textarea"
+					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_BCC_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BCC_DESC"
+					/>
+			<field
+					name="from_name"
+					type="text"
+					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_FROM_NAME_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_EMAIL_FROM_NAME_DESC"
+					/>
+			<field
+					name="from_email"
+					type="text"
+					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_FROM_EMAIL_LABEL"
+					description="COM_TJNOTIFICATIONS_EMAIL_FIELD_FROM_EMAIL_DESC"
+					validate="email"
+					/>
+		</fieldset>
+	</fields>
+	
+	<fields name="sms">
+		<fieldset name="sms_fieldset">
+			<field
+				name="state"
+				type="radio"
+				default="0"
+				label="COM_TJNOTIFICATIONS_FIELD_SMS_STATUS_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_SMS_STATUS_DESC"
+				class="btn-group btn-group-yesno"
+				>
+			  <option value="1">JON</option>
+			  <option value="0">JOFF</option>
+			</field>
+			<field
+					name="subject"
+					type="textarea"
+					label="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_DESC"
+					/>
+
+			<field
+					name="body"
+					type="editor"
+					label="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_DESC"
+					validation="required"
+					/>
+		</fieldset>
+	</fields>
+	
+	<fields name="push">
+		<fieldset name="push_fieldset">
+			<field
+				name="state"
+				type="radio"
+				default="0"
+				label="COM_TJNOTIFICATIONS_FIELD_PUSH_STATUS_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_PUSH_STATUS_DESC"
+				class="btn-group btn-group-yesno"
+				>
+			  <option value="1">JON</option>
+			  <option value="0">JOFF</option>
+			</field>
+			<field
+					name="subject"
+					type="textarea"
+					label="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_DESC"
+					/>
+
+			<field
+					name="body"
+					type="editor"
+					label="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_DESC"
+					validation="required"
+					/>
+		</fieldset>
+	</fields>
+	
+	<fields name="web">
+		<fieldset name="web_fieldset">
+			<field
+				name="state"
+				type="radio"
+				default="0"
+				label="COM_TJNOTIFICATIONS_FIELD_WEB_STATUS_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_WEB_STATUS_DESC"
+				class="btn-group btn-group-yesno"
+				>
+			  <option value="1">JON</option>
+			  <option value="0">JOFF</option>
+			</field>
+			<field
+					name="subject"
+					type="textarea"
+					label="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_WEB_SUBJECT_DESC"
+					/>
+
+			<field
+					name="body"
+					type="editor"
+					label="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_LABEL"
+					description="COM_TJNOTIFICATIONS_FIELD_WEB_BODY_DESC"
+					validation="required"
+					/>
+		</fieldset>
+	</fields>
 </form>

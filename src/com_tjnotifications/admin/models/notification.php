@@ -18,6 +18,7 @@ use \Joomla\CMS\MVC\Model\AdminModel;
 use \Joomla\CMS\MVC\Model\ListModel;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\CMS\Date\Date;
 
 jimport('joomla.application.component.model');
 BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
@@ -27,7 +28,7 @@ BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotif
  *
  * @since  1.6
  */
-class TjnotificationsModelNotification extends \Joomla\CMS\MVC\Model\AdminModel
+class TjnotificationsModelNotification extends AdminModel
 {
 	/**
 	 * Constructor.
@@ -134,34 +135,16 @@ class TjnotificationsModelNotification extends \Joomla\CMS\MVC\Model\AdminModel
 	public function createTemplates($templates)
 	{
 		$data  = $templates;
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$model = ListModel::getInstance('Notifications', 'TJNotificationsModel');
+		$date = new Date;
 
-		if (!empty($data['replacement_tags']))
+		if (empty($data['created_on']))
 		{
-			$data['replacement_tags'] = json_encode($data['replacement_tags']);
+			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_FILTER_DATETIME'));
 		}
 
-		if ($data['client'] and $data['key'])
+		if (!empty($data))
 		{
-			$model->setState('filter.client', $data['client']);
-			$model->setState('filter.key', $data['key']);
-
-			$result = $model->getItems();
-
-			foreach ($result as $res)
-			{
-				if ($res->id)
-				{
-					$data['id'] = $res->id;
-				}
-			}
-		}
-
-		if ($data)
-		{
-			parent::save($data);
+			$this->save($data);
 
 			return true;
 		}
@@ -266,10 +249,11 @@ class TjnotificationsModelNotification extends \Joomla\CMS\MVC\Model\AdminModel
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('replacement_tags'));
-		$query->from($db->quoteName('#__tj_notification_templates'));
-		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
-		$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
+		$query->select($db->quoteName('ntc.replacement_tags'));
+		$query->from('#__tj_notification_template_configs AS ntc');
+		$query->join('LEFT', '#__tj_notification_templates AS nt ON nt.id = ntc.template_id');
+		$query->where($db->quoteName('nt.client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('nt.key') . ' = ' . $db->quote($key));
 		$db->setQuery($query);
 		$replacementTags = $db->loadResult();
 
@@ -314,5 +298,161 @@ class TjnotificationsModelNotification extends \Joomla\CMS\MVC\Model\AdminModel
 		$db->setQuery($query);
 
 		$result = $db->execute();
+	}
+
+	/**
+	 * Method to  save notification date
+	 *
+	 * @param   ARRAY  $data  notification data
+	 *
+	 * @return  mixed Template ID
+	 *
+	 * @since    1.0.0
+	 */
+	public function save($data)
+	{
+		if (!empty($data))
+		{
+			$date = Factory::getDate();
+
+			if ($data['id'])
+			{
+				$data['updated_on'] = $date->toSql(true);
+			}
+			else
+			{
+				$data['created_on'] = $date->toSql(true);
+			}
+		}
+
+		if (!parent::save($data))
+		{
+			return false;
+		}
+
+		// Get current Template id
+		$templateId = (int) $this->getState($this->getName() . '.id');
+		$db    = Factory::getDBO();
+
+		if (empty($templateId))
+		{
+			return false;
+		}
+
+		$params = array();
+
+		foreach ($data as $key => $record)
+		{
+			// For email provider
+			if ($key == 'email')
+			{
+				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+				$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
+
+				$templateConfigTable->template_id = $templateId;
+				$templateConfigTable->provider = $key;
+				$templateConfigTable->subject = $record['subject'];
+				$templateConfigTable->body = $record['body'];
+
+				if (!empty($record['cc']))
+				{
+					$params['cc'] = $record['cc'];
+				}
+
+				if (!empty($record['bcc']))
+				{
+					$params['bcc'] = $record['bcc'];
+				}
+
+				if (!empty($record['from_name']))
+				{
+					$params['from_name'] = $record['from_name'];
+				}
+
+				if (!empty($record['from_email']))
+				{
+					$params['from_email'] = $record['from_email'];
+				}
+
+				$templateConfigTable->params = json_encode($params);
+
+				if (!empty($record['replacement_tags']))
+				{
+					$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
+				}
+
+				$templateConfigTable->state = $record['state'];
+				$templateConfigTable->created_on = $data['created_on'];
+				$templateConfigTable->updated_on = $data['updated_on'];
+
+				// Save provider in config table
+				$templateConfigTable->save($templateConfigTable);
+			}
+		}
+
+		return $templateId;
+	}
+
+	/**
+	 * Method to get an object.
+	 *
+	 * @param   integer  $id  The id of the object to get.
+	 *
+	 * @return  mixed    Object on success, false on failure.
+	 */
+	public function getItem($id = null)
+	{
+		$item = parent::getItem($id);
+
+		if (empty($item->id))
+		{
+			return $item;
+		}
+
+		$db    = Factory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('ntc.*');
+		$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+		$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+		$db->setQuery($query);
+		$templateConfigs = $db->loadObjectlist();
+
+		$providerConfigs = array();
+
+		foreach ($templateConfigs as $key => $tConfig)
+		{
+			$providerConfigs['state'] = $tConfig->state;
+			$json = json_decode($tConfig->params);
+
+			if (!empty($json->cc))
+			{
+				$providerConfigs['cc'] = $json->cc;
+			}
+
+			if (!empty($json->bcc))
+			{
+				$providerConfigs['bcc'] = $json->bcc;
+			}
+
+			if (!empty($json->from_name))
+			{
+				$providerConfigs['from_name'] = $json->from_name;
+			}
+
+			if (!empty($json->from_email))
+			{
+				$providerConfigs['from_email'] = $json->from_email;
+			}
+
+			$providerConfigs['subject'] = $tConfig->subject;
+			$providerConfigs['body'] = $tConfig->body;
+			$providerConfigs['is_override'] = $tConfig->is_override;
+			$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
+			$provider = $tConfig->provider;
+
+			$item->$provider = $providerConfigs;
+		}
+
+		return $item;
 	}
 }

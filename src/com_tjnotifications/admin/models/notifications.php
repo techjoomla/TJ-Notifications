@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 use \Joomla\CMS\Factory;
+use \Joomla\CMS\Table\Table;
 
 jimport('joomla.application.component.model');
 /**
@@ -194,5 +195,101 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 
 		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);
+	}
+
+	/**
+	 * get items
+	 *
+	 * @return  mixed    Object on success, false on failure.
+	 *
+	 * @since   1.0.0
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		foreach ($items as $key => $item)
+		{
+			if (empty($item->id))
+			{
+				return false;
+			}
+
+			if (!empty($item->id))
+			{
+				$db    = Factory::getDBO();
+				$query = $db->getQuery(true);
+				$query->select('ntc.*');
+				$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+				$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+
+				$db->setQuery($query);
+				$templateConfigs = $db->loadObjectlist();
+
+				$providerConfigs = array();
+
+				foreach ($templateConfigs as $keytemplate => $tConfig)
+				{
+					$providerConfigs['state'] = $tConfig->state;
+					$json = json_decode($tConfig->params);
+
+					if (!empty($json->cc))
+					{
+						$providerConfigs['cc'] = $json->cc;
+					}
+
+					if (!empty($json->bcc))
+					{
+						$providerConfigs['bcc'] = $json->bcc;
+					}
+
+					if (!empty($json->from_name))
+					{
+						$providerConfigs['from_name'] = $json->from_name;
+					}
+
+					if (!empty($json->from_email))
+					{
+						$providerConfigs['from_email'] = $json->from_email;
+					}
+
+					$providerConfigs['subject'] = $tConfig->subject;
+					$providerConfigs['body'] = $tConfig->body;
+					$providerConfigs['is_override'] = $tConfig->is_override;
+					$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
+					$provider = $tConfig->provider;
+
+					$item->$provider = $providerConfigs;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Delete Template Config
+	 *
+	 * @param   array  $templateId  template id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.0
+	 */
+	public function  deleteTemplateConfig($templateId)
+	{
+		$db          = Factory::getDbo();
+
+		foreach ($templateId as $id)
+		{
+			$deleteQuery = $db->getQuery(true);
+			$conditions = array(
+				$db->qn('template_id') . '=' . (int) $id
+			);
+			$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+			$deleteQuery->where($conditions);
+			$db->setQuery($deleteQuery);
+			$db->execute();
+		}
 	}
 }
