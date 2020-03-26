@@ -4,7 +4,7 @@
  * @subpackage  com_tjnotifications
  *
  * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -42,7 +42,6 @@ class TjHouseKeepingTemplateData extends TjModelHouseKeeping
 
 		try
 		{
-			// Get first 50 rows from last processed id
 			$query = $db->getQuery(true)
 				->select('*')
 				->from('#__tj_notification_templates')
