@@ -142,7 +142,7 @@ class TjnotificationsModelNotification extends AdminModel
 			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_FILTER_DATETIME'));
 		}
 
-		if ($data)
+		if (!empty($data))
 		{
 			$this->save($data);
 
