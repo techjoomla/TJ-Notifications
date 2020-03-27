@@ -278,10 +278,9 @@ class TjnotificationsControllerNotification extends FormController
 			break;
 
 			default:
-				// Redirect back to the edit screen.
 				$extension = $input->get('extension', '', 'STRING');
 
-				// Redirect back to the edit screen.
+				// Redirect back to the notification list view.
 				if ($extension)
 				{
 					$link = Route::_(
