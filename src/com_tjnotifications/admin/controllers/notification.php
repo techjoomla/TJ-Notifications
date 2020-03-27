@@ -278,18 +278,33 @@ class TjnotificationsControllerNotification extends FormController
 			break;
 
 			default:
-				$url = 'index.php?option=com_tjnotifications&view=notifications' . $this->getRedirectToListAppend();
+				// Redirect back to the edit screen.
+				$extension = $input->get('extension', '', 'STRING');
+
+				// Redirect back to the edit screen.
+				if ($extension)
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
+					);
+				}
+				else
+				{
+					$link = Route::_(
+					'index.php?option=com_tjnotifications&view=notifications', false
+					);
+				}
 
 				// Check if there is a return value
 				$return = $this->input->get('return', null, 'base64');
 
 				if (!is_null($return) && Uri::isInternal(base64_decode($return)))
 				{
-					$url = base64_decode($return);
+					$link = base64_decode($return);
 				}
 
 				// Redirect to the list screen.
-				$this->setRedirect(Route::_($url, false));
+				$this->setRedirect(Route::_($link, false));
 
 			break;
 		}
