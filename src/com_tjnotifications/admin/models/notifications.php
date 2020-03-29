@@ -266,30 +266,4 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 
 		return $items;
 	}
-
-	/**
-	 * Delete Template Config
-	 *
-	 * @param   array  $templateId  template id
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.0.0
-	 */
-	public function  deleteTemplateConfig($templateId)
-	{
-		$db          = Factory::getDbo();
-
-		foreach ($templateId as $id)
-		{
-			$deleteQuery = $db->getQuery(true);
-			$conditions = array(
-				$db->qn('template_id') . '=' . (int) $id
-			);
-			$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
-			$deleteQuery->where($conditions);
-			$db->setQuery($deleteQuery);
-			$db->execute();
-		}
-	}
 }
