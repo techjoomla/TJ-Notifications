@@ -184,6 +184,15 @@ class TjnotificationsModelNotification extends AdminModel
 			{
 				$deleteQuery = $db->getQuery(true);
 				$conditions = array(
+					$db->qn('template_id') . '=' . (int) $id
+				);
+				$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+				$deleteQuery->where($conditions);
+				$db->setQuery($deleteQuery);
+				$db->execute();
+
+				$deleteQuery = $db->getQuery(true);
+				$conditions = array(
 					$db->quoteName('client') . ' = ' . $db->quote($data->client),
 					$db->quoteName('key') . ' = ' . $db->quote($data->key)
 				);
