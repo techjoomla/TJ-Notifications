@@ -442,6 +442,17 @@ class Com_TjnotificationsInstallerScript
 		{
 			$query = $db->getQuery(true)
 				->select('*')
+				->from('#__tj_notification_template_configs');
+			$db->setQuery($query);
+			$templateConfigs = $db->loadObjectList();
+
+			if (!empty($templateConfigs))
+			{
+				return false;
+			}
+			
+			$query = $db->getQuery(true)
+				->select('*')
 				->from('#__tj_notification_templates')
 				->order($db->quoteName('id') . ' ASC');
 			$db->setQuery($query, 0, $limit);
