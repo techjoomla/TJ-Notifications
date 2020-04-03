@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `template_id` int(11) NOT NULL,
   `provider` varchar(30) NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '*',
   `subject` text NOT NULL,
   `body` text NOT NULL,
   `params` text NOT NULL,
