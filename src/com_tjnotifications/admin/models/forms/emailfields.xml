@@ -5,9 +5,9 @@
 			name="id"
 			type="hidden" />
 
-		<field 
-			name="language" 
-			type="contentlanguage" 
+		<field
+			name="language"
+			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_CONTENT_FIELD_LANGUAGE_DESC"
 			>
@@ -28,6 +28,6 @@
 			description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_DESC"
 			buttons="true"
 			filter="JComponentHelper::filterText"
-		/> 
+		/>
 	</fieldset>
 </form>

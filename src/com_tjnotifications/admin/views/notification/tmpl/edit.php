@@ -163,7 +163,7 @@ else
 						</div>
 
 						<div class="tab-pane" id="email">
-							<div class="span5">
+							<div class="span4">
 								<?php
 								foreach ($this->form->getFieldset('email_fieldset') as $field)
 								{
@@ -179,7 +179,7 @@ else
 								}
 								?>
 							</div>
-							<div class="span7">
+							<div class="span8">
 								<?php
 								foreach ($this->form->getFieldset('email_fieldset') as $field)
 								{
@@ -187,7 +187,7 @@ else
 									{
 										?>
 										<div class="control-group">
-											<div class="control-label"><?php echo $field->label; ?></div>
+											<div class="controls"><?php echo $field->label; ?></div>
 											<div class="controls"><?php echo $field->input ; ?></div>
 										</div>
 										<?php
@@ -234,32 +234,13 @@ else
 						</div>
 
 						<div class="tab-pane" id="sms">
-							<div class="span5">
+							<div class="span8">
 									<?php
 									foreach ($this->form->getFieldset('sms_fieldset') as $field)
-									{
-										if($field->type != "Subform")
-										{
-											?>
-											<div class="control-group">
-												<div class="control-label"><?php echo $field->label; ?></div>
-												<div class="controls"><?php echo $field->input ; ?></div>
-											</div>
-											<?php
-										}
-									}
-									?>
-								</div>
-								<div class="span7">
-									<?php
-									foreach ($this->form->getFieldset('sms_fieldset') as $field)
-									{
-										if($field->type == "Subform")
-										{
-											?>
-											<div class="control-group">
-												<div class="control-label"><?php echo $field->label; ?></div>
-												<div class="controls"><?php echo $field->input ; ?></div>
+									{ ?>
+										<div class="control-group">
+											<div class="control-label"><?php echo $field->label; ?></div>
+											<div class="controls"><?php echo $field->input ; ?></div>
 											</div>
 											<?php
 										}

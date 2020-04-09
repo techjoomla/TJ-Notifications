@@ -101,7 +101,6 @@
 				name= "emailfields"
 				description= "COM_TJNOTIFICATIONS_EMAIL_FIELDS_DESC"
 				type= "subform"
-				default='[{"language": "Free","subject": " Ideal Subject Name","body": "Ideal body"}]'
 				label="COM_TJNOTIFICATIONS_EMAIL_FIELDS"
 				min= "1"
 				formsource="/administrator/components/com_tjnotifications/models/forms/emailfields.xml"
@@ -130,7 +129,6 @@
 				name= "smsfields"
 				description= "COM_TJNOTIFICATIONS_SMS_FIELDS_DESC"
 				type= "subform"
-				default='[{"language": "Free","subject": " Ideal Subject Name","body": "Ideal body"}]'
 				label="COM_TJNOTIFICATIONS_SMS_FIELDS"
 				min= "1"
 				formsource="/administrator/components/com_tjnotifications/models/forms/smsfields.xml"
@@ -140,7 +138,7 @@
 				groupByFieldset="false" />
 		</fieldset>
 	</fields>
-	
+
 	<fields name="push">
 		<fieldset name="push_fieldset">
 			<field

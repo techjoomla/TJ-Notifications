@@ -370,7 +370,7 @@ class TjnotificationsModelNotification extends AdminModel
 					$templateconfig = array();
 
 					// To check which email template must be deleted
-					foreach ($record['emailinformation'] as $key=>$emailFieldsInfo)
+					foreach ($record['emailfields'] as $key=>$emailFieldsInfo)
 					{
 						foreach ($existEmailTemplates as $existEmailTemplate)
 						{
@@ -412,7 +412,7 @@ class TjnotificationsModelNotification extends AdminModel
 				foreach ($record['emailfields'] as $key=>$arrayvalue)
 				{
 					$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
-					$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $datakey));
+					$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
 
 					$templateConfigTable->template_id = $templateId;
 					$templateConfigTable->provider    = $datakey;
@@ -422,7 +422,7 @@ class TjnotificationsModelNotification extends AdminModel
 
 					$existEmailFields = $this->getExistingTemplates($data['id'],$datakey);
 
-					// To check whether there is existing template for particular template and language. 
+					// To check whether there is existing template for particular template and language.
 					foreach ($existEmailFields   as $existEmailField)
 					{
 						$existingLang   = json_decode(json_encode($existEmailField->language), true);
@@ -430,7 +430,7 @@ class TjnotificationsModelNotification extends AdminModel
 						$existingId     = json_decode(json_encode($existEmailField->id), true);
 
 						// If there is existing template then return to form view.
-						if ($existinglang == $arrayvalue['language'] && $existingTempId == $templateId && $existingId != $arrayvalue['id'])
+						if ($existingLang == $arrayvalue['language'] && $existingTempId == $templateId && $existingId != $arrayvalue['id'])
 						{
 							return false;
 						}
