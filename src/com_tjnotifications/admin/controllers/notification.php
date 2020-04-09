@@ -175,7 +175,7 @@ class TjnotificationsControllerNotification extends FormController
 		if (!$recordId)
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'));
+			$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_TEMPLATE_EXISTS'));
 			$this->setMessage($this->getError(), 'error');
 
 			$extension = $input->get('extension', '', 'STRING');

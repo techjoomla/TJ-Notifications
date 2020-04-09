@@ -350,52 +350,238 @@ class TjnotificationsModelNotification extends AdminModel
 
 		$params = array();
 
-		foreach ($data as $key => $record)
+		foreach ($data as $datakey => $record)
 		{
+			//created and updated date
+			$created_on = $data['created_on'];
+			$updated_on = $data['updated_on'];
+
 			// For email provider
-			if ($key == 'email')
+			if ($datakey == 'email')
 			{
-				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
-				$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
-
-				$templateConfigTable->template_id = $templateId;
-				$templateConfigTable->provider = $key;
-				$templateConfigTable->subject = $record['subject'];
-				$templateConfigTable->body = $record['body'];
-
-				if (!empty($record['cc']))
+				//To delete the language, body and subject on editing the template.
+				if (count($record['emailfields']) != 0)
 				{
-					$params['cc'] = $record['cc'];
+					$deleteid = array();
+					$storeid  = array();
+
+					$existEmailTemplates = $this->getExistingTemplates($data['id'],$datakey);
+
+					$templateconfig = array();
+
+					// To check which email template must be deleted
+					foreach ($record['emailinformation'] as $key=>$emailFieldsInfo)
+					{
+						foreach ($existEmailTemplates as $existEmailTemplate)
+						{
+							$existingEmailtemplateId   = json_decode(json_encode($existEmailTemplate->id), true);
+							$existingEmailtemplateLang = json_decode(json_encode($existEmailTemplate->language), true);
+
+							if (($existingEmailtemplateId == $emailFieldsInfo['id'] || $existingEmailtemplateLang == "*" ) ||$existingEmailtemplateId == empty($emailFieldsInfo['id']))
+							{
+								$storeid[] = $emailFieldsInfo['id'];
+							}
+							else
+							{
+								$deleteid[] = $existingEmailtemplateId;
+							}
+						}
+					}
+
+					// Array of emailtemplate id to be deleted
+					$deleteEmailTemplates = array_diff($deleteid,$storeid);
+
+					// Delete Query for email template deletion
+					if ($deleteEmailTemplates)
+					{
+						foreach ($deleteEmailTemplates as $deleteEmailTemplate)
+						{
+							$deleteQuery = $db->getQuery(true);
+							$conditions = array(
+									$db->qn('id') . '=' . (int) $deleteEmailTemplate);
+									$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+									$deleteQuery->where($conditions);
+									$db->setQuery($deleteQuery);
+
+									$db->execute();
+						}
+					}
 				}
 
-				if (!empty($record['bcc']))
+				// Foreach to save the repeatable email fields
+				foreach ($record['emailfields'] as $key=>$arrayvalue)
 				{
-					$params['bcc'] = $record['bcc'];
+					$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+					$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $datakey));
+
+					$templateConfigTable->template_id = $templateId;
+					$templateConfigTable->provider    = $datakey;
+					$templateConfigTable->subject     = $arrayvalue['subject'];
+					$templateConfigTable->body        = $arrayvalue['body'];
+					$templateConfigTable->language    = $arrayvalue['language'];
+
+					$existEmailFields = $this->getExistingTemplates($data['id'],$datakey);
+
+					// To check whether there is existing template for particular template and language. 
+					foreach ($existEmailFields   as $existEmailField)
+					{
+						$existingLang   = json_decode(json_encode($existEmailField->language), true);
+						$existingTempId = json_decode(json_encode($existEmailField->template_id), true);
+						$existingId     = json_decode(json_encode($existEmailField->id), true);
+
+						// If there is existing template then return to form view.
+						if ($existinglang == $arrayvalue['language'] && $existingTempId == $templateId && $existingId != $arrayvalue['id'])
+						{
+							return false;
+						}
+					}
+
+					if (!empty($record['cc']))
+					{
+						$params['cc'] = $record['cc'];
+					}
+
+					if (!empty($record['bcc']))
+					{
+						$params['bcc'] = $record['bcc'];
+					}
+
+					if (!empty($record['from_name']))
+					{
+						$params['from_name'] = $record['from_name'];
+					}
+
+					if (!empty($record['from_email']))
+					{
+						$params['from_email'] = $record['from_email'];
+					}
+
+					$templateConfigTable->params = json_encode($params);
+
+					if (!empty($record['replacement_tags']))
+					{
+						$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
+					}
+
+					$templateConfigTable->state      = $record['state'];
+					$templateConfigTable->created_on = $created_on;
+					$templateConfigTable->updated_on = $updated_on;
+
+					// Save provider in config table
+					if (empty($arrayvalue['id']))
+					{
+						$templateConfigTable->save($templateConfigTable);
+					}
+					else
+					{
+						$templateConfigTable->id = $arrayvalue['id'];
+						$templateConfigTable->save($templateConfigTable);
+					}
+				}
+			}
+
+			// To save sms field
+			if ($datakey == "sms")
+			{
+				//To delete the language, body and subject on edit.
+				if (count($record['smsfields']) != 0)
+				{
+					$deleteSmsId = array();
+					$storeSmsId  = array();
+
+					// Fetch existing sms templates
+					$existSmsTemplates = $this->getExistingTemplates($data['id'],$datakey);
+
+					$templateconfig = array();
+
+					// Foreach loop to check which template must be deleted
+					foreach ($record['smsfields'] as $key=>$smsFieldsInfo)
+					{
+						foreach ($existSmsTemplates as $ExistSmsTemplate)
+						{
+							$existSmsId    = json_decode(json_encode($ExistSmsTemplate->id), true);
+							$existLanguage = json_decode(json_encode($ExistSmsTemplate->language), true);
+
+							if (($existSmsId == $smsFieldsInfo['id'] || $existLanguage == "*" ) || $existSmsId == empty($smsFieldsInfo['id']))
+							{
+								$storeSmsId[] = $smsFieldsInfo['id'];
+							}
+							else
+							{
+								$deleteSmsId[] = $existSmsId;
+							}
+						}
+					}
+
+					// Array of smstemplate id to be deleted
+					$deleteSmsTemplates = array_diff($deleteSmsId,$storeSmsId);
+
+					// Delete Query for smstemplate deletion
+					if ($deleteSmsTemplates)
+					{
+						foreach ($deleteSmsTemplates as $deleteSmsTemplate)
+						{
+							$deleteQuery = $db->getQuery(true);
+							$conditions = array(
+							$db->qn('id') . '=' . (int) $deleteSmsTemplate);
+							$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+							$deleteQuery->where($conditions);
+							$db->setQuery($deleteQuery);
+
+							$db->execute();
+						}
+					}
 				}
 
-				if (!empty($record['from_name']))
+				// To save repeatable smsfields
+				foreach ($record['smsfields'] as $key=>$smsArrayvalues)
 				{
-					$params['from_name'] = $record['from_name'];
+					$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+					$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
+
+					$templateConfigTable->template_id = $templateId;
+					$templateConfigTable->provider    = $datakey;
+
+					$templateConfigTable->body     = $smsArrayvalues['body'];
+					$templateConfigTable->language = $smsArrayvalues['language'];
+
+					// To get existing sms templates 
+					$existSmsFields = $this->getExistingTemplates($data['id'],$datakey);
+
+					// To check whether there is existing template for particular template and language. 
+					foreach ($existSmsFields as $existSmsField)
+					{
+						$existingSmsLang   = json_decode(json_encode($existSmsField->language), true);
+						$existingSmsTempId = json_decode(json_encode($existSmsField->template_id), true);
+						$existingSmsId     = json_decode(json_encode($existSmsField->id), true);
+
+						// If there is existing template then return to form view.
+						if ($existingSmsLang == $smsArrayvalues['language'] && $existingSmsTempId == $templateId && $existingSmsId != $smsArrayvalues['id'])
+						{
+							return false;
+						}
+					}
+
+					if (!empty($record['replacement_tags']))
+					{
+						$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
+					}
+
+					$templateConfigTable->state      = $record['state'];
+					$templateConfigTable->created_on = $created_on;
+					$templateConfigTable->updated_on = $updated_on;
+
+					// // Save provider in config table to save data in new id or existing id
+					 if (empty($smsArrayvalues['id']))
+					 {
+					 	$templateConfigTable->save($templateConfigTable);
+					 }
+					 else
+					 {
+					 	$templateConfigTable->id = $smsArrayvalues['id'];
+						$templateConfigTable->save($templateConfigTable);
+					 }
 				}
-
-				if (!empty($record['from_email']))
-				{
-					$params['from_email'] = $record['from_email'];
-				}
-
-				$templateConfigTable->params = json_encode($params);
-
-				if (!empty($record['replacement_tags']))
-				{
-					$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
-				}
-
-				$templateConfigTable->state = $record['state'];
-				$templateConfigTable->created_on = $data['created_on'];
-				$templateConfigTable->updated_on = $data['updated_on'];
-
-				// Save provider in config table
-				$templateConfigTable->save($templateConfigTable);
 			}
 		}
 
@@ -453,15 +639,61 @@ class TjnotificationsModelNotification extends AdminModel
 				$providerConfigs['from_email'] = $json->from_email;
 			}
 
-			$providerConfigs['subject'] = $tConfig->subject;
-			$providerConfigs['body'] = $tConfig->body;
 			$providerConfigs['is_override'] = $tConfig->is_override;
 			$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
-			$provider = $tConfig->provider;
 
+			$provider        = $tConfig->provider;
 			$item->$provider = $providerConfigs;
+
+			// To get data on form while editing
+			if ($tConfig->provider == "email")
+			{
+				$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "email"  . "'");
+
+				$db->setQuery($query);
+
+				$emailInfoList              = $db->loadObjectlist();
+				$item->email['emailfields'] = $emailInfoList ;
+			}
+
+			if ($tConfig->provider == "sms")
+			{
+				$db    = Factory::getDBO();
+				$smsquery = $db->getQuery(true);
+				$smsquery->select('ntc.*');
+				$smsquery->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "sms"  . "'");
+				$smsquery->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+
+				$db->setQuery($smsquery);
+
+				$smsInfoList            = $db->loadObjectlist();
+				$item->sms['smsfields'] = $smsInfoList;
+			}
 		}
 
 		return $item;
+	}
+
+	/**
+	 * get notification templates of component
+	 *
+	 * @param   integer  $templateId  id and $provider for the event in integration table
+	 *
+	 * @return array.
+	 *
+	 * @since  2.1
+	 */
+	public function getExistingTemplates($templateId,$provider)
+	{
+		$db = JFactory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+		$query->select('`id`,`language`,`template_id`');
+		$query->from($db->quoteName('#__tj_notification_template_configs'));
+		$query->where($db->quoteName('template_id') . ' = ' . $db->quote($templateId) . ' AND ' . $db->quoteName('provider') . " = '" . $provider  . "'");
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
 	}
 }

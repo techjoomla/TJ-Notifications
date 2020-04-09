@@ -71,22 +71,7 @@
 			<option id="on" value="1" >JON</option>
 			<option id="off" value="0">JOFF</option>
 			</field>
-		
-			<field
-					name="subject"
-					type="textarea"
-					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_LABEL"
-					description="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_DESC"
-					/>
 
-			<field
-					name="body"
-					type="editor"
-					label="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL"
-					description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_DESC"
-					buttons="true"
-					filter="JComponentHelper::filterText"
-					/>
 			<field
 					name="cc"
 					type="textarea"
@@ -112,9 +97,21 @@
 					description="COM_TJNOTIFICATIONS_EMAIL_FIELD_FROM_EMAIL_DESC"
 					validate="email"
 					/>
+			<field
+				name= "emailfields"
+				description= "COM_TJNOTIFICATIONS_EMAIL_FIELDS_DESC"
+				type= "subform"
+				default='[{"language": "Free","subject": " Ideal Subject Name","body": "Ideal body"}]'
+				label="COM_TJNOTIFICATIONS_EMAIL_FIELDS"
+				min= "1"
+				formsource="/administrator/components/com_tjnotifications/models/forms/emailfields.xml"
+				multiple= "true"
+				buttons="add,remove"
+				layout="joomla.form.field.subform.repeatable"
+				groupByFieldset="false" />
 		</fieldset>
 	</fields>
-	
+
 	<fields name="sms">
 		<fieldset name="sms_fieldset">
 			<field
@@ -128,20 +125,19 @@
 			  <option value="1">JON</option>
 			  <option value="0">JOFF</option>
 			</field>
-			<field
-					name="subject"
-					type="textarea"
-					label="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_LABEL"
-					description="COM_TJNOTIFICATIONS_FIELD_SMS_SUBJECT_DESC"
-					/>
 
 			<field
-					name="body"
-					type="editor"
-					label="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_LABEL"
-					description="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_DESC"
-					validation="required"
-					/>
+				name= "smsfields"
+				description= "COM_TJNOTIFICATIONS_SMS_FIELDS_DESC"
+				type= "subform"
+				default='[{"language": "Free","subject": " Ideal Subject Name","body": "Ideal body"}]'
+				label="COM_TJNOTIFICATIONS_SMS_FIELDS"
+				min= "1"
+				formsource="/administrator/components/com_tjnotifications/models/forms/smsfields.xml"
+				multiple= "true"
+				buttons="add,remove"
+				layout="joomla.form.field.subform.repeatable"
+				groupByFieldset="false" />
 		</fieldset>
 	</fields>
 	
