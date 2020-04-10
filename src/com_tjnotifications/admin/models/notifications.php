@@ -69,8 +69,8 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select('*')
-			->from($db->quoteName('#__tj_notification_templates'));
+		$query->select('t.*')
+			->from($db->quoteName('`#__tj_notification_templates` AS t'));
 
 		$search = $this->getState('filter.search');
 
@@ -224,46 +224,41 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 				$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
 
 				$db->setQuery($query);
-				$templateConfigs = $db->loadObjectlist();
+				$templateConfigs = $db->loadAssocList();
 
-				$providerConfigs = array();
+				$emailLanguage = array();
+				$smsLanguage = array();
 
-				foreach ($templateConfigs as $keytemplate => $tConfig)
+				foreach($templateConfigs as $templatConfig)
 				{
-					$providerConfigs['state'] = $tConfig->state;
-					$json = json_decode($tConfig->params);
-
-					if (!empty($json->cc))
+					if ($templatConfig['provider'] == "email" && $templatConfig['language'] != "*")
 					{
-						$providerConfigs['cc'] = $json->cc;
+						$emailLanguage[]= $templatConfig['language'];
 					}
 
-					if (!empty($json->bcc))
+					if ($templatConfig['provider'] == "sms" && $templatConfig['language'] != "*")
 					{
-						$providerConfigs['bcc'] = $json->bcc;
+						$smsLanguage[]= $templatConfig['language'];
 					}
+				}
 
-					if (!empty($json->from_name))
-					{
-						$providerConfigs['from_name'] = $json->from_name;
-					}
-
-					if (!empty($json->from_email))
-					{
-						$providerConfigs['from_email'] = $json->from_email;
-					}
-
-					$providerConfigs['subject'] = $tConfig->subject;
-					$providerConfigs['body'] = $tConfig->body;
-					$providerConfigs['is_override'] = $tConfig->is_override;
-					$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
-					$provider = $tConfig->provider;
-
-					$item->$provider = $providerConfigs;
+				$item->smsLanguages = $smsLanguage;
+				$item->emailLanguages = $emailLanguage;
 				}
 			}
-		}
 
 		return $items;
+	}
+
+	/**
+	 * Get a list of the current content languages
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getLanguages()
+	{
+		return LanguageHelper::getContentLanguages(array(0,1));
 	}
 }

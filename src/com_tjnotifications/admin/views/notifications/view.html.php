@@ -27,6 +27,13 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 {
 	public $user;
 
+	/**
+	 * An array of installed languages
+	 *
+	 * @var  array
+	 */
+	protected $languages;
+
 /**
 	* Display the view
 	*
@@ -39,13 +46,14 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 	public function display($tpl = null)
 	{
 		// Get data from the model
-		$this->items		 = $this->get('Items');
-		$this->pagination	 = $this->get('Pagination');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->state         = $this->get('State');
 		$this->component     = $this->state->get('filter.component');
 		$this->user          = Factory::getUser();
+		$this->languages     = $this->get('Languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
