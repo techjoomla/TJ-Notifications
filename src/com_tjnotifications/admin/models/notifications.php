@@ -224,29 +224,58 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 				$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
 
 				$db->setQuery($query);
-				$templateConfigs = $db->loadAssocList();
+				$templateConfigs = $db->loadObjectlist();
 
-				$emailLanguage = array();
-				$smsLanguage = array();
+				$providerConfigs = array();
+				$emailLanguage   = array();
+				$smsLanguage     = array();
 
-				foreach($templateConfigs as $templatConfig)
+				foreach ($templateConfigs as $keytemplate => $tConfig)
 				{
-					if ($templatConfig['provider'] == "email" && $templatConfig['language'] != "*")
+					$providerConfigs['state'] = $tConfig->state;
+					$json = json_decode($tConfig->params);
+
+					if (!empty($json->cc))
 					{
-						$emailLanguage[]= $templatConfig['language'];
+						$providerConfigs['cc'] = $json->cc;
 					}
 
-					if ($templatConfig['provider'] == "sms" && $templatConfig['language'] != "*")
+					if (!empty($json->bcc))
 					{
-						$smsLanguage[]= $templatConfig['language'];
+						$providerConfigs['bcc'] = $json->bcc;
 					}
+
+					if (!empty($json->from_name))
+					{
+						$providerConfigs['from_name'] = $json->from_name;
+					}
+
+					if (!empty($json->from_email))
+					{
+						$providerConfigs['from_email'] = $json->from_email;
+					}
+
+					if ($tConfig->provider == "email" && $tConfig->language != "*")
+	 				{
+	 					$emailLanguage[] = $tConfig->language;
+	 				}
+					if ($tConfig->provider == "sms" && $tConfig->language != "*")
+					{
+						$smsLanguage[] = $tConfig->language;
+					}
+					$providerConfigs['subject']          = $tConfig->subject;
+					$providerConfigs['body']             = $tConfig->body;
+					$providerConfigs['is_override']      = $tConfig->is_override;
+					$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
+					$provider                            = $tConfig->provider;
+
+					$item->$provider = $providerConfigs;
 				}
 
-				$item->smsLanguages = $smsLanguage;
+				$item->smsLanguages   = $smsLanguage;
 				$item->emailLanguages = $emailLanguage;
-				}
 			}
-
+		}
 		return $items;
 	}
 
