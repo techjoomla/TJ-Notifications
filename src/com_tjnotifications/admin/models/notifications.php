@@ -259,10 +259,12 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 	 				{
 	 					$emailLanguage[] = $tConfig->language;
 	 				}
+
 					if ($tConfig->provider == "sms" && $tConfig->language != "*")
 					{
 						$smsLanguage[] = $tConfig->language;
 					}
+					
 					$providerConfigs['subject']          = $tConfig->subject;
 					$providerConfigs['body']             = $tConfig->body;
 					$providerConfigs['is_override']      = $tConfig->is_override;
