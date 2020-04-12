@@ -205,7 +205,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 
 									<?php $j = 0; ?>
-									<?php if ($row->smslanguages) :?>
+									<?php if ($row->smsLanguages) :?>
 										<?php echo "<b>" . Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_SMS_TITLE') ."</b> <br>" ?>
 										<?php foreach ($this->languages as $language) :?>
 												<?php if (in_array($language->lang_code, $row->smsLanguages)) :  $j++; ?>

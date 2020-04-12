@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\LanguageHelper;
 
 jimport('joomla.application.component.model');
 /**
@@ -35,11 +36,11 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'client',
-				'key',
-				'state',
-				'title'
+				'id','t.id',
+				'client','t.client',
+				'key','t.key',
+				'state','t.state',
+				'title','t.title',
 			);
 		}
 
@@ -70,7 +71,7 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 
 		// Create the base select statement.
 		$query->select('t.*')
-			->from($db->quoteName('`#__tj_notification_templates` AS t'));
+			->from('`#__tj_notification_templates` AS t');
 
 		$search = $this->getState('filter.search');
 
@@ -264,7 +265,7 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 					{
 						$smsLanguage[] = $tConfig->language;
 					}
-					
+
 					$providerConfigs['subject']          = $tConfig->subject;
 					$providerConfigs['body']             = $tConfig->body;
 					$providerConfigs['is_override']      = $tConfig->is_override;
