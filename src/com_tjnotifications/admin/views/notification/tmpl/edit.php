@@ -306,4 +306,3 @@ else
 			<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 	<?php
-}
