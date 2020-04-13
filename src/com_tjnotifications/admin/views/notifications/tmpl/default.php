@@ -189,57 +189,53 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									}
 									?>
 								</td>
-								
+
 								<td class = "d-md-table-cell">
-									<?php  $i = 0;?>
 									<?php if ($row->emailLanguages) :?>
 										<?php foreach ($this->languages as $language) : ?>
-											<?php if (in_array($language->lang_code, $row->emailLanguages)) : $i++;  ?>
+											<?php if (in_array($language->lang_code, $row->emailLanguages)) :  ?>
 												<?php if ($language->image) : ?>
 													<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_EMAIL_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); echo " <br>"?>
 												<?php else : ?>
 													<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 												<?php endif; ?>
 											<?php endif;    ?>
-										<?php endforeach; $i=0; ?>
+										<?php endforeach; ?>
 									<?php endif; ?>
 
-									<?php $j = 0; ?>
 									<?php if ($row->smsLanguages) :?>
 										<?php foreach ($this->languages as $language) :?>
-												<?php if (in_array($language->lang_code, $row->smsLanguages)) :  $j++; ?>
+												<?php if (in_array($language->lang_code, $row->smsLanguages)) : ?>
 													<?php if ($language->image) : ?>
 														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_SMS_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); echo " <br>" ?>
 													<?php else : ?>
 														<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 													<?php endif; ?>
 												<?php endif;   ?>
-											<?php endforeach; $j=0; ?>
+											<?php endforeach; ?>
 									<?php endif; ?>
 								</td>
 
 								<td class = "d-md-table-cell">
-									<?php $k=0; ?>
 									<?php foreach ($this->languages as $language) : ?>
-										<?php if (!in_array($language->lang_code, $row->emailLanguages)) : $k++; ?>
+										<?php if (!in_array($language->lang_code, $row->emailLanguages)) : ?>
 											<?php if ($language->image) : ?>
 														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_EMAIL_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);echo " <br>" ?>
 											<?php else : ?>
 											<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 											<?php endif; ?>
 										<?php endif;  ?>
-									<?php endforeach; $k=0; ?>
+									<?php endforeach; ?>
 
-									<?php $l=0; ?>
 									<?php foreach ($this->languages as $language) :  ?>
-										<?php if (!in_array($language->lang_code, $row->smsLanguages)) : $l++; ?>
+										<?php if (!in_array($language->lang_code, $row->smsLanguages)) :  ?>
 											<?php if ($language->image) : ?>
 													<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_SMS_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); echo " <br>" ?>
 											<?php else : ?>
 													<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
-									<?php endforeach; $l=0; ?>
+									<?php endforeach; ?>
 								</td>
 
 								<td class="center">
