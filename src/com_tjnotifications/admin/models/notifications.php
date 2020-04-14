@@ -119,20 +119,21 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 	 *
 	 * @param   String  $client  An optional array of data for the form to interogate.
 	 * @param   String  $key     True if the form is to load its own data (default case), false if not.
+	 * @param   String  $language  A string of data for the form to interogate.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
 	 *
 	 * @since    1.6
 	 */
-	public function getTemplate($client, $key)
+	public function getTemplate($client, $key, $language)
 	{
 		$object = clone $this;
 
 		$this->setState('filter.key', $key);
 		$this->setState('filter.client', $client);
 
-		// Return exact template according key and client
-		$templates = $this->getItems();
+		// Return exact template according key, client and language
+		$templates = $this->getSpecificTemplate($language);
 
 		// If templates object is empty and key contain # then check for default (fallback) template.
 		if (empty($templates) && strpos($key, '#'))
@@ -258,6 +259,71 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 					$providerConfigs['is_override'] = $tConfig->is_override;
 					$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
 					$provider = $tConfig->provider;
+
+					$item->$provider = $providerConfigs;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * getSpecificTemplate
+	 *
+	 * @return  mixed    Object on success, false on failure.
+	 *
+	 * @since   1.0.0
+	 */
+	public function getSpecificTemplate($language)
+	{
+		$items = parent::getItems();
+
+		foreach ($items as $key => $item)
+		{
+			if (empty($item->id))
+			{
+				return false;
+			}
+
+			if (!empty($item->id))
+			{
+				$db    = Factory::getDBO();
+				$query = $db->getQuery(true);
+				$query->select('ntc.*');
+				$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+				$query->where($db->quoteName('template_id') . "= $item->id AND " . $db->quoteName('provider') . " = 'email'" . " AND (" . $db->quoteName('language') . " = '" . $language ."'". " OR " . $db->quoteName('language') . " = '*')" );
+
+				$db->setQuery($query);
+				$specificTemplates = $db->loadObjectlist();
+
+				$providerConfigs = array();
+
+				foreach ($specificTemplates as $keytemplate => $specificTemplate)
+				{
+					$providerConfigs['state'] = $specificTemplate->state;
+					$json = json_decode($specificTemplate->params);
+
+					if (!empty($json->cc))
+					{
+						$providerConfigs['cc'] = $json->cc;
+					}
+
+					if (!empty($json->bcc))
+					{
+						$providerConfigs['bcc'] = $json->bcc;
+					}
+
+					if (!empty($json->from_name))
+					{
+						$providerConfigs['from_name'] = $json->from_name;
+					}
+
+					$providerConfigs['subject']          = $specificTemplate->subject;
+					$providerConfigs['body']             = $specificTemplate->body;
+					$providerConfigs['is_override']      = $specificTemplate->is_override;
+					$providerConfigs['replacement_tags'] = $specificTemplate->replacement_tags;
+					$provider                            = $specificTemplate->provider;
 
 					$item->$provider = $providerConfigs;
 				}
