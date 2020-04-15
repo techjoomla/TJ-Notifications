@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_control` int(1) NOT NULL,
   `core` int(1) NOT NULL,
+  `replacement_tags` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_2` (`client`,`key`),
   KEY `client` (`client`),
@@ -31,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `is_override` int(1) NOT NULL,
-  `replacement_tags` text NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `#__tj_notification_template_configs` FOREIGN KEY (`template_id`) REFERENCES `#__tj_notification_templates` (`id`)
 )AUTO_INCREMENT=1 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

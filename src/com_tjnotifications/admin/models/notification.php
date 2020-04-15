@@ -142,6 +142,12 @@ class TjnotificationsModelNotification extends AdminModel
 			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_FILTER_DATETIME'));
 		}
 
+		// to save  data of replacement tags
+		if (!empty($data['replacement_tags']))
+		{
+			$data['replacement_tags'] = json_encode($data['replacement_tags']);
+		}
+
 		if (!empty($data))
 		{
 			$this->save($data);
@@ -258,11 +264,10 @@ class TjnotificationsModelNotification extends AdminModel
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('ntc.replacement_tags'));
-		$query->from('#__tj_notification_template_configs AS ntc');
-		$query->join('LEFT', '#__tj_notification_templates AS nt ON nt.id = ntc.template_id');
-		$query->where($db->quoteName('nt.client') . ' = ' . $db->quote($client));
-		$query->where($db->quoteName('nt.key') . ' = ' . $db->quote($key));
+		$query->select($db->quoteName('replacement_tags'));
+		$query->from($db->quoteName('#__tj_notification_templates'));
+		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
 		$db->setQuery($query);
 		$replacementTags = $db->loadResult();
 
@@ -332,6 +337,8 @@ class TjnotificationsModelNotification extends AdminModel
 			{
 				$data['created_on'] = $date->toSql(true);
 			}
+
+			$data['replacement_tags'] = $date->toSql(true);
 		}
 
 		if (!parent::save($data))
@@ -385,12 +392,7 @@ class TjnotificationsModelNotification extends AdminModel
 
 				$templateConfigTable->params = json_encode($params);
 
-				if (!empty($record['replacement_tags']))
-				{
-					$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
-				}
-
-				$templateConfigTable->state = $record['state'];
+				$templateConfigTable->state      = $record['state'];
 				$templateConfigTable->created_on = $data['created_on'];
 				$templateConfigTable->updated_on = $data['updated_on'];
 
