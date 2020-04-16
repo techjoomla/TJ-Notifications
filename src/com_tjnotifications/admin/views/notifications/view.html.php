@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use \Joomla\CMS\MVC\Model\AdminModel;
-use \Joomla\CMS\Toolbar\ToolbarHelper;
-use \Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 jimport('joomla.application.component.view');
 

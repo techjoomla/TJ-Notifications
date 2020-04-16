@@ -10,11 +10,11 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\HTML\HTMLHelper;
-use \Joomla\CMS\Router\Route;
-use \Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('formbehavior.chosen', 'select');
@@ -101,10 +101,10 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder);?>
 						</th>
 						<th width="10%" class="hidden-phone">
-							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_TRANLATED_IN"), 'key', $listDirn, $listOrder);?>
+							<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_TRANLATED_IN") ?>
 						</th>
 						<th width="10%" class="hidden-phone">
-							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_TRANLATED_NOT_IN"), 'key', $listDirn, $listOrder);?>
+							<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_TRANLATED_NOT_IN") ?>
 						</th>
 						<th width="10%" class="nowrap center">
 							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_EMAIL_STATUS"), 'email_status', $listDirn, $listOrder);?>
@@ -195,7 +195,11 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php foreach ($this->languages as $language) : ?>
 											<?php if (in_array($language->lang_code, $row->emailLanguages)) :  ?>
 												<?php if ($language->image) : ?>
-													<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_EMAIL_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); echo " <br>"?>
+													<?php
+														echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_EMAIL_TITLE') .
+														HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);
+														echo " <br>"
+													?>
 												<?php else : ?>
 													<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 												<?php endif; ?>
@@ -207,7 +211,11 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 										<?php foreach ($this->languages as $language) :?>
 												<?php if (in_array($language->lang_code, $row->smsLanguages)) : ?>
 													<?php if ($language->image) : ?>
-														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_SMS_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); echo " <br>" ?>
+														<?php
+															echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_SMS_TITLE') .
+															HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);
+															echo " <br>" 
+														?>
 													<?php else : ?>
 														<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 													<?php endif; ?>
@@ -220,7 +228,11 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (!in_array($language->lang_code, $row->emailLanguages)) : ?>
 											<?php if ($language->image) : ?>
-														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_EMAIL_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);echo " <br>" ?>
+														<?php
+															echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_EMAIL_TITLE') .
+															HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);
+															echo " <br>" 
+														?>
 											<?php else : ?>
 											<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 											<?php endif; ?>
@@ -230,7 +242,11 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									<?php foreach ($this->languages as $language) :  ?>
 										<?php if (!in_array($language->lang_code, $row->smsLanguages)) :  ?>
 											<?php if ($language->image) : ?>
-													<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_SMS_TITLE') . HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); echo " <br>" ?>
+													<?php
+														echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_SMS_TITLE') .
+														HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);
+														echo " <br>"
+													?>
 											<?php else : ?>
 													<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 											<?php endif; ?>

@@ -11,8 +11,8 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\LanguageHelper;
 
 jimport('joomla.application.component.model');
@@ -287,7 +287,7 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   1.2.0
 	 */
 	public function getLanguages()
 	{
