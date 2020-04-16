@@ -391,21 +391,8 @@ class TjnotificationsModelNotification extends AdminModel
 					// Array of emailtemplate id to be deleted
 					$deleteEmailTemplates = array_diff($deleteid,$storeid);
 
-					// Delete Query for email template deletion
-					if ($deleteEmailTemplates)
-					{
-						foreach ($deleteEmailTemplates as $deleteEmailTemplate)
-						{
-							$deleteQuery = $db->getQuery(true);
-							$conditions = array(
-									$db->qn('id') . '=' . (int) $deleteEmailTemplate);
-									$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
-									$deleteQuery->where($conditions);
-									$db->setQuery($deleteQuery);
-
-									$db->execute();
-						}
-					}
+					//function call to delete email template
+					$this->deleteTemplate($deleteEmailTemplates);
 				}
 
 				// Foreach to save the repeatable email fields
@@ -516,21 +503,8 @@ class TjnotificationsModelNotification extends AdminModel
 					// Array of smstemplate id to be deleted
 					$deleteSmsTemplates = array_diff($deleteSmsId,$storeSmsId);
 
-					// Delete Query for smstemplate deletion
-					if ($deleteSmsTemplates)
-					{
-						foreach ($deleteSmsTemplates as $deleteSmsTemplate)
-						{
-							$deleteQuery = $db->getQuery(true);
-							$conditions = array(
-							$db->qn('id') . '=' . (int) $deleteSmsTemplate);
-							$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
-							$deleteQuery->where($conditions);
-							$db->setQuery($deleteQuery);
-
-							$db->execute();
-						}
-					}
+					//function call to delete sms template
+					$this->deleteTemplate($deleteSmsTemplates);
 				}
 
 				// To save repeatable smsfields
@@ -645,30 +619,52 @@ class TjnotificationsModelNotification extends AdminModel
 			$provider        = $tConfig->provider;
 			$item->$provider = $providerConfigs;
 
-			// To get data on form while editing
-			if ($tConfig->provider == "email")
+			// // To get data on form while editing
+			// if ($tConfig->provider == "email")
+			// {
+			// 	$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "email"  . "'");
+
+			// 	$db->setQuery($query);
+
+			// 	$emailInfoList              = $db->loadObjectlist();
+			// 	$item->email['emailfields'] = $emailInfoList ;
+			// }
+
+			// if ($tConfig->provider == "sms")
+			// {
+			// 	$db    = Factory::getDBO();
+			// 	$smsquery = $db->getQuery(true);
+			// 	$smsquery->select('ntc.*');
+			// 	$smsquery->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "sms"  . "'");
+			// 	$smsquery->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+
+			// 	$db->setQuery($smsquery);
+
+			// 	$smsInfoList            = $db->loadObjectlist();
+			// 	$item->sms['smsfields'] = $smsInfoList;
+			// }
+
+			foreach (tjNotificationsConstantProvidersArray as $keyProvider => $provider)
 			{
-				$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "email"  . "'");
-
-				$db->setQuery($query);
-
-				$emailInfoList              = $db->loadObjectlist();
-				$item->email['emailfields'] = $emailInfoList ;
-			}
-
-			if ($tConfig->provider == "sms")
-			{
-				$db    = Factory::getDBO();
+				$db       = Factory::getDBO();
 				$smsquery = $db->getQuery(true);
 				$smsquery->select('ntc.*');
-				$smsquery->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "sms"  . "'");
+				$smsquery->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" .  $provider  . "'");
 				$smsquery->from($db->qn('#__tj_notification_template_configs', 'ntc'));
 
 				$db->setQuery($smsquery);
-
-				$smsInfoList            = $db->loadObjectlist();
-				$item->sms['smsfields'] = $smsInfoList;
+				if ($provider == "email")
+				{
+					$emailInfoList              = $db->loadObjectlist();
+					$item->email['emailfields'] = $emailInfoList ;
+				}
+				else
+				{
+					$smsInfoList            = $db->loadObjectlist();
+					$item->sms['smsfields'] = $smsInfoList;
+				}
 			}
+
 		}
 
 		return $item;
@@ -683,7 +679,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 *
 	 * @since  2.1
 	 */
-	public function getExistingTemplates($templateId,$provider)
+	public function getExistingTemplates($templateId, $provider)
 	{
 		$db = JFactory::getDbo();
 
@@ -695,5 +691,34 @@ class TjnotificationsModelNotification extends AdminModel
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
+	}
+
+	/**
+	 * Method to delete templates if they are deleted from form view
+	 *
+	 * @param   array  $data  template data
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.4
+	 */
+	public function deleteTemplate($templatesTodelete)
+	{
+		if ($templatesTodelete)
+		{
+			foreach ($templatesTodelete as $templateTodelete)
+			{
+				$db          = Factory::getDBO();
+				$deleteQuery = $db->getQuery(true);
+				$deleteQuery = $db->getQuery(true);
+				$conditions  = array(
+				$db->qn('id') . '=' . (int) $templateTodelete);
+				$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+				$deleteQuery->where($conditions);
+				$db->setQuery($deleteQuery);
+
+				$db->execute();
+			}
+		}
 	}
 }

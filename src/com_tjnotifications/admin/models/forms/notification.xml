@@ -98,13 +98,13 @@
 					validate="email"
 					/>
 			<field
-				name= "emailfields"
-				description= "COM_TJNOTIFICATIONS_EMAIL_FIELDS_DESC"
-				type= "subform"
+				name="emailfields"
+				description="COM_TJNOTIFICATIONS_EMAIL_FIELDS_DESC"
+				type="subform"
 				label="COM_TJNOTIFICATIONS_EMAIL_FIELDS"
-				min= "1"
+				min="1"
 				formsource="/administrator/components/com_tjnotifications/models/forms/emailfields.xml"
-				multiple= "true"
+				multiple="true"
 				buttons="add,remove"
 				layout="joomla.form.field.subform.repeatable"
 				groupByFieldset="false" />
@@ -126,13 +126,13 @@
 			</field>
 
 			<field
-				name= "smsfields"
-				description= "COM_TJNOTIFICATIONS_SMS_FIELDS_DESC"
-				type= "subform"
+				name="smsfields"
+				description="COM_TJNOTIFICATIONS_SMS_FIELDS_DESC"
+				type="subform"
 				label="COM_TJNOTIFICATIONS_SMS_FIELDS"
-				min= "1"
+				min="1"
 				formsource="/administrator/components/com_tjnotifications/models/forms/smsfields.xml"
-				multiple= "true"
+				multiple="true"
 				buttons="add,remove"
 				layout="joomla.form.field.subform.repeatable"
 				groupByFieldset="false" />
@@ -168,7 +168,7 @@
 					/>
 		</fieldset>
 	</fields>
-	
+
 	<fields name="web">
 		<fieldset name="web_fieldset">
 			<field

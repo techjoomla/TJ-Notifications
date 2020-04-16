@@ -14,6 +14,9 @@ defined('_JEXEC') or die;
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\MVC\Controller\BaseController;
 
+// Add the defines.php file
+require_once JPATH_COMPONENT . '/defines.php';
+
 $controller = BaseController::getInstance('Tjnotifications');
 
 // Perform the Request task
