@@ -107,13 +107,13 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 							<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_TRANLATED_NOT_IN") ?>
 						</th>
 						<th width="10%" class="nowrap center">
-							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_EMAIL_STATUS"), 'email_status', $listDirn, $listOrder);?>
+							<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_EMAIL_STATUS") ?>
 						</th>
 						<th width="10%" class="nowrap center">
 							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_USER_CONTROL"), 'user_control', $listDirn, $listOrder);?>
 						</th>
 						<th width="10%" class="nowrap center">
-							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_UNSUBCRIBED_USERS"), 'unsubcribed_users', $listDirn, $listOrder);?>
+							<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_UNSUBCRIBED_USERS") ?>
 						</th>
 						<th width="10%" class="nowrap center">
 							<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_CORE_TEMPLATE"), 'core', $listDirn, $listOrder);?>
