@@ -619,31 +619,6 @@ class TjnotificationsModelNotification extends AdminModel
 			$provider        = $tConfig->provider;
 			$item->$provider = $providerConfigs;
 
-			// // To get data on form while editing
-			// if ($tConfig->provider == "email")
-			// {
-			// 	$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "email"  . "'");
-
-			// 	$db->setQuery($query);
-
-			// 	$emailInfoList              = $db->loadObjectlist();
-			// 	$item->email['emailfields'] = $emailInfoList ;
-			// }
-
-			// if ($tConfig->provider == "sms")
-			// {
-			// 	$db    = Factory::getDBO();
-			// 	$smsquery = $db->getQuery(true);
-			// 	$smsquery->select('ntc.*');
-			// 	$smsquery->where($db->qn('ntc.template_id') . '=' . (int) $item->id . ' AND ' . $db->quoteName('provider') . " = '" . "sms"  . "'");
-			// 	$smsquery->from($db->qn('#__tj_notification_template_configs', 'ntc'));
-
-			// 	$db->setQuery($smsquery);
-
-			// 	$smsInfoList            = $db->loadObjectlist();
-			// 	$item->sms['smsfields'] = $smsInfoList;
-			// }
-
 			foreach (tjNotificationsConstantProvidersArray as $keyProvider => $provider)
 			{
 				$db       = Factory::getDBO();

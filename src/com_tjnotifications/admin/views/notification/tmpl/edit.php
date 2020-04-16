@@ -18,36 +18,38 @@ use \Joomla\CMS\Router\Route;
 
 HTMLHelper::_('formbehavior.chosen','select');
 HTMLHelper::_('behavior.formvalidator');
-?>
 
-<script>
+$doc = Factory::getDocument();
+
+$script = '
 	jQuery(document).ready(function() {
-		jQuery("fieldset").click(function() {
-			status=this.id+'0';
-			statusChange=this.id+'1';
-			var check=(jQuery("#"+status).attr("checked"));
+			jQuery("fieldset").click(function() {
+				status=this.id+"0";
+				statusChange=this.id+"1";
+				var check=(jQuery("#"+status).attr("checked"));
 
-			if (check=="checked") {
-				var body=(this.id).replace("status", "body_ifr");
-				var bodyData=(jQuery("#"+body).contents().find("body").find("p").html());
+				if (check=="checked") {
+					var body=(this.id).replace("status", "body_ifr");
+					var bodyData=(jQuery("#"+body).contents().find("body").find("p").html());
 
-				if (bodyData=='<br data-mce-bogus="1">') {
-					alert('Please fill the data');
-					jQuery('#'+this.id).find('label[for='+statusChange+']').attr('class','btn active btn-danger');
-					jQuery('#'+this.id).find('label[for='+status+']').attr('class','btn');
+					if (bodyData=="<br data-mce-bogus="1">") {
+						alert("Please fill the data");
+						jQuery("#"+this.id).find("label[for="+statusChange+"]").attr("class","btn active btn-danger");
+						jQuery("#"+this.id).find("label[for="+status+"]").attr("class","btn");
 
-					return false;
+						return false;
+					}
+					else {
+						jQuery("#"+this.id).find("label[for="+status+"]").attr("class","btn active btn-success");
+						jQuery("#"+this.id).find("label[for="+statusChange+"]").attr("class","btn");
+					}
 				}
-				else {
-					jQuery('#'+this.id).find('label[for='+status+']').attr('class','btn active btn-success');
-					jQuery('#'+this.id).find('label[for='+statusChange+']').attr('class','btn');
-				}
-			}
+			});
 		});
-	});
-</script>
+	';
 
-<?php
+$doc->addScriptDeclaration($script);
+
 if (empty($this->user->authorise('core.create', 'com_tjnotifications')) || empty($this->user->authorise('core.edit', 'com_tjnotifications')))
 {
 	$app = Factory::getApplication();
