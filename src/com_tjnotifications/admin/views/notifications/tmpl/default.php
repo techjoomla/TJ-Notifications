@@ -190,7 +190,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									?>
 								</td>
 
-								<td class = "d-md-table-cell">
+								<td class = "d-md-table-cell center">
 									<?php if ($row->emailLanguages) :?>
 										<?php foreach ($this->languages as $language) : ?>
 											<?php if (in_array($language->lang_code, $row->emailLanguages)) :  ?>
@@ -224,7 +224,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 
-								<td class = "d-md-table-cell">
+								<td class = "d-md-table-cell center">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (!in_array($language->lang_code, $row->emailLanguages)) : ?>
 											<?php if ($language->image) : ?>
