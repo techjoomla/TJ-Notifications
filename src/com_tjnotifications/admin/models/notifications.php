@@ -253,10 +253,9 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 						$providerConfigs['from_email'] = $json->from_email;
 					}
 
-					$providerConfigs['subject'] = $tConfig->subject;
-					$providerConfigs['body'] = $tConfig->body;
+					$providerConfigs['subject']     = $tConfig->subject;
+					$providerConfigs['body']        = $tConfig->body;
 					$providerConfigs['is_override'] = $tConfig->is_override;
-					$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
 					$provider = $tConfig->provider;
 
 					$item->$provider = $providerConfigs;
