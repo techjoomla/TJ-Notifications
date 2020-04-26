@@ -135,11 +135,17 @@ class TjnotificationsModelNotification extends AdminModel
 	public function createTemplates($templates)
 	{
 		$data  = $templates;
-		$date = new Date;
+		$date  = new Date;
 
 		if (empty($data['created_on']))
 		{
 			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_FILTER_DATETIME'));
+		}
+
+		// To save  data of replacement tags
+		if (!empty($data['replacement_tags']))
+		{
+			$data['replacement_tags'] = json_encode($data['replacement_tags']);
 		}
 
 		if (!empty($data))
@@ -258,11 +264,10 @@ class TjnotificationsModelNotification extends AdminModel
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('ntc.replacement_tags'));
-		$query->from('#__tj_notification_template_configs AS ntc');
-		$query->join('LEFT', '#__tj_notification_templates AS nt ON nt.id = ntc.template_id');
-		$query->where($db->quoteName('nt.client') . ' = ' . $db->quote($client));
-		$query->where($db->quoteName('nt.key') . ' = ' . $db->quote($key));
+		$query->select($db->quoteName('replacement_tags'));
+		$query->from($db->quoteName('#__tj_notification_templates'));
+		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
 		$db->setQuery($query);
 		$replacementTags = $db->loadResult();
 
@@ -332,6 +337,12 @@ class TjnotificationsModelNotification extends AdminModel
 			{
 				$data['created_on'] = $date->toSql(true);
 			}
+
+			// To save  data of replacement tags
+			if (!empty($data['replacement_tags']))
+			{
+				$data['replacement_tags'] = json_encode($data['replacement_tags']);
+			}
 		}
 
 		if (!parent::save($data))
@@ -385,12 +396,7 @@ class TjnotificationsModelNotification extends AdminModel
 
 				$templateConfigTable->params = json_encode($params);
 
-				if (!empty($record['replacement_tags']))
-				{
-					$templateConfigTable->replacement_tags = json_encode($record['replacement_tags']);
-				}
-
-				$templateConfigTable->state = $record['state'];
+				$templateConfigTable->state      = $record['state'];
 				$templateConfigTable->created_on = $data['created_on'];
 				$templateConfigTable->updated_on = $data['updated_on'];
 
@@ -453,10 +459,9 @@ class TjnotificationsModelNotification extends AdminModel
 				$providerConfigs['from_email'] = $json->from_email;
 			}
 
-			$providerConfigs['subject'] = $tConfig->subject;
-			$providerConfigs['body'] = $tConfig->body;
+			$providerConfigs['subject']     = $tConfig->subject;
+			$providerConfigs['body']        = $tConfig->body;
 			$providerConfigs['is_override'] = $tConfig->is_override;
-			$providerConfigs['replacement_tags'] = $tConfig->replacement_tags;
 			$provider = $tConfig->provider;
 
 			$item->$provider = $providerConfigs;
