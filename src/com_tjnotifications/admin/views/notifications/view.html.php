@@ -26,26 +26,33 @@ jimport('joomla.application.component.view');
  */
 class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 {
+	protected $items;
+
+	protected $pagination;
+
+	protected $state;
+
 	public $app;
+
+	public $activeFilters;
+
+	public $component;
+
+	public $filterForm;
+
+	public $languages;
 
 	public $user;
 
 	/**
-	 * An array of installed languages
+	 * Display the view
 	 *
-	 * @var  array
+	 * @param   string  $tpl  Template name
+	 *
+	 * @return void
+	 *
+	 * @throws Exception
 	 */
-	protected $languages;
-
-/**
-	* Display the view
-	*
-	* @param   string  $tpl  Template name
-	*
-	* @return void
-	*
-	* @throws Exception
-	*/
 	public function display($tpl = null)
 	{
 		// Validate
