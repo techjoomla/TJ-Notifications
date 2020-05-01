@@ -11,11 +11,13 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 JLoader::import('preferences', JPATH_SITE . '/components/com_tjnotifications/models');
+
 /**
  * new notification View
  *

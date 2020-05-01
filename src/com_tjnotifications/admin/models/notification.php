@@ -552,7 +552,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 * @param   integer  $templateId  Notification template ID
 	 * @param   string   $provider    Provider name
 	 *
-	 * @return array.
+	 * @return array
 	 *
 	 * @since  2.1
 	 */
@@ -584,12 +584,11 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function deleteProviderConfigs($providerConfigIdsToBeDeleted)
 	{
-		if ($providerConfigIdsToBeDeleted)
+		if (!empty($providerConfigIdsToBeDeleted))
 		{
 			foreach ($providerConfigIdsToBeDeleted as $entry)
 			{
 				$db          = Factory::getDBO();
-				$deleteQuery = $db->getQuery(true);
 				$deleteQuery = $db->getQuery(true);
 				$conditions  = array(
 				$db->qn('id') . '=' . (int) $entry);
