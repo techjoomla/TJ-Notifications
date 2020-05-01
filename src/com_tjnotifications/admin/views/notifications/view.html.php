@@ -10,11 +10,12 @@
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use \Joomla\CMS\MVC\Model\AdminModel;
-use \Joomla\CMS\Toolbar\ToolbarHelper;
-use \Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 jimport('joomla.application.component.view');
 
@@ -25,7 +26,16 @@ jimport('joomla.application.component.view');
  */
 class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 {
+	public $app;
+
 	public $user;
+
+	/**
+	 * An array of installed languages
+	 *
+	 * @var  array
+	 */
+	protected $languages;
 
 /**
 	* Display the view
@@ -38,14 +48,25 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 	*/
 	public function display($tpl = null)
 	{
+		// Validate
+		$this->app  = Factory::getApplication();
+		$this->user = Factory::getUser();
+
+		if (empty($this->user->authorise('core.viewlist', 'com_tjnotifications')))
+		{
+			$msg = Text::_('JERROR_ALERTNOAUTHOR');
+			JError::raiseError(403, $msg);
+			$this->app->redirect(Route::_('index.php?Itemid=0', false));
+		}
+
 		// Get data from the model
-		$this->items		 = $this->get('Items');
-		$this->pagination	 = $this->get('Pagination');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->state         = $this->get('State');
 		$this->component     = $this->state->get('filter.component');
-		$this->user          = Factory::getUser();
+		$this->languages     = $this->get('Languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -61,8 +82,8 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 		$extension = Factory::getApplication()->input->get('extension', '', 'word');
 
 		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models');
-		$model = AdminModel::getInstance('Preferences', 'TJNotificationsModel');
-		$this->count    = $model->count();
+		$model       = AdminModel::getInstance('Preferences', 'TJNotificationsModel');
+		$this->count = $model->count();
 
 		if ($extension)
 		{
