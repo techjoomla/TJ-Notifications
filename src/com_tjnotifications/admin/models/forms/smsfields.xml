@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden" />
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
+			required="true"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="body"
+			type="textarea"
+			label="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_SMS_BODY_DESC"
+			rows="10"
+			cols="150"
+			filter="JComponentHelper::filterText"
+			required="true"
+		/>
+	</fieldset>
+</form>

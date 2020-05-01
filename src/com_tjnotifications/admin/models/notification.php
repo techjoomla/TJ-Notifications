@@ -11,14 +11,14 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Table\Table;
-use \Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use \Joomla\CMS\MVC\Model\AdminModel;
-use \Joomla\CMS\MVC\Model\ListModel;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\Plugin\PluginHelper;
-use \Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Date\Date;
 
 jimport('joomla.application.component.model');
 BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
@@ -315,7 +315,7 @@ class TjnotificationsModelNotification extends AdminModel
 	}
 
 	/**
-	 * Method to  save notification date
+	 * Method to  save notification data
 	 *
 	 * @param   ARRAY  $data  notification data
 	 *
@@ -325,6 +325,9 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function save($data)
 	{
+		$isNew = true;
+
+		// 1 - save template first
 		if (!empty($data))
 		{
 			$date = Factory::getDate();
@@ -338,7 +341,6 @@ class TjnotificationsModelNotification extends AdminModel
 				$data['created_on'] = $date->toSql(true);
 			}
 
-			// To save  data of replacement tags
 			if (!empty($data['replacement_tags']))
 			{
 				$data['replacement_tags'] = json_encode($data['replacement_tags']);
@@ -349,63 +351,136 @@ class TjnotificationsModelNotification extends AdminModel
 		{
 			return false;
 		}
-
-		// Get current Template id
-		$templateId = (int) $this->getState($this->getName() . '.id');
-		$db    = Factory::getDBO();
+		else
+		{
+			// IMPORTANT to set new id in state, it is fetched in controller later
+			// Get current Template id
+			$templateId = (int) $this->getState($this->getName() . '.id');
+			$this->setState('com_tjnotifications.edit.notification.id', $templateId);
+			$this->setState('com_tjnotifications.edit.notification.new', $isNew);
+		}
 
 		if (empty($templateId))
 		{
 			return false;
 		}
 
-		$params = array();
+		// Get DB
+		$db = Factory::getDbo();
 
-		foreach ($data as $key => $record)
+		// 2 - save provider specific config
+		foreach (TJNOTIFICATIONS_CONST_PROVIDERS_ARRAY as $keyProvider => $provider)
 		{
-			// For email provider
-			if ($key == 'email')
+			// 2.1 Check if current provider exists in posted data
+			// If not $data['email'] or $data['sms']
+			if (empty($data[$provider]))
+			{
+				continue;
+			}
+
+			// Eg: Get count of $data['email']['emailfields'] or $data['sms']['smsfields']
+			if (count($data[$provider][$provider . 'fields']) == 0)
+			{
+				continue;
+			}
+
+			$idsToBeDeleted = array();
+			$idsToBeStored  = array();
+
+			// For current template, get existing lang. sepcific template for current provider
+			$existingProviderConfigs = $this->getExistingTemplates($data['id'], $provider);
+
+			// 2.2 Find existing template config entries to be deleted (i.e. language specific templates removed by user)
+			foreach ($data[$provider][$provider . 'fields'] as $providerName => $providerFieldValues)
+			{
+				// Iterate through each lang. specific config entry
+				foreach ($existingProviderConfigs as $existingProviderConfig)
+				{
+					$existingProviderConfigId     = json_decode(json_encode($existingProviderConfig->id), true);
+					$existingProviderConfigTempId = json_decode(json_encode($existingProviderConfig->template_id), true);
+					$existingProviderConfigLang   = json_decode(json_encode($existingProviderConfig->language), true);
+
+					// If there is existing template then return to form view.
+					if ($existingProviderConfigLang == $providerFieldValues['language']
+						&& $existingProviderConfigTempId == $templateId
+						&& $existingProviderConfigId != $providerFieldValues['id'])
+					{
+						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_TEMPLATE_EXISTS'));
+
+						return false;
+					}
+
+					// Find to be deleted or saved
+					if (($existingProviderConfigId == $providerFieldValues['id'] || $existingProviderConfigLang == "*" )
+						|| $existingProviderConfigId == empty($providerFieldValues['id']))
+					{
+						$idsToBeStored[] = $providerFieldValues['id'];
+					}
+					else
+					{
+						$idsToBeDeleted[] = $existingProviderConfigId;
+					}
+				}
+			}
+
+			// Array of provider specific template configs id to be deleted
+			$providerConfigIdsToBeDeleted = array_diff($idsToBeDeleted, $idsToBeStored);
+
+			// Function call to delete template configs
+			$this->deleteProviderConfigs($providerConfigIdsToBeDeleted);
+
+			// 2.3 Common data for saving
+			$createdOn = !empty($data['created_on']) ? $data['created_on'] : '';
+			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : '';
+
+			// 2.4 try saving all provider specific configs
+			// This has repeatable data eg: $data['email']['emailfields'] or $data['sms']['smsfields']
+			foreach ($data[$provider][$provider . 'fields'] as $providerName => $providerFieldValues)
 			{
 				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
-				$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $key));
+				$templateConfigTable->load(array('template_id' => $templateId, 'provider' => $providerName));
 
+				// Non-repeat data
 				$templateConfigTable->template_id = $templateId;
-				$templateConfigTable->provider = $key;
-				$templateConfigTable->subject = $record['subject'];
-				$templateConfigTable->body = $record['body'];
+				$templateConfigTable->provider    = $provider;
+				$templateConfigTable->state       = $data[$provider]['state'];
+				$templateConfigTable->created_on  = $createdOn;
+				$templateConfigTable->updated_on  = $updatedOn;
 
-				if (!empty($record['cc']))
-				{
-					$params['cc'] = $record['cc'];
-				}
+				// Get params data
+				// State, emailfields / smsfields
+				$nonParamsFields = array('state', $provider . 'fields');
+				$params = array();
 
-				if (!empty($record['bcc']))
+				foreach ($data[$provider] as $fieldKey => $fieldValue)
 				{
-					$params['bcc'] = $record['bcc'];
-				}
-
-				if (!empty($record['from_name']))
-				{
-					$params['from_name'] = $record['from_name'];
-				}
-
-				if (!empty($record['from_email']))
-				{
-					$params['from_email'] = $record['from_email'];
+					if (!in_array($fieldKey, $nonParamsFields) && !empty($data[$provider][$fieldKey]))
+					{
+						$params[$fieldKey] = $data[$provider][$fieldKey];
+					}
 				}
 
 				$templateConfigTable->params = json_encode($params);
 
-				$templateConfigTable->state      = $record['state'];
-				$templateConfigTable->created_on = $data['created_on'];
-				$templateConfigTable->updated_on = $data['updated_on'];
+				// Repeatable data
+				$templateConfigTable->subject     = !empty($providerFieldValues['subject']) ? $providerFieldValues['subject']: '';
+				$templateConfigTable->body        = $providerFieldValues['body'];
+				$templateConfigTable->language    = $providerFieldValues['language'];
 
 				// Save provider in config table
-				$templateConfigTable->save($templateConfigTable);
+				if (empty($providerFieldValues['id']))
+				{
+					$templateConfigTable->save($templateConfigTable);
+				}
+				else
+				{
+					$templateConfigTable->id = $providerFieldValues['id'];
+					$templateConfigTable->save($templateConfigTable);
+				}
 			}
 		}
 
-		return $templateId;
+		return true;
 	}
 
 	/**
@@ -424,49 +499,106 @@ class TjnotificationsModelNotification extends AdminModel
 			return $item;
 		}
 
-		$db    = Factory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('ntc.*');
-		$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
-		$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
-		$db->setQuery($query);
-		$templateConfigs = $db->loadObjectlist();
-
-		$providerConfigs = array();
-
-		foreach ($templateConfigs as $key => $tConfig)
+		foreach (TJNOTIFICATIONS_CONST_PROVIDERS_ARRAY as $keyProvider => $provider)
 		{
-			$providerConfigs['state'] = $tConfig->state;
-			$json = json_decode($tConfig->params);
+			$db                   = Factory::getDBO();
+			$providerConfigsQuery = $db->getQuery(true);
 
-			if (!empty($json->cc))
+			$providerConfigsQuery->select('ntc.*');
+			$providerConfigsQuery->where(
+				$db->qn('ntc.template_id') . '=' . (int) $item->id .
+				' AND ' . $db->quoteName('provider') . " = '" . $provider . "'"
+			);
+			$providerConfigsQuery->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+			$db->setQuery($providerConfigsQuery);
+			$providerConfigsList = $db->loadObjectlist();
+
+			if (empty($providerConfigsList))
 			{
-				$providerConfigs['cc'] = $json->cc;
+				continue;
 			}
 
-			if (!empty($json->bcc))
+			// We can get common config for current provider from any provider config for current template ID
+			$singleProviderRow = $providerConfigsList[0];
+
+			// Define non-params fields - state, emailfields / smsfields
+			$nonParamsFields  = array('state', $provider . 'fields');
+
+			// Start setting provider specific data for edit
+			$item->$provider          = array();
+			$item->$provider['state'] = $singleProviderRow->state;
+
+			// Get params for current provider from any provider config for current template ID
+			$json = (array) json_decode($singleProviderRow->params);
+
+			foreach ($json as $fieldKey => $fieldValue)
 			{
-				$providerConfigs['bcc'] = $json->bcc;
+				if (!in_array($fieldKey, $nonParamsFields))
+				{
+					$item->$provider[$fieldKey] = $fieldValue;
+				}
 			}
 
-			if (!empty($json->from_name))
-			{
-				$providerConfigs['from_name'] = $json->from_name;
-			}
-
-			if (!empty($json->from_email))
-			{
-				$providerConfigs['from_email'] = $json->from_email;
-			}
-
-			$providerConfigs['subject']     = $tConfig->subject;
-			$providerConfigs['body']        = $tConfig->body;
-			$providerConfigs['is_override'] = $tConfig->is_override;
-			$provider = $tConfig->provider;
-
-			$item->$provider = $providerConfigs;
+			// Last, set all config rows list as repeatable data
+			$item->$provider[$provider . 'fields'] = $providerConfigsList;
 		}
 
 		return $item;
+	}
+
+	/**
+	 * get notification templates of component
+	 *
+	 * @param   integer  $templateId  Notification template ID
+	 * @param   string   $provider    Provider name
+	 *
+	 * @return array.
+	 *
+	 * @since  2.1
+	 */
+	public function getExistingTemplates($templateId, $provider)
+	{
+		$db = JFactory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+		$query->select('`id`,`language`,`template_id`');
+		$query->from($db->quoteName('#__tj_notification_template_configs'));
+		$query->where(
+			$db->quoteName('template_id') . ' = ' . $db->quote($templateId) .
+			' AND ' . $db->quoteName('provider') . " = '" . $provider . "'"
+		);
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Method to delete templates if they are deleted from form view
+	 *
+	 * @param   array  $providerConfigIdsToBeDeleted  template data
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.4
+	 */
+	public function deleteProviderConfigs($providerConfigIdsToBeDeleted)
+	{
+		if ($providerConfigIdsToBeDeleted)
+		{
+			foreach ($providerConfigIdsToBeDeleted as $entry)
+			{
+				$db          = Factory::getDBO();
+				$deleteQuery = $db->getQuery(true);
+				$deleteQuery = $db->getQuery(true);
+				$conditions  = array(
+				$db->qn('id') . '=' . (int) $entry);
+				$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+				$deleteQuery->where($conditions);
+				$db->setQuery($deleteQuery);
+
+				$db->execute();
+			}
+		}
 	}
 }

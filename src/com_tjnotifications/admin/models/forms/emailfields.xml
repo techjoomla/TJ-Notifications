@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden" />
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
+			required="true"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="subject"
+			type="textarea"
+			label="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_DESC"
+			required="true"
+			/>
+
+		<field
+			name="body"
+			type="editor"
+			label="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_DESC"
+			buttons="true"
+			filter="JComponentHelper::filterText"
+			height="150px"
+			required="true"
+		/>
+	</fieldset>
+</form>
