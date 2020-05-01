@@ -11,8 +11,9 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\LanguageHelper;
 
 jimport('joomla.application.component.model');
 /**
@@ -35,11 +36,11 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'client',
-				'key',
-				'state',
-				'title'
+				'id','t.id',
+				'client','t.client',
+				'key','t.key',
+				'state','t.state',
+				'title','t.title',
 			);
 		}
 
@@ -69,8 +70,8 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select('*')
-			->from($db->quoteName('#__tj_notification_templates'));
+		$query->select('t.*')
+			->from('`#__tj_notification_templates` AS t');
 
 		$search = $this->getState('filter.search');
 
@@ -222,47 +223,39 @@ class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 				$query->select('ntc.*');
 				$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
 				$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
+				$query->order($db->q('ntc.language'));
 
 				$db->setQuery($query);
 				$templateConfigs = $db->loadObjectlist();
 
-				$providerConfigs = array();
-
-				foreach ($templateConfigs as $keytemplate => $tConfig)
+				foreach (TJNOTIFICATIONS_CONST_PROVIDERS_ARRAY as $keyProvider => $provider)
 				{
-					$providerConfigs['state'] = $tConfig->state;
-					$json = json_decode($tConfig->params);
+					$item->$provider['state']     = $templateConfigs[0]->state;
+					$item->$provider['languages'] = array();
 
-					if (!empty($json->cc))
+					foreach ($templateConfigs as $keytemplate => $tConfig)
 					{
-						$providerConfigs['cc'] = $json->cc;
+						if ($tConfig->provider == $provider && !in_array($tConfig->language, $item->$provider['languages']))
+						{
+							$item->$provider['languages'][] = $tConfig->language;
+						}
 					}
-
-					if (!empty($json->bcc))
-					{
-						$providerConfigs['bcc'] = $json->bcc;
-					}
-
-					if (!empty($json->from_name))
-					{
-						$providerConfigs['from_name'] = $json->from_name;
-					}
-
-					if (!empty($json->from_email))
-					{
-						$providerConfigs['from_email'] = $json->from_email;
-					}
-
-					$providerConfigs['subject']     = $tConfig->subject;
-					$providerConfigs['body']        = $tConfig->body;
-					$providerConfigs['is_override'] = $tConfig->is_override;
-					$provider = $tConfig->provider;
-
-					$item->$provider = $providerConfigs;
 				}
 			}
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Get a list of the current content languages
+	 *
+	 * @return  array
+	 *
+	 * @since   1.2.0
+	 */
+	public function getLanguages()
+	{
+		return LanguageHelper::getContentLanguages(array(0,1));
 	}
 }
