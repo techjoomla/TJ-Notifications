@@ -56,9 +56,13 @@ class TjnotificationsControllerNotification extends FormController
 			$key = $table->getKeyName();
 		}
 
-		$post      = $input->post;
-		$cid       = $post->get('cid', array(), 'array');
-		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
+		// To avoid data collisions the urlVar may be different from the primary key.
+		if (empty($urlVar))
+		{
+			$urlVar = $key;
+		}
+
+		$recordId = $this->input->getInt($urlVar);
 
 		// Populate the row id from the session.
 		$data[$key] = $recordId;
@@ -148,6 +152,9 @@ class TjnotificationsControllerNotification extends FormController
 				}
 			}
 
+			// Save the data in the session.
+			$app->setUserState('com_tjnotifications.edit.notification.data', $data);
+
 			// Redirect back to the edit screen
 			$extension = $input->get('extension', '', 'STRING');
 
@@ -169,13 +176,15 @@ class TjnotificationsControllerNotification extends FormController
 			$this->setRedirect($link);
 		}
 
-		$recordId = $model->save($validData);
-
 		// Attempt to save the data.
-		if (!$recordId)
+		if (!$model->save($validData))
 		{
+			// Save the data in the session.
+			$app->setUserState('com_tjnotifications.edit.notification.data', $data);
+
 			// Redirect back to the edit screen.
-			$this->setError(Text::_('COM_TJNOTIFICATIONS_MODEL_NOTIFICATION_KEY_DUPLICATE_MESSAGE'));
+			// Redirect back to the edit screen.
+			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$extension = $input->get('extension', '', 'STRING');
@@ -203,6 +212,9 @@ class TjnotificationsControllerNotification extends FormController
 		// Save succeeded, so check-in the record.
 		if ($checkin && $model->checkin($validData['id']) === false)
 		{
+			// Save the data in the session.
+			$app->setUserState('com_tjnotifications.edit.notification.data', $validData);
+
 			// Check-in failed, so go back to the record and display a notice.
 			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
@@ -235,20 +247,26 @@ class TjnotificationsControllerNotification extends FormController
 		switch ($task)
 		{
 			case 'apply':
+				// Set the record data in the session.
+				$recordId = $model->getState('com_tjnotifications.edit.notification.id');
+				$this->holdEditId('com_tjnotifications.edit.notification', $recordId);
+				$app->setUserState('com_tjnotifications.edit.notification.data', null);
+				$model->checkout($recordId);
+
 				$extension = $input->get('extension', '', 'STRING');
 
 				// Redirect back to the edit screen.
 				if ($extension)
 				{
 					$link = Route::_(
-					'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId .
+					'index.php?option=com_tjnotifications&view=notification' . $this->getRedirectToItemAppend($recordId, $urlVar) .
 					'&extension=' . $extension, false
 					);
 				}
 				else
 				{
 					$link = Route::_(
-					'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId, false
+					'index.php?option=com_tjnotifications&view=notification' . $this->getRedirectToItemAppend($recordId, $urlVar), false
 					);
 				}
 
@@ -257,6 +275,10 @@ class TjnotificationsControllerNotification extends FormController
 			break;
 
 			case 'save2new':
+				// Clear the record id and data from the session.
+				$this->releaseEditId('com_tjnotifications.edit.notification', $recordId);
+				$app->setUserState('com_tjnotifications.edit.notification.data', null);
+
 				// Redirect back to the edit screen.
 				$extension = $input->get('extension', '', 'STRING');
 
@@ -264,13 +286,13 @@ class TjnotificationsControllerNotification extends FormController
 				if ($extension)
 				{
 					$link = Route::_(
-					'index.php?option=com_tjnotifications&view=notification&layout=edit&extension=' . $extension, false
+					'index.php?option=com_tjnotifications&view=notification' . $this->getRedirectToItemAppend(null, $urlVar) . '&extension=' . $extension, false
 					);
 				}
 				else
 				{
 					$link = Route::_(
-					'index.php?option=com_tjnotifications&view=notification&layout=edit', false
+					'index.php?option=com_tjnotifications&view=notification' . $this->getRedirectToItemAppend(null, $urlVar), false
 					);
 				}
 
@@ -278,19 +300,23 @@ class TjnotificationsControllerNotification extends FormController
 			break;
 
 			default:
+				// Clear the record id and data from the session.
+				$this->releaseEditId('com_tjnotifications.edit.notification', $recordId);
+				$app->setUserState('com_tjnotifications.edit.notification.data', null);
+
 				$extension = $input->get('extension', '', 'STRING');
 
 				// Redirect back to the notification list view.
 				if ($extension)
 				{
 					$link = Route::_(
-					'index.php?option=com_tjnotifications&view=notifications&extension=' . $extension, false
+					'index.php?option=com_tjnotifications&view=notifications' . $this->getRedirectToListAppend() . '&extension=' . $extension, false
 					);
 				}
 				else
 				{
 					$link = Route::_(
-					'index.php?option=com_tjnotifications&view=notifications', false
+					'index.php?option=com_tjnotifications&view=notifications' . $this->getRedirectToListAppend(), false
 					);
 				}
 

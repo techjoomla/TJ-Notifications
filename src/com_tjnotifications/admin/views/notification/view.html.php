@@ -11,11 +11,13 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 JLoader::import('preferences', JPATH_SITE . '/components/com_tjnotifications/models');
+
 /**
  * new notification View
  *
@@ -34,6 +36,8 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 
 	protected $item;
 
+	public $app;
+
 	public $user;
 
 	/**
@@ -45,16 +49,27 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
-		$this->items         = $this->get('Items');
+		// Validate
+		$this->app           = Factory::getApplication();
+		$this->user          = Factory::getUser();
+
+		if (empty($this->user->authorise('core.create', 'com_tjnotifications')) || empty($this->user->authorise('core.edit', 'com_tjnotifications')))
+		{
+			$msg = Text::_('JERROR_ALERTNOAUTHOR');
+			JError::raiseError(403, $msg);
+			$this->app->redirect(Route::_('index.php?Itemid=0', false));
+		}
+
+		/*$this->items       = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-		$this->state         = $this->get('State');
-		$this->form 		 = $this->get('Form');
-		$this->item          = $this->get('Item');
-		$this->component     = $this->state->get('filter.component');
-		$this->user          = Factory::getUser();
+		$this->activeFilters = $this->get('ActiveFilters');*/
+
+		// Get data from the model
+		$this->state     = $this->get('State');
+		$this->form      = $this->get('Form');
+		$this->item      = $this->get('Item');
+		$this->component = $this->state->get('filter.component');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

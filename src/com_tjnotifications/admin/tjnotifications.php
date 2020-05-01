@@ -11,8 +11,12 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+JHtml::_('behavior.tabstate');
+
+// Add the defines.php file
+require_once JPATH_COMPONENT . '/defines.php';
 
 $controller = BaseController::getInstance('Tjnotifications');
 
