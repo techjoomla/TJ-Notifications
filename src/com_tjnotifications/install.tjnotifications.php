@@ -1,10 +1,19 @@
 <?php
 /**
- * @package    Com_Tjnotification
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
+
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Object\CMSObject;
+use \Joomla\CMS\Installer\InstallerHelper;
+
 jimport('joomla.installer.installer');
 jimport('joomla.filesystem.file');
 
@@ -57,8 +66,8 @@ class Com_TjnotificationsInstallerScript
 	public function uninstall($parent)
 	{
 		jimport('joomla.installer.installer');
-		$db              = JFactory::getDBO();
-		$status          = new JObject;
+		$db              = Factory::getDBO();
+		$status          = new CMSObject;
 		$status->plugins = array();
 		$src             = $parent->getParent()->getPath('source');
 
@@ -136,8 +145,8 @@ class Com_TjnotificationsInstallerScript
 	public function postflight($type, $parent)
 	{
 		$src             = $parent->getParent()->getPath('source');
-		$db              = JFactory::getDbo();
-		$status          = new JObject;
+		$db              = Factory::getDbo();
+		$status          = new CMSObject;
 		$status->plugins = array();
 
 		// Plugins installation
@@ -215,7 +224,7 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function installSqlFiles($parent)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Obviously you may have to change the path and name if your installation SQL file
 		if (method_exists($parent, 'extension_root'))
@@ -233,7 +242,7 @@ class Com_TjnotificationsInstallerScript
 		if ($buffer !== false)
 		{
 			jimport('joomla.installer.helper');
-			$queries = JInstallerHelper::splitSql($buffer);
+			$queries = InstallerHelper::splitSql($buffer);
 
 			if (count($queries) != 0)
 			{
@@ -256,7 +265,7 @@ class Com_TjnotificationsInstallerScript
 			}
 		}
 
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 		$configdb = $config->get('db');
 
 		// Get dbprefix
@@ -346,8 +355,8 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function fix_db_on_update()
 	{
-		$db = JFactory::getDbo();
-		$config = JFactory::getConfig();
+		$db       = Factory::getDbo();
+		$config   = Factory::getConfig();
 		$dbprefix = $config->get('dbprefix');
 
 		$this->fixTemplateTable($db, $dbprefix, $config);
@@ -362,9 +371,9 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function fixMenuLinks()
 	{
-		$db = JFactory::getDbo();
-		$link = 'index.php?option=com_tjnotifications&view=notifications&extension=com_jticketing';
-		$link1 = 'index.php?option=com_tjnotifications&extension=com_tjvendors';
+		$db       = Factory::getDbo();
+		$link     = 'index.php?option=com_tjnotifications&view=notifications&extension=com_jticketing';
+		$link1    = 'index.php?option=com_tjnotifications&extension=com_tjvendors';
 		$allLinks = '"' . $link . '","' . $link1 . '"';
 
 		// Delete the mainmenu from menu table

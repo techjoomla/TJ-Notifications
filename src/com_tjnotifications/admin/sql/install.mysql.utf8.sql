@@ -2,10 +2,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_providers` (
   `provider` varchar(100) NOT NULL,
   `state` int(1) NOT NULL,
    primary key(provider)
- )
-  AUTO_INCREMENT =0
-  DEFAULT CHARSET =utf8;
-
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -35,16 +32,14 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_templates` (
   UNIQUE KEY `client_2` (`client`,`key`),
   KEY `client` (`client`),
   KEY `key` (`key`)
-)
- DEFAULT CHARSET=utf8
- AUTO_INCREMENT=0 ;
+) AUTO_INCREMENT=1 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
  CREATE TABLE IF NOT EXISTS `#__tj_notification_user_exclusions` (
   `user_id` int(11) NOT NULL,
   `client` varchar(100) NOT NULL,
   `key` varchar(100) NOT NULL,
   `provider` varchar(100) NOT NULL,
-   KEY `client1` (`client`,`provider`,`key`),
+   KEY `client1` (`client`(100),`provider`(50),`key`(100)),
    KEY `key` (`key`),
    KEY `provider` (`provider`),
    CONSTRAINT `#__tj_notification_user_exclusions_ibfk_1` FOREIGN KEY (`provider`) REFERENCES `#__tj_notification_providers` (`provider`)
@@ -73,3 +68,4 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_logs` (
 )
  DEFAULT CHARSET=utf8
  AUTO_INCREMENT=0 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

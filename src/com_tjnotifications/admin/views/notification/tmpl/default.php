@@ -2,9 +2,14 @@
 
 // No direct access
 defined('_JEXEC') or die;
-JHtml::_('formbehavior.chosen','select');
-JHtml::_('behavior.formvalidator');
-$today= date('Y-m-d');
+
+use \Joomla\CMS\HTML\HTMLHelper;
+use \Joomla\CMS\Router\Route;
+use \Joomla\CMS\Language\Text;
+
+HTMLHelper::_('formbehavior.chosen','select');
+HTMLHelper::_('behavior.formvalidator');
+$today = date('Y-m-d');
 ?>
 <script>
 	jQuery(document).ready(function()
@@ -38,18 +43,18 @@ $today= date('Y-m-d');
 </script>
 
 
-<form action="<?php echo JRoute::_('index.php?option=com_tjnotifications&layout=default'); ?>" 
+<form action="<?php echo Route::_('index.php?option=com_tjnotifications&layout=default'); ?>" 
     method="post" name="adminForm" id="adminForm">
     <div class="form-horizontal">
 		<div class="row-fluid">
                 <div class="span12">
 				
 				  <ul class="nav nav-tabs">
-					<li  class="active"><a href="#notification" aria-controls="notification" data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_NOTIFICATION') ?></a></li>
-					<li><a href="#email" aria-controls="email"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Email') ?></a></li>
-					<li><a href="#sms" aria-controls="sms"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_SMS') ?></a></li>
-					<li><a href="#push" aria-controls="push"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Push') ?></a></li>
-					<li><a href="#web" aria-controls="web"  data-toggle="tab"><?php echo JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Web') ?></a></li>
+					<li  class="active"><a href="#notification" aria-controls="notification" data-toggle="tab"><?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_NOTIFICATION') ?></a></li>
+					<li><a href="#email" aria-controls="email"  data-toggle="tab"><?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Email') ?></a></li>
+					<li><a href="#sms" aria-controls="sms"  data-toggle="tab"><?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_SMS') ?></a></li>
+					<li><a href="#push" aria-controls="push"  data-toggle="tab"><?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Push') ?></a></li>
+					<li><a href="#web" aria-controls="web"  data-toggle="tab"><?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_Web') ?></a></li>
 				  </ul>
 
 				
@@ -108,5 +113,5 @@ $today= date('Y-m-d');
         </fieldset>
     </div>
 		<input type="hidden" name="task" value=""/>
-    <?php echo JHtml::_('form.token'); ?>
+    <?php echo HTMLHelper::_('form.token'); ?>
 </form>

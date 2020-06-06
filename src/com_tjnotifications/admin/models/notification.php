@@ -1,21 +1,33 @@
 <?php
 /**
- * @package    Com_Tjnotification
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Table\Table;
+use \Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use \Joomla\CMS\MVC\Model\AdminModel;
+use \Joomla\CMS\MVC\Model\ListModel;
+use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\Plugin\PluginHelper;
+
 jimport('joomla.application.component.model');
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
 
 /**
  * notification model.
  *
  * @since  1.6
  */
-class TjnotificationsModelNotification extends JModelAdmin
+class TjnotificationsModelNotification extends \Joomla\CMS\MVC\Model\AdminModel
 {
 	/**
 	 * Constructor.
@@ -44,7 +56,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 	public function getTable($type='Notification',$prefix='tjnotificationTable',$config=array())
 	{
 		// Get the table.
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -87,8 +99,8 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
-		$parts = explode('.', $extension);
+		$extension = Factory::getApplication()->input->get('extension', '', 'word');
+		$parts     = explode('.', $extension);
 
 		// Extract the component name
 		$this->setState('filter.component', $parts[0]);
@@ -97,7 +109,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState(
+		$data = Factory::getApplication()->getUserState(
 			'com_tjnotifications.edit.tjnotifications.data',
 			array()
 		);
@@ -121,10 +133,10 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function createTemplates($templates)
 	{
-		$data = $templates;
-		$db   = JFactory::getDbo();
+		$data  = $templates;
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$model       = JModelList::getInstance('Notifications', 'TJNotificationsModel');
+		$model = ListModel::getInstance('Notifications', 'TJNotificationsModel');
 
 		if (!empty($data['replacement_tags']))
 		{
@@ -170,10 +182,16 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function delete(&$cid)
 	{
-		$db          = JFactory::getDbo();
+		$db          = Factory::getDbo();
 		$deleteQuery = $db->getQuery(true);
 		$value       = array();
-		$model       = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
+		$model       = AdminModel::getInstance('Notification', 'TJNotificationsModel');
+		$user        = Factory::getUser();
+
+		if (empty($user->authorise('core.delete', 'com_tjnotifications')))
+		{
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		foreach ($cid as $id)
 		{
@@ -196,7 +214,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 					$value[] = 1;
 					parent::delete($data->id);
 					$dispatcher = JDispatcher::getInstance();
-					JPluginHelper::importPlugin('tjnotification');
+					PluginHelper::importPlugin('tjnotification');
 					$dispatcher->trigger('tjnOnAfterDeleteNotificationTemplate', array($data));
 				}
 			}
@@ -220,9 +238,9 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function getKeys($client)
 	{
-		$db = JFactory::getDbo();
-
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
+
 		$query->select($db->quoteName('key'));
 		$query->from($db->quoteName('#__tj_notification_templates'));
 		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
@@ -231,5 +249,70 @@ class TjnotificationsModelNotification extends JModelAdmin
 		$existingKeys = $db->loadColumn();
 
 		return $existingKeys;
+	}
+
+	/**
+	 * Method to get tag replacement count
+	 *
+	 * @param   string  $key     Template key.
+	 * @param   string  $client  client.
+	 *
+	 * @return  integer  replacement tags count
+	 *
+	 * @since   1.0.4
+	 */
+	public function getReplacementTagsCount($key, $client)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('replacement_tags'));
+		$query->from($db->quoteName('#__tj_notification_templates'));
+		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
+		$db->setQuery($query);
+		$replacementTags = $db->loadResult();
+
+		return count(json_decode($replacementTags));
+	}
+
+	/**
+	 * Method to replace tags if they are changed
+	 *
+	 * @param   array  $data  template data
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.4
+	 */
+	public function updateReplacementTags($data)
+	{
+		if (!empty($data['replacement_tags']))
+		{
+			$replacementTags = json_encode($data['replacement_tags']);
+		}
+		else
+		{
+			return;
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Fields to update.
+		$fields = array(
+			$db->quoteName('replacement_tags') . ' = ' . $db->quote($replacementTags)
+		);
+
+		// Conditions for which records should be updated.
+		$conditions = array(
+			$db->quoteName('client') . ' = ' . $db->quote($data['client']),
+			$db->quoteName('key') . ' = ' . $db->quote($data['key'])
+		);
+
+		$query->update($db->quoteName('#__tj_notification_templates'))->set($fields)->where($conditions);
+		$db->setQuery($query);
+
+		$result = $db->execute();
 	}
 }

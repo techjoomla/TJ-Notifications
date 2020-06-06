@@ -1,13 +1,19 @@
 <?php
-
 /**
- * @package    Com_Tjnotification
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\Toolbar\ToolbarHelper;
 
 JLoader::import('preferences', JPATH_SITE . '/components/com_tjnotifications/models');
 /**
@@ -15,7 +21,7 @@ JLoader::import('preferences', JPATH_SITE . '/components/com_tjnotifications/mod
  *
  * @since  0.0.1
  */
-class TjnotificationsViewNotification extends JViewLegacy
+class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 {
 	/**
 	 * View form
@@ -23,6 +29,8 @@ class TjnotificationsViewNotification extends JViewLegacy
 	 * @var         form
 	 */
 	protected $form = null;
+
+	public $user;
 
 	/**
 	 * Display the Hello World view
@@ -38,12 +46,13 @@ class TjnotificationsViewNotification extends JViewLegacy
 		$item = $this->get('Item');
 
 		// Get data from the model
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
+		$this->items		 = $this->get('Items');
+		$this->pagination	 = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->state         = $this->get('State');
 		$this->component     = $this->state->get('filter.component');
+		$this->user          = Factory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,7 +69,7 @@ class TjnotificationsViewNotification extends JViewLegacy
 
 		$this->addToolBar();
 
-		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
+		$extension  = Factory::getApplication()->input->get('extension', '', 'word');
 
 		if ($extension)
 		{
@@ -79,11 +88,11 @@ class TjnotificationsViewNotification extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('COM_TJNOTIFICATIONS'));
-		JToolBarHelper::apply('notification.editSave', 'JTOOLBAR_APPLY');
-		JToolBarHelper::save('notification.saveClose', 'JTOOLBAR_SAVE');
-		JToolBarHelper::custom('notification.saveNew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-		JToolBarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
+		ToolbarHelper::title(Text::_('COM_TJNOTIFICATIONS'));
+		ToolbarHelper::apply('notification.editSave', 'JTOOLBAR_APPLY');
+		ToolbarHelper::save('notification.saveClose', 'JTOOLBAR_SAVE');
+		ToolbarHelper::custom('notification.saveNew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		ToolbarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
 	}
 
 	/**
@@ -104,27 +113,27 @@ class TjnotificationsViewNotification extends JViewLegacy
 			return;
 		}
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true)
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// If a component notification title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_NOTIFICATIONS_TEMPLATES'))
 		{
-			$title = JText::_($component_title_key);
+			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
 		// Else if the component section string exits, let's use it
 		{
-			$title = JText::sprintf('COM_TJNOTIFICATIONS_NOTIFICATION_TITLE', $this->escape(JText::_($component_section_key)));
+			$title = Text::sprintf('COM_TJNOTIFICATIONS_NOTIFICATION_TITLE', $this->escape(Text::_($component_section_key)));
 		}
 		else
 		// Else use the base title
 		{
-			$title = JText::_('COM_TJNOTIFICATIONS_NOTIFICATION_BASE_TITLE');
+			$title = Text::_('COM_TJNOTIFICATIONS_NOTIFICATION_BASE_TITLE');
 		}
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'folder notifications ' . substr($component, 4) . ($section ? "-$section" : '') . '-notification templates');
+		ToolbarHelper::title($title, 'folder notifications ' . substr($component, 4) . ($section ? "-$section" : '') . '-notification templates');
 	}
 }

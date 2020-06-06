@@ -1,18 +1,20 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_tjnotification
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
+
 defined('_JEXEC') or die;
 /**
  * Methods supporting a list of tjnotification records.
  *
  * @since  1.6
  */
-class TJNotificationTablePreferences extends JTable
+class TJNotificationTablePreferences extends \Joomla\CMS\Table\Table
 {
 	/**
 	 * Constructor.

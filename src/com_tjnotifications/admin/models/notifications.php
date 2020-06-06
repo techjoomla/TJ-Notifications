@@ -1,19 +1,25 @@
 <?php
 /**
- * @package    Com_Tjnotification
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Factory;
+
 jimport('joomla.application.component.model');
 /**
  * notifications model.
  *
  * @since  1.6
  */
-class TjnotificationsModelNotifications extends JModelList
+class TjnotificationsModelNotifications extends Joomla\CMS\MVC\Model\ListModel
 {
 /**
 	* Constructor.
@@ -48,8 +54,8 @@ class TjnotificationsModelNotifications extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
-		$parts = explode('.', $extension);
+		$extension = Factory::getApplication()->input->get('extension', '', 'word');
+		$parts     = explode('.', $extension);
 
 		// Extract the component name
 		$this->setState('filter.component', $parts[0]);
@@ -58,7 +64,7 @@ class TjnotificationsModelNotifications extends JModelList
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
@@ -156,9 +162,8 @@ class TjnotificationsModelNotifications extends JModelList
 	 */
 	protected function populateState($ordering = 'id', $direction = 'asc')
 	{
-		$app    = JFactory::getApplication();
-
-		$ordering = $app->input->get('filter_order', 'id', 'STRING');
+		$app       = Factory::getApplication();
+		$ordering  = $app->input->get('filter_order', 'id', 'STRING');
 		$direction = $app->input->get('filter_order_Dir', 'desc', 'STRING');
 
 		if (!empty($ordering) && in_array($ordering, $this->filter_fields))
@@ -178,7 +183,7 @@ class TjnotificationsModelNotifications extends JModelList
 
 		parent::populateState($ordering, $direction);
 
-		$mainframe = JFactory::getApplication();
+		$mainframe = Factory::getApplication();
 
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
