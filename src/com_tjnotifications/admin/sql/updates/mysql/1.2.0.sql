@@ -18,3 +18,24 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_template_configs` (
 
 ALTER TABLE `#__tj_notification_templates` MODIFY `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__tj_notification_templates` MODIFY `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
+
+CREATE TABLE IF NOT EXISTS `#__tj_notification_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(100) NOT NULL,
+  `client` varchar(100) NOT NULL,
+  `provider` varchar(50) NOT NULL,
+  `subject` varchar(250) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `body` text NOT NULL,
+  `from` varchar(500) NOT NULL,
+  `to` text NOT NULL,
+  `cc` text NOT NULL,
+  `bcc` text NOT NULL,
+  `date` datetime NOT NULL,
+  `state` tinyint(2) NOT NULL,
+  `params` text NOT NULL,
+  `priority`int(11) NOT NULL,
+  `message` text NOT NULL,
+  `category` text NOT NULL,
+  PRIMARY KEY (`id`)
+) AUTO_INCREMENT=1 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
