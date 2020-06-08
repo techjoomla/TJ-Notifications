@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_TJNOTIFICATIONS_LIST_LOGS" option="View">
+        <message>
+			<![CDATA[COM_TJNOTIFICATIONS_LIST_LOGS_DESC]]>
+        </message>
+    </layout>
+</metadata>
