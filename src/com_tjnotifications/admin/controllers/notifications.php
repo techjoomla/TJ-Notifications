@@ -32,7 +32,7 @@ class TjnotificationsControllerNotifications extends AdminController
 	* @param   string  $prefix  Optional. Class prefix
 	* @param   array   $config  Optional. Configuration array for model
 	*
-	* @return  object	The Model
+	* @return  object|boolean
 	*
 	* @since    1.6
 	*/

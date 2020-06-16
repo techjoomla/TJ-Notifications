@@ -10,23 +10,21 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Table\Table;
+
 /**
  * Methods supporting a list of tjnotification records.
  *
  * @since  1.6
  */
-class TJNotificationsTableProvider extends \Joomla\CMS\Table\Table
+class TJNotificationsTableProvider extends Table
 {
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $db  An optional associative array of configuration settings.
-	 *
-	 * @see        JController
-	 * @since      1.6
+	 * @param   \JDatabaseDriver  &$db  \JDatabaseDriver object.
 	 */
-
-	public function __construct($db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__tj_notification_providers', 'id', $db);
 	}

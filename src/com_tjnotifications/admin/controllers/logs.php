@@ -26,7 +26,7 @@ class TjnotificationsControllerLogs extends AdminController
 	 * @param   string  $prefix  The prefix for the PHP class name.
 	 * @param   array   $config  Array of configuration parameters.
 	 *
-	 * @return  JModelLegacy
+	 * @return  JModelLegacy|boolean
 	 *
 	 * @since   1.1.0
 	 */

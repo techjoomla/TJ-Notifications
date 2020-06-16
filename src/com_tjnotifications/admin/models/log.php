@@ -50,7 +50,7 @@ class TjnotificationsModelLog extends AdminModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable    A database object
+	 * @return  JTable|boolean
 	 */
 	public function getTable($type = 'Log', $prefix = 'TjnotificationsTable', $config = array())
 	{

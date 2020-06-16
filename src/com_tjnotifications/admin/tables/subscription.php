@@ -19,12 +19,12 @@ use Joomla\CMS\Table\Table;
  *
  * @since    __DEPLOY_VERSION__
  */
-class TjnotificationsTableSubscription extends \Joomla\CMS\Table\Table
+class TjnotificationsTableSubscription extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   \JDatabaseDriver  &$db  \JDatabaseDriver object.
 	 */
 	public function __construct(&$db)
 	{

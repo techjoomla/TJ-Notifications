@@ -10,16 +10,16 @@
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
 
-jimport('joomla.application.component.modellist');
 /**
  * TJNotification model.
  *
  * @since  1.6
  */
-class TJNotificationsModelProviders extends \Joomla\CMS\MVC\Model\ListModel
+class TJNotificationsModelProviders extends ListModel
 {
 	/**
 	 * Build an SQL query to load the list data.
@@ -38,8 +38,9 @@ class TJNotificationsModelProviders extends \Joomla\CMS\MVC\Model\ListModel
 		$query->select('DISTINCT(provider)');
 		$query->from($db->quoteName('#__tj_notification_providers'));
 		$query->where($db->quoteName('state') . '=' . $db->quote('1'));
-		$db->setQuery($query);
-		$query = $db->loadObjectList();
+
+		// $db->setQuery($query);
+		// s$query = $db->loadObjectList();
 
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering');
@@ -82,9 +83,8 @@ class TJNotificationsModelProviders extends \Joomla\CMS\MVC\Model\ListModel
 		$query->from($db->quoteName('#__tj_notification_providers'));
 		$query->where($db->quoteName('state') . '=' . $db->quote('1'));
 		$db->setQuery($query);
-		$providers = $db->loadObjectList();
 
-		return $providers;
+		return $db->loadObjectList();
 	}
 
 	/**
@@ -96,7 +96,6 @@ class TJNotificationsModelProviders extends \Joomla\CMS\MVC\Model\ListModel
 	 *
 	 * @return  Table|boolean Table if found, boolean false on failure
 	 */
-
 	public function getTable($type ='Provider', $prefix = 'TJNotificationsTable', $config = array())
 	{
 		return Table::getInstance($type, $prefix, $config);

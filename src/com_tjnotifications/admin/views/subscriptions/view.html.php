@@ -38,6 +38,8 @@ class TjnotificationsViewSubscriptions extends HtmlView
 
 	protected $state;
 
+	protected $sidebar;
+
 	protected $user;
 
 	/**
@@ -163,7 +165,7 @@ class TjnotificationsViewSubscriptions extends HtmlView
 	/**
 	 * Method to order fields
 	 *
-	 * @return void
+	 * @return array
 	 */
 	protected function getSortFields()
 	{
@@ -179,7 +181,7 @@ class TjnotificationsViewSubscriptions extends HtmlView
 	 *
 	 * @param   mixed  $state  State
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function getState($state)
 	{

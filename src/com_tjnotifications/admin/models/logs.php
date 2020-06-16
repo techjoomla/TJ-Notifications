@@ -70,11 +70,11 @@ class TjnotificationsModelLogs extends ListModel
 		parent::populateState($ordering, $direction);
 
 		// Get pagination request variables
-		$limit      = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+		$limit      = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'int');
 		$limitstart = Factory::getApplication()->input->post->get('limitstart');
 
 		// In case limit has been changed, adjust it
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limitstart = ($limit !== 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);

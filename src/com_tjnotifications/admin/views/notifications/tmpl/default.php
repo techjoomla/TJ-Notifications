@@ -363,11 +363,12 @@ $doc->addStyleDeclaration($style);
 											-->
 											<?php
 										}
+
+										$publishImage = ($row->user_control) ? 'publish.png' : 'unpublish.png';
 										?>
 
 										<img src="<?php echo Uri::root() .
-											'administrator/components/com_tjnotifications/images/' .
-											($row->user_control) ? 'publish.png' : 'unpublish.png'; ?>"
+											'administrator/components/com_tjnotifications/images/' . $publishImage; ?>"
 											 width="16" height="16" border="0" />
 									</td>
 

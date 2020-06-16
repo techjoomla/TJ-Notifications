@@ -11,18 +11,19 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 
 /**
  * table class for notification
  *
  * @since  1.6
  */
-class TjnotificationTableNotification extends \Joomla\CMS\Table\Table
+class TjnotificationTableNotification extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   \JDatabaseDriver  &$db  \JDatabaseDriver object.
 	 */
 	public function __construct(&$db)
 	{
@@ -41,7 +42,7 @@ class TjnotificationTableNotification extends \Joomla\CMS\Table\Table
 	 */
 	public function check()
 	{
-		$user   = Factory::getUser();
+		$user = Factory::getUser();
 
 		return $user->authorise('core.create', 'com_tjnotifications') ? true : false;
 	}

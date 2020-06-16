@@ -48,7 +48,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return    JTable    A database object
+	 * @return  JTable|boolean
 	 *
 	 * @since    1.6
 	 */
@@ -161,7 +161,7 @@ class TjnotificationsModelNotification extends AdminModel
 	/**
 	 * Method to delete notification template
 	 *
-	 * @param   int  &$cid  Id of template.
+	 * @param   array  &$cid  An array of record primary keys.
 	 *
 	 * @return  void
 	 *
@@ -227,7 +227,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 *
 	 * @param   string  $client  client.
 	 *
-	 * @return  existingkeys
+	 * @return  array
 	 *
 	 * @since   1.0
 	 */

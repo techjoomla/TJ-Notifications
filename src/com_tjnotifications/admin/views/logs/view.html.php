@@ -32,7 +32,7 @@ class TjnotificationsViewLogs extends HtmlView
 	 *
 	 * @param   string  $tpl  Template name
 	 *
-	 * @return void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @throws Exception
 	 */

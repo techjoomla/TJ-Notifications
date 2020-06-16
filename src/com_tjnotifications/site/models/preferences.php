@@ -70,7 +70,7 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 	/**
 	 * Method to getState the form data.
 	 *
-	 * @return preferences
+	 * @return  array|boolean
 	 *
 	 * @throws Exception
 	 * @since 1.6
@@ -86,7 +86,7 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 
 		if ($uid)
 		{
-		$query->where($db->quoteName('user_id') . ' = ' . $db->quote($uid));
+			$query->where($db->quoteName('user_id') . ' = ' . $db->quote($uid));
 		}
 
 		$db->setQuery($query);
@@ -172,7 +172,7 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return    JForm    A JForm object on success, false on failure
+	 * @return    JForm|boolean
 	 *
 	 * @since    1.6
 	 */
@@ -302,7 +302,7 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 	 *
 	 * @param   int     $userId  User id
 	 * @param   string  $client  Client
-	 * @param   striny  $key     Template key
+	 * @param   string  $key     Template key
 	 *
 	 * @return    array
 	 *

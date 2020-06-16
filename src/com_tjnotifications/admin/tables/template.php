@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Table\Table;
+
 /**
  * table class for notification template
  *
@@ -20,7 +22,7 @@ class TjnotificationTableTemplate extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   \JDatabaseDriver  &$db  \JDatabaseDriver object.
 	 */
 	public function __construct(&$db)
 	{

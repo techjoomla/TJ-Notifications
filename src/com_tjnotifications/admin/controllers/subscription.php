@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Controller for form for subscription
@@ -190,7 +191,7 @@ class TjnotificationsControllerSubscription extends FormController
 			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
-			$this->setRedirect(Route::_('index.php?option=com_tjnotifications&view=subscription' . $this->getRedirectToItemAppend($recordId, $urlVar)), false);
+			$this->setRedirect(Route::_('index.php?option=com_tjnotifications&view=subscription' . $this->getRedirectToItemAppend($recordId, $urlVar), false));
 
 			return false;
 		}
