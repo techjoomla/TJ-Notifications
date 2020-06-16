@@ -24,7 +24,7 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 	/**
 	 * Method to getClient the form data.
 	 *
-	 * @return clients
+	 * @return array
 	 *
 	 * @throws Exception
 	 * @since 1.6
