@@ -24,13 +24,13 @@
 		</sql>
 	</uninstall>
 	<files folder="site">
+		<filename>controller.php</filename>
 		<filename>index.html</filename>
 		<filename>tjnotifications.php</filename>
-		<filename>controller.php</filename>
-		<folder>views</folder>
+		<folder>controllers</folder>
 		<folder>images</folder>
 		<folder>models</folder>
-		<folder>controllers</folder>
+		<folder>views</folder>
 	</files>
 	<languages folder="site/language">
 		<language tag="en-GB">en-GB.com_tjnotifications.ini</language>
@@ -38,18 +38,20 @@
 	<administration>
 		<menu>com_tjnotifications</menu>
 		<files folder="admin">
-			<filename>index.html</filename>
-			<filename>tjnotifications.php</filename>
-			<filename>controller.php</filename>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>defines.php</filename>
+			<filename>index.html</filename>
+			<filename>tjnotifications.php</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>images</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
-			<folder>sql</folder>
-			<folder>models</folder>
-			<folder>helpers</folder>
-			<folder>controllers</folder>
-			<folder>images</folder>
 		</files>
 		<languages folder="admin/language">
 			<language tag="en-GB">en-GB.com_tjnotifications.ini</language>

@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_jticketing
+ * @package     Tjnotifications
+ * @subpackage  com_tjnotifications
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('formbehavior.chosen', 'select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $doc       = Factory::getDocument();
-$style     ="
+$style     = "
 .reset-table,
 .reset-table table tr,
 .reset-table tr td,
@@ -108,8 +108,10 @@ $doc->addStyleDeclaration($style);
 							}
 							?>
 
-							<th width="28%" class="hidden-phone">
-								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TITLE"), 'title', $listDirn, $listOrder);?>
+							<th width="23%" class="hidden-phone">
+								<?php echo HTMLHelper::_(
+									'grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TITLE"), 'title', $listDirn, $listOrder
+									); ?>
 							</th>
 
 							<th width="20%" class="hidden-phone">
@@ -120,12 +122,15 @@ $doc->addStyleDeclaration($style);
 								<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_TRANSLATED_NOT_IN") ?>
 							</th>
 
-							<th width="10%" class="">
-								<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PROVIDER_STATUS") ?>
+							<th width="15%" class="">
+								<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BACKEND_STATUS") ?>
 							</th>
 
 							<th width="5%" class="center">
-								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_USER_CONTROL"), 'user_control', $listDirn, $listOrder);?>
+								<?php echo HTMLHelper::_(
+									'grid.sort',
+									Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_USER_CONTROL"), 'user_control', $listDirn, $listOrder
+								);?>
 							</th>
 
 							<th width="5%" class="center">
@@ -202,24 +207,24 @@ $doc->addStyleDeclaration($style);
 									<td class="d-md-table-cell">
 										<table class="reset-table">
 										<?php
-										foreach (TJNOTIFICATIONS_CONST_PROVIDERS_ARRAY as $keyProvider => $provider)
+										foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
 										{
-											if ($row->$provider['languages'])
+											if ($row->$backend['languages'])
 											{
 												?>
 												<tr>
 													<td>
-														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_' . strtoupper($provider) . '_TITLE'); ?>
+														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_' . strtoupper($backend) . '_TITLE'); ?>
 													</td>
 
 													<td>
 														<?php
-														foreach ($row->$provider['languages'] as $language)
+														foreach ($row->$backend['languages'] as $language)
 														{
 															if ($language == "*")
 															{
 																echo Text::_('JALL');
-																echo (count($row->$provider['languages']) > 1) ? ', ' : '';
+																echo (count($row->$backend['languages']) > 1) ? ', ' : '';
 															}
 															else
 															{
@@ -227,7 +232,12 @@ $doc->addStyleDeclaration($style);
 
 																if ($language->image)
 																{
-																	echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true) . ' ';
+																	echo HTMLHelper::_(
+																		'image',
+																		'mod_languages/' . $language->image . '.gif',
+																		$language->title_native,
+																		array ('title' => $language->title_native), true
+																	) . ' ';
 																}
 																else
 																{
@@ -252,25 +262,30 @@ $doc->addStyleDeclaration($style);
 									<td class="d-md-table-cell">
 										<table class="reset-table">
 										<?php
-										foreach (TJNOTIFICATIONS_CONST_PROVIDERS_ARRAY as $keyProvider => $provider)
+										foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
 										{
-											if ($row->$provider['languages'])
+											if ($row->$backend['languages'])
 											{
 												?>
 												<tr>
 													<td>
-														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_' . strtoupper($provider) . '_TITLE'); ?>
+														<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_' . strtoupper($backend) . '_TITLE'); ?>
 													</td>
 
 													<td>
 														<?php
 														foreach ($this->languages as $language)
 														{
-															if (!in_array($language->lang_code, $row->$provider['languages']))
+															if (!in_array($language->lang_code, $row->$backend['languages']))
 															{
 																if ($language->image)
 																{
-																	echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true) . ' ';
+																	echo HTMLHelper::_(
+																		'image',
+																		'mod_languages/' . $language->image . '.gif',
+																		$language->title_native,
+																		array ('title' => $language->title_native), true
+																	) . ' ';
 																}
 																else
 																{
@@ -295,12 +310,17 @@ $doc->addStyleDeclaration($style);
 									<td class="">
 										<table class="reset-table">
 										<?php
-										foreach (TJNOTIFICATIONS_CONST_PROVIDERS_ARRAY as $keyProvider => $provider)
+										foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
 										{
+											if (!isset($row->$backend['state']))
+											{
+												continue;
+											}
 											?>
+
 											<tr>
 												<td>
-													<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_' . strtoupper($provider) . '_TITLE'); ?>
+													<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_' . strtoupper($backend) . '_TITLE'); ?>
 												</td>
 
 												<td>
@@ -309,15 +329,19 @@ $doc->addStyleDeclaration($style);
 													{
 														?>
 														<!--
-														<a href="javascript:void(0);" class="hasTooltip" data-original-title="<?php //echo ( ($row->$provider['state'] ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>" onclick=" listItemTask('cb<?php //echo $i;?>','<?php //echo ( ($row->$provider['state'] ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus';?>')">
-
+														<a href="javascript:void(0);" class="hasTooltip"
+															data-original-title="<?php // @echo ( ($row->$backend['state'] ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>"
+															onclick=" listItemTask('cb<?php // @echo $i;?>','<?php // @echo ( ($row->$backend['state'] ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus'; ?>')">
 														</a>
 														-->
 														<?php
 													}
 													?>
 
-													<img src="<?php echo Uri::root(); ?>administrator/components/com_tjnotifications/images/<?php echo ($row->$provider['state']) ? 'publish.png' : 'unpublish.png'; ?>" width="16" height="16" border="0" />
+													<img src="<?php echo Uri::root() .
+														'administrator/components/com_tjnotifications/images/' .
+														(!empty($row->$backend['state']) ? 'publish.png' : 'unpublish.png'); ?>"
+														width="16" height="16" border="0" />
 												</td>
 											</tr>
 											<?php
@@ -332,14 +356,19 @@ $doc->addStyleDeclaration($style);
 										{
 											?>
 											<!--
-											<a href="javascript:void(0);" class="hasTooltip" data-original-title="<?php //echo ( $row->user_control ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>" onclick=" listItemTask('cb<?php //echo $i;?>','<?php //echo ( $row->user_control ) ? 'notifications.disableUserControl' : 'notifications.enableUserControl';?>')">
-
+											<a href="javascript:void(0);" class="hasTooltip"
+												data-original-title="<?php // @echo ( $row->user_control ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>"
+												onclick=" listItemTask('cb<?php // @echo $i;?>','<?php // @echo ( $row->user_control ) ? 'notifications.disableUserControl' : 'notifications.enableUserControl'; ?>')">
 											</a>
 											-->
 											<?php
 										}
 										?>
-										<img src="<?php echo Uri::root();?>administrator/components/com_tjnotifications/images/<?php echo ( $row->user_control ) ? 'publish.png' : 'unpublish.png';?>" width="16" height="16" border="0" />
+
+										<img src="<?php echo Uri::root() .
+											'administrator/components/com_tjnotifications/images/' .
+											($row->user_control) ? 'publish.png' : 'unpublish.png'; ?>"
+											 width="16" height="16" border="0" />
 									</td>
 
 									<td class="center">

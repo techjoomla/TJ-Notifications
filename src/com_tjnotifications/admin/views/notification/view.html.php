@@ -1,18 +1,18 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -23,7 +23,7 @@ JLoader::import('preferences', JPATH_SITE . '/components/com_tjnotifications/mod
  *
  * @since  0.0.1
  */
-class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
+class TjnotificationsViewNotification extends HtmlView
 {
 	/**
 	 * View form
@@ -81,7 +81,7 @@ class TjnotificationsViewNotification extends \Joomla\CMS\MVC\View\HtmlView
 
 		$this->addToolBar();
 
-		$extension  = Factory::getApplication()->input->get('extension', '', 'word');
+		$extension  = $this->app->input->getCmd('extension', '');
 
 		if ($extension)
 		{

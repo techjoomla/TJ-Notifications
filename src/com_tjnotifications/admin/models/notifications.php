@@ -1,15 +1,14 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
  * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
@@ -203,71 +202,24 @@ class TjnotificationsModelNotifications extends ListModel
 			$db->setQuery($query);
 			$templateConfigs = $db->loadObjectlist();
 
-			foreach (TJNOTIFICATIONS_CONST_PROVIDERS_ARRAY as $keyProvider => $provider)
+			// Set status here
+			foreach ($templateConfigs as $keytemplate => $tConfig)
 			{
-				$item->$provider['state']     = $templateConfigs[0]->state;
-				$item->$provider['languages'] = array();
+				$backend                 = $tConfig->backend;
+				$item->$backend['state'] = $tConfig->state;
+			}
+
+			// Set langauges here
+			foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
+			{
+				$item->$backend['languages'] = array();
 
 				foreach ($templateConfigs as $keytemplate => $tConfig)
 				{
-					if ($tConfig->provider == $provider && !in_array($tConfig->language, $item->$provider['languages']))
+					if ($tConfig->backend == $backend && !in_array($tConfig->language, $item->$backend['languages']))
 					{
-						$item->$provider['languages'][] = $tConfig->language;
+						$item->$backend['languages'][] = $tConfig->language;
 					}
-				}
-			}
-		}
-
-		return $items;
-	}
-
-	/**
-	 * Get matching templates
-	 *
-	 * @param   string  $provider  Notification provider
-	 *
-	 * @return  mixed    Object on success, false on failure.
-	 *
-	 * @since   1.0.0
-	 */
-	public function getMatchingTemplates($provider)
-	{
-		// Initialize variables.
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$query = $this->getListQuery();
-		$db->setQuery($query);
-		$items = $db->loadObjectList();
-
-		if (empty($items))
-		{
-			return false;
-		}
-
-		foreach ($items as $key => $item)
-		{
-			if (empty($item->id))
-			{
-				return false;
-			}
-
-			$db    = Factory::getDBO();
-			$query = $db->getQuery(true);
-			$query->select('ntc.*');
-			$query->from($db->qn('#__tj_notification_template_configs', 'ntc'));
-			$query->where($db->qn('ntc.template_id') . '=' . (int) $item->id);
-			$query->where($db->qn('ntc.provider') . '=' . $db->quote($provider));
-			$query->where($db->qn('ntc.language') . '=' . $db->quote($this->getState('filter.language')));
-			$query->order($db->q('ntc.language'));
-
-			$db->setQuery($query);
-			$templateConfigs = $db->loadObjectlist();
-
-			foreach ($templateConfigs as $keytemplate => $tConfig)
-			{
-				foreach ($tConfig as $configKey => $configValue)
-				{
-					$item->$provider[$configKey] = $configValue;
 				}
 			}
 		}
@@ -281,30 +233,111 @@ class TjnotificationsModelNotifications extends ListModel
 	 * @param   string  $client    An optional array of data for the form to interogate.
 	 * @param   string  $key       True if the form is to load its own data (default case), false if not.
 	 * @param   string  $language  Template language
-	 * @param   string  $provider  Notification provider
+	 * @param   string  $backend   Notification backend
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
 	 *
 	 * @since    1.6
 	 */
-	public function getTemplate($client, $key, $language, $provider = 'email')
+	public function getTemplate($client, $key, $language, $backend = 'email')
 	{
 		$object = clone $this;
 
-		$this->setState('filter.key', $key);
-		$this->setState('filter.client', $client);
-		$this->setState('filter.language', $language);
+		/*
+		SELECT
+			`t`.`id`,`t`.`client`,`t`.`key`,`t`.`title`,`t`.`replacement_tags`,
+			`ntc`.`backend`,`ntc`.`language`,`ntc`.`subject`,`ntc`.`body`,`ntc`.`params`,`ntc`.`state`
+		FROM `tjn_tj_notification_templates` AS `t`
+		LEFT JOIN `tjn_tj_notification_template_configs` AS `ntc` ON `ntc`.`template_id` = `t`.`id`
+		WHERE
+		`t`.`key` = 'checkin'
+		AND `t`.`client` = 'com_jticketing'
+		AND `ntc`.`backend` = 'push'
+		AND `ntc`.`language` = 'hi-IN'
+		UNION (
+			SELECT
+				`t`.`id`,`t`.`client`,`t`.`key`,`t`.`title`,`t`.`replacement_tags`,
+				`ntc`.`backend`,`ntc`.`language`,`ntc`.`subject`,`ntc`.`body`,`ntc`.`params`,`ntc`.`state`
+			FROM `tjn_tj_notification_templates` AS `t`
+			LEFT JOIN `tjn_tj_notification_template_configs` AS `ntc` ON `ntc`.`template_id` = `t`.`id`
+			WHERE
+				`t`.`key` = 'checkin'
+				AND `t`.`client` = 'com_jticketing'
+				AND `ntc`.`backend` = 'push'
+				AND `ntc`.`language` = '*'
+				AND NOT EXISTS (
+					SELECT 1
+					FROM `tjn_tj_notification_templates` AS `t`
+					LEFT JOIN `tjn_tj_notification_template_configs` AS `ntc` ON `ntc`.`template_id` = `t`.`id`
+					WHERE
+						`t`.`key` = 'checkin'
+						AND `t`.`client` = 'com_jticketing'
+						AND `ntc`.`backend` = 'push'
+						AND `ntc`.`language` = 'hi-IN'
+				)
+		)
+		*/
 
-		// Find matching template for current language of user
-		$templates = $this->getMatchingTemplates($provider);
+		// Use union to get template for language needed, if not found get for language = *
+		$db     = JFactory::getDbo();
+		$query1 = $db->getQuery(true);
+		$query2 = $db->getQuery(true);
+		$query3 = $db->getQuery(true);
 
-		// If no matching template found, look for template with lang = *
-		if (empty($templates))
-		{
-			// Setting $this vars don't work
-			$object->setState('filter.language', '*');
-			$templates = $object->getMatchingTemplates($provider);
-		}
+		$query1
+			->select(
+				$db->quoteName(
+					array(
+						't.id', 't.client', 't.key', 't.title', 't.replacement_tags',
+						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state'
+					)
+				)
+			)
+			->from($db->quoteName('#__tj_notification_templates', 't'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__tj_notification_template_configs', 'ntc') . ' ON ' . $db->quoteName('ntc.template_id') . ' = ' . $db->quoteName('t.id')
+			)
+			->where($db->quoteName('t.key') . ' = ' . $db->quote($key))
+			->where($db->quoteName('t.client') . ' = ' . $db->quote($client))
+			->where($db->quoteName('ntc.backend') . ' = ' . $db->quote($backend))
+			->where($db->quoteName('ntc.language') . ' = ' . $db->quote($language));
+
+		$query2
+			->select(
+				$db->quoteName(
+					array(
+						't.id', 't.client', 't.key', 't.title', 't.replacement_tags',
+						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state'
+					)
+				)
+			)
+			->from($db->quoteName('#__tj_notification_templates', 't'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__tj_notification_template_configs', 'ntc') . ' ON ' . $db->quoteName('ntc.template_id') . ' = ' . $db->quoteName('t.id')
+			)
+			->where($db->quoteName('t.key') . ' = ' . $db->quote($key))
+			->where($db->quoteName('t.client') . ' = ' . $db->quote($client))
+			->where($db->quoteName('ntc.backend') . ' = ' . $db->quote($backend))
+			->where($db->quoteName('ntc.language') . ' = ' . $db->quote('*'))
+			->where(
+				'NOT EXISTS ( ' .
+					$query3->select('1')
+					->from($db->quoteName('#__tj_notification_templates', 't'))
+					->join(
+						'LEFT',
+						$db->quoteName('#__tj_notification_template_configs', 'ntc') . ' ON ' . $db->quoteName('ntc.template_id') . ' = ' . $db->quoteName('t.id')
+					)
+					->where($db->quoteName('t.key') . ' = ' . $db->quote($key))
+					->where($db->quoteName('t.client') . ' = ' . $db->quote($client))
+					->where($db->quoteName('ntc.backend') . ' = ' . $db->quote($backend))
+					->where($db->quoteName('ntc.language') . ' = ' . $db->quote($language) . ')')
+			);
+
+		$query1->union($query2);
+
+		$templates = $db->setQuery($query1)->loadObjectList();
 
 		// If templates object is empty and key contain # then check for default (fallback) template.
 		if (empty($templates) && strpos($key, '#'))
@@ -315,7 +348,7 @@ class TjnotificationsModelNotifications extends ListModel
 			$key = preg_replace('/#[^#]*$/', '', $key);
 
 			// Call function recursively with modified key
-			return $object->getTemplate($client, $key, $language, $provider);
+			return $object->getTemplate($client, $key, $language, $backend);
 		}
 
 		return $templates[0];

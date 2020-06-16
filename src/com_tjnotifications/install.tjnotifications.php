@@ -32,6 +32,9 @@ class Com_TjnotificationsInstallerScript
 			'actionlog' => array(
 				'tjnotification' => 1
 			),
+			'api' => array(
+				'tjnotificationa' => 0
+			),
 			'privacy' => array(
 				'tjnotification' => 1,
 			),
@@ -473,7 +476,7 @@ class Com_TjnotificationsInstallerScript
 				$templateConfigTable->load(array('template_id' => $row->id));
 
 				$templateConfigTable->template_id = $row->id;
-				$templateConfigTable->provider    = "email";
+				$templateConfigTable->backend     = "email";
 				$templateConfigTable->subject     = $row->email_subject;
 				$templateConfigTable->body        = $row->email_body;
 				$templateConfigTable->state       = $row->email_status;

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="api" method="upgrade">
+	<name>plg_api_tjnotifications</name>
+	<description>PLG_API_TJNOTIFICATIONS_XML_DESCRIPTION</description>
+	<author>Techjoomla</author>
+	<authorEmail>contact@techjoomla.com</authorEmail>
+	<authorUrl>https:/techjoomla.com</authorUrl>
+	<creationDate>Jun 16, 2020</creationDate>
+	<copyright>Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.</copyright>
+	<license>http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.0.0</version>
+
+	<files>
+		<filename plugin="tjnotifications">tjnotifications.php</filename>
+		<filename>index.html</filename>
+		<folder>tjnotifications</folder>
+	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_api_tjnotifications.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_api_tjnotifications.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<!--
+				<field
+					name="exampleField"
+					type="radio"
+					label="PLG_API_TJNOTIFICATIONS_EXAMPLE_FIELD_LABEL"
+					description="PLG_API_TJNOTIFICATIONS_EXAMPLE_FIELD_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				-->
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

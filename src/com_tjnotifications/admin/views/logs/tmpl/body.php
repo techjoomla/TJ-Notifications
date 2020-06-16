@@ -1,15 +1,14 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -25,14 +24,30 @@ if ($logId)
 	$logTable->load(array('id' => $logId));
 }
 ?>
+
 <div>
-	<?php if ($logTable->id) : ?>
-	<h3 class="modal-title">
-		<?php echo Text::_("COM_TJNOTIFICATIONS_FIELD_NOTIFICATION_BODY_LABEL"); ?>
-	 </h3>
-	<div class="col-xs-12">
-		<?php echo $logTable->body; ?>
-	</div>
-	<?php endif; ?>
+	<?php
+	if ($logTable->id)
+	{
+		?>
+		<h3 class="modal-title">
+			<?php echo Text::_("COM_TJNOTIFICATIONS_FIELD_NOTIFICATION_BODY_LABEL"); ?>
+		</h3>
+
+		<div class="col-xs-12">
+			<?php
+			if ($logTable->backend !== 'push')
+			{
+				echo $logTable->body;
+			}
+			else
+			{
+				echo '<pre>' . json_encode(json_decode($logTable->body, true), JSON_PRETTY_PRINT) . '</pre>';
+			}
+			?>
+		</div>
+		<?php
+	}
+	?>
 </div>
 

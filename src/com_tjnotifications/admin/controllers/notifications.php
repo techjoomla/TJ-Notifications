@@ -1,29 +1,29 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\MVC\Model\ListModel;
-use \Joomla\CMS\MVC\Model\AdminModel;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\Router\Route;
-use \Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Notifications list controller class.
  *
  * @since  0.0.1
  */
-class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\AdminController
+class TjnotificationsControllerNotifications extends AdminController
 {
 /**
 	* Proxy for getModel.
@@ -59,7 +59,6 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		$input     = $mainframe->input;
 		$extension = $input->get('extension', '', 'STRING');
 		$cid       = $input->get('cid', array(), 'array');
-		$recordId  = (int) (count($cid) ? $cid[0] : $input->getInt('id'));
 		$count     = 0;
 
 		$msg['success'] = array();
@@ -106,8 +105,6 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		}
 
 		$mainframe->redirect($link);
-
-		return;
 	}
 
 	/**
@@ -172,7 +169,7 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 		{
 			$data = $model->getItem($notificationId);
 
-			if ($data->email['body'] and $data->email['subject'])
+			if ($data->email['body'] && $data->email['subject'])
 			{
 				$this->setState('state', 1);
 			}
@@ -231,7 +228,6 @@ class TjnotificationsControllerNotifications extends \Joomla\CMS\MVC\Controller\
 	public function setState($value, $state)
 	{
 		$mainframe = Factory::getApplication();
-		$sitename  = $mainframe->getCfg('sitename');
 		$model     = AdminModel::getInstance('Notification', 'TJNotificationsModel');
 		$success   = 0;
 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC" />
+		<field name="created_by" type="hidden" filter="unset" />
+		<field name="modified_by" type="hidden" filter="unset" />
+		<field name="checked_out" type="hidden" filter="unset" />
+		<field name="created_on" default="0000-00-00 00:00:00" type="hidden" filter="unset" />
+		<field name="updated_on" default="0000-00-00 00:00:00" type="hidden" filter="unset" />
+		<field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset" />
+
+		<field name="title" type="text"
+			label="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_TITLE_LBL"
+			description="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_TITLE_DESC"
+			hint="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_TITLE_LBL"
+			filter="string" />
+
+		<field name="user_id" type="user" required="true"
+			label="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_USER_LBL"
+			description="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_USER_DESC"
+			hint="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_USER_LBL" />
+
+		<field name="backend" type="backends" required="true"
+			label="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_BACKEND_LBL"
+			description="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_BACKEND_DESC"
+			filter="string" />
+
+		<field name="address" type="textarea" required="true"
+			label="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_ADDRESS_LBL"
+			description="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_ADDRESS_DESC"
+			hint="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_ADDRESS_LBL"
+			rows="7"
+			columns="50"
+			filter="string" />
+
+		<field name="device_id" type="textarea"
+			label="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_DEVICE_ID_LBL"
+			description="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_DEVICE_ID_DESC"
+			hint="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_DEVICE_ID_LBL"
+			rows="2"
+			columns="50"
+			filter="string" />
+
+		<field name="platform" type="platforms"
+			label="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_PLATFORM_LBL"
+			description="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_PLATFORM_DESC"
+			filter="string" />
+
+		<field name="state" default="1" type="radio" required="true" class="btn-group btn-group-yesno"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			size="1"
+			filter="intval" >
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<!-- <option value="2">JARCHIVED</option> -->
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field name="is_confirmed" default="1" type="radio" required="true" class="btn-group btn-group-yesno"
+			label="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_IS_CONFIRMED_LBL"
+			description="COM_TJNOTIFICATIONS_FORM_SUBSCRIPTION_IS_CONFIRMED_DESC"
+			size="1"
+			filter="intval" >
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+</form>

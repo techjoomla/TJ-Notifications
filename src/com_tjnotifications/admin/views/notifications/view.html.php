@@ -1,30 +1,29 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for a list of notifications.
  *
  * @since  1.6
  */
-class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
+class TjnotificationsViewNotifications extends HtmlView
 {
 	protected $items;
 
@@ -86,7 +85,7 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 		// Set the tool-bar and number of found items
 		$this->addToolBar();
 
-		$extension = Factory::getApplication()->input->get('extension', '', 'word');
+		$extension = Factory::getApplication()->input->getCmd('extension', '');
 
 		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models');
 		$model       = AdminModel::getInstance('Preferences', 'TJNotificationsModel');
@@ -117,7 +116,6 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 	 */
 	protected function addToolBar()
 	{
-		$state = $this->get('State');
 		$title = Text::_('COM_TJNOTIFICATIONS');
 
 		if ($this->pagination->total)
@@ -159,8 +157,8 @@ class TjnotificationsViewNotifications extends \Joomla\CMS\MVC\View\HtmlView
 	 */
 	public function _setToolBar()
 	{
-		$component  = $this->state->get('filter.component');
-		$section    = $this->state->get('filter.section');
+		$component = $this->state->get('filter.component');
+		$section   = $this->state->get('filter.section');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_notifications')
