@@ -22,7 +22,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.0
  */
 class TjnotificationsControllerSubscription extends FormController
 {

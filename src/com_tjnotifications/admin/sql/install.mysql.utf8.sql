@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_template_configs` (
   `is_override` int(1) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `#__tj_notification_template_configs` FOREIGN KEY (`template_id`) REFERENCES `#__tj_notification_templates` (`id`)
-) AUTO_INCREMENT=1 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
  CREATE TABLE IF NOT EXISTS `#__tj_notification_user_exclusions` (
   `user_id` int(11) NOT NULL,
@@ -67,11 +67,11 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_logs` (
   `message` text NOT NULL,
   `category` text NOT NULL,
   PRIMARY KEY (`id`)
-) AUTO_INCREMENT=1 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `#__tjnotifications_subscriptions` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL
+  `title` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `backend` varchar(50) NOT NULL,
   `address` text DEFAULT NULL,

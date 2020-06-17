@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\View\HtmlView;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.0
  */
 class TjnotificationsViewSubscription extends HtmlView
 {

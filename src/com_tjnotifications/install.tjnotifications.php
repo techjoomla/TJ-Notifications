@@ -33,7 +33,7 @@ class Com_TjnotificationsInstallerScript
 				'tjnotification' => 1
 			),
 			'api' => array(
-				'tjnotificationa' => 0
+				'tjnotifications' => 0
 			),
 			'privacy' => array(
 				'tjnotification' => 1,

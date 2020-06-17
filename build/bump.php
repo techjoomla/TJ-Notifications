@@ -50,6 +50,7 @@ $versionFile = 'PATH_OF_VERSION_FILE';
 $coreXmlFiles = array(
 	'/src/com_tjnotifications/tjnotifications.xml',
 	'/src/plugins/actionlog/tjnotification/tjnotification.xml',
+	'/src/plugins/api/tjnotifications/tjnotifications.xml',
 	'/src/plugins/privacy/tjnotification/tjnotification.xml',
 );
 

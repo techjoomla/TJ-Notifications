@@ -21,7 +21,7 @@ use Joomla\String\StringHelper;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.0
  */
 class TjnotificationsModelSubscription extends AdminModel
 {
@@ -63,7 +63,7 @@ class TjnotificationsModelSubscription extends AdminModel
 	 *
 	 * @return    JForm    A JForm object on success, false on failure
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -90,7 +90,7 @@ class TjnotificationsModelSubscription extends AdminModel
 	 *
 	 * @return    mixed    The data for the form.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.0.0
 	 */
 	protected function loadFormData()
 	{

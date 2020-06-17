@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.0
  */
 class TjnotificationsControllerSubscriptions extends AdminController
 {
@@ -30,7 +30,7 @@ class TjnotificationsControllerSubscriptions extends AdminController
 	 *
 	 * @return  JModelBase|JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0
 	 */
 	public function getModel($name = 'Subscription', $prefix = 'TjnotificationsModel', $config = array())
 	{

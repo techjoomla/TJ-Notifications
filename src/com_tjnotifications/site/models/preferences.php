@@ -306,7 +306,7 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 	 *
 	 * @return    array
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.0.0
 	 */
 	public function getUnsubscribedListByUser($userId, $client, $key)
 	{

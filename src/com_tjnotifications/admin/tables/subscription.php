@@ -17,7 +17,7 @@ use Joomla\CMS\Table\Table;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.0
  */
 class TjnotificationsTableSubscription extends Table
 {

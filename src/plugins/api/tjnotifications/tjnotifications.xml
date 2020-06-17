@@ -3,12 +3,12 @@
 	<name>plg_api_tjnotifications</name>
 	<description>PLG_API_TJNOTIFICATIONS_XML_DESCRIPTION</description>
 	<author>Techjoomla</author>
-	<authorEmail>contact@techjoomla.com</authorEmail>
-	<authorUrl>https:/techjoomla.com</authorUrl>
-	<creationDate>Jun 16, 2020</creationDate>
-	<copyright>Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.</copyright>
-	<license>http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.0.0</version>
+	<authorEmail>extensions@techjoomla.com</authorEmail>
+	<authorUrl>https://techjoomla.com</authorUrl>
+	<creationDate>17th Jun 2020</creationDate>
+	<copyright>Copyright (C) 2016 - 2020 Techjoomla. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>2.0.0</version>
 
 	<files>
 		<filename plugin="tjnotifications">tjnotifications.php</filename>

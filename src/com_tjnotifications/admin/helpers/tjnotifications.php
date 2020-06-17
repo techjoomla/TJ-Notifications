@@ -87,7 +87,7 @@ class TjnotificationsHelper extends ContentHelper
 	 *
 	 * @return  \JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0
 	 */
 	public static function getActions($component = '', $section = '', $id = 0)
 	{

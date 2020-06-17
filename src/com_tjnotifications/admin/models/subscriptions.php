@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\ListModel;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.0
  */
 class TjnotificationsModelSubscriptions extends ListModel
 {
@@ -28,7 +28,7 @@ class TjnotificationsModelSubscriptions extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     \JModelLegacy
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -79,7 +79,7 @@ class TjnotificationsModelSubscriptions extends ListModel
 	 *
 	 * @return   string A store id.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.0.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -95,7 +95,7 @@ class TjnotificationsModelSubscriptions extends ListModel
 	 *
 	 * @return   JDatabaseQuery
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.0.0
 	 */
 	protected function getListQuery()
 	{
@@ -190,7 +190,7 @@ class TjnotificationsModelSubscriptions extends ListModel
 	 *
 	 * @return mixed Array of data items on success, false on failure.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.0.0
 	 */
 	public function getItems()
 	{
@@ -208,7 +208,7 @@ class TjnotificationsModelSubscriptions extends ListModel
 	 *
 	 * @return  array
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.0.0
 	 */
 	public function getUserSubscriptions($userId)
 	{

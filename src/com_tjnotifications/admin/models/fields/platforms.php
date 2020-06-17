@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of platforms
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.0
  */
 class JFormFieldPlatforms extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldPlatforms extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var	 string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0
 	 */
 	protected $type = 'platforms';
 
@@ -34,7 +34,7 @@ class JFormFieldPlatforms extends JFormFieldList
 	 *
 	 * @return  array   An array of JHtml options.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0
 	 */
 	protected function getOptions()
 	{
