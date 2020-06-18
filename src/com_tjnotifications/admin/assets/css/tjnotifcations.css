@@ -1,3 +1,6 @@
 .minwidth-150px{min-width:150px}
 .minwidth-100px{min-width:100px}
 .table-responsive{width:100%;margin-bottom:15px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;-ms-overflow-style:-ms-autohiding-scrollbar}
+
+.table-wrap{table-layout: fixed; width: 100%; white-space: initial;}
+.wrap{word-wrap: break-word; white-space: initial; overflow: hidden;}

@@ -1,18 +1,19 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * helper class for tjnotificationss
@@ -21,7 +22,7 @@ use \Joomla\CMS\Filesystem\Path;
  * @subpackage  com_tjnotifications
  * @since       2.2
  */
-class TjnotificationsHelper extends JHelperContent
+class TjnotificationsHelper extends ContentHelper
 {
 	/**
 	 * Configure the Linkbar.
@@ -33,7 +34,7 @@ class TjnotificationsHelper extends JHelperContent
 	public static function addSubmenu($view = '')
 	{
 		$input       = Factory::getApplication()->input;
-		$full_client = $input->get('extension', '', 'STRING');
+		$full_client = $input->getCmd('extension', '');
 		$full_client = explode('.', $full_client);
 
 		// Eg com_jgive
@@ -48,22 +49,19 @@ class TjnotificationsHelper extends JHelperContent
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName = $prefix . 'Helper';
 
-			if (class_exists($cName))
+			if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
 			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = Factory::getLanguage();
+				$lang = Factory::getLanguage();
 
-					// Loading language file from the administrator/language directory then
-					// Loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, false)
-					|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
-					|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
+				// Loading language file from the administrator/language directory then
+				// Loading language file from the administrator/components/*extension*/language directory
+				$lang->load($component, JPATH_BASE, null, false, false)
+				|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
+				|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
+				|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
 
-					// Call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
-					call_user_func(array($cName, 'addSubmenu'), $view . (isset($section) ? '.' . $section : ''));
-				}
+				// Call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
+				call_user_func(array($cName, 'addSubmenu'), $view . (isset($section) ? '.' . $section : ''));
 			}
 		}
 
@@ -78,5 +76,22 @@ class TjnotificationsHelper extends JHelperContent
 			'index.php?option=com_tjnotifications&view=logs',
 			$view == 'logs'
 		);*/
+	}
+
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   string   $component  The component name.
+	 * @param   string   $section    The access section name.
+	 * @param   integer  $id         The item ID.
+	 *
+	 * @return  \JObject
+	 *
+	 * @since  2.0.0
+	 */
+	public static function getActions($component = '', $section = '', $id = 0)
+	{
+		// Get list of actions
+		return ContentHelper::getActions($component, $section, $id);
 	}
 }

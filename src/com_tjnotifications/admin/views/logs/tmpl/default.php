@@ -1,21 +1,20 @@
 <?php
 /**
-* @package     TJNotifications
-* @subpackage  com_tjnotifications
-*
-* @author      Techjoomla <extensions@techjoomla.com>
-* @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
-* @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
-*/
+ * @package     Tjnotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.modal', 'a.modal');
 HTMLHelper::_('formbehavior.chosen', 'select');
@@ -36,15 +35,26 @@ $doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications
 	});
 </script>
 
-<form action="index.php?option=com_tjnotifications&view=logs" method="post" id="adminForm" name="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
+<form action="<?php echo Route::_('index.php?option=com_tjnotifications&view=logs&extension=' . $this->extension); ?>"
+	method="post" id="adminForm" name="adminForm">
+	<?php
+	if (!empty( $this->sidebar))
+	{
+		?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
-<?php else : ?>
+	<?php
+	}
+	else
+	{
+		?>
 	<div id="j-main-container">
-<?php endif; ?>
+		<?php
+	}
+	?>
+
 		<?php
 		// Search tools bar
 		echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => 1,'filtersHidden' => 0)));
@@ -56,7 +66,7 @@ $doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
 			<div class="table-responsive">
-				<table class="table table-striped">
+				<table class="table-wrap table table-striped">
 					<thead>
 						<tr>
 							<th width="2%" class="">
@@ -64,37 +74,42 @@ $doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications
 								title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>"
 								onclick="Joomla.checkAll(this)"/>
 							</th>
-							<th class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder); ?>
+							<th width="15%" class="">
+								<?php echo JHtml::_(
+									'grid.sort',
+									Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder
+								); ?>
 							</th>
-							<th class="">
+							<th width="5%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BODY"), 'title', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="">
+							<th width="15%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TO"), 'to', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="">
+							<th width="15%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CC"), 'cc', $listDirn, $listOrder); ?>
 							</th>
 							<th width="10%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BCC"), 'bcc', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="">
+							<th width="5%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_DATE"), 'date', $listDirn, $listOrder); ?>
 							</th>
-							<th width="" class="">
+							<th width="5%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder); ?>
 							</th>
-							<th width="" class="nowrap center">
+							<th width="5%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PROVIDER"), 'provider', $listDirn, $listOrder); ?>
+							<th width="5%" class="">
+								<?php echo JHtml::_(
+									'grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BACKEND"), 'backend', $listDirn, $listOrder
+								); ?>
 							</th>
 							<th width="10%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="">
+							<th width="5%" class="">
 								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PARAMS"), 'params', $listDirn, $listOrder); ?>
 							</th>
 							<th width="2%" class="">
@@ -102,66 +117,100 @@ $doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications
 							</th>
 						</tr>
 					</thead>
+
 					<tbody>
-						<?php if (!empty($this->items)) : ?>
-						<?php foreach ($this->items as $i => $row) :?>
-						<tr>
-							<td class="">
-								<?php echo JHtml::_('grid.id', $i, $row->id); ?>
-							</td>
-							<td class="">
-								<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?>
-							</td>
-							<td class="">
-								<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id='. $row->id); ?>">
-									<?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS"); ?>
-								</a>
-							</td>
-							<td class="">
-								<?php echo str_replace(',', '<br />', $row->to); ?>
-							</td>
-							<td class="">
-								<?php echo str_replace(',', '<br />', $row->cc); ?>
-							</td>
-							<td class="">
-								<?php echo str_replace(',', '<br />', $row->bcc); ?>
-							</td>
-							<td class="">
-								<?php echo htmlspecialchars($row->date, ENT_COMPAT, 'UTF-8'); ?>
-							</td>
-							<td class="">
-								<?php
-									echo ($row->state == 1) ? Text::_('COM_TJNOTIFICATIONS_STATE_SENT') :  Text::_('COM_TJNOTIFICATIONS_STATE_FAILED');
+						<?php
+						if (!empty($this->items))
+						{
+							foreach ($this->items as $i => $row)
+							{
 								?>
-							</td>
-							<td class="">
-								<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8'); ?>
-							</td>
-							<td class="">
-								<?php echo htmlspecialchars($row->provider, ENT_COMPAT, 'UTF-8'); ?>
-							</td>
-							<td class="">
-								<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
-							</td>
-							<td class="">
-								<?php if(!empty($row->params)): ?>
-									<a class="modal notification" href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id='. $row->id); ?>">
-										<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
-									</a>
-								<?php else : ?>
-									<?php echo Text::_('COM_TJNOTIFICATIONS_EMPTY_PARAMS'); ?>
-								<?php endif; ?>
-							</td>
-							<td class="">
-								<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8'); ?>
-							</td>
-						</tr>
-						<?php endforeach; ?>
-						<?php endif; ?>
+								<tr>
+									<td class="" width="2%">
+										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
+									</td>
+
+									<td class="small" width="15%">
+										<?php echo htmlspecialchars($row->subject, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+
+									<td class="small" width="5%">
+										<a class="modal notification"
+											href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=body&id=' . $row->id); ?>">
+											<?php echo Text::_("COM_TJNOTIFICATIONS_TITLE_VIEW_CONTENTS"); ?>
+										</a>
+									</td>
+
+									<td class="wrap small" width="15%">
+										<?php echo str_replace(',', '<br />', $row->to); ?>
+									</td>
+
+									<td class="wrap small" width="15%">
+										<?php echo str_replace(',', '<br />', $row->cc); ?>
+									</td>
+
+									<td class="wrap small" width="10%">
+										<?php echo str_replace(',', '<br />', $row->bcc); ?>
+									</td>
+
+									<td class="small" width="5%">
+										<?php echo htmlspecialchars($row->date, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+
+									<td class="small" width="5%">
+										<?php
+											echo ($row->state == 1) ? Text::_('COM_TJNOTIFICATIONS_STATE_SENT') :  Text::_('COM_TJNOTIFICATIONS_STATE_FAILED');
+										?>
+									</td>
+
+									<td class="small" width="5%">
+										<?php echo htmlspecialchars($row->key, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+
+									<td class="small" width="5%">
+										<?php echo htmlspecialchars($row->backend, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+
+									<td class="small" width="10%">
+										<?php echo htmlspecialchars($row->from, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+
+									<td class="small" width="5%">
+										<?php
+										if (!empty($row->params))
+										{
+											?>
+											<a class="modal notification"
+												href="<?php echo Route::_('index.php?option=com_tjnotifications&tmpl=component&view=logs&layout=param&id=' . $row->id); ?>">
+												<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
+											</a>
+											<?php
+										}
+										else
+										{
+											?>
+											<?php echo Text::_('COM_TJNOTIFICATIONS_EMPTY_PARAMS'); ?>
+											<?php
+										}
+										?>
+									</td>
+
+									<td class="" width="2%">
+										<?php echo htmlspecialchars($row->id, ENT_COMPAT, 'UTF-8'); ?>
+									</td>
+								</tr>
+
+								<?php
+							}
+						}
+						?>
 					</tbody>
 				</table>
 			</div>
+
 			<?php echo $this->pagination->getListFooter(); ?>
+
+			<input type="hidden" name="extension"  value="<?php echo $this->extension; ?>"/>
 			<input type="hidden" name="task" value=""/>
 			<input type="hidden" name="boxchecked" value="0"/>
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>

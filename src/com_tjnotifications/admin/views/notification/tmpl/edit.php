@@ -1,15 +1,14 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
  * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -20,6 +19,16 @@ HTMLHelper::_('behavior.formvalidator');
 
 $doc    = Factory::getDocument();
 $script = 'jQuery(document).ready(function() {
+	document.formvalidator.setHandler("json", function(value) {
+		try {
+			var params = JSON.stringify(JSON.parse(value));
+			return true;
+		}
+		catch(e) {
+			return false;
+		}
+	});
+
 	jQuery("fieldset").click(function() {
 		status=this.id+"0";
 		statusChange=this.id+"1";
@@ -63,7 +72,8 @@ Joomla.submitbutton = function(task) {
 $doc->addScriptDeclaration($script);
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_tjnotifications&layout=edit&id=' . (int) $this->item->id . '&extension='.$this->component); ?>"
+<form
+	action="<?php echo Route::_('index.php?option=com_tjnotifications&layout=edit&id=' . (int) $this->item->id . '&extension=' . $this->component); ?>"
 	method="post" name="adminForm" id="adminForm" class="form-horizontal form-validate">
 	<div class="row-fluid">
 		<div class="span12">
@@ -81,7 +91,7 @@ $doc->addScriptDeclaration($script);
 								</div>
 
 								<?php
-								if ($this->component and $field->fieldname === 'client')
+								if ($this->component && $field->fieldname === 'client')
 								{
 									?>
 									<div class="controls">
@@ -93,7 +103,7 @@ $doc->addScriptDeclaration($script);
 								{
 									?>
 									<div class="controls">
-										<?php echo $field->input ; ?>
+										<?php echo $field->input; ?>
 									</div>
 									<?php
 								}
@@ -131,7 +141,7 @@ $doc->addScriptDeclaration($script);
 								{
 									?>
 									<div class="controls">
-										<?php echo $field->input ; ?>
+										<?php echo $field->input; ?>
 									</div>
 									<?php
 								}
@@ -143,87 +153,61 @@ $doc->addScriptDeclaration($script);
 					?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'email', JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_EMAIL')); ?>
-					<div class="span4">
-						<?php
-						foreach ($this->form->getFieldset('email_fieldset') as $field)
-						{
-							if ($field->type != "Subform")
+				<?php
+				foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
+				{
+					echo JHtml::_(
+						'bootstrap.addTab',
+						'myTab',
+						$backend,
+						JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_' . strtoupper($backend))
+					);
+					?>
+
+						<div class="span4">
+							<?php
+							foreach ($this->form->getFieldset($backend . '_fieldset') as $field)
 							{
-								?>
-								<div class="control-group">
-									<div class="control-label"><?php echo $field->label; ?></div>
-									<div class="controls">     <?php echo $field->input ; ?></div>
-								</div>
-								<?php
+								if ($field->type != "Subform")
+								{
+									?>
+									<div class="control-group">
+										<div class="control-label"><?php echo $field->label; ?></div>
+										<div class="controls">     <?php echo $field->input; ?></div>
+									</div>
+									<?php
+								}
 							}
-						}
 
-						if (!empty($this->item->replacement_tags))
-						{
-							echo $this->loadTemplate('replacement_tags');
-						}
-						?>
-					</div>
-
-					<div class="span8">
-						<?php
-						foreach ($this->form->getFieldset('email_fieldset') as $field)
-						{
-							if ($field->type == "Subform")
+							if (!empty($this->item->replacement_tags))
 							{
-								?>
-								<div class="control-group">
-									<div class=""><?php echo $field->label; ?></div>
-									<div class=""><?php echo $field->input ; ?></div>
-								</div>
-								<?php
+								echo $this->loadTemplate('replacement_tags');
 							}
-						}
-						?>
-					</div>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
+							?>
+						</div>
 
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'sms', JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_SMS')); ?>
-					<div class="span4">
-						<?php
-						foreach ($this->form->getFieldset('sms_fieldset') as $field)
-						{
-							if ($field->type != "Subform")
+						<div class="span8">
+							<?php
+							foreach ($this->form->getFieldset($backend . '_fieldset') as $field)
 							{
-								?>
-								<div class="control-group">
-									<div class="control-label"><?php echo $field->label; ?></div>
-									<div class="controls">     <?php echo $field->input ; ?></div>
-								</div>
-								<?php
+								if ($field->type == "Subform")
+								{
+									?>
+									<div class="control-group">
+										<div class=""><?php echo $field->label; ?></div>
+										<div class=""><?php echo $field->input; ?></div>
+									</div>
+									<?php
+								}
 							}
-						}
+							?>
+						</div>
 
-						if (!empty($this->item->replacement_tags))
-						{
-							echo $this->loadTemplate('replacement_tags');
-						}
-						?>
-					</div>
+					<?php
+					echo JHtml::_('bootstrap.endTab');
+				}
+				?>
 
-					<div class="span8">
-						<?php
-						foreach ($this->form->getFieldset('sms_fieldset') as $field)
-						{
-							if ($field->type == "Subform")
-							{
-								?>
-								<div class="control-group">
-									<div class=""><?php echo $field->label; ?></div>
-									<div class=""><?php echo $field->input ; ?></div>
-								</div>
-								<?php
-							}
-						}
-						?>
-					</div>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</div>
 	</div>

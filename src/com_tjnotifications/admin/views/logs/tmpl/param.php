@@ -1,15 +1,14 @@
 <?php
 /**
-* @package     TJNotifications
-* @subpackage  com_tjnotifications
-*
-* @author      Techjoomla <extensions@techjoomla.com>
-* @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
-* @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
-*/
-// No direct access
-defined('_JEXEC') or die;
+ * @package     Tjnotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
 
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
@@ -25,12 +24,18 @@ if ($logId)
 }
 ?>
 <div>
-	<?php if ($logTable->id) : ?>
-	<h3 class="modal-title">
-		<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
-	</h3>
-	<div class="col-xs-12">
-		<?php echo $logTable->params; ?>
-	</div>
-	<?php endif; ?>
+	<?php
+	if ($logTable->id)
+	{
+		?>
+		<h3 class="modal-title">
+			<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_PARAMS_POPUP"); ?>
+		</h3>
+
+		<div class="col-xs-12">
+			<pre><?php echo json_encode(json_decode($logTable->params, true), JSON_PRETTY_PRINT); ?></pre>
+		</div>
+		<?php
+	}
+	?>
 </div>

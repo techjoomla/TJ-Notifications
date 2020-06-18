@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
+use Joomla\CMS\Table\Table;
 
 /**
  * table class for notification template
@@ -21,7 +22,7 @@ class TjnotificationTableTemplate extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   \JDatabaseDriver  &$db  \JDatabaseDriver object.
 	 */
 	public function __construct(&$db)
 	{

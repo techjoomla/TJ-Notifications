@@ -1,15 +1,14 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\MVC\Controller\AdminController;
 
@@ -27,7 +26,7 @@ class TjnotificationsControllerLogs extends AdminController
 	 * @param   string  $prefix  The prefix for the PHP class name.
 	 * @param   array   $config  Array of configuration parameters.
 	 *
-	 * @return  JModelLegacy
+	 * @return  JModelLegacy|boolean
 	 *
 	 * @since   1.1.0
 	 */

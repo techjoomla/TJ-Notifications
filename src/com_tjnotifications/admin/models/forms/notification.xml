@@ -139,7 +139,7 @@
 		</fieldset>
 	</fields>
 
-	<!--<fields name="push">
+	<fields name="push">
 		<fieldset name="push_fieldset">
 			<field
 				name="state"
@@ -152,23 +152,50 @@
 			  <option value="1">JON</option>
 			  <option value="0">JOFF</option>
 			</field>
-			<field
-					name="subject"
-					type="textarea"
-					label="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_LABEL"
-					description="COM_TJNOTIFICATIONS_FIELD_PUSH_SUBJECT_DESC"
-					/>
 
 			<field
-					name="body"
-					type="editor"
-					label="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_LABEL"
-					description="COM_TJNOTIFICATIONS_FIELD_PUSH_BODY_DESC"
-					validation="required"
-					/>
+				name="pushfields"
+				description="COM_TJNOTIFICATIONS_PUSH_FIELDS_DESC"
+				type="subform"
+				label="COM_TJNOTIFICATIONS_PUSH_FIELDS"
+				min="1"
+				formsource="/administrator/components/com_tjnotifications/models/forms/pushfields.xml"
+				multiple="true"
+				buttons="add,remove"
+				layout="joomla.form.field.subform.repeatable"
+				groupByFieldset="false" />
 		</fieldset>
 	</fields>
 
+	<fields name="whatsapp">
+		<fieldset name="whatsapp_fieldset">
+			<field
+				name="state"
+				type="radio"
+				default="0"
+				label="COM_TJNOTIFICATIONS_FIELD_WHATSAPP_STATUS_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_WHATSAPP_STATUS_DESC"
+				class="btn-group btn-group-yesno"
+				>
+			  <option value="1">JON</option>
+			  <option value="0">JOFF</option>
+			</field>
+
+			<field
+				name="whatsappfields"
+				description="COM_TJNOTIFICATIONS_WHATSAPP_FIELDS_DESC"
+				type="subform"
+				label="COM_TJNOTIFICATIONS_WHATSAPP_FIELDS"
+				min="1"
+				formsource="/administrator/components/com_tjnotifications/models/forms/whatsappfields.xml"
+				multiple="true"
+				buttons="add,remove"
+				layout="joomla.form.field.subform.repeatable"
+				groupByFieldset="false" />
+		</fieldset>
+	</fields>
+
+	<!--
 	<fields name="web">
 		<fieldset name="web_fieldset">
 			<field

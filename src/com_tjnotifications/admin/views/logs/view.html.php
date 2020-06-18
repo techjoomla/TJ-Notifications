@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     TJNotifications
+ * @package     Tjnotifications
  * @subpackage  com_tjnotifications
  *
- * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 // No direct access
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
 
 JLoader::register('TjnotificationsHelper', JPATH_ADMINISTRATOR . '/components/com_tjnotifications/helpers/tjnotifications.php');
 
-use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of notifications logs.
@@ -25,23 +25,26 @@ use Joomla\CMS\Toolbar\Toolbar;
  */
 class TjnotificationsViewLogs extends HtmlView
 {
+	protected $extension;
+
 	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  Template name
 	 *
-	 * @return void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @throws Exception
 	 */
 	public function display($tpl = null)
 	{
+		$this->input         = Factory::getApplication()->input;
+		$this->extension     = $this->input->getCmd('extension', '');
 		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		//die;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
