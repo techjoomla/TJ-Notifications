@@ -4,7 +4,7 @@
  * @subpackage  com_tjnotification
  *
  * @author      Techjoomla <extensions@techjoomla.com>
- * @copyright   Copyright (C) 2009 - 2016 Techjoomla. All rights reserved.
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
