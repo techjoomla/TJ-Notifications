@@ -31,8 +31,6 @@ class JFormFieldGetClientList extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-
-		$user = Factory::getUser();
 		$db = Factory::getDbo();
 
 		$options[] = JHtml::_('select.option', '', Text::_('COM_TJNOTIFICATIONS_FIELD_CLIENT_OPTION'));
