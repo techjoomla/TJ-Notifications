@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 
 BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+require_once JPATH_ADMINISTRATOR . '/components/com_tjnotifications/defines.php';
 
 /**
  * notification model.
