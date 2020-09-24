@@ -595,4 +595,61 @@ class TjnotificationsModelNotification extends AdminModel
 			}
 		}
 	}
+
+	/**
+	 * Method to replace tags if they are changed
+	 *
+	 * @param   array   $template  This is single template array of data
+	 * @param   string  $client    client like com_jgive
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function updateTemplates($template, $client)
+	{	
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
+		
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName(array('id', 'key')));
+		$query->from($db->quoteName('#__tj_notification_templates','temp'));
+		$query->order($db->quoteName('id') . ' ASC');
+		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('key') . ' = ' . $db->quote($template['key']));
+		$db->setQuery($query);
+		$templateKeyIdObj = $db->loadObject();
+
+		if (!empty($templateKeyIdObj))
+		{
+			$query = $db->getQuery(true);
+			$query->select('backend');
+			$query->from($db->quoteName('#__tj_notification_template_configs', 'con'));			
+			$query->where($db->quoteName('con.template_id') . ' = ' . (int) $templateKeyIdObj->id);
+			$db->setQuery($query);
+			$existingBackends = $db->loadColumn();
+			$remainTemplateBackends = array_values(array_diff(TJNOTIFICATIONS_CONST_BACKENDS_ARRAY,$existingBackends));
+
+			if (!empty($remainTemplateBackends))
+			{
+				foreach ($remainTemplateBackends as $key => $value)
+				{				
+					if ($template['key'] == $templateKeyIdObj->key)
+					{
+						$db    = JFactory::getDBO();
+						$templateConfigTable = JTable::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+						$templateConfigTable->template_id = $templateKeyIdObj->id;
+						$templateConfigTable->backend     = $value;
+						$templateConfigTable->subject     = (!empty($template[$value][$value . 'fields'][$value . 'fields0']['subject'])) ? $template[$value][$value . 'fields'][$value . 'fields0']['subject'] : '';
+						$templateConfigTable->body        = $template[$value][$value . 'fields'][$value . 'fields0']['body'];
+						$templateConfigTable->state       = $template[$value]['state'];
+						$templateConfigTable->created_on  = Factory::getDate('now')->toSQL();
+						$templateConfigTable->updated_on  = '';
+						$templateConfigTable->is_override = 0;							
+						$templateConfigTable->save($templateConfigTable);
+					}
+				}
+			}
+		}
+	}
 }
