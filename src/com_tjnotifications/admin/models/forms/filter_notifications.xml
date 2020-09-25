@@ -13,7 +13,7 @@
 			label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL"
 			description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC"
 			onchange="this.form.submit();"
-			type="getclientlist"
+			type="clients"
 			key_field="client"
 			value_field="client"
 			/>
