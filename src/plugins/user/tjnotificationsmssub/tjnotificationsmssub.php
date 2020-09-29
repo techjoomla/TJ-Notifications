@@ -56,9 +56,8 @@ class PlgUserTjnotificationsmssub extends CMSPlugin
 		$phoneSetting = $notificationsParams->get('tjsms_phone_number');
 		$phoneField = $notificationsParams->get('tjsms_joomla_field');
 
-		if($phoneSetting == 'joomla')
+		if ($phoneSetting == 'joomla')
 		{
-
 			if (!empty($phoneField))
 			{
 				if (strpos($phoneField, 'com_fields') !== false)
