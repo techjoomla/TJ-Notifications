@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="general" label="COM_TJNOTIFICATIONS_SETTINGS_GENERAL" description="">
+	<fieldset name="general" label="COM_TJNOTIFICATIONS_SETTINGS_GENERAL" description="" addfieldpath="/administrator/components/com_tjnotifications/models/fields">
 		<field name="enable_logs" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_TJNOTIFICATIONS_ALLOW_SAVE_OPTION" description="COM_TJNOTIFICATIONS_APPLICATION_OPTION_DESC">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -11,6 +11,19 @@
 		<field name="tjsms_plugin" type="sql" default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_SMS_PLUGIN" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_SMS_PLUGIN_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjsms' AND enabled=1" key_field="element" value_field="name" />
 
 		<field name="tjwhatsapp_plugin" type="sql" default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_WHATSAPP_PROVIDER" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_WHATSAPP_PROVIDER_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjwhatsapp' AND enabled=1" key_field="element" value_field="name" />
+
+		<field name="tjsms_phone_number" type="list" default="joomla"
+			description="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_DESC"
+			label="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER">
+			<option value="joomla">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_JOOMLA</option>
+			<option value="easysocial">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_EASYSOCIAL</option>
+			<option value="joomsocial">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_JOOMSOCIAL</option>
+		</field>
+
+		<field name="tjsms_joomla_field" type="joomlasms" showon="tjsms_phone_number:joomla"
+			label="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_PHONE_NUMBER_FIELD" description="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_PHONE_NUMBER_FIELD_DESC"
+		/>
+
 	</fieldset>
 
 	<fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
