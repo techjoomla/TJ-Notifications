@@ -17,8 +17,21 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 
+Text::script('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_CHARACTER');
+Text::script('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_EXCEEDED');
+
 $doc    = Factory::getDocument();
 $script = 'jQuery(document).ready(function() {
+	var childElements = document.getElementById("sms").querySelector(".ui-sortable").children;
+
+	for (item of childElements) 
+	{
+		if(item.querySelector("textarea") !==null)
+		{
+			tjnotificationsAdmin.notification.validateSmsLength(item.querySelector("textarea"));
+		}
+	} 
+
 	document.formvalidator.setHandler("json", function(value) {
 		try {
 			var params = JSON.stringify(JSON.parse(value));
@@ -173,7 +186,7 @@ $doc->addScriptDeclaration($script);
 									?>
 									<div class="control-group">
 										<div class="control-label"><?php echo $field->label; ?></div>
-										<div class="controls">     <?php echo $field->input; ?></div>
+										<div class="controls"><?php echo $field->input; ?></div>
 									</div>
 									<?php
 								}
