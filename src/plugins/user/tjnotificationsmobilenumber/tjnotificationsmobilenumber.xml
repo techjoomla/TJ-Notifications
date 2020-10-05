@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="user" method="upgrade">
+	<name>plg_user_tjnotificationsmobilenumber</name>
+	<description>PLG_USER_TJNOTIFICATIONSMOBILENUMBER_XML_DESCRIPTION</description>
+	<author>Techjoomla</author>
+	<authorEmail>contact@techjoomla.com</authorEmail>
+	<authorUrl>https:/techjoomla.com</authorUrl>
+	<creationDate>5 Oct 2020</creationDate>
+	<copyright>Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.</copyright>
+	<license>http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.0.0</version>
+
+	<files>
+		<filename plugin="tjnotificationsmobilenumber">tjnotificationsmobilenumber.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotificationsmobilenumber.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotificationsmobilenumber.sys.ini</language>
+	</languages>
+</extension>
