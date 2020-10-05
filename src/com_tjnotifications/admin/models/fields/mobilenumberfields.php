@@ -58,7 +58,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 		$customFieldnames = FieldsHelper::getFields('com_users.user');
 		$comFieldOptions  = array();
 
-		$comFieldOptions[] = HTMLHelper::_('select.option', '', JText::_('COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_FIELD'));
+		$comFieldOptions[][] = HTMLHelper::_('select.option', '', JText::_('COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_FIELD'));
 
 		foreach ($customFieldnames as $key => $field)
 		{
