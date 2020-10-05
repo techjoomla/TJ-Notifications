@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="user" method="upgrade">
+	<name>plg_user_tjnotifications_mobilenumber</name>
+	<description>PLG_USER_TJNOTIFICATIONS_MOBILENUMBER_XML_DESCRIPTION</description>
+	<author>Techjoomla</author>
+	<authorEmail>contact@techjoomla.com</authorEmail>
+	<authorUrl>https:/techjoomla.com</authorUrl>
+	<creationDate>5 Oct 2020</creationDate>
+	<copyright>Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.</copyright>
+	<license>http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.0.0</version>
+
+	<files>
+		<filename plugin="tjnotifications_mobilenumber">tjnotifications_mobilenumber.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotifications_mobilenumber.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotifications_mobilenumber.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<!--
+				<field
+					name="exampleField"
+					type="radio"
+					label="PLG_USER_TJNOTIFICATIONS_MOBILENUMBER_EXAMPLE_FIELD_LABEL"
+					description="PLG_USER_TJNOTIFICATIONS_MOBILENUMBER_EXAMPLE_FIELD_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				-->
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

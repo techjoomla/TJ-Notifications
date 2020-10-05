@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  User.tjnotificationsmssub
+ * @subpackage  User.tjnotifications_mobilenumber
  *
  * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
  * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -21,11 +21,11 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models', 'SubscriptionsModel');
 
 /**
- * Class for Tjnotificationsmssub User Plugin
+ * Class for Tjnotifications mobilenumber User Plugin
  *
  * @since  1.0.0
  */
-class PlgUserTjnotificationsmssub extends CMSPlugin
+class PlgUserTjnotificationsmobilenumber extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
