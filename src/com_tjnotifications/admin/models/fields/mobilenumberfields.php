@@ -17,11 +17,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 FormHelper::loadFieldClass('groupedlist');
 
 /**
- * JFormFieldCurrencyList class
+ * JFormFieldMobilenumberfields class
  *
- * @package     JTicketing
+ * @package     Tjnotifications
  * @subpackage  component
- * @since       1.0
+ * @since       __DEPLOY_VERSION__
  */
 
 class JFormFieldMobilenumberfields extends JFormFieldGroupedList
@@ -30,7 +30,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 	 * The form field type.
 	 *
 	 * @var   string
-	 * @since 1.6
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $type = 'mobilenumberfields';
 
@@ -38,7 +38,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 	 * Fiedd to decide if options are being loaded externally and from xml
 	 *
 	 * @var   integer
-	 * @since 2.2
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $loadExternally = 0;
 
@@ -47,7 +47,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 	 *
 	 * @return array An array of HTMLHelper options.
 	 *
-	 * @since   11.4
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getGroups()
 	{
