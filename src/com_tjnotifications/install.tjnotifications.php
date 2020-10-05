@@ -38,6 +38,9 @@ class Com_TjnotificationsInstallerScript
 			'privacy' => array(
 				'tjnotification' => 1,
 			),
+			'user' => array(
+				'tjnotificationsmobilenumber' => 1
+			)
 		),
 	);
 
