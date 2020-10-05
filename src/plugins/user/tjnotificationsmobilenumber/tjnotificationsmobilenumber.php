@@ -10,7 +10,15 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+
+BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models', 'SubscriptionsModel');
 
 /**
  * Class for Tjnotificationsmobilenumber User Plugin
@@ -44,9 +52,9 @@ class PlgUserTjnotificationsmobilenumber extends CMSPlugin
 	 */
 	public function onUserAfterSave($user, $isNew, $success, $msg)
 	{
-		$notificationsParams = JComponentHelper::getParams('com_tjnotifications');
-		$phoneSetting = $notificationsParams->get('mobile_number_source');
-		$phoneField = $notificationsParams->get('mobile_number_field');
+		$notificationsParams = ComponentHelper::getParams('com_tjnotifications');
+		$phoneSetting        = $notificationsParams->get('mobile_number_source');
+		$phoneField          = $notificationsParams->get('mobile_number_field');
 
 		if ($phoneSetting == 'joomla')
 		{
