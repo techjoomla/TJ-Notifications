@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Plugin
+ * @package     Tjnotifications
  * @subpackage  User.tjnotificationsmobilenumber
  *
  * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
@@ -53,21 +53,18 @@ class PlgUserTjnotificationsmobilenumber extends CMSPlugin
 	public function onUserAfterSave($user, $isNew, $success, $msg)
 	{
 		$notificationsParams = ComponentHelper::getParams('com_tjnotifications');
-		$phoneSetting        = $notificationsParams->get('mobile_number_source');
+		$phoneSetting        = $notificationsParams->get('mobile_number_source', 'joomla', 'STRING');
 		$phoneField          = $notificationsParams->get('mobile_number_field');
 
-		if ($phoneSetting == 'joomla')
+		if ($phoneSetting == 'joomla' && !empty($phoneField))
 		{
-			if (!empty($phoneField))
+			if (strpos($phoneField, 'com_fields') !== false)
 			{
-				if (strpos($phoneField, 'com_fields') !== false)
-				{
-					$phoneNumber = $user['com_fields'][str_replace("com_fields.", "", $phoneField)];
-				}
-				else
-				{
-					$phoneNumber = $user[$phoneField];
-				}
+				$phoneNumber = $user['com_fields'][str_replace("com_fields.", "", $phoneField)];
+			}
+			else
+			{
+				$phoneNumber = $user[$phoneField];
 			}
 
 			$title       = $user['name'];
@@ -143,6 +140,10 @@ class PlgUserTjnotificationsmobilenumber extends CMSPlugin
 			{
 				ApiError::raiseError(400, Text::_($e->getMessage()));
 			}
+		}
+		else
+		{
+			return;
 		}
 	}
 }
