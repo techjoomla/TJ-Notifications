@@ -20,7 +20,7 @@ var tjnotificationsAdmin = {
 		validateSmsLength: function(element){
 			var smsBodyId = element.getAttribute("id");
 			var curentSmsLength = jQuery("#"+smsBodyId).val().length;
-			var maxSmsLength = 300;
+			var maxSmsLength = 160;
 			var remainingCharLimit = maxSmsLength - curentSmsLength;
 			var parentDiv = document.querySelector("#"+smsBodyId);
 			var smsSubformFieldNum = smsBodyId.split("jform_sms__smsfields__smsfields")["1"].split("__")["0"]
