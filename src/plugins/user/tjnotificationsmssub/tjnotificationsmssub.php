@@ -53,8 +53,8 @@ class PlgUserTjnotificationsmssub extends CMSPlugin
 	public function onUserAfterSave($user, $isNew, $success, $msg)
 	{
 		$notificationsParams = JComponentHelper::getParams('com_tjnotifications');
-		$phoneSetting = $notificationsParams->get('tjsms_phone_number');
-		$phoneField = $notificationsParams->get('tjsms_joomla_field');
+		$phoneSetting = $notificationsParams->get('mobile_number_source');
+		$phoneField = $notificationsParams->get('mobile_number_field');
 
 		if ($phoneSetting == 'joomla')
 		{
