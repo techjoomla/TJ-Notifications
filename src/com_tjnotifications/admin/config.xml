@@ -12,7 +12,7 @@
 
 		<field name="tjwhatsapp_plugin" type="sql" default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_WHATSAPP_PROVIDER" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_WHATSAPP_PROVIDER_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjwhatsapp' AND enabled=1" key_field="element" value_field="name" />
 
-		<field name="tjsms_phone_number" type="list" default="joomla"
+		<field name="mobile_number_source" type="list" default="joomla"
 			description="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_DESC"
 			label="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER">
 			<option value="joomla">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_JOOMLA</option>
@@ -20,7 +20,7 @@
 			<option value="joomsocial">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_JOOMSOCIAL</option>
 		</field>
 
-		<field name="tjsms_joomla_field" type="joomlasms" showon="tjsms_phone_number:joomla"
+		<field name="mobile_number_field" type="mobilenumberfields" showon="mobile_number_source:joomla"
 			label="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_PHONE_NUMBER_FIELD" description="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_PHONE_NUMBER_FIELD_DESC"
 		/>
 
