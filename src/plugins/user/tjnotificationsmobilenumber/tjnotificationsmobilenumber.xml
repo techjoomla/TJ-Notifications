@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.1" type="plugin" group="user" method="upgrade">
-	<name>plg_user_tjnotifications_mobilenumber</name>
-	<description>PLG_USER_TJNOTIFICATIONS_MOBILENUMBER_XML_DESCRIPTION</description>
+	<name>plg_user_tjnotificationsmobilenumber</name>
+	<description>PLG_USER_TJNOTIFICATIONSMOBILENUMBER_XML_DESCRIPTION</description>
 	<author>Techjoomla</author>
 	<authorEmail>contact@techjoomla.com</authorEmail>
 	<authorUrl>https:/techjoomla.com</authorUrl>
@@ -11,13 +11,13 @@
 	<version>1.0.0</version>
 
 	<files>
-		<filename plugin="tjnotifications_mobilenumber">tjnotifications_mobilenumber.php</filename>
+		<filename plugin="tjnotificationsmobilenumber">tjnotificationsmobilenumber.php</filename>
 		<filename>index.html</filename>
 	</files>
 
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotifications_mobilenumber.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotifications_mobilenumber.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotificationsmobilenumber.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotificationsmobilenumber.sys.ini</language>
 	</languages>
 
 	<config>
@@ -27,8 +27,8 @@
 				<field
 					name="exampleField"
 					type="radio"
-					label="PLG_USER_TJNOTIFICATIONS_MOBILENUMBER_EXAMPLE_FIELD_LABEL"
-					description="PLG_USER_TJNOTIFICATIONS_MOBILENUMBER_EXAMPLE_FIELD_DESC"
+					label="PLG_USER_TJNOTIFICATIONSMOBILENUMBER_EXAMPLE_FIELD_LABEL"
+					description="PLG_USER_TJNOTIFICATIONSMOBILENUMBER_EXAMPLE_FIELD_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"

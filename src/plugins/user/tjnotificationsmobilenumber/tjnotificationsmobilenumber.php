@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  User.tjnotifications_mobilenumber
+ * @subpackage  User.tjnotificationsmobilenumber
  *
  * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
  * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -10,18 +10,10 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-
-BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models', 'SubscriptionsModel');
 
 /**
- * Class for Tjnotifications mobilenumber User Plugin
+ * Class for Tjnotificationsmobilenumber User Plugin
  *
  * @since  1.0.0
  */
