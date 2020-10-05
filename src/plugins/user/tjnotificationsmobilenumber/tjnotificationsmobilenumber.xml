@@ -19,26 +19,4 @@
 		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotificationsmobilenumber.ini</language>
 		<language tag="en-GB">en-GB/en-GB.plg_user_tjnotificationsmobilenumber.sys.ini</language>
 	</languages>
-
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<!--
-				<field
-					name="exampleField"
-					type="radio"
-					label="PLG_USER_TJNOTIFICATIONSMOBILENUMBER_EXAMPLE_FIELD_LABEL"
-					description="PLG_USER_TJNOTIFICATIONSMOBILENUMBER_EXAMPLE_FIELD_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					filter="integer"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				-->
-			</fieldset>
-		</fields>
-	</config>
-
 </extension>
