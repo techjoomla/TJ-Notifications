@@ -144,6 +144,14 @@ class TjnotificationsModelSubscriptions extends ListModel
 			$query->where('(a.state IN (0, 1))');
 		}
 
+		// Filter by usesr Id
+		$userId = $this->getState('filter.user_id');
+
+		if (!empty($userId))
+		{
+			$query->where('a.user_id = ' . (int) $userId);
+		}
+
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 
