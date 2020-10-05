@@ -10,4 +10,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-define('TJNOTIFICATIONS_CONST_BACKENDS_ARRAY', ['email', 'push']);
+if (!defined('TJNOTIFICATIONS_CONST_BACKENDS_ARRAY'))
+{
+	define('TJNOTIFICATIONS_CONST_BACKENDS_ARRAY', ['email', 'sms']);
+}

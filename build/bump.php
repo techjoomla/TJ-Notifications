@@ -52,6 +52,7 @@ $coreXmlFiles = array(
 	'/src/plugins/actionlog/tjnotification/tjnotification.xml',
 	'/src/plugins/api/tjnotifications/tjnotifications.xml',
 	'/src/plugins/privacy/tjnotification/tjnotification.xml',
+	'/src/plugins/user/tjnotificationsmobilenumber/tjnotificationsmobilenumber.xml',
 );
 
 $antJobFile = '/build.xml';
