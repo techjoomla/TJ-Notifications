@@ -33,7 +33,10 @@ if (!empty($this->item->replacement_tags))
 
 			<tbody>
 				<?php
-				foreach (json_decode($this->item->replacement_tags) as $tags)
+				$replacementTags = json_decode($this->item->replacement_tags);
+				$replacementTags = is_string($replacementTags)? json_decode($replacementTags): $replacementTags;
+
+				foreach ($replacementTags as $tags)
 				{
 					?>
 					<tr>
