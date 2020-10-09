@@ -202,23 +202,57 @@ class TjnotificationsModelNotifications extends ListModel
 			$db->setQuery($query);
 			$templateConfigs = $db->loadObjectlist();
 
-			// Set status here
-			foreach ($templateConfigs as $keytemplate => $tConfig)
+			if (version_compare(phpversion(), '7.4.0', '<'))
 			{
-				$backend                 = $tConfig->backend;
-				$item->$backend['state'] = $tConfig->state;
-			}
-
-			// Set langauges here
-			foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
-			{
-				$item->$backend['languages'] = array();
-
+				// Set status here
 				foreach ($templateConfigs as $keytemplate => $tConfig)
 				{
-					if ($tConfig->backend == $backend && !in_array($tConfig->language, $item->$backend['languages']))
+					$backend                   = $tConfig->backend;
+					$item->{$backend}['state'] = $tConfig->state;
+				}
+
+				// Set langauges here
+				$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+				foreach ($backendsArray as $keyBackend => $backend)
+				{
+					$item->{$backend}['languages'] = array();
+
+					foreach ($templateConfigs as $keytemplate => $tConfig)
 					{
-						$item->$backend['languages'][] = $tConfig->language;
+						if ($tConfig->backend == $backend && !in_array($tConfig->language, $item->{$backend}['languages']))
+						{
+							// $item->{$backend}['languages'][] = $tConfig->language;
+
+							array_push($item->{$backend}['languages'], $tConfig->language);
+						}
+					}
+				}
+			}
+			else
+			{
+				// Set status here
+				foreach ($templateConfigs as $keytemplate => $tConfig)
+				{
+					$backend                 = $tConfig->backend;
+					$item->$backend['state'] = $tConfig->state;
+				}
+
+				// Set langauges here
+				$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+				foreach ($backendsArray as $keyBackend => $backend)
+				{
+					$item->$backend['languages'] = array();
+
+					foreach ($templateConfigs as $keytemplate => $tConfig)
+					{
+						if ($tConfig->backend == $backend && !in_array($tConfig->language, $item->$backend['languages']))
+						{
+							// $item->$backend['languages'][] = $tConfig->language;
+
+							array_push($item->$backend['languages'], $tConfig->language);
+						}
 					}
 				}
 			}
@@ -235,7 +269,7 @@ class TjnotificationsModelNotifications extends ListModel
 	 * @param   string  $language  Template language
 	 * @param   string  $backend   Notification backend
 	 *
-	 * @return  JForm  A JForm object on success, false on failure
+	 * @return  object|boolean
 	 *
 	 * @since    1.6
 	 */
@@ -351,7 +385,7 @@ class TjnotificationsModelNotifications extends ListModel
 			return $object->getTemplate($client, $key, $language, $backend);
 		}
 
-		return $templates[0];
+		return (!empty($templates[0]) ? $templates[0] : false);
 	}
 
 	/**

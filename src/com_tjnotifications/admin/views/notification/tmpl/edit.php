@@ -154,7 +154,9 @@ $doc->addScriptDeclaration($script);
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php
-				foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
+				$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+				foreach ($backendsArray as $keyBackend => $backend)
 				{
 					echo JHtml::_(
 						'bootstrap.addTab',
