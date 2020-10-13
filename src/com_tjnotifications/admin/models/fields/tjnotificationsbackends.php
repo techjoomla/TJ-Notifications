@@ -38,7 +38,7 @@ class JFormFieldTjnotificationsbackends extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$options  = array();
 		$backends = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
 
 		foreach ($backends as $keyBackend => $backend)
