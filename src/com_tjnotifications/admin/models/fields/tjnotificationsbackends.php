@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JFormHelper::loadFieldClass('list');
 
@@ -43,7 +44,7 @@ class JFormFieldTjnotificationsbackends extends JFormFieldList
 
 		foreach ($backends as $keyBackend => $backend)
 		{
-			$options[] = JHtml::_('select.option', $backend,    Text::_('COM_TJNOTIFICATIONS_BACKEND_' . strtoupper($backend)));
+			$options[] = HTMLHelper::_('select.option', $backend,    Text::_('COM_TJNOTIFICATIONS_BACKEND_' . strtoupper($backend)));
 		}
 
 		return array_merge(parent::getOptions(), array_values($options));
