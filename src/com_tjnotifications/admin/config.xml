@@ -32,7 +32,7 @@
 		<field name="url_shortening_provider" type="sql" showon="enable_url_shortening:1"
 			default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_URL_SHORTENING_PLUGIN" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_URL_SHORTENING_PLUGIN_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjurlshortner' AND enabled=1" key_field="element" value_field="name" />
 
-		<field name="url_shortening_enabled_backends" type="tjnotificationsbackends" showon="enable_url_shortening:1" default="" multiple="multiple" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING_DESC" />
+		<field name="url_shortening_enabled_backends" type="tjnotificationsbackends" showon="enable_url_shortening:1" default="sms" multiple="multiple" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING_DESC" />
 
 	</fieldset>
 
