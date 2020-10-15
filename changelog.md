@@ -22,7 +22,7 @@
 - #134717 Email notification improvement - add support to set CC and BCC at template level
 
 ##### - Bug fixes:
-- 164967 Back end >> Notification template's view >> Search tools >> client drop down list must contain standard name of component
+- #164967 Back end >> Notification template's view >> Search tools >> client drop down list must contain standard name of component
 
 ##### ^ Improvements:
 - #165070 PHP 5.6, 7.4 compatibility changes (for supporting multilingual templates feature)
