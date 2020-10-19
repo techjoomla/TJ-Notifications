@@ -48,7 +48,7 @@ var tjnotificationsAdmin = {
 				var newP = document.createElement("p");
 				newPCustomClass = "smsfieldsCharLimit" + smsSubformFieldNum;
 				remainingCharLimitClass = (parseInt(remainingCharLimit) > 0 ) ? "alert-info" : "alert-danger" ;
-				newP.addClass(remainingCharLimitClass + " center " + newPCustomClass);
+				newP.setAttribute("class", remainingCharLimitClass + " center " + newPCustomClass);
 				var textNode = document.createTextNode(remainingCharLimitMsg);
 				newP.appendChild(textNode);
 				parentDiv.parentNode.parentNode.parentNode.appendChild(newP);
