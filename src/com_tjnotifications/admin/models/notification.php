@@ -365,7 +365,9 @@ class TjnotificationsModelNotification extends AdminModel
 		$db = Factory::getDbo();
 
 		// 2 - save backend specific config
-		foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
+		$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+		foreach ($backendsArray as $keyBackend => $backend)
 		{
 			// 2.1 Check if current backend exists in posted data
 			// If not $data['email'] or $data['sms']
@@ -438,7 +440,7 @@ class TjnotificationsModelNotification extends AdminModel
 
 				// Non-repeat data
 				$templateConfigTable->template_id = $templateId;
-				$templateConfigTable->backend    = $backend;
+				$templateConfigTable->backend     = $backend;
 				$templateConfigTable->state       = $data[$backend]['state'];
 				$templateConfigTable->created_on  = $createdOn;
 				$templateConfigTable->updated_on  = $updatedOn;
@@ -495,7 +497,9 @@ class TjnotificationsModelNotification extends AdminModel
 			return $item;
 		}
 
-		foreach (TJNOTIFICATIONS_CONST_BACKENDS_ARRAY as $keyBackend => $backend)
+		$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+		foreach ($backendsArray as $keyBackend => $backend)
 		{
 			$db                   = Factory::getDBO();
 			$backendConfigsQuery = $db->getQuery(true);
@@ -521,22 +525,44 @@ class TjnotificationsModelNotification extends AdminModel
 			$nonParamsFields  = array('state', $backend . 'fields');
 
 			// Start setting backend specific data for edit
-			$item->$backend          = array();
-			$item->$backend['state'] = $singleBackendRow->state;
+			$item->$backend = array();
 
-			// Get params for current backend from any backend config for current template ID
-			$json = (array) json_decode($singleBackendRow->params);
-
-			foreach ($json as $fieldKey => $fieldValue)
+			if (version_compare(phpversion(), '7.4.0', '<'))
 			{
-				if (!in_array($fieldKey, $nonParamsFields))
-				{
-					$item->$backend[$fieldKey] = $fieldValue;
-				}
-			}
+				$item->{$backend}['state'] = $singleBackendRow->state;
 
-			// Last, set all config rows list as repeatable data
-			$item->$backend[$backend . 'fields'] = $backendConfigsList;
+				// Get params for current backend from any backend config for current template ID
+				$json = (array) json_decode($singleBackendRow->params);
+
+				foreach ($json as $fieldKey => $fieldValue)
+				{
+					if (!in_array($fieldKey, $nonParamsFields))
+					{
+						$item->{$backend}[$fieldKey] = $fieldValue;
+					}
+				}
+
+				// Last, set all config rows list as repeatable data
+				$item->{$backend}[$backend . 'fields'] = $backendConfigsList;
+			}
+			else
+			{
+				$item->$backend['state'] = $singleBackendRow->state;
+
+				// Get params for current backend from any backend config for current template ID
+				$json = (array) json_decode($singleBackendRow->params);
+
+				foreach ($json as $fieldKey => $fieldValue)
+				{
+					if (!in_array($fieldKey, $nonParamsFields))
+					{
+						$item->$backend[$fieldKey] = $fieldValue;
+					}
+				}
+
+				// Last, set all config rows list as repeatable data
+				$item->$backend[$backend . 'fields'] = $backendConfigsList;
+			}
 		}
 
 		return $item;
@@ -608,13 +634,13 @@ class TjnotificationsModelNotification extends AdminModel
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function updateTemplates($template, $client)
-	{	
+	{
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
-		
+
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(array('id', 'key')));
-		$query->from($db->quoteName('#__tj_notification_templates','temp'));
+		$query->from($db->quoteName('#__tj_notification_templates', 'temp'));
 		$query->order($db->quoteName('id') . ' ASC');
 		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
 		$query->where($db->quoteName('key') . ' = ' . $db->quote($template['key']));
@@ -625,28 +651,31 @@ class TjnotificationsModelNotification extends AdminModel
 		{
 			$query = $db->getQuery(true);
 			$query->select('backend');
-			$query->from($db->quoteName('#__tj_notification_template_configs', 'con'));			
+			$query->from($db->quoteName('#__tj_notification_template_configs', 'con'));
 			$query->where($db->quoteName('con.template_id') . ' = ' . (int) $templateKeyIdObj->id);
 			$db->setQuery($query);
 			$existingBackends = $db->loadColumn();
-			$remainTemplateBackends = array_values(array_diff(TJNOTIFICATIONS_CONST_BACKENDS_ARRAY,$existingBackends));
+
+			$backendsArray          = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+			$remainTemplateBackends = array_values(array_diff($backendsArray, $existingBackends));
 
 			if (!empty($remainTemplateBackends))
 			{
 				foreach ($remainTemplateBackends as $key => $value)
-				{				
+				{
 					if ($template['key'] == $templateKeyIdObj->key)
 					{
 						$db    = JFactory::getDBO();
 						$templateConfigTable = JTable::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
 						$templateConfigTable->template_id = $templateKeyIdObj->id;
 						$templateConfigTable->backend     = $value;
-						$templateConfigTable->subject     = (!empty($template[$value][$value . 'fields'][$value . 'fields0']['subject'])) ? $template[$value][$value . 'fields'][$value . 'fields0']['subject'] : '';
+						$templateConfigTable->subject     = (!empty($template[$value][$value . 'fields'][$value . 'fields0']['subject']))
+							? $template[$value][$value . 'fields'][$value . 'fields0']['subject'] : '';
 						$templateConfigTable->body        = $template[$value][$value . 'fields'][$value . 'fields0']['body'];
 						$templateConfigTable->state       = $template[$value]['state'];
 						$templateConfigTable->created_on  = Factory::getDate('now')->toSQL();
 						$templateConfigTable->updated_on  = '';
-						$templateConfigTable->is_override = 0;							
+						$templateConfigTable->is_override = 0;
 						$templateConfigTable->save($templateConfigTable);
 					}
 				}
