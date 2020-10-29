@@ -25,7 +25,7 @@ var tjnotificationsAdmin = {
 			var parentDiv = document.querySelector("#"+smsBodyId);
 			var smsSubformFieldNum = smsBodyId.split("jform_sms__smsfields__smsfields")["1"].split("__")["0"]
 
-			remainingCharLimitMsg = (parseInt(remainingCharLimit) > 0 ) ? remainingCharLimit + " " + Joomla.JText._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_CHARACTER') : (remainingCharLimit * -1) + " " + Joomla.JText._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_EXCEEDED');
+			var remainingCharLimitMsg = (parseInt(remainingCharLimit) > 0 ) ? remainingCharLimit + " " + Joomla.JText._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_CHARACTER') : (remainingCharLimit * -1) + " " + Joomla.JText._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_EXCEEDED');
 
 			if(parentDiv.parentNode.parentNode.parentNode.querySelector("p") !== null)
 			{
@@ -47,7 +47,7 @@ var tjnotificationsAdmin = {
 			{
 				var newP = document.createElement("p");
 				newPCustomClass = "smsfieldsCharLimit" + smsSubformFieldNum;
-				remainingCharLimitClass = (parseInt(remainingCharLimit) > 0 ) ? "alert-info" : "alert-danger" ;
+				var remainingCharLimitClass = (parseInt(remainingCharLimit) > 0 ) ? "alert-info" : "alert-danger" ;
 				newP.setAttribute("class", remainingCharLimitClass + " center " + newPCustomClass);
 				var textNode = document.createTextNode(remainingCharLimitMsg);
 				newP.appendChild(textNode);
