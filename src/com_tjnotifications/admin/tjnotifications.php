@@ -19,7 +19,7 @@ JHtml::_('behavior.tabstate');
 // Add the defines.php file
 require_once JPATH_COMPONENT . '/defines.php';
 
-HTMLHelper::script('administrator/components/com_tjnotifications/assets/js/tjnotifcations.js');
+HTMLHelper::script('administrator/components/com_tjnotifications/assets/js/tjnotifications.min.js');
 
 $controller = BaseController::getInstance('Tjnotifications');
 

@@ -21,63 +21,7 @@ Text::script('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_CHARACTER');
 Text::script('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_EXCEEDED');
 
 $doc    = Factory::getDocument();
-$script = 'jQuery(document).ready(function() {
-	var childElements = document.getElementById("sms").querySelector(".ui-sortable").children;
-
-	for (item of childElements) 
-	{
-		if(item.querySelector("textarea") !==null)
-		{
-			tjnotificationsAdmin.notification.validateSmsLength(item.querySelector("textarea"));
-		}
-	} 
-
-	document.formvalidator.setHandler("json", function(value) {
-		try {
-			var params = JSON.stringify(JSON.parse(value));
-			return true;
-		}
-		catch(e) {
-			return false;
-		}
-	});
-
-	jQuery("fieldset").click(function() {
-		status=this.id+"0";
-		statusChange=this.id+"1";
-		var check=(jQuery("#"+status).attr("checked"));
-
-		if (check=="checked") {
-			var body=(this.id).replace("status", "body_ifr");
-			var bodyData=(jQuery("#"+body).contents().find("body").find("p").html());
-
-			if (bodyData == "<br data-mce-bogus=\"1\">") {
-				alert("Please fill the data");
-				jQuery("#"+this.id).find("label[for="+statusChange+"]").attr("class","btn active btn-danger");
-				jQuery("#"+this.id).find("label[for="+status+"]").attr("class","btn");
-
-				return false;
-			}
-			else {
-				jQuery("#"+this.id).find("label[for="+status+"]").attr("class","btn active btn-success");
-				jQuery("#"+this.id).find("label[for="+statusChange+"]").attr("class","btn");
-			}
-		}
-	});
-	jQuery(document).on("subform-row-add", function(event, row){
-		var childElements = document.getElementById("sms").querySelector(".ui-sortable").children;
-
-		for (item of childElements) 
-		{
-			if(item.querySelector("textarea") !==null)
-			{
-				tjnotificationsAdmin.notification.validateSmsLength(item.querySelector("textarea"));
-			}
-		}
-	});
-});
-
-Joomla.submitbutton = function(task) {
+$script = 'Joomla.submitbutton = function(task) {
 	if (task== "notification.save" || task == "notification.save2new" || task == "notification.apply") {
 		var isFormValid = document.formvalidator.isValid(document.getElementById("adminForm"));
 		if (isFormValid == true) {
@@ -95,6 +39,9 @@ Joomla.submitbutton = function(task) {
 
 $doc->addScriptDeclaration($script);
 ?>
+<script type="text/javascript">
+	tjnotificationsAdmin.notification.init();
+</script>
 
 <form
 	action="<?php echo Route::_('index.php?option=com_tjnotifications&layout=edit&id=' . (int) $this->item->id . '&extension=' . $this->component); ?>"
