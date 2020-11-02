@@ -64,6 +64,17 @@ $script = 'jQuery(document).ready(function() {
 			}
 		}
 	});
+	jQuery(document).on("subform-row-add", function(event, row){
+		var childElements = document.getElementById("sms").querySelector(".ui-sortable").children;
+
+		for (item of childElements) 
+		{
+			if(item.querySelector("textarea") !==null)
+			{
+				tjnotificationsAdmin.notification.validateSmsLength(item.querySelector("textarea"));
+			}
+		}
+	});
 });
 
 Joomla.submitbutton = function(task) {
