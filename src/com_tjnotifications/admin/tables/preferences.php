@@ -1,29 +1,30 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_tjnotification
+ * @package     Tjnotifications
+ * @subpackage  com_tjnotifications
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
-defined('_JEXEC') or die;
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
+use Joomla\CMS\Table\Table;
+
 /**
  * Methods supporting a list of tjnotification records.
  *
  * @since  1.6
  */
-class TJNotificationTablePreferences extends JTable
+class TJNotificationTablePreferences extends Table
 {
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $db  An optional associative array of configuration settings.
-	 *
-	 * @see        JController
-	 * @since      1.6
+	 * @param   \JDatabaseDriver  &$db  \JDatabaseDriver object.
 	 */
-
-	public function __construct($db)
+	public function __construct(&$db)
 	{
 		$this->setColumnAlias('published', 'state');
 		parent::__construct('#__tj_notification_user_exclusions', 'id', $db);

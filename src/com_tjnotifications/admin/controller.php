@@ -1,20 +1,22 @@
 <?php
-
 /**
- * @package    Com_Tjnotification
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Tjnotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
 /**
  * Notifications controller.
  *
  * @since  0.0.1
  */
 
-class TjnotificationsController extends JControllerLegacy
+class TjnotificationsController extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
 	 * The default view for the display method.

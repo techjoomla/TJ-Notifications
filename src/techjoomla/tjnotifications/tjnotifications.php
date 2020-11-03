@@ -86,7 +86,7 @@ class Tjnotifications
 			$mailer->setSubject(self::getSubject($template->email_subject, $options));
 
 			// Set body for email
-			$mailer->setBody(self::getBody($template->email_body, $replacements));
+			$mailer->setBody(self::getBody($template, $replacements, $client));
 
 			// If you would like to send as HTML, include this line; otherwise, leave it out
 			$mailer->isHTML();
@@ -162,16 +162,20 @@ class Tjnotifications
 	/**
 	 * Method to get Body.
 	 *
-	 * @param   string  $body_template  A template body for email.
+	 * @param   Object  $body_template  A template body for email.
 	 * @param   array   $replacements   It is a object contains replacement.
+	 * @param   string  $client         A field same as component name.
 	 *
 	 * @return  string  $body
 	 *
 	 * @since 1.0
 	 */
-	public static function getBody($body_template, $replacements)
+	public static function getBody($body_template, $replacements, $client)
 	{
-		$matches = self::getTags($body_template);
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onTjNotificationTemplatePrepare', array(&$replacements, &$body_template, $client));
+
+		$matches = self::getTags($body_template->email_body);
 
 		$tags = $matches[0];
 
@@ -184,11 +188,11 @@ class Tjnotifications
 			$key = $data[0];
 			$value = $data[1];
 			$replaceWith = $replacements->$key->$value;
-			$body_template = str_replace($tag, $replaceWith, $body_template);
+			$body_template->email_body = str_replace($tag, $replaceWith, $body_template->email_body);
 			$index++;
 		}
 
-		return $body_template;
+		return $body_template->email_body;
 	}
 
 	/**

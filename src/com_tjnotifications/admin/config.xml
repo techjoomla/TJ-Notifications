@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="general" label="COM_TJNOTIFICATIONS_SETTINGS_GENERAL" description="" addfieldpath="/administrator/components/com_tjnotifications/models/fields">
+		<field name="enable_logs" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_TJNOTIFICATIONS_ALLOW_SAVE_OPTION" description="COM_TJNOTIFICATIONS_APPLICATION_OPTION_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="tjpush_plugin" type="sql" default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_PUSH_PROVIDER" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_PUSH_PROVIDER_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjpush' AND enabled=1" key_field="element" value_field="name" />
+
+		<field name="tjsms_plugin" type="sql" default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_SMS_PLUGIN" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_SMS_PLUGIN_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjsms' AND enabled=1" key_field="element" value_field="name" />
+
+		<field name="tjwhatsapp_plugin" type="sql" default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_WHATSAPP_PROVIDER" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_WHATSAPP_PROVIDER_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjwhatsapp' AND enabled=1" key_field="element" value_field="name" />
+
+		<field name="mobile_number_source" type="list" default="joomla"
+			description="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_DESC"
+			label="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER">
+			<option value="joomla">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_JOOMLA</option>
+			<option value="easysocial">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_EASYSOCIAL</option>
+			<option value="joomsocial">COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PHONE_NUMBER_JOOMSOCIAL</option>
+		</field>
+
+		<field name="mobile_number_field" type="mobilenumberfields" showon="mobile_number_source:joomla"
+			label="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_PHONE_NUMBER_FIELD" description="COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_PHONE_NUMBER_FIELD_DESC"
+		/>
+
+		<field name="enable_url_shortening" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_TJNOTIFICATIONS_SETTINGS_URL_SHORTING" description="COM_TJNOTIFICATIONS_SETTINGS_URL_SHORTING_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="url_shortening_provider" type="sql" showon="enable_url_shortening:1"
+			default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_URL_SHORTENING_PLUGIN" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_URL_SHORTENING_PLUGIN_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjurlshortner' AND enabled=1" key_field="element" value_field="name" />
+
+		<field name="url_shortening_enabled_backends" type="tjnotificationsbackends" showon="enable_url_shortening:1" default="sms" multiple="multiple" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING_DESC" />
+
+	</fieldset>
+
+	<fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+		<field name="rules" type="rules" component="com_tjnotifications" class="inputbox" filter="rules" validate="rules" label="JCONFIG_PERMISSIONS_LABEL" section="component" />
+	</fieldset>
+</config>
+

@@ -1,24 +1,30 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_tjnotification
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
  *
- * @copyright   Copyright (C) 2005 -  2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
+
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\CMS\Table\Table;
 
 /**
  * TJNotification model.
  *
  * @since  1.6
  */
-class TJNotificationsModelPreferences extends JModelAdmin
+class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 {
 	/**
 	 * Method to getClient the form data.
 	 *
-	 * @return clients
+	 * @return array
 	 *
 	 * @throws Exception
 	 * @since 1.6
@@ -26,31 +32,30 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	public function getClient()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
 		$query->select('DISTINCT(client)');
 		$query->from($db->quoteName('#__tj_notification_templates'));
 		$db->setQuery($query);
-		$clients = $db->loadObjectList();
 
-		return $clients;
+		return $db->loadObjectList();
 	}
 
 	/**
 	 * Method to get keys the form data.
 	 *
-	 * @param   array  $client  The form data
+	 * @param   string  $client  Client
 	 *
-	 * @return $keys
+	 * @return  array
 	 *
 	 * @throws Exception
 	 * @since 1.6
 	 */
 	public function Keys($client)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('DISTINCT(`key`)');
@@ -58,15 +63,14 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
 		$query->where($db->quoteName('user_control') . ' = 1');
 		$db->setQuery($query);
-		$keys = $db->loadObjectList();
 
-		return $keys;
+		return $db->loadObjectList();
 	}
 
 	/**
 	 * Method to getState the form data.
 	 *
-	 * @return preferences
+	 * @return  array|boolean
 	 *
 	 * @throws Exception
 	 * @since 1.6
@@ -74,26 +78,26 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	public function getStates()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$uid   = JFactory::getUser()->id;
-			$query->select('client,`key`,provider');
-			$query->from($db->quoteName('#__tj_notification_user_exclusions'));
+		$uid   = Factory::getUser()->id;
+		$query->select('client,`key`,provider');
+		$query->from($db->quoteName('#__tj_notification_user_exclusions'));
 
-			if ($uid)
-			{
+		if ($uid)
+		{
 			$query->where($db->quoteName('user_id') . ' = ' . $db->quote($uid));
-			}
+		}
 
-			$db->setQuery($query);
-			$preferences = $db->loadObjectList();
+		$db->setQuery($query);
+		$preferences = $db->loadObjectList();
 
-			if ($preferences)
-			{
-				return $preferences;
-			}
+		if ($preferences)
+		{
+			return $preferences;
+		}
 
-			return false;
+		return false;
 	}
 
 	/**
@@ -112,7 +116,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		{
 			parent::save($data);
 			$dispatcher = JDispatcher::getInstance();
-			JPluginHelper::importPlugin('tjnotification');
+			PluginHelper::importPlugin('tjnotification');
 			$dispatcher->trigger('tjnOnAfterUnsubscribeNotification', array($data));
 
 			return true;
@@ -137,9 +141,9 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		if ($data)
 		{
 			$dispatcher = JDispatcher::getInstance();
-			JPluginHelper::importPlugin('tjnotification');
+			PluginHelper::importPlugin('tjnotification');
 			$dispatcher->trigger('tjnOnAfterResubscribeNotification', array($data));
-			$db = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$conditions = array(
 				$db->quoteName('user_id') . ' = ' . $db->quote($data['user_id']),
@@ -151,9 +155,8 @@ class TJNotificationsModelPreferences extends JModelAdmin
 			$query->where($conditions);
 
 			$db->setQuery($query);
-			$result = $db->execute();
 
-			return $result;
+			return $db->execute();
 		}
 		else
 		{
@@ -169,7 +172,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return    JForm    A JForm object on success, false on failure
+	 * @return    JForm|boolean
 	 *
 	 * @since    1.6
 	 */
@@ -196,16 +199,16 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	/**
 	 * Method to get the table
 	 *
-	 * @param   string  $type    Name of the JTable class
+	 * @param   string  $type    Name of the Table class
 	 * @param   string  $prefix  Optional prefix for the table class name
-	 * @param   array   $config  Optional configuration array for JTable object
+	 * @param   array   $config  Optional configuration array for Table object
 	 *
-	 * @return  JTable|boolean JTable if found, boolean false on failure
+	 * @return  Table|boolean Table if found, boolean false on failure
 	 */
 
 	public function getTable($type ='Preferences', $prefix = 'TJNotificationTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -218,45 +221,42 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function count()
 	{
-			// Initialize variables.
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true);
+		// Initialize variables.
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
 
-			// Create the base select statement.
-			$query->select('COUNT(*) as name');
-			$query->from($db->quoteName('#__tj_notification_user_exclusions'));
-			$query->where($db->quoteName('provider') . ' = ' . $db->quote('email'));
+		// Create the base select statement.
+		$query->select('COUNT(*) as name');
+		$query->from($db->quoteName('#__tj_notification_user_exclusions'));
+		$query->where($db->quoteName('provider') . ' = ' . $db->quote('email'));
 
-			$db->setQuery($query);
+		$db->setQuery($query);
 
-			$count = $db->loadObject();
-
-			return $count;
+		return $db->loadObject();
 	}
 
 	/**
 	 * Method to get keys the form data.
 	 *
-	 * @param   array  $provider  The form data
+	 * @param   string  $provider  The form data
 	 *
-	 * @return $adminPreferences
+	 * @return  array
 	 *
 	 * @throws Exception
 	 * @since 1.6
 	 */
 	public function adminPreferences($provider)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db       = Factory::getDbo();
+		$query    = $db->getQuery(true);
 		$provider = strtolower($provider);
 		$query->select('client,`key`');
 		$query->from($db->quoteName('#__tj_notification_templates'));
 		$query->where($db->quoteName($provider . '_status') . '=' . $db->quote('1'));
 
 		$db->setQuery($query);
-		$adminPreferences = $db->loadObjectList();
 
-		return $adminPreferences;
+		return $db->loadObjectList();
 	}
 
 	/**
@@ -273,7 +273,7 @@ class TJNotificationsModelPreferences extends JModelAdmin
 	 */
 	public function getUnsubscribedUsers($client,$key)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
@@ -295,5 +295,37 @@ class TJNotificationsModelPreferences extends JModelAdmin
 		}
 
 		return $unsubscribed_users;
+	}
+
+	/**
+	 * Method to get notifications unsubscribed by users
+	 *
+	 * @param   int     $userId  User id
+	 * @param   string  $client  Client
+	 * @param   string  $key     Template key
+	 *
+	 * @return    array
+	 *
+	 * @since    2.0.0
+	 */
+	public function getUnsubscribedListByUser($userId, $client, $key)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select(array('user_id', 'provider'));
+		$query->from($db->quoteName('#__tj_notification_user_exclusions'));
+		$query->where(
+			array(
+				$db->quoteName('user_id') . ' = ' . (int) $userId,
+				$db->quoteName('client') . ' = ' . $db->quote($client),
+				$db->quoteName('key') . ' = ' . $db->quote($key)
+			)
+		);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList('provider');
 	}
 }

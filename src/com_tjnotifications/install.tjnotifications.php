@@ -1,10 +1,20 @@
 <?php
 /**
- * @package    Com_Tjnotification
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
+
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Factory;
+use \Joomla\CMS\Object\CMSObject;
+use \Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Table\Table;
+
 jimport('joomla.installer.installer');
 jimport('joomla.filesystem.file');
 
@@ -22,9 +32,15 @@ class Com_TjnotificationsInstallerScript
 			'actionlog' => array(
 				'tjnotification' => 1
 			),
+			'api' => array(
+				'tjnotifications' => 0
+			),
 			'privacy' => array(
 				'tjnotification' => 1,
 			),
+			'user' => array(
+				'tjnotificationsmobilenumber' => 1
+			)
 		),
 	);
 
@@ -57,8 +73,8 @@ class Com_TjnotificationsInstallerScript
 	public function uninstall($parent)
 	{
 		jimport('joomla.installer.installer');
-		$db              = JFactory::getDBO();
-		$status          = new JObject;
+		$db              = Factory::getDBO();
+		$status          = new CMSObject;
 		$status->plugins = array();
 		$src             = $parent->getParent()->getPath('source');
 
@@ -136,8 +152,8 @@ class Com_TjnotificationsInstallerScript
 	public function postflight($type, $parent)
 	{
 		$src             = $parent->getParent()->getPath('source');
-		$db              = JFactory::getDbo();
-		$status          = new JObject;
+		$db              = Factory::getDbo();
+		$status          = new CMSObject;
 		$status->plugins = array();
 
 		// Plugins installation
@@ -204,6 +220,8 @@ class Com_TjnotificationsInstallerScript
 		$this->installSqlFiles($parent);
 
 		$this->removeObsoleteFilesAndFolders($this->removeFilesAndFolders);
+
+		$this->migrateTemplates();
 	}
 
 	/**
@@ -215,7 +233,7 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function installSqlFiles($parent)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Obviously you may have to change the path and name if your installation SQL file
 		if (method_exists($parent, 'extension_root'))
@@ -233,7 +251,7 @@ class Com_TjnotificationsInstallerScript
 		if ($buffer !== false)
 		{
 			jimport('joomla.installer.helper');
-			$queries = JInstallerHelper::splitSql($buffer);
+			$queries = InstallerHelper::splitSql($buffer);
 
 			if (count($queries) != 0)
 			{
@@ -256,7 +274,7 @@ class Com_TjnotificationsInstallerScript
 			}
 		}
 
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 		$configdb = $config->get('db');
 
 		// Get dbprefix
@@ -346,8 +364,8 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function fix_db_on_update()
 	{
-		$db = JFactory::getDbo();
-		$config = JFactory::getConfig();
+		$db       = Factory::getDbo();
+		$config   = Factory::getConfig();
 		$dbprefix = $config->get('dbprefix');
 
 		$this->fixTemplateTable($db, $dbprefix, $config);
@@ -362,9 +380,9 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function fixMenuLinks()
 	{
-		$db = JFactory::getDbo();
-		$link = 'index.php?option=com_tjnotifications&view=notifications&extension=com_jticketing';
-		$link1 = 'index.php?option=com_tjnotifications&extension=com_tjvendors';
+		$db       = Factory::getDbo();
+		$link     = 'index.php?option=com_tjnotifications&view=notifications&extension=com_jticketing';
+		$link1    = 'index.php?option=com_tjnotifications&extension=com_tjvendors';
 		$allLinks = '"' . $link . '","' . $link1 . '"';
 
 		// Delete the mainmenu from menu table
@@ -413,6 +431,74 @@ class Com_TjnotificationsInstallerScript
 					JFolder::delete($f);
 				}
 			}
+		}
+	}
+
+	/**
+ 	* This method is called after a component is installed for template migration
+ 	*
+ 	* @return void
+ 	*/
+	public function migrateTemplates()
+	{
+		$limit  = 200;
+		$db     = Factory::getDbo();
+
+		try
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->from('#__tj_notification_template_configs');
+			$db->setQuery($query);
+			$templateConfigs = $db->loadObjectList();
+
+			if (!empty($templateConfigs))
+			{
+				return false;
+			}
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->from('#__tj_notification_templates')
+				->order($db->quoteName('id') . ' ASC');
+			$db->setQuery($query, 0, $limit);
+			$rows = $db->loadObjectList();
+
+			foreach ($rows as $row)
+			{
+				$db    = Factory::getDBO();
+
+				if (empty($row->id))
+				{
+					return false;
+				}
+
+				Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
+				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+
+				$templateConfigTable->load(array('template_id' => $row->id));
+
+				$templateConfigTable->template_id = $row->id;
+				$templateConfigTable->backend     = "email";
+				$templateConfigTable->subject     = $row->email_subject;
+				$templateConfigTable->body        = $row->email_body;
+				$templateConfigTable->state       = $row->email_status;
+				$templateConfigTable->created_on  = $row->created_on;
+				$templateConfigTable->updated_on  = $row->updated_on;
+				$templateConfigTable->is_override = $row->is_override;
+
+				$templateConfigTable->save($templateConfigTable);
+			}
+
+			$query = "ALTER TABLE `#__tj_notification_templates` DROP `email_status`, DROP `sms_status`, DROP `push_status`, DROP `web_status`,
+			DROP `email_body`, DROP `sms_body`, DROP `push_body`, DROP `web_body`, DROP `email_subject`, DROP `sms_subject`, DROP `push_subject`,
+			DROP `web_subject`, DROP `is_override`";
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (Exception $e)
+		{
+			return $e->getMessage();
 		}
 	}
 }

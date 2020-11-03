@@ -1,19 +1,25 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_tjnotification
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
  *
- * @copyright   Copyright (C) 2005 - 2016 Open  Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
+
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
+
 /**
  * TJNotification model.
  *
  * @since  1.6
  */
-class TJNotificationsModelProviders extends JModelList
+class TJNotificationsModelProviders extends ListModel
 {
 	/**
 	 * Build an SQL query to load the list data.
@@ -32,8 +38,9 @@ class TJNotificationsModelProviders extends JModelList
 		$query->select('DISTINCT(provider)');
 		$query->from($db->quoteName('#__tj_notification_providers'));
 		$query->where($db->quoteName('state') . '=' . $db->quote('1'));
-		$db->setQuery($query);
-		$query = $db->loadObjectList();
+
+		// $db->setQuery($query);
+		// s$query = $db->loadObjectList();
 
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering');
@@ -68,7 +75,7 @@ class TJNotificationsModelProviders extends JModelList
 	public function getProvider()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
@@ -76,23 +83,21 @@ class TJNotificationsModelProviders extends JModelList
 		$query->from($db->quoteName('#__tj_notification_providers'));
 		$query->where($db->quoteName('state') . '=' . $db->quote('1'));
 		$db->setQuery($query);
-		$providers = $db->loadObjectList();
 
-		return $providers;
+		return $db->loadObjectList();
 	}
 
 	/**
 	 * Method to get the table
 	 *
-	 * @param   string  $type    Name of the JTable class
+	 * @param   string  $type    Name of the Table class
 	 * @param   string  $prefix  Optional prefix for the table class name
-	 * @param   array   $config  Optional configuration array for JTable object
+	 * @param   array   $config  Optional configuration array for Table object
 	 *
-	 * @return  JTable|boolean JTable if found, boolean false on failure
+	 * @return  Table|boolean Table if found, boolean false on failure
 	 */
-
 	public function getTable($type ='Provider', $prefix = 'TJNotificationsTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 }

@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
- <form>
+<form>
 	<fields name="filter">
 		<field
 			name="search"
 			type="text"
 			label="search"
 			hint="search"
-			class="js-stools-search-string" 
+			class="js-stools-search-string"
 			/>
-
-
-		 <field
-           name="client"
-				label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL"
-				description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC"
-				onchange="this.form.submit();"
-				type="sql"
-				query="SELECT DISTINCT(client) FROM `#__tj_notification_templates`"
-				key_field="client"
-				value_field="client"
-				>
-				<option value=''>COM_TJNOTIFICATIONS_FIELD_CLIENT_OPTION</option>
-        </field>
-
-
+		<field
+			name="client"
+			label="COM_TJNOTIFICATIONS_FIELD_CLIENT_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_CLIENT_DESC"
+			onchange="this.form.submit();"
+			type="clients"
+			key_field="client"
+			value_field="client"
+			/>
 	</fields>
 </form>

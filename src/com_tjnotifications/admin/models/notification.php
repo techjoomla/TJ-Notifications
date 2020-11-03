@@ -1,21 +1,33 @@
 <?php
 /**
- * @package    Com_Tjnotification
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Tjnotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @copyright   Copyright (C) 2009 - 2020 Techjoomla. All rights reserved.
+ * @license     http:/www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-// No direct access to this file
-defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
+
+BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
+require_once JPATH_ADMINISTRATOR . '/components/com_tjnotifications/defines.php';
 
 /**
  * notification model.
  *
  * @since  1.6
  */
-class TjnotificationsModelNotification extends JModelAdmin
+class TjnotificationsModelNotification extends AdminModel
 {
 	/**
 	 * Constructor.
@@ -37,14 +49,14 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return    JTable    A database object
+	 * @return  JTable|boolean
 	 *
 	 * @since    1.6
 	 */
 	public function getTable($type='Notification',$prefix='tjnotificationTable',$config=array())
 	{
 		// Get the table.
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -87,8 +99,8 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
-		$parts = explode('.', $extension);
+		$extension = Factory::getApplication()->input->getCmd('extension', '');
+		$parts     = explode('.', $extension);
 
 		// Extract the component name
 		$this->setState('filter.component', $parts[0]);
@@ -97,7 +109,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState(
+		$data = Factory::getApplication()->getUserState(
 			'com_tjnotifications.edit.tjnotifications.data',
 			array()
 		);
@@ -121,35 +133,23 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function createTemplates($templates)
 	{
-		$data = $templates;
-		$db   = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$model       = JModelList::getInstance('Notifications', 'TJNotificationsModel');
+		$data  = $templates;
+		$date  = new Date;
 
+		if (empty($data['created_on']))
+		{
+			$data['created_on'] = $date->format(Text::_('DATE_FORMAT_FILTER_DATETIME'));
+		}
+
+		// To save  data of replacement tags
 		if (!empty($data['replacement_tags']))
 		{
 			$data['replacement_tags'] = json_encode($data['replacement_tags']);
 		}
 
-		if ($data['client'] and $data['key'])
+		if (!empty($data))
 		{
-			$model->setState('filter.client', $data['client']);
-			$model->setState('filter.key', $data['key']);
-
-			$result = $model->getItems();
-
-			foreach ($result as $res)
-			{
-				if ($res->id)
-				{
-					$data['id'] = $res->id;
-				}
-			}
-		}
-
-		if ($data)
-		{
-			parent::save($data);
+			$this->save($data);
 
 			return true;
 		}
@@ -162,7 +162,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 	/**
 	 * Method to delete notification template
 	 *
-	 * @param   int  &$cid  Id of template.
+	 * @param   array  &$cid  An array of record primary keys.
 	 *
 	 * @return  void
 	 *
@@ -170,10 +170,15 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function delete(&$cid)
 	{
-		$db          = JFactory::getDbo();
-		$deleteQuery = $db->getQuery(true);
-		$value       = array();
-		$model       = JModelAdmin::getInstance('Notification', 'TJNotificationsModel');
+		$db    = Factory::getDbo();
+		$value = array();
+		$model = AdminModel::getInstance('Notification', 'TJNotificationsModel');
+		$user  = Factory::getUser();
+
+		if (empty($user->authorise('core.delete', 'com_tjnotifications')))
+		{
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		foreach ($cid as $id)
 		{
@@ -181,6 +186,15 @@ class TjnotificationsModelNotification extends JModelAdmin
 
 			if ($data->core == 0)
 			{
+				$deleteQuery = $db->getQuery(true);
+				$conditions = array(
+					$db->qn('template_id') . '=' . (int) $id
+				);
+				$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+				$deleteQuery->where($conditions);
+				$db->setQuery($deleteQuery);
+				$db->execute();
+
 				$deleteQuery = $db->getQuery(true);
 				$conditions = array(
 					$db->quoteName('client') . ' = ' . $db->quote($data->client),
@@ -196,7 +210,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 					$value[] = 1;
 					parent::delete($data->id);
 					$dispatcher = JDispatcher::getInstance();
-					JPluginHelper::importPlugin('tjnotification');
+					PluginHelper::importPlugin('tjnotification');
 					$dispatcher->trigger('tjnOnAfterDeleteNotificationTemplate', array($data));
 				}
 			}
@@ -214,23 +228,21 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 *
 	 * @param   string  $client  client.
 	 *
-	 * @return  existingkeys
+	 * @return  array
 	 *
 	 * @since   1.0
 	 */
 	public function getKeys($client)
 	{
-		$db = JFactory::getDbo();
-
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
+
 		$query->select($db->quoteName('key'));
 		$query->from($db->quoteName('#__tj_notification_templates'));
 		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
 		$db->setQuery($query);
 
-		$existingKeys = $db->loadColumn();
-
-		return $existingKeys;
+		return $db->loadColumn();
 	}
 
 	/**
@@ -245,8 +257,9 @@ class TjnotificationsModelNotification extends JModelAdmin
 	 */
 	public function getReplacementTagsCount($key, $client)
 	{
-		$db = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
+
 		$query->select($db->quoteName('replacement_tags'));
 		$query->from($db->quoteName('#__tj_notification_templates'));
 		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
@@ -277,7 +290,7 @@ class TjnotificationsModelNotification extends JModelAdmin
 			return;
 		}
 
-		$db = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Fields to update.
@@ -294,6 +307,379 @@ class TjnotificationsModelNotification extends JModelAdmin
 		$query->update($db->quoteName('#__tj_notification_templates'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 
-		$result = $db->execute();
+		$db->execute();
+	}
+
+	/**
+	 * Method to  save notification data
+	 *
+	 * @param   ARRAY  $data  notification data
+	 *
+	 * @return  mixed Template ID
+	 *
+	 * @since    1.0.0
+	 */
+	public function save($data)
+	{
+		$isNew = true;
+
+		// 1 - save template first
+		if (!empty($data))
+		{
+			$date = Factory::getDate();
+
+			if ($data['id'])
+			{
+				$data['updated_on'] = $date->toSql(true);
+			}
+			else
+			{
+				$data['created_on'] = $date->toSql(true);
+			}
+
+			if (!empty($data['replacement_tags']))
+			{
+				$data['replacement_tags'] = json_encode($data['replacement_tags']);
+			}
+		}
+
+		if (!parent::save($data))
+		{
+			return false;
+		}
+		else
+		{
+			// IMPORTANT to set new id in state, it is fetched in controller later
+			// Get current Template id
+			$templateId = (int) $this->getState($this->getName() . '.id');
+			$this->setState('com_tjnotifications.edit.notification.id', $templateId);
+			$this->setState('com_tjnotifications.edit.notification.new', $isNew);
+		}
+
+		if (empty($templateId))
+		{
+			return false;
+		}
+
+		// Get DB
+		$db = Factory::getDbo();
+
+		// 2 - save backend specific config
+		$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+		foreach ($backendsArray as $keyBackend => $backend)
+		{
+			// 2.1 Check if current backend exists in posted data
+			// If not $data['email'] or $data['sms']
+			if (empty($data[$backend]))
+			{
+				continue;
+			}
+
+			// Eg: Get count of $data['email']['emailfields'] or $data['sms']['smsfields']
+			if (count($data[$backend][$backend . 'fields']) == 0)
+			{
+				continue;
+			}
+
+			$idsToBeDeleted = array();
+			$idsToBeStored  = array();
+
+			// For current template, get existing lang. sepcific template for current backend
+			$existingBackendConfigs = $this->getExistingTemplates($data['id'], $backend);
+
+			// 2.2 Find existing template config entries to be deleted (i.e. language specific templates removed by user)
+			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
+			{
+				// Iterate through each lang. specific config entry
+				foreach ($existingBackendConfigs as $existingBackendConfig)
+				{
+					$existingBackendConfigId     = json_decode(json_encode($existingBackendConfig->id), true);
+					$existingBackendConfigTempId = json_decode(json_encode($existingBackendConfig->template_id), true);
+					$existingBackendConfigLang   = json_decode(json_encode($existingBackendConfig->language), true);
+
+					// If there is existing template then return to form view.
+					if ($existingBackendConfigLang == $backendFieldValues['language']
+						&& $existingBackendConfigTempId == $templateId
+						&& $existingBackendConfigId != $backendFieldValues['id'])
+					{
+						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_TEMPLATE_EXISTS'));
+
+						return false;
+					}
+
+					// Find to be deleted or saved
+					if (($existingBackendConfigId == $backendFieldValues['id'] || $existingBackendConfigLang == "*" )
+						|| $existingBackendConfigId == empty($backendFieldValues['id']))
+					{
+						$idsToBeStored[] = $backendFieldValues['id'];
+					}
+					else
+					{
+						$idsToBeDeleted[] = $existingBackendConfigId;
+					}
+				}
+			}
+
+			// Array of backend specific template configs id to be deleted
+			$backendConfigIdsToBeDeleted = array_diff($idsToBeDeleted, $idsToBeStored);
+
+			// Function call to delete template configs
+			$this->deleteBackendConfigs($backendConfigIdsToBeDeleted);
+
+			// 2.3 Common data for saving
+			$createdOn = !empty($data['created_on']) ? $data['created_on'] : '';
+			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : '';
+
+			// 2.4 try saving all backend specific configs
+			// This has repeatable data eg: $data['email']['emailfields'] or $data['sms']['smsfields']
+			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
+			{
+				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+				$templateConfigTable->load(array('template_id' => $templateId, 'backend' => $backendName));
+
+				// Non-repeat data
+				$templateConfigTable->template_id = $templateId;
+				$templateConfigTable->backend     = $backend;
+				$templateConfigTable->state       = $data[$backend]['state'];
+				$templateConfigTable->created_on  = $createdOn;
+				$templateConfigTable->updated_on  = $updatedOn;
+
+				// Get params data
+				// State, emailfields / smsfields
+				$nonParamsFields = array('state', $backend . 'fields');
+				$params = array();
+
+				foreach ($data[$backend] as $fieldKey => $fieldValue)
+				{
+					if (!in_array($fieldKey, $nonParamsFields) && !empty($data[$backend][$fieldKey]))
+					{
+						$params[$fieldKey] = $data[$backend][$fieldKey];
+					}
+				}
+
+				$templateConfigTable->params = json_encode($params);
+
+				// Repeatable data
+				$templateConfigTable->subject     = !empty($backendFieldValues['subject']) ? $backendFieldValues['subject']: '';
+				$templateConfigTable->body        = $backendFieldValues['body'];
+				$templateConfigTable->language    = $backendFieldValues['language'];
+
+				// Save backend in config table
+				if (empty($backendFieldValues['id']))
+				{
+					$templateConfigTable->save($templateConfigTable);
+				}
+				else
+				{
+					$templateConfigTable->id = $backendFieldValues['id'];
+					$templateConfigTable->save($templateConfigTable);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to get an object.
+	 *
+	 * @param   integer  $id  The id of the object to get.
+	 *
+	 * @return  mixed    Object on success, false on failure.
+	 */
+	public function getItem($id = null)
+	{
+		$item = parent::getItem($id);
+
+		if (empty($item->id))
+		{
+			return $item;
+		}
+
+		$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+		foreach ($backendsArray as $keyBackend => $backend)
+		{
+			$db                   = Factory::getDBO();
+			$backendConfigsQuery = $db->getQuery(true);
+
+			$backendConfigsQuery->select('ntc.*');
+			$backendConfigsQuery->where(
+				$db->qn('ntc.template_id') . '=' . (int) $item->id .
+				' AND ' . $db->quoteName('backend') . " = '" . $backend . "'"
+			);
+			$backendConfigsQuery->from($db->qn('#__tj_notification_template_configs', 'ntc'));
+			$db->setQuery($backendConfigsQuery);
+			$backendConfigsList = $db->loadObjectlist();
+
+			if (empty($backendConfigsList))
+			{
+				continue;
+			}
+
+			// We can get common config for current backend from any backend config for current template ID
+			$singleBackendRow = $backendConfigsList[0];
+
+			// Define non-params fields - state, emailfields / smsfields
+			$nonParamsFields  = array('state', $backend . 'fields');
+
+			// Start setting backend specific data for edit
+			$item->$backend = array();
+
+			if (version_compare(phpversion(), '7.4.0', '<'))
+			{
+				$item->{$backend}['state'] = $singleBackendRow->state;
+
+				// Get params for current backend from any backend config for current template ID
+				$json = (array) json_decode($singleBackendRow->params);
+
+				foreach ($json as $fieldKey => $fieldValue)
+				{
+					if (!in_array($fieldKey, $nonParamsFields))
+					{
+						$item->{$backend}[$fieldKey] = $fieldValue;
+					}
+				}
+
+				// Last, set all config rows list as repeatable data
+				$item->{$backend}[$backend . 'fields'] = $backendConfigsList;
+			}
+			else
+			{
+				$item->$backend['state'] = $singleBackendRow->state;
+
+				// Get params for current backend from any backend config for current template ID
+				$json = (array) json_decode($singleBackendRow->params);
+
+				foreach ($json as $fieldKey => $fieldValue)
+				{
+					if (!in_array($fieldKey, $nonParamsFields))
+					{
+						$item->$backend[$fieldKey] = $fieldValue;
+					}
+				}
+
+				// Last, set all config rows list as repeatable data
+				$item->$backend[$backend . 'fields'] = $backendConfigsList;
+			}
+		}
+
+		return $item;
+	}
+
+	/**
+	 * get notification templates of component
+	 *
+	 * @param   integer  $templateId  Notification template ID
+	 * @param   string   $backend     Backend name
+	 *
+	 * @return array
+	 *
+	 * @since  2.1
+	 */
+	public function getExistingTemplates($templateId, $backend)
+	{
+		$db = JFactory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+		$query->select('`id`,`language`,`template_id`');
+		$query->from($db->quoteName('#__tj_notification_template_configs'));
+		$query->where(
+			$db->quoteName('template_id') . ' = ' . $db->quote($templateId) .
+			' AND ' . $db->quoteName('backend') . " = '" . $backend . "'"
+		);
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Method to delete templates if they are deleted from form view
+	 *
+	 * @param   array  $backendConfigIdsToBeDeleted  template data
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.4
+	 */
+	public function deleteBackendConfigs($backendConfigIdsToBeDeleted)
+	{
+		if (!empty($backendConfigIdsToBeDeleted))
+		{
+			foreach ($backendConfigIdsToBeDeleted as $entry)
+			{
+				$db          = Factory::getDBO();
+				$deleteQuery = $db->getQuery(true);
+				$conditions  = array(
+				$db->qn('id') . '=' . (int) $entry);
+				$deleteQuery->delete($db->quoteName('#__tj_notification_template_configs'));
+				$deleteQuery->where($conditions);
+				$db->setQuery($deleteQuery);
+
+				$db->execute();
+			}
+		}
+	}
+
+	/**
+	 * Method to replace tags if they are changed
+	 *
+	 * @param   array   $template  This is single template array of data
+	 * @param   string  $client    client like com_jgive
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function updateTemplates($template, $client)
+	{
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName(array('id', 'key')));
+		$query->from($db->quoteName('#__tj_notification_templates', 'temp'));
+		$query->order($db->quoteName('id') . ' ASC');
+		$query->where($db->quoteName('client') . ' = ' . $db->quote($client));
+		$query->where($db->quoteName('key') . ' = ' . $db->quote($template['key']));
+		$db->setQuery($query);
+		$templateKeyIdObj = $db->loadObject();
+
+		if (!empty($templateKeyIdObj))
+		{
+			$query = $db->getQuery(true);
+			$query->select('backend');
+			$query->from($db->quoteName('#__tj_notification_template_configs', 'con'));
+			$query->where($db->quoteName('con.template_id') . ' = ' . (int) $templateKeyIdObj->id);
+			$db->setQuery($query);
+			$existingBackends = $db->loadColumn();
+
+			$backendsArray          = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+			$remainTemplateBackends = array_values(array_diff($backendsArray, $existingBackends));
+
+			if (!empty($remainTemplateBackends))
+			{
+				foreach ($remainTemplateBackends as $key => $value)
+				{
+					if ($template['key'] == $templateKeyIdObj->key)
+					{
+						$db    = JFactory::getDBO();
+						$templateConfigTable = JTable::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+						$templateConfigTable->template_id = $templateKeyIdObj->id;
+						$templateConfigTable->backend     = $value;
+						$templateConfigTable->subject     = (!empty($template[$value][$value . 'fields'][$value . 'fields0']['subject']))
+							? $template[$value][$value . 'fields'][$value . 'fields0']['subject'] : '';
+						$templateConfigTable->body        = $template[$value][$value . 'fields'][$value . 'fields0']['body'];
+						$templateConfigTable->state       = $template[$value]['state'];
+						$templateConfigTable->created_on  = Factory::getDate('now')->toSQL();
+						$templateConfigTable->updated_on  = '';
+						$templateConfigTable->is_override = 0;
+						$templateConfigTable->save($templateConfigTable);
+					}
+				}
+			}
+		}
 	}
 }
