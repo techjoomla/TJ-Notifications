@@ -22,8 +22,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$doc = Factory::getDocument();
-$doc->addStyleSheet(JUri::root() . 'administrator/components/com_tjnotifications/assets/css/tjnotifcations.css');
+HTMLHelper::stylesheet('media/com_tjnotifications/css/tjnotifcations.min.css');
 ?>
 
 <script type="text/javascript">

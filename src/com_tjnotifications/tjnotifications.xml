@@ -35,6 +35,11 @@
 	<languages folder="site/language">
 		<language tag="en-GB">en-GB.com_tjnotifications.ini</language>
 	</languages>
+	<media folder="media" destination="com_tjnotifications">
+		<folder>js</folder>
+		<folder>css</folder>
+		<file>index.html</file>
+	</media>
 	<administration>
 		<menu>com_tjnotifications</menu>
 		<files folder="admin">
@@ -44,7 +49,6 @@
 			<filename>defines.php</filename>
 			<filename>index.html</filename>
 			<filename>tjnotifications.php</filename>
-			<folder>assets</folder>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>images</folder>
