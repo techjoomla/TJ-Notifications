@@ -24,6 +24,7 @@
 			cols="150"
 			filter="JComponentHelper::filterText"
 			required="true"
+			onchange="tjnotificationsAdmin.notification.validateSmsLength(this)"
 		/>
 	</fieldset>
 </form>

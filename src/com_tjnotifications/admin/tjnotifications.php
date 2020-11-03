@@ -11,12 +11,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 JHtml::_('behavior.tabstate');
 
 // Add the defines.php file
 require_once JPATH_COMPONENT . '/defines.php';
+
+HTMLHelper::script('media/com_tjnotifications/js/tjnotifications.min.js');
 
 $controller = BaseController::getInstance('Tjnotifications');
 
