@@ -1,13 +1,14 @@
 <?php
 /**
- * @version    SVN: <svn_id>
- * @package    JTicketing
- * @author     Techjoomla <extensions@techjoomla.com>
- * @copyright  Copyright (c) 2009-2015 TechJoomla. All rights reserved.
- * @license    GNU General Public License version 2 or later.
+ * @package     Tjnotifications
+ * @subpackage  api.tjnotifications
+ *
+ * @copyright   Copyright (C) 2009 - 2021 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -48,6 +49,7 @@ class TjnotificationsApiResourceSubscription extends ApiResource
 	public function post()
 	{
 		$input = Factory::getApplication()->input;
+		$user  = Factory::getUser();
 
 		$title       = $input->post->get('title', '', 'string');
 		$backend     = $input->post->get('backend', '', 'string');
@@ -57,10 +59,16 @@ class TjnotificationsApiResourceSubscription extends ApiResource
 		$state       = $input->post->get('state', '', 'int');
 		$isConfirmed = $input->post->get('is_confirmed', '', 'int');
 
+		if (empty($backend) || empty($address) || empty($state) || empty($isConfirmed))
+		{
+			ApiError::raiseError(400, Text::_('Missing required fields'));
+		}
+
 		// GLOBAL - Get TJNotifications subscriptions details for current user
 		$model = ListModel::getInstance('Subscriptions', 'TjnotificationsModel', array('ignore_request' => true));
-		$model->setState('filter.backend', $backend);
 		$model->setState('filter.address', $address);
+		$model->setState('filter.backend', $backend);
+		$model->setState('filter.user_id', $user->id);
 		$userSubscriptions = $model->getItems();
 
 		if (empty($userSubscriptions))
@@ -74,8 +82,6 @@ class TjnotificationsApiResourceSubscription extends ApiResource
 
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/tables');
 		$table = Table::getInstance('Subscription', 'TjnotificationsTable');
-
-		$user = Factory::getUser();
 
 		$data = array (
 			'user_id'      => $user->id,
