@@ -159,7 +159,7 @@ class TjnotificationsModelMessages extends ListModel
 
 		$undeliveredNotifications = $db->setQuery($query)->loadObjectList();
 
-		if (!count($undeliveredNotifications))
+		if (empty($undeliveredNotifications))
 		{
 			return;
 		}

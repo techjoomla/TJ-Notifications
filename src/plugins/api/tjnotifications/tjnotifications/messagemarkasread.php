@@ -46,7 +46,6 @@ class TjnotificationsApiResourceMessageMarkAsRead extends ApiResource
 	public function post()
 	{
 		$input = Factory::getApplication()->input;
-		$user  = Factory::getUser();
 		$pk    = $input->post->get('id', 0, 'int');
 
 		if (empty($pk))
