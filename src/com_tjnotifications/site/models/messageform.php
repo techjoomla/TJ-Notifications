@@ -28,12 +28,13 @@ class TjnotificationsModelMessageform extends BaseDatabaseModel
 	 * @param   string     $statusType       Status delievered / read
 	 * @param   int|array  $notificationPks  Notification id or array of ids
 	 * @param   int        $status           Status 0 or 1
+	 * @param   int        $userId           User id
 	 *
 	 * @return  boolean True on success, false on failure.
 	 *
 	 * @since    2.1.0
 	 */
-	public function updateNotificationStatus($statusType, $notificationPks, $status = 1)
+	public function updateNotificationStatus($statusType, $notificationPks, $status = 1, $userId = 0)
 	{
 		if (empty($statusType) || empty($notificationPks))
 		{
@@ -67,7 +68,14 @@ class TjnotificationsModelMessageform extends BaseDatabaseModel
 			$whereConditions[] = $db->quoteName('id') . ' = ' . $notificationPks;
 		}
 
-		$whereConditions[] = $db->quoteName('recepient') . ' = ' . Factory::getUser()->id;
+		if ($userId)
+		{
+			$whereConditions[] = $db->quoteName('recepient') . ' = ' . (int) $userId;
+		}
+		else
+		{
+			$whereConditions[] = $db->quoteName('recepient') . ' = ' . Factory::getUser()->id;
+		}
 
 		$query
 			->update($db->quoteName('#__tjnotifications_notifications'))

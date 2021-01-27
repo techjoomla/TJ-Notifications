@@ -86,7 +86,7 @@ class TjnotificationsControllerMessages extends AdminController
 			$messageFormModel = BaseDatabaseModel::getInstance('Messageform', 'TjnotificationsModel');
 
 			// Mark these as delivered
-			$messageFormModel->updateNotificationStatus('delivered', $notificationPks, 1);
+			$messageFormModel->updateNotificationStatus('delivered', $notificationPks, 1, $userid);
 		}
 		elseif ($type == 'all')
 		{
