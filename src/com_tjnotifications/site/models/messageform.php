@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.1.0
  */
 class TjnotificationsModelMessageform extends BaseDatabaseModel
 {
@@ -31,7 +31,7 @@ class TjnotificationsModelMessageform extends BaseDatabaseModel
 	 *
 	 * @return  boolean True on success, false on failure.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.1.0
 	 */
 	public function updateNotificationStatus($statusType, $notificationPks, $status = 1)
 	{
@@ -86,7 +86,7 @@ class TjnotificationsModelMessageform extends BaseDatabaseModel
 	 *
 	 * @return  boolean True on success, false on failure.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.1.0
 	 */
 	public function markAsRead($pk)
 	{

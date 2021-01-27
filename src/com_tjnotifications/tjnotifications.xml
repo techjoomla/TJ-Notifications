@@ -4,9 +4,9 @@
 	<author>Techjoomla</author>
 	<authorEmail>extensions@techjoomla.com</authorEmail>
 	<authorUrl>https://techjoomla.com</authorUrl>
-	<copyright>Copyright (C) 2016 - 2020 Techjoomla. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2016 - 2021 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<creationDate>17th Jun 2020</creationDate>
+	<creationDate>27th Jan 2021</creationDate>
 	<version>2.1.0</version>
 	<install>
 		<sql>

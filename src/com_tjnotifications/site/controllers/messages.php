@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.1.0
  */
 class TjnotificationsControllerMessages extends AdminController
 {
@@ -33,7 +33,7 @@ class TjnotificationsControllerMessages extends AdminController
 	 *
 	 * @return  \JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function &getModel($name = 'Message', $prefix = 'TjnotificationsModel', $config = array())
 	{
@@ -49,7 +49,7 @@ class TjnotificationsControllerMessages extends AdminController
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function getNotifications($type = 'new')
 	{
@@ -121,7 +121,7 @@ class TjnotificationsControllerMessages extends AdminController
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getMessages()
 	{
@@ -136,7 +136,7 @@ class TjnotificationsControllerMessages extends AdminController
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getNewMessagesStream()
 	{

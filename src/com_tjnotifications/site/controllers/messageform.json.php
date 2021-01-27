@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\FormController;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.1.0
  */
 class TjnotificationsControllerMessageform extends FormController
 {
@@ -30,7 +30,7 @@ class TjnotificationsControllerMessageform extends FormController
 	 *
 	 * @throws Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.0
 	 */
 	public function markAsRead()
 	{

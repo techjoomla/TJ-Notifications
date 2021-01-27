@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Model\ListModel;
  *
  * @package  Tjnotifications
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.1.0
  */
 class TjnotificationsModelMessages extends ListModel
 {
@@ -27,7 +27,7 @@ class TjnotificationsModelMessages extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     \JModelLegacy
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function __construct($config = array())
 	{
@@ -71,7 +71,7 @@ class TjnotificationsModelMessages extends ListModel
 	 *
 	 * @return   JDatabaseQuery
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.1.0
 	 */
 	protected function getListQuery()
 	{
