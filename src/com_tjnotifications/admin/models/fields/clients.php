@@ -50,7 +50,7 @@ class JFormFieldClients extends JFormFieldList
 			{
 				$client = explode('_', $obj->client);
 
-				if ($client[1])
+				if (!empty($client[1]))
 				{
 					$options[] = JHtml::_('select.option', $obj->client, ucfirst($client[1]));
 				}
