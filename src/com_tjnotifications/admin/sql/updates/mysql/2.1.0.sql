@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS `#__tjnotifications_notifications` (
   `read` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `key_idx` (`key`),
-  KEY `client_idx` (`client`),
+  KEY `client_idx` (`client`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
