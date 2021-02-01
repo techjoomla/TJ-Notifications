@@ -108,9 +108,9 @@ class TjnotificationsControllerMessages extends AdminController
 		}
 		else
 		{
-			$result['success']						= true;
-			$result['notifications']				= $notifications;
-			$result['total'] 				  		= $model->getTotal();
+			$result['success']                      = true;
+			$result['notifications']                = $notifications;
+			$result['total']                        = $model->getTotal();
 			$result['unread_notifications_count'] 	= (int) $model->getUnreadNotificationsCount($userid);
 		}
 
