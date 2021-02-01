@@ -12,5 +12,5 @@ defined('_JEXEC') or die('Restricted access');
 
 if (!defined('TJNOTIFICATIONS_CONST_BACKENDS_ARRAY'))
 {
-	define('TJNOTIFICATIONS_CONST_BACKENDS_ARRAY', "email,sms");
+	define('TJNOTIFICATIONS_CONST_BACKENDS_ARRAY', "email,sms, push, onsite");
 }
