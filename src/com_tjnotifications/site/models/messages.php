@@ -168,7 +168,7 @@ class TjnotificationsModelMessages extends ListModel
 	}
 
 	/**
-	 * Get read message count 
+	 * Get unread message count 
 	 *
 	 * @param   string  $userid  Userid
 	 *
@@ -194,7 +194,7 @@ class TjnotificationsModelMessages extends ListModel
 			$query->where('a.recepient = ' . (int) $userid);
 		}
 
-		// Filter by delivered = 0
+		// Filter by read = 0
 		$query->where('a.read = 0');	
 
 		$unreadNotificationsCount = $db->setQuery($query)->loadResult();
