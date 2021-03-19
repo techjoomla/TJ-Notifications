@@ -267,7 +267,7 @@ class TjnotificationsModelNotification extends AdminModel
 		$db->setQuery($query);
 		$replacementTags = $db->loadResult();
 
-		return count(json_decode($replacementTags));
+		return count((array) json_decode($replacementTags));
 	}
 
 	/**
