@@ -33,7 +33,6 @@
 			class="validate-numeric"
 			label="COM_TJNOTIFICATIONS_FIELD_SMS_TEMPLATE_ID_LABEL"
 			description="COM_TJNOTIFICATIONS_FIELD_SMS_TEMPLATE_ID_DESC"
-			required="true"
 		/>
 	</fieldset>
 </form>
