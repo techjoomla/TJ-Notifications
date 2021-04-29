@@ -68,13 +68,13 @@ class TjnotificationsHelper extends ContentHelper
 		{
 			// Show sidebar When we dont have any extension like com_jgive
 			JHtmlSidebar::addEntry(
-				JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
+				Text::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
 				'index.php?option=com_tjnotifications&view=notifications',
 				$view == 'notifications'
 			);
 
 			JHtmlSidebar::addEntry(
-				JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONLOGS'),
+				Text::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONLOGS'),
 				'index.php?option=com_tjnotifications&view=logs',
 				$view == 'logs'
 			);
