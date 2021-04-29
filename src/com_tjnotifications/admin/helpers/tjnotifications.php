@@ -64,18 +64,21 @@ class TjnotificationsHelper extends ContentHelper
 				call_user_func(array($cName, 'addSubmenu'), $view . (isset($section) ? '.' . $section : ''));
 			}
 		}
+		elseif (empty($full_client[0]))
+		{
+			// Show sidebar When we dont have any extension like com_jgive
+			JHtmlSidebar::addEntry(
+				JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
+				'index.php?option=com_tjnotifications&view=notifications',
+				$view == 'notifications'
+			);
 
-		/*JHtmlSidebar::addEntry(
-			JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
-			'index.php?option=com_tjnotifications&view=notifications',
-			$view == 'notifications'
-		);
-
-		JHtmlSidebar::addEntry(
-			JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONLOGS'),
-			'index.php?option=com_tjnotifications&view=logs',
-			$view == 'logs'
-		);*/
+			JHtmlSidebar::addEntry(
+				JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONLOGS'),
+				'index.php?option=com_tjnotifications&view=logs',
+				$view == 'logs'
+			);
+		}
 	}
 
 	/**

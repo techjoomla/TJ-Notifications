@@ -91,18 +91,11 @@ class TjnotificationsViewNotifications extends HtmlView
 		$model       = AdminModel::getInstance('Preferences', 'TJNotificationsModel');
 		$this->count = $model->count();
 
-		if ($extension)
-		{
-			require_once JPATH_COMPONENT . '/helpers/tjnotifications.php';
-
-			if ($extension)
-			{
-				TjnotificationsHelper::addSubmenu('notifications');
-			}
-
-			$this->_setToolBar();
-			$this->sidebar = JHtmlSidebar::render();
-		}
+		// Show sidebar
+		require_once JPATH_COMPONENT . '/helpers/tjnotifications.php';
+		TjnotificationsHelper::addSubmenu('notifications');
+		$this->_setToolBar();
+		$this->sidebar = JHtmlSidebar::render();
 
 		parent::display($tpl);
 	}
