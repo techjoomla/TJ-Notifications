@@ -30,7 +30,6 @@
 		<field
 			name="provider_template_id"
 			type="text"
-			class="validate-numeric"
 			label="COM_TJNOTIFICATIONS_FIELD_SMS_TEMPLATE_ID_LABEL"
 			description="COM_TJNOTIFICATIONS_FIELD_SMS_TEMPLATE_ID_DESC"
 		/>
