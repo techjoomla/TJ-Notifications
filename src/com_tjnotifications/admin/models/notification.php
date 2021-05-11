@@ -431,6 +431,8 @@ class TjnotificationsModelNotification extends AdminModel
 			$createdOn = !empty($data['created_on']) ? $data['created_on'] : '';
 			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : '';
 
+			$templateConfigTable = new JObject;
+
 			// 2.4 try saving all backend specific configs
 			// This has repeatable data eg: $data['email']['emailfields'] or $data['sms']['smsfields']
 			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
