@@ -435,7 +435,6 @@ class TjnotificationsModelNotification extends AdminModel
 			// This has repeatable data eg: $data['email']['emailfields'] or $data['sms']['smsfields']
 			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
 			{
-				$templateConfigTable = new JObject;
 				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
 				$templateConfigTable->load(array('template_id' => $templateId, 'backend' => $backendName));
 
