@@ -465,10 +465,7 @@ class TjnotificationsModelNotification extends AdminModel
 				$templateConfigTable->body     = $backendFieldValues['body'];
 				$templateConfigTable->language = $backendFieldValues['language'];
 
-				if (is_array() && !empty($backendFieldValues['provider_template_id']))
-				{
-					$templateConfigTable->provider_template_id = $backendFieldValues['provider_template_id'];
-				}
+				$templateConfigTable->provider_template_id = $backendFieldValues['provider_template_id'];
 
 				// Save backend in config table
 				if (empty($backendFieldValues['id']))
