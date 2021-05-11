@@ -26,5 +26,12 @@
 			required="true"
 			onchange="tjnotificationsAdmin.notification.validateSmsLength(this)"
 		/>
+
+		<field
+			name="provider_template_id"
+			type="text"
+			label="COM_TJNOTIFICATIONS_FIELD_SMS_TEMPLATE_ID_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_SMS_TEMPLATE_ID_DESC"
+		/>
 	</fieldset>
 </form>
