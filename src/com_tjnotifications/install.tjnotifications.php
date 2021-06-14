@@ -250,8 +250,7 @@ class Com_TjnotificationsInstallerScript
 
 		if ($buffer !== false)
 		{
-			jimport('joomla.installer.helper');
-			$queries = InstallerHelper::splitSql($buffer);
+			$queries = \JDatabaseDriver::splitSql($buffer);
 
 			if (count($queries) != 0)
 			{
