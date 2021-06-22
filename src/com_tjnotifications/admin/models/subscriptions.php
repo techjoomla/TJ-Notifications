@@ -41,6 +41,7 @@ class TjnotificationsModelSubscriptions extends ListModel
 				'address', 'a.address',
 				'platform', 'a.platform',
 				'state', 'a.state',
+				'user_id', 'a.user_id',
 			);
 		}
 

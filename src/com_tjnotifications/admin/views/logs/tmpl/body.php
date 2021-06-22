@@ -36,7 +36,8 @@ if ($logId)
 
 		<div class="col-xs-12">
 			<?php
-			if ($logTable->backend !== 'push')
+			// @TODO - detect of body is json insted of checking for backends
+			if ($logTable->backend !== 'push' && $logTable->backend !== 'onsite')
 			{
 				echo $logTable->body;
 			}

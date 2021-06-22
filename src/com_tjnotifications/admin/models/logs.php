@@ -61,13 +61,13 @@ class TjnotificationsModelLogs extends ListModel
 	 */
 	protected function populateState($ordering = 'tjl.id', $direction = 'desc')
 	{
-		$app    = Factory::getApplication();
+		parent::populateState($ordering, $direction);
+
+		$app = Factory::getApplication();
 
 		// Load the filter search
 		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
-
-		parent::populateState($ordering, $direction);
 
 		// Get pagination request variables
 		$limit      = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'int');
@@ -141,8 +141,8 @@ class TjnotificationsModelLogs extends ListModel
 			);
 		}
 
-		$orderCol  = $this->getState('list.ordering');
-		$orderDirn = $this->getState('list.direction');
+		$orderCol  = $this->state->get('list.ordering', 'tjl.id');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 
 		if ($orderCol && $orderDirn)
 		{

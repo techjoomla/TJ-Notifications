@@ -41,10 +41,14 @@ class JFormFieldBackends extends JFormFieldList
 		$options = array();
 
 		$options[] = JHtml::_('select.option', '',         Text::_('COM_TJNOTIFICATIONS_BACKEND_LIST_CHOOSE'));
-		$options[] = JHtml::_('select.option', 'email',    Text::_('COM_TJNOTIFICATIONS_BACKEND_EMAIL'));
-		$options[] = JHtml::_('select.option', 'push',     Text::_('COM_TJNOTIFICATIONS_BACKEND_PUSH'));
-		$options[] = JHtml::_('select.option', 'sms',      Text::_('COM_TJNOTIFICATIONS_BACKEND_SMS'));
-		$options[] = JHtml::_('select.option', 'whatsapp', Text::_('COM_TJNOTIFICATIONS_BACKEND_WHATSAPP'));
+
+		require_once JPATH_ADMINISTRATOR . '/components/com_tjnotifications/defines.php';
+		$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
+
+		foreach ($backendsArray as $backend)
+		{
+			$options[] = JHtml::_('select.option', $backend, Text::_('COM_TJNOTIFICATIONS_BACKEND_' . strtoupper($backend)));
+		}
 
 		return array_merge(parent::getOptions(), array_values($options));
 	}
