@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_template_configs` (
   `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `is_override` int(1) NOT NULL,
+  `provider_template_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `#__tj_notification_template_configs` FOREIGN KEY (`template_id`) REFERENCES `#__tj_notification_templates` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;

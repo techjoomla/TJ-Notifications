@@ -267,7 +267,7 @@ class TjnotificationsModelNotification extends AdminModel
 		$db->setQuery($query);
 		$replacementTags = $db->loadResult();
 
-		return count(json_decode($replacementTags));
+		return count((array) json_decode($replacementTags));
 	}
 
 	/**
@@ -461,9 +461,14 @@ class TjnotificationsModelNotification extends AdminModel
 				$templateConfigTable->params = json_encode($params);
 
 				// Repeatable data
-				$templateConfigTable->subject     = !empty($backendFieldValues['subject']) ? $backendFieldValues['subject']: '';
-				$templateConfigTable->body        = $backendFieldValues['body'];
-				$templateConfigTable->language    = $backendFieldValues['language'];
+				$templateConfigTable->subject  = !empty($backendFieldValues['subject']) ? $backendFieldValues['subject']: '';
+				$templateConfigTable->body     = $backendFieldValues['body'];
+				$templateConfigTable->language = $backendFieldValues['language'];
+
+				if (!empty($backendFieldValues['provider_template_id']))
+				{
+					$templateConfigTable->provider_template_id = $backendFieldValues['provider_template_id'];
+				}
 
 				// Save backend in config table
 				if (empty($backendFieldValues['id']))
