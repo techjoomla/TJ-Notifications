@@ -9,6 +9,8 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JLoader::register('TjnotificationsHelper', JPATH_ADMINISTRATOR . '/components/com_tjnotifications/helpers/tjnotifications.php');
 
@@ -16,7 +18,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of notifications logs.
@@ -54,7 +55,7 @@ class TjnotificationsViewLogs extends HtmlView
 			return false;
 		}
 
-		$this->canDo = JHelperContent::getActions('com_tjnotifications');
+		$this->canDo = ContentHelper::getActions('com_tjnotifications');
 
 		TjnotificationsHelper::addSubmenu('logs');
 		$this->addToolBar();

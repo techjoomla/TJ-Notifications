@@ -115,9 +115,8 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 		if ($data)
 		{
 			parent::save($data);
-			$dispatcher = JDispatcher::getInstance();
 			PluginHelper::importPlugin('tjnotification');
-			$dispatcher->trigger('tjnOnAfterUnsubscribeNotification', array($data));
+			Factory::getApplication()->triggerEvent('tjnOnAfterUnsubscribeNotification', array($data));
 
 			return true;
 		}
@@ -140,9 +139,8 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 	{
 		if ($data)
 		{
-			$dispatcher = JDispatcher::getInstance();
 			PluginHelper::importPlugin('tjnotification');
-			$dispatcher->trigger('tjnOnAfterResubscribeNotification', array($data));
+			Factory::getApplication()->triggerEvent('tjnOnAfterResubscribeNotification', array($data));
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$conditions = array(

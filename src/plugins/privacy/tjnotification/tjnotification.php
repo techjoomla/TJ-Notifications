@@ -10,6 +10,9 @@
 
 // No direct access.
 defined('_JEXEC') or die();
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Table\User;
 jimport('joomla.application.component.model');
 
 use Joomla\Utilities\ArrayHelper;
@@ -52,8 +55,8 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_PRIVACY_TJNOTIFICATION') => array(
-				JText::_('PLG_PRIVACY_TJNOTIFICATION_PRIVACY_CAPABILITY_USER_DETAIL')
+			Text::_('PLG_PRIVACY_TJNOTIFICATION') => array(
+				Text::_('PLG_PRIVACY_TJNOTIFICATION_PRIVACY_CAPABILITY_USER_DETAIL')
 			)
 		);
 	}
@@ -72,7 +75,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, User $user = null)
 	{
 		if (!$user)
 		{
@@ -80,7 +83,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 		}
 
 		/** @var JTableUser $userTable */
-		$userTable = JUser::getTable();
+		$userTable = User::getTable();
 		$userTable->load($user->id);
 
 		$domains = array();
@@ -100,7 +103,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	private function createTJNotificationsUnsubscriptionDomain(JTableUser $user)
+	private function createTJNotificationsUnsubscriptionDomain(User $user)
 	{
 		$domain = $this->createDomain('TJNotifications unsubscription', 'TJNotifications unsubscription data');
 
@@ -135,7 +138,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, User $user = null)
 	{
 		$status = new PrivacyRemovalStatus;
 
@@ -159,7 +162,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	public function onPrivacyRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyRemoveData(PrivacyTableRequest $request, User $user = null)
 	{
 		// This plugin only processes data for registered user accounts
 		if (!$user)

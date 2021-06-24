@@ -9,11 +9,11 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Layout\LayoutHelper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -66,7 +66,7 @@ $doc->addStyleDeclaration($style);
 	?>
 			<div class="row-fluid">
 				<div class="span10">
-					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				</div>
 			</div>
 

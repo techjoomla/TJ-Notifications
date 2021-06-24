@@ -2,6 +2,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
+use Joomla\CMS\Uri\Uri;
 
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Language\Text;
@@ -16,7 +17,7 @@ $language->load('com_tjnotification', JPATH_SITE, null, true);
 
 <script src="/jquery.min.js"></script>
 <script type="text/javascript">
-	const tjnBaseurl = "<?php echo JUri::root();?>";
+	const tjnBaseurl = "<?php echo Uri::root();?>";
 	jQuery.noConflict();
 	jQuery(".btn-group > .btn").click(function(){
     jQuery(this).addClass("active").siblings().removeClass("active");

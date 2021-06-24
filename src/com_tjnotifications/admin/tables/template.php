@@ -9,15 +9,15 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
 use Joomla\CMS\Table\Table;
+
 
 /**
  * table class for notification template
  *
  * @since  1.6
  */
-class TjnotificationTableTemplate extends JTable
+class TjnotificationTableTemplate extends Table
 {
 	/**
 	 * Constructor

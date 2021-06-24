@@ -9,14 +9,14 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\HTML\HTMLHelper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.modal', 'a.modal');
+HTMLHelper::_('bootstrap.renderModal', 'a.modal');
 HTMLHelper::_('formbehavior.chosen', 'select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -74,45 +74,45 @@ HTMLHelper::stylesheet('media/com_tjnotifications/css/tjnotifcations.min.css');
 								onclick="Joomla.checkAll(this)"/>
 							</th>
 							<th width="15%" class="">
-								<?php echo JHtml::_(
+								<?php echo HTMLHelper::_(
 									'grid.sort',
 									Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_SUBJECT"), 'subject', $listDirn, $listOrder
 								); ?>
 							</th>
 							<th width="5%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BODY"), 'title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BODY"), 'title', $listDirn, $listOrder); ?>
 							</th>
 							<th width="15%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TO"), 'to', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TO"), 'to', $listDirn, $listOrder); ?>
 							</th>
 							<th width="15%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CC"), 'cc', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_CC"), 'cc', $listDirn, $listOrder); ?>
 							</th>
 							<th width="10%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BCC"), 'bcc', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BCC"), 'bcc', $listDirn, $listOrder); ?>
 							</th>
 							<th width="5%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_DATE"), 'date', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_DATE"), 'date', $listDirn, $listOrder); ?>
 							</th>
 							<th width="5%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_STATE"), 'state', $listDirn, $listOrder); ?>
 							</th>
 							<th width="5%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY"), 'key', $listDirn, $listOrder); ?>
 							</th>
 							<th width="5%" class="">
-								<?php echo JHtml::_(
+								<?php echo HTMLHelper::_(
 									'grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_BACKEND"), 'backend', $listDirn, $listOrder
 								); ?>
 							</th>
 							<th width="10%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_FROM"), 'from', $listDirn, $listOrder); ?>
 							</th>
 							<th width="5%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PARAMS"), 'params', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_PARAMS"), 'params', $listDirn, $listOrder); ?>
 							</th>
 							<th width="2%" class="">
-								<?php echo JHtml::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_ID"), 'id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
@@ -126,7 +126,7 @@ HTMLHelper::stylesheet('media/com_tjnotifications/css/tjnotifcations.min.css');
 								?>
 								<tr>
 									<td class="" width="2%">
-										<?php echo JHtml::_('grid.id', $i, $row->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $row->id); ?>
 									</td>
 
 									<td class="small" width="15%">
@@ -214,7 +214,7 @@ HTMLHelper::stylesheet('media/com_tjnotifications/css/tjnotifcations.min.css');
 			<input type="hidden" name="boxchecked" value="0"/>
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
 	</div>
 </form>

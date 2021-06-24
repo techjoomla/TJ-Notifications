@@ -9,11 +9,12 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * helper class for tjnotificationss
@@ -66,13 +67,13 @@ class TjnotificationsHelper extends ContentHelper
 		}
 
 		/*JHtmlSidebar::addEntry(
-			JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
+			Text::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONS'),
 			'index.php?option=com_tjnotifications&view=notifications',
 			$view == 'notifications'
 		);
 
 		JHtmlSidebar::addEntry(
-			JText::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONLOGS'),
+			Text::_('COM_TJNOTIFICATIONS_TITLE_NOTIFICATIONLOGS'),
 			'index.php?option=com_tjnotifications&view=logs',
 			$view == 'logs'
 		);*/
