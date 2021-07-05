@@ -166,4 +166,44 @@ class TjnotificationsModelMessages extends ListModel
 
 		return $undeliveredNotifications;
 	}
+
+	/**
+	 * Get unread message count 
+	 *
+	 * @param   string  $userid  Userid
+	 *
+	 * @return void|array
+	 */
+	public function getUnreadNotificationsCount($userid)
+	{
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Select the required fields from the table.
+		$query->select('COUNT(*)');
+		$query->from('`#__tjnotifications_notifications` AS a');
+
+		// Filter by userid
+		if (!is_numeric($userid))
+		{
+			return;
+		}
+		else
+		{
+			$query->where('a.recepient = ' . (int) $userid);
+		}
+
+		// Filter by read = 0
+		$query->where('a.read = 0');	
+
+		$unreadNotificationsCount = $db->setQuery($query)->loadResult();
+
+		if (empty($unreadNotificationsCount))
+		{
+			return;
+		}
+
+		return $unreadNotificationsCount;
+	}
 }
