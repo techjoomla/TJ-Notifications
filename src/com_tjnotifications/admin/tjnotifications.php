@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 
 if (JVERSION < '4.0.0')
 {
-	HTMLHelper::_('behavior.tabstate');
+    HTMLHelper::_('behavior.tabstate');
 }
 
 // Add the defines.php file

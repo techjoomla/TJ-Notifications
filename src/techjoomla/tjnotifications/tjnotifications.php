@@ -175,7 +175,6 @@ class Tjnotifications
 	 */
 	public static function getBody($body_template, $replacements, $client)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
 		Factory::getApplication()->triggerEvent('onTjNotificationTemplatePrepare', array(&$replacements, &$body_template, $client));
 
 		$matches = self::getTags($body_template->email_body);
