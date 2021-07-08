@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+
 jimport('techjoomla.view.csv');
 
 /**
@@ -28,6 +30,19 @@ class TjnotificationsViewLogs extends TjExportCsv
 	 */
 	public function display($tpl = null)
 	{
-		parent::display();
+
+		$app   = Factory::getApplication();
+		$input = $app->input;
+
+		if ($input->get('task') == 'download')
+		{
+			$fileName = $input->get('file_name');
+			$this->download($fileName);
+			$app->close();
+		}
+		else
+		{
+			parent::display();
+		}
 	}
 }
