@@ -6,6 +6,18 @@
 - Feature Addition (+)
 - Improvement (^)
 
+### TJNotifications v2.0.1
+
+##### + Features Added:
+- #170906 Add 'Template ID' field in SMS template and pass that template id to SMS gateway
+
+##### - Bug fixes:
+- #168104 Backend > Notification Templates > Notice displayed on opening the search tools
+
+##### ^ Improvements:
+- #169696 PHP8 compatiblity fixes
+- #168311 Remove duplicates language constant from language files
+
 ### TJNotifications v2.0.0
 
 ##### + Features Added:
