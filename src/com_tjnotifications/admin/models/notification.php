@@ -636,7 +636,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function updateTemplates($template, $client)
 	{
