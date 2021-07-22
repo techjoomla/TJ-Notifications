@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Custom field to list all client of tjnotification
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.1
  */
 class JFormFieldClients extends JFormFieldList
 {
@@ -26,7 +26,7 @@ class JFormFieldClients extends JFormFieldList
 	 *
 	 * @return	array		An array of JHtml options.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.1
 	 */
 	protected function getOptions()
 	{
@@ -50,7 +50,7 @@ class JFormFieldClients extends JFormFieldList
 			{
 				$client = explode('_', $obj->client);
 
-				if ($client[1])
+				if (!empty($client[1]))
 				{
 					$options[] = JHtml::_('select.option', $obj->client, ucfirst($client[1]));
 				}
