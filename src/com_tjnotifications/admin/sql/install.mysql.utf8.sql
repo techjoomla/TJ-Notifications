@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_template_configs` (
   `state` int(11) NOT NULL DEFAULT '0',
   `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `is_override` int(1) NOT NULL DEFAULT '',
+  `is_override` int(1) NOT NULL DEFAULT '0',
   `provider_template_id` varchar(255) DEFAULT '',
   PRIMARY KEY (`id`),
   CONSTRAINT `#__tj_notification_template_configs` FOREIGN KEY (`template_id`) REFERENCES `#__tj_notification_templates` (`id`)
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_logs` (
   `cc` text NOT NULL DEFAULT '',
   `bcc` text NOT NULL DEFAULT '',
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `state` tinyint(2) NOT NULL DEFAULT '',
+  `state` tinyint(2) NOT NULL DEFAULT '0',
   `params` text NOT NULL DEFAULT '',
   `priority`int(11) NOT NULL DEFAULT '0',
   `message` text NOT NULL DEFAULT '',
