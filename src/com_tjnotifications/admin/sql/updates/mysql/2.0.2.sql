@@ -27,7 +27,7 @@ ALTER TABLE `#__tj_notification_user_exclusions`
 	CHANGE `user_id` `user_id` int(11) NOT NULL DEFAULT '0',
 	CHANGE `client` `client` varchar(100) NOT NULL DEFAULT '',
 	CHANGE `key` `key` varchar(100) NOT NULL DEFAULT '',
-	CHANGE `provider` `provider` varchar(100) NOT NULL DEFAULT '',
+	CHANGE `provider` `provider` varchar(100) NOT NULL DEFAULT '';
 
 ALTER TABLE `#__tj_notification_logs`
 	CHANGE `key` `key` varchar(100) NOT NULL DEFAULT '',
