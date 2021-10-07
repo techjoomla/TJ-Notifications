@@ -108,9 +108,10 @@ class TjnotificationsControllerMessages extends AdminController
 		}
 		else
 		{
-			$result['success']                = true;
-			$result['notifications']          = $notifications;
-			$result['notifications']['total'] = $model->getTotal();
+			$result['success']                    = true;
+			$result['notifications']              = $notifications;
+			$result['total']                      = $model->getTotal();
+			$result['unread_notifications_count'] = (int) $model->getUnreadNotificationsCount($userid);
 		}
 
 		return $result;
@@ -125,6 +126,8 @@ class TjnotificationsControllerMessages extends AdminController
 	 */
 	public function getMessages()
 	{
+		// Uncomment below line if we directaly call the API, and gives the cors Error(Server sent events not allows us to sent the bearer token, then we can use this function directaly by sending the user id.)
+		//header("Access-Control-Allow-Origin: *");
 		$notifications = $this->getNotifications('all');
 		echo json_encode($notifications);
 		jexit();
