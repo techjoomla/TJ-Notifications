@@ -21,7 +21,7 @@ FormHelper::loadFieldClass('groupedlist');
  *
  * @package     Tjnotifications
  * @subpackage  component
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.1
  */
 
 class JFormFieldMobilenumberfields extends JFormFieldGroupedList
@@ -30,7 +30,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 	 * The form field type.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.1
 	 */
 	protected $type = 'mobilenumberfields';
 
@@ -38,7 +38,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 	 * Fiedd to decide if options are being loaded externally and from xml
 	 *
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.1
 	 */
 	protected $loadExternally = 0;
 
@@ -47,7 +47,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 	 *
 	 * @return array An array of HTMLHelper options.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.1
 	 */
 	protected function getGroups()
 	{
