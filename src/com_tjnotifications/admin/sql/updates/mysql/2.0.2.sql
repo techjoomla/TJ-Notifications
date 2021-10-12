@@ -11,13 +11,13 @@ ALTER TABLE `#__tj_notification_templates` CHANGE `created_on` `created_on` date
 ALTER TABLE `#__tj_notification_templates` CHANGE `updated_on` `updated_on` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tj_notification_templates` CHANGE `user_control` `user_control` int(1) NOT NULL DEFAULT 0;
 ALTER TABLE `#__tj_notification_templates` CHANGE `core` `core` int(1) NOT NULL DEFAULT 0;
-ALTER TABLE `#__tj_notification_templates` CHANGE `replacement_tags` `replacement_tags` text NOT NULL DEFAULT '';
+ALTER TABLE `#__tj_notification_templates` CHANGE `replacement_tags` `replacement_tags` text NOT NULL;
 
 ALTER TABLE `#__tj_notification_template_configs` CHANGE `template_id` `template_id` int(11) NOT NULL DEFAULT 0;
 ALTER TABLE `#__tj_notification_template_configs` CHANGE `backend` `backend` varchar(50) NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_template_configs` CHANGE `subject` `subject` text NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_template_configs` CHANGE `body` `body` text NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_template_configs` CHANGE `params` `params` text NOT NULL DEFAULT '';
+ALTER TABLE `#__tj_notification_template_configs` CHANGE `subject` `subject` text NOT NULL;
+ALTER TABLE `#__tj_notification_template_configs` CHANGE `body` `body` text NOT NULL;
+ALTER TABLE `#__tj_notification_template_configs` CHANGE `params` `params` text NOT NULL;
 ALTER TABLE `#__tj_notification_template_configs` CHANGE `created_on` `created_on` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tj_notification_template_configs` CHANGE `updated_on` `updated_on` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tj_notification_template_configs` CHANGE `state` `state` int(11) NOT NULL DEFAULT 0;
@@ -34,17 +34,17 @@ ALTER TABLE `#__tj_notification_logs` CHANGE `client` `client` varchar(100) NOT 
 ALTER TABLE `#__tj_notification_logs` CHANGE `backend` `backend` varchar(50) NOT NULL DEFAULT '';
 ALTER TABLE `#__tj_notification_logs` CHANGE `subject` `subject` varchar(250) NOT NULL DEFAULT '';
 ALTER TABLE `#__tj_notification_logs` CHANGE `title` `title` varchar(100) NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_logs` CHANGE `body` `body` text NOT NULL DEFAULT '';
+ALTER TABLE `#__tj_notification_logs` CHANGE `body` `body` text NOT NULL;
 ALTER TABLE `#__tj_notification_logs` CHANGE `from` `from` varchar(500) NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_logs` CHANGE `to` `to` text NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_logs` CHANGE `cc` `cc` text NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_logs` CHANGE `bcc` `bcc` text NOT NULL DEFAULT '';
+ALTER TABLE `#__tj_notification_logs` CHANGE `to` `to` text NOT NULL;
+ALTER TABLE `#__tj_notification_logs` CHANGE `cc` `cc` text NOT NULL;
+ALTER TABLE `#__tj_notification_logs` CHANGE `bcc` `bcc` text NOT NULL;
 ALTER TABLE `#__tj_notification_logs` CHANGE `date` `date` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tj_notification_logs` CHANGE `state` `state` tinyint(2) NOT NULL DEFAULT 0;
-ALTER TABLE `#__tj_notification_logs` CHANGE `params` `params` text NOT NULL DEFAULT '';
+ALTER TABLE `#__tj_notification_logs` CHANGE `params` `params` text NOT NULL;
 ALTER TABLE `#__tj_notification_logs` CHANGE `priority` `priority`int(11) NOT NULL DEFAULT 0;
-ALTER TABLE `#__tj_notification_logs` CHANGE `message` `message` text NOT NULL DEFAULT '';
-ALTER TABLE `#__tj_notification_logs` CHANGE `category` `category` text NOT NULL DEFAULT '';
+ALTER TABLE `#__tj_notification_logs` CHANGE `message` `message` text NOT NULL;
+ALTER TABLE `#__tj_notification_logs` CHANGE `category` `category` text NOT NULL;
 
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `title` `title` varchar(255) DEFAULT NULL ;
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `backend` `backend` varchar(50) NOT NULL DEFAULT '';
@@ -55,4 +55,4 @@ ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `modified_by` `modified_by
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `created_on` `created_on` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `updated_on` `updated_on` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `checked_out` `checked_out` int(11) NOT NULL DEFAULT 0;
-ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `params` `params` text DEFAULT NULL DEFAULT '';
+ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `params` `params` text DEFAULT NULL;
