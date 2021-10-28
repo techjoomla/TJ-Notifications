@@ -9,6 +9,10 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Object\CMSObject;
@@ -98,7 +102,7 @@ class Com_TjnotificationsInstallerScript
 
 						if ($id)
 						{
-							$installer         = new JInstaller;
+							$installer         = new Installer;
 							$result            = $installer->uninstall('plugin', $id);
 							$status->plugins[] = array(
 								'name' => 'plg_' . $plugin,
@@ -196,7 +200,7 @@ class Com_TjnotificationsInstallerScript
 						$db->setQuery($query);
 						$count = $db->loadResult();
 
-						$installer = new JInstaller;
+						$installer = new Installer;
 						$result = $installer->install($path);
 
 						$status->plugins[] = array('name' => 'plg_' . $plugin, 'group' => $folder, 'result' => $result);
@@ -265,7 +269,7 @@ class Com_TjnotificationsInstallerScript
 
 						if (!$db->execute())
 						{
-							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
+							JError::raiseWarning(1, Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
 							return false;
 						}
@@ -412,9 +416,9 @@ class Com_TjnotificationsInstallerScript
 			{
 				$f = JPATH_ROOT . '/' . $file;
 
-				if (JFile::exists($f))
+				if (File::exists($f))
 				{
-					JFile::delete($f);
+					File::delete($f);
 				}
 			}
 		}
@@ -426,9 +430,9 @@ class Com_TjnotificationsInstallerScript
 			{
 				$f = JPATH_ROOT . '/' . $folder;
 
-				if (JFolder::exists($f))
+				if (Folder::exists($f))
 				{
-					JFolder::delete($f);
+					Folder::delete($f);
 				}
 			}
 		}

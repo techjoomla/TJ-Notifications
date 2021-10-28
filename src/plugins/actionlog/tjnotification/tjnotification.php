@@ -9,17 +9,21 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Factory;
 
 use Joomla\CMS\Component\ComponentHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-use Joomla\CMS\Factory;
 /**
  * TJ Notification Actions Logging Plugin.
  *
  * @since  1.0.2
  */
-class PlgActionlogTjnotification extends JPlugin
+class PlgActionlogTjnotification extends CMSPlugin
 {
 	/**
 	 * Load plugin language file automatically so that it can be used inside component
@@ -47,8 +51,8 @@ class PlgActionlogTjnotification extends JPlugin
 			return;
 		}
 
-		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_tjnotifications/tables');
-		$tjTableTemplate   = JTable::getInstance('notification', 'TjnotificationTable', array());
+		Table::addIncludePath(JPATH_ROOT . '/administrator/components/com_tjnotifications/tables');
+		$tjTableTemplate   = Table::getInstance('notification', 'TjnotificationTable', array());
 		$tjTableTemplate->load(array('key' => $data['key']));
 		$context = Factory::getApplication()->input->get('option');
 		$userId = $data["user_id"];
@@ -66,7 +70,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'userid'      => $userId,
 			'username'    => $user->name,
 			'key'         => $data["key"],
-			'client'      => JText::_(strtoupper($data["client"])),
+			'client'      => Text::_(strtoupper($data["client"])),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			'keylink'     => 'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $tjTableTemplate->id
 		);
@@ -93,7 +97,7 @@ class PlgActionlogTjnotification extends JPlugin
 		JLoader::register('ActionlogsModelActionlog', JPATH_ADMINISTRATOR . '/components/com_actionlogs/models/actionlog.php');
 
 		/* @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog($messages, $messageLanguageKey, $context, $userId);
 	}
 
@@ -142,7 +146,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'title'       => $recordId->title,
 			'userid'      => $userId,
 			'username'    => $userName,
-			'client'      => JText::_(strtoupper($recordId->client)),
+			'client'      => Text::_(strtoupper($recordId->client)),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			'keylink'     => 'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $recordId->id
 		);
@@ -168,7 +172,7 @@ class PlgActionlogTjnotification extends JPlugin
 			return;
 		}
 
-		$context = JFactory::getApplication()->input->get('option');
+		$context = Factory::getApplication()->input->get('option');
 		$user = Factory::getUser();
 		$userId = $user->id;
 
@@ -185,7 +189,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'title'       => $data->title,
 			'userid'      => $userId,
 			'username'    => $userName,
-			'client'      => JText::_(strtoupper($data->client)),
+			'client'      => Text::_(strtoupper($data->client)),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 
 		);
@@ -210,8 +214,8 @@ class PlgActionlogTjnotification extends JPlugin
 			return;
 		}
 
-		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_tjnotifications/tables');
-		$tjTableTemplate   = JTable::getInstance('notification', 'TjnotificationTable', array());
+		Table::addIncludePath(JPATH_ROOT . '/administrator/components/com_tjnotifications/tables');
+		$tjTableTemplate   = Table::getInstance('notification', 'TjnotificationTable', array());
 		$tjTableTemplate->load(array('key' => $data['key']));
 		$context = Factory::getApplication()->input->get('option');
 		$userId = $data["user_id"];
@@ -229,7 +233,7 @@ class PlgActionlogTjnotification extends JPlugin
 			'userid'      => $userId,
 			'username'    => $user->name,
 			'key'         => $data["key"],
-			'client'      => JText::_(strtoupper($data["client"])),
+			'client'      => Text::_(strtoupper($data["client"])),
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			'keylink'     => 'index.php?option=com_tjnotifications&view=notification&layout=edit&id=' . $tjTableTemplate->id
 		);

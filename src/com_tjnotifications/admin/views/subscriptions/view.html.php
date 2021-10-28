@@ -9,6 +9,8 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -102,7 +104,7 @@ class TjnotificationsViewSubscriptions extends HtmlView
 
 				/*if (isset($this->items[0]))
 				{
-					JToolbarHelper::custom('subscription.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+					ToolbarHelper::custom('subscription.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 				}*/
 			}
 

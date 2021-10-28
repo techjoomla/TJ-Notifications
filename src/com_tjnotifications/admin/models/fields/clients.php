@@ -9,6 +9,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
@@ -19,7 +21,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  2.0.1
  */
-class JFormFieldClients extends JFormFieldList
+class FormFieldClients extends FormFieldList
 {
 	/**
 	 * Method to get a list of options for a list input.
@@ -33,7 +35,7 @@ class JFormFieldClients extends JFormFieldList
 		$options = array();
 		$db = Factory::getDbo();
 
-		$options[] = JHtml::_('select.option', '', Text::_('COM_TJNOTIFICATIONS_FIELD_CLIENT_OPTION'));
+		$options[] = HTMLHelper::_('select.option', '', Text::_('COM_TJNOTIFICATIONS_FIELD_CLIENT_OPTION'));
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -52,11 +54,11 @@ class JFormFieldClients extends JFormFieldList
 
 				if (!empty($client[1]))
 				{
-					$options[] = JHtml::_('select.option', $obj->client, ucfirst($client[1]));
+					$options[] = HTMLHelper::_('select.option', $obj->client, ucfirst($client[1]));
 				}
 				else
 				{
-					$options[] = JHtml::_('select.option', $obj->client, ucfirst($client[0]));
+					$options[] = HTMLHelper::_('select.option', $obj->client, ucfirst($client[0]));
 				}
 			}
 		}

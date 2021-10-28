@@ -9,10 +9,10 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
@@ -48,8 +48,8 @@ $doc->addScriptDeclaration($script);
 	method="post" name="adminForm" id="adminForm" class="form-horizontal form-validate">
 	<div class="row-fluid">
 		<div class="span12">
-			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'notification')); ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'notification', JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_NOTIFICATION')); ?>
+			<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'notification')); ?>
+				<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'notification', Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_NOTIFICATION')); ?>
 					<?php
 					foreach ($this->form->getFieldset('primary_fieldset') as $field)
 					{
@@ -122,18 +122,18 @@ $doc->addScriptDeclaration($script);
 						}
 					}
 					?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 				<?php
 				$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
 
 				foreach ($backendsArray as $keyBackend => $backend)
 				{
-					echo JHtml::_(
+					echo HTMLHelper::_(
 						'bootstrap.addTab',
 						'myTab',
 						$backend,
-						JText::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_' . strtoupper($backend))
+						Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATION_TAB_' . strtoupper($backend))
 					);
 					?>
 
@@ -177,11 +177,11 @@ $doc->addScriptDeclaration($script);
 						</div>
 
 					<?php
-					echo JHtml::_('bootstrap.endTab');
+					echo HTMLHelper::_('bootstrap.endTab');
 				}
 				?>
 
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 		</div>
 	</div>
 

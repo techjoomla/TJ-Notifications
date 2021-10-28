@@ -1,3 +1,6 @@
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 <?php
 /**
  * @package    Techjoomla.Libraries
@@ -33,7 +36,7 @@ class Tjnotifications
 	 */
 	public static function send($client, $key, $recipients, $replacements, $options)
 	{
-		$model = JModelList::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
+		$model = ListModel::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
 
 		$template = $model->getTemplate($client, $key);
 		$addRecipients = self::getRecipients($client, $key, $recipients, $options);
@@ -41,7 +44,7 @@ class Tjnotifications
 		if ($addRecipients)
 		{
 			// Invoke JMail Class
-			$mailer = JFactory::getMailer();
+			$mailer = Factory::getMailer();
 
 			if ($options->get('from') != null && $options->get('fromname') != null)
 			{
@@ -49,7 +52,7 @@ class Tjnotifications
 			}
 			else
 			{
-				$config = JFactory::getConfig();
+				$config = Factory::getConfig();
 				$from = array($config->get('mailfrom'), $config->get('fromname'));
 			}
 
@@ -126,7 +129,7 @@ class Tjnotifications
 	 */
 	public static function getRecipients($client,$key,$recipients,$options)
 	{
-		$model = JModelList::getInstance('Preferences', 'TjnotificationsModel', array('ignore_request' => true));
+		$model = ListModel::getInstance('Preferences', 'TjnotificationsModel', array('ignore_request' => true));
 		$unsubscribed_users = $model->getUnsubscribedUsers($client, $key);
 
 		foreach ($recipients as $recipient)
