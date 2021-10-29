@@ -13,15 +13,15 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\ListField;
 
-JFormHelper::loadFieldClass('list');
 
 /**
  * Custom field to list all client of tjnotification
  *
  * @since  2.0.1
  */
-class FormFieldClients extends FormFieldList
+class FormFieldClients extends ListField
 {
 	/**
 	 * Method to get a list of options for a list input.

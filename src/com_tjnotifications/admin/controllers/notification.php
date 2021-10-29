@@ -182,9 +182,8 @@ class TjnotificationsControllerNotification extends FormController
 			$app->setUserState('com_tjnotifications.edit.notification.data', $data);
 
 			// Redirect back to the edit screen.
-			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setMessage($model->getError(), 'error');
 
 			$extension = $input->get('extension', '', 'STRING');
 

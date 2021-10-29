@@ -11,17 +11,17 @@
 defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 use Joomla\CMS\Language\Text;
 
-JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of platforms
  *
  * @since  2.0.0
  */
-class FormFieldPlatforms extends FormFieldList
+class FormFieldPlatforms extends ListField
 {
 	/**
 	 * The form field type.
