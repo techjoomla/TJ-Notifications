@@ -10,13 +10,15 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * Notifications controller.
  *
  * @since  0.0.1
  */
 
-class TjnotificationsController extends \Joomla\CMS\MVC\Controller\BaseController
+class TjnotificationsController extends BaseController
 {
 	/**
 	 * The default view for the display method.
