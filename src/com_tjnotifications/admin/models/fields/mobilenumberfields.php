@@ -9,6 +9,7 @@
 
 // No direct access.
 defined('_JEXEC') or die();
+
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;

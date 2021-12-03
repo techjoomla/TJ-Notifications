@@ -9,8 +9,8 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-use Joomla\CMS\Table\Table;
 
+use Joomla\CMS\Table\Table;
 
 /**
  * table class for notification template

@@ -9,8 +9,8 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-use Joomla\CMS\Factory;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;

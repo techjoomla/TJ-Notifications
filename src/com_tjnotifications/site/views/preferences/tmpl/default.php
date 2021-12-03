@@ -1,9 +1,16 @@
 <?php
+/**
+ * @package     TJNotifications
+ * @subpackage  com_tjnotifications
+ *
+ * @author      Techjoomla <extensions@techjoomla.com>
+ * @copyright   Copyright (C) 2009 - 2019 Techjoomla. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
 
-// No direct access to this file
 defined('_JEXEC') or die;
-use Joomla\CMS\Uri\Uri;
 
+use Joomla\CMS\Uri\Uri;
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\HTML\HTMLHelper;
@@ -11,8 +18,6 @@ use \Joomla\CMS\HTML\HTMLHelper;
 $language = Factory::getLanguage();
 $language->load('com_tjnotification', JPATH_SITE, 'en-GB', true);
 $language->load('com_tjnotification', JPATH_SITE, null, true);
-
-
 ?>
 
 <script src="/jquery.min.js"></script>

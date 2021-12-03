@@ -1,6 +1,3 @@
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Factory;
 <?php
 /**
  * @package    Techjoomla.Libraries
@@ -8,6 +5,12 @@ use Joomla\CMS\Factory;
  * @copyright  Copyright (c) 2009-2015 TechJoomla. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
+
+defined('_JEXEC') or die;
+
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models', 'NotificationsModel');
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models', 'NotificationsModel');

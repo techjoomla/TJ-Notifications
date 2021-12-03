@@ -9,12 +9,12 @@
  */
 
 defined('_JEXEC') or die;
+
 use Joomla\CMS\Installer\Installer;
 use Joomla\Data\DataObject;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
