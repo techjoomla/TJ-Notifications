@@ -10,14 +10,14 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
 
 BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
 require_once JPATH_ADMINISTRATOR . '/components/com_tjnotifications/defines.php';
@@ -209,9 +209,8 @@ class TjnotificationsModelNotification extends AdminModel
 				{
 					$value[] = 1;
 					parent::delete($data->id);
-					$dispatcher = JDispatcher::getInstance();
 					PluginHelper::importPlugin('tjnotification');
-					$dispatcher->trigger('tjnOnAfterDeleteNotificationTemplate', array($data));
+					Factory::getApplication()->triggerEvent('onAfterTjnDeleteNotificationTemplate', array($data));
 				}
 			}
 			else
@@ -585,7 +584,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function getExistingTemplates($templateId, $backend)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -670,8 +669,8 @@ class TjnotificationsModelNotification extends AdminModel
 				{
 					if ($template['key'] == $templateKeyIdObj->key)
 					{
-						$db    = JFactory::getDBO();
-						$templateConfigTable = JTable::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
+						$db    = Factory::getDBO();
+						$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
 						$templateConfigTable->template_id = $templateKeyIdObj->id;
 						$templateConfigTable->backend     = $value;
 						$templateConfigTable->subject     = (!empty($template[$value][$value . 'fields'][$value . 'fields0']['subject']))

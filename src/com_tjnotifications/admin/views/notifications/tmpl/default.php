@@ -10,11 +10,11 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (version_compare(phpversion(), '7.4.0', '<'))
+if (JVERSION < '4.0.0')
 {
-	echo $this->loadTemplate('php5');
+	echo $this->loadTemplate('bs2');
 }
 else
 {
-	echo $this->loadTemplate('php7');
+	echo $this->loadTemplate('bs5');
 }

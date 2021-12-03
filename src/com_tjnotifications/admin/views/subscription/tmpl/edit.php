@@ -10,14 +10,14 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidation');
+HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('formbehavior.chosen', 'select');
 HTMLHelper::_('bootstrap.tooltip');
 
@@ -33,7 +33,7 @@ $script = "
 				Joomla.submitform(task, document.getElementById('subscription-form'));
 			}
 			else {
-				alert(Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED'));
+				alert(Joomla.Text._('JGLOBAL_VALIDATION_FORM_FAILED'));
 			}
 		}
 	}
@@ -67,6 +67,6 @@ Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 		<input type="hidden" name="jform[checked_out_time]" value="<?php echo $this->item->checked_out_time; ?>" />
 		<input type="hidden" name="task"                    value=""/>
 
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>

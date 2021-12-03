@@ -9,9 +9,10 @@
 
 // No direct access.
 defined('_JEXEC') or die();
-use Joomla\CMS\Factory;
+
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('groupedlist');
@@ -58,7 +59,7 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 		$customFieldnames = FieldsHelper::getFields('com_users.user');
 		$comFieldOptions  = array();
 
-		$comFieldOptions[][] = HTMLHelper::_('select.option', '', JText::_('COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_FIELD'));
+		$comFieldOptions[][] = HTMLHelper::_('select.option', '', Text::_('COM_TJNOTIFICATIONS_SUBSCRIPTIONS_SELECT_FIELD'));
 
 		foreach ($customFieldnames as $key => $field)
 		{

@@ -126,8 +126,7 @@ class TjnotificationsControllerSubscription extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -188,8 +187,7 @@ class TjnotificationsControllerSubscription extends FormController
 			$app->setUserState('com_tjnotifications.edit.subscription.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(Route::_('index.php?option=com_tjnotifications&view=subscription' . $this->getRedirectToItemAppend($recordId, $urlVar), false));
 
@@ -203,8 +201,7 @@ class TjnotificationsControllerSubscription extends FormController
 			$app->setUserState('com_tjnotifications.edit.subscription.data', $validData);
 
 			// Check-in failed, so go back to the record and display a notice.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(Route::_('index.php?option=com_tjnotifications&view=subscription' . $this->getRedirectToItemAppend($recordId, $urlVar), false));
 
