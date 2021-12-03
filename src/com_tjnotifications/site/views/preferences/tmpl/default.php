@@ -18,15 +18,14 @@ use \Joomla\CMS\HTML\HTMLHelper;
 $language = Factory::getLanguage();
 $language->load('com_tjnotification', JPATH_SITE, 'en-GB', true);
 $language->load('com_tjnotification', JPATH_SITE, null, true);
-?>
 
-<script src="/jquery.min.js"></script>
-<script type="text/javascript">
-	const tjnBaseurl = "<?php echo Uri::root();?>";
+HTMLHelper::_('script', '/jquery.min.js');
+Factory::getDocument()->addScriptDeclaration('
+	const tjnBaseurl = "' . Uri::root() . '";
 	jQuery.noConflict();
 	jQuery(".btn-group > .btn").click(function(){
-    jQuery(this).addClass("active").siblings().removeClass("active");
-});
+		jQuery(this).addClass("active").siblings().removeClass("active");
+	});
 
 	function addPreferance(pId,client,provider,key)
 	{
@@ -34,65 +33,65 @@ $language->load('com_tjnotification', JPATH_SITE, null, true);
 		{
 			jQuery.ajaxSetup({
 				global: false,
-				type:'post',
-				url:tjnBaseurl+'index.php?option=com_tjnotifications&task=preferences.save',
-				dataType:'json',
+				type:"post",
+				url:tjnBaseurl+"index.php?option=com_tjnotifications&task=preferences.save",
+				dataType:"json",
 				beforeSend: function () {
-					jQuery('#ajax-loader'+pId).show();
-				jQuery('#ajax-loader'+pId).html("<img src='<?php echo JURI::root();?>components/com_tjnotifications/images/ajax-loader.gif'><style='display:block'>");
+					jQuery("#ajax-loader"+pId).show();
+				jQuery("#ajax-loader"+pId).html("<img src=\'' . Uri::root() . 'components/com_tjnotifications/images/ajax-loader.gif\'><style=\'display:block\'>");
 				},
 				complete: function () {
-					jQuery('#ajax-loader'+pId).hide();
-					jQuery('#tick'+pId).show();
-					jQuery('#tick'+pId).html("<img src='<?php echo JURI::root();?>components/com_tjnotifications/images/tick.png'><style='display:block'>");
+					jQuery("#ajax-loader"+pId).hide();
+					jQuery("#tick"+pId).show();
+					jQuery("#tick"+pId).html("<img src=\'' . Uri::root() . 'components/com_tjnotifications/images/tick.png\'><style=\'display:block\'>");
 
 					setTimeout(function() {
-						jQuery('#tick'+pId).hide();
+						jQuery("#tick"+pId).hide();
 					}, 5000);
 				}
 			});
 			jQuery.ajax({
-			data:
-			{
-				client_name:client,
-				provider_name:provider,
-				key:key,
-			},
-			success: function (response)
-			{
-				jQuery( '#display_info' ).html("Item successfully saved");
-			}
-				});
-		 }
-		 else
-		 {
-			jQuery( '#display_info' ).html("Item not successfully saved");
+				data:
+				{
+					client_name:client,
+					provider_name:provider,
+					key:key,
+				},
+				success: function (response)
+				{
+					jQuery("#display_info").html("Item successfully saved");
+				}
+			});
+		}
+		else
+		{
+			jQuery("#display_info").html("Item not successfully saved");
 		}
 	}
 	function removePreferance(pId,client,provider,key)
 	{
-		 if(pId)
-		 {
+		if(pId)
+		{
 			jQuery.ajaxSetup({
 				global: false,
-				type:'post',
-				url:tjnBaseurl+'index.php?option=com_tjnotifications&task=preferences.delete',
+				type:"post",
+				url:tjnBaseurl+"index.php?option=com_tjnotifications&task=preferences.delete",
 
 				beforeSend: function () {
-					jQuery('#ajax-loader'+pId).show();
-				   jQuery('#ajax-loader'+pId).html("<img src='<?php echo JURI::root();?>components/com_tjnotifications/images/ajax-loader.gif'><style='display:block'>");
+					jQuery("#ajax-loader"+pId).show();
+				jQuery("#ajax-loader"+pId).html("<img src=\'' . Uri::root() . 'components/com_tjnotifications/images/ajax-loader.gif\'><style=\'display:block\'>");
 				},
 				complete: function () {
-					jQuery('#ajax-loader'+pId).hide();
-					jQuery('#tick'+pId).show();
-					jQuery('#tick'+pId).html("<img src='<?php echo JURI::root();?>components/com_tjnotifications/images/tick.png'><style='display:block'>");
+					jQuery("#ajax-loader"+pId).hide();
+					jQuery("#tick"+pId).show();
+					jQuery("#tick"+pId).html("<img src=\'' . Uri::root() . 'components/com_tjnotifications/images/tick.png\'><style=\'display:block\'>");
 						setTimeout(function() {
-						jQuery('#tick'+pId).hide();
+						jQuery("#tick"+pId).hide();
 					}, 5000);
 				}
 			});
 			jQuery.ajax({
-			dataType:'json',
+			dataType:"json",
 			data:
 			{
 				client_name:client,
@@ -101,16 +100,17 @@ $language->load('com_tjnotification', JPATH_SITE, null, true);
 			},
 			success: function (response)
 			{
-				jQuery( '#display_info' ).html("Item successfully saved");
+				jQuery("#display_info").html("Item successfully saved");
 			}
-				});
-		 }
-		 else
-		 {
-			jQuery( '#display_info' ).html("Item not successfully saved");
+			});
+		}
+		else
+		{
+			jQuery("#display_info").html("Item not successfully saved");
 		}
 	}
-</script>
+');
+?>
 
 <form action="index.php?option=com_tjnotifications&view=preferences" method="post" id="adminForm" name="adminForm">
 	<div class="row-fluid">
@@ -135,7 +135,6 @@ $language->load('com_tjnotification', JPATH_SITE, null, true);
 	<div class="tab-content">
 	<?php foreach ($this->clients as $i => $menu) :?>
 		<div class="tab-pane" id="<?php echo($menu->client); ?>" >
-
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -226,7 +225,7 @@ $language->load('com_tjnotification', JPATH_SITE, null, true);
 					</div>
 				</tbody>
 			</table>
-	 	</div>
+		</div>
 	<?php endforeach;?>
 	</div>
 
