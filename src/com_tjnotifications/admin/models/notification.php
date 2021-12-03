@@ -210,7 +210,7 @@ class TjnotificationsModelNotification extends AdminModel
 					$value[] = 1;
 					parent::delete($data->id);
 					PluginHelper::importPlugin('tjnotification');
-					Factory::getApplication()->triggerEvent('tjnOnAfterDeleteNotificationTemplate', array($data));
+					Factory::getApplication()->triggerEvent('onAfterTjnDeleteNotificationTemplate', array($data));
 				}
 			}
 			else
