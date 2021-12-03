@@ -10,12 +10,12 @@
 
 // No direct access.
 defined('_JEXEC') or die();
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
-use Joomla\CMS\Table\User;
-jimport('joomla.application.component.model');
-
+use Joomla\CMS\Table\User as UserTable;
 use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
 
@@ -83,7 +83,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 		}
 
 		/** @var JTableUser $userTable */
-		$userTable = User::getTable();
+		$userTable = UserTable::getTable();
 		$userTable->load($user->id);
 
 		$domains = array();
@@ -111,8 +111,9 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 			->select('*')
 			->from($this->db->quoteName('#__tj_notification_user_exclusions'))
 			->where(
-						$this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id)
-				);
+				$this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id)
+			);
+
 		$userUnsubscriptionData = $this->db->setQuery($query)->loadAssocList();
 
 		if (!empty($userUnsubscriptionData))
@@ -180,8 +181,8 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 
 		// Delete TJNotification user data :
 		$query = $db->getQuery(true)
-				->delete($db->quoteName('#__tj_notification_user_exclusions'))
-				->where('user_id = ' . $user->id);
+			->delete($db->quoteName('#__tj_notification_user_exclusions'))
+			->where('user_id = ' . $user->id);
 		$db->setQuery($query);
 		$db->execute();
 	}

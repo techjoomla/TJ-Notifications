@@ -19,9 +19,6 @@ use \Joomla\CMS\Factory;
 use \Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 
-jimport('joomla.installer.installer');
-jimport('joomla.filesystem.file');
-
 /**
  * Script file of TJNotification component
  *
@@ -68,15 +65,15 @@ class Com_TjnotificationsInstallerScript
 	}
 
 	/**
- 	* This method is called after a component is uninstalled.
- 	*
- 	* @param   \stdClass  $parent  Parent object calling this method.
- 	*
- 	* @return void
- 	*/
+	* This method is called after a component is uninstalled.
+	*
+	* @param   \stdClass  $parent  Parent object calling this method.
+	*
+	* @return void
+	*/
 	public function uninstall($parent)
 	{
-		jimport('joomla.installer.installer');
+
 		$db              = Factory::getDBO();
 		$status          = new CMSObject;
 		$status->plugins = array();
