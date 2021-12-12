@@ -56,5 +56,5 @@ ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `created_on` `created_on` 
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `updated_on` `updated_on` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `checked_out` `checked_out` int(11) NOT NULL DEFAULT 0;
 ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `params` `params` text DEFAULT NULL;
-ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `address` `address` text DEFAULT NULL,
-ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `device_id` `device_id` text DEFAULT NULL,
+ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `address` `address` text DEFAULT NULL;
+ALTER TABLE `#__tjnotifications_subscriptions` CHANGE `device_id` `device_id` text DEFAULT NULL;
