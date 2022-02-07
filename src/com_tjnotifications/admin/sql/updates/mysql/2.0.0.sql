@@ -1,5 +1,5 @@
-ALTER TABLE `#__tj_notification_templates` MODIFY `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
-ALTER TABLE `#__tj_notification_templates` MODIFY `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE `#__tj_notification_templates` MODIFY `created_on` datetime DEFAULT NULL;
+ALTER TABLE `#__tj_notification_templates` MODIFY `updated_on` datetime DEFAULT NULL;
 
 CREATE TABLE IF NOT EXISTS `#__tj_notification_template_configs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_template_configs` (
   `body` text NOT NULL,
   `params` text NOT NULL,
   `state` int(11) NOT NULL,
-  `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
   `is_override` int(1) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `#__tj_notification_template_configs` FOREIGN KEY (`template_id`) REFERENCES `#__tj_notification_templates` (`id`)
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_logs` (
   `to` text NOT NULL,
   `cc` text NOT NULL,
   `bcc` text NOT NULL,
-  `date` datetime NOT NULL,
+  `date` datetime DEFAULT NULL,
   `state` tinyint(2) NOT NULL,
   `params` text NOT NULL,
   `priority`int(11) NOT NULL,
@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS `#__tjnotifications_subscriptions` (
   `created_by` int(11) NOT NULL,
   `modified_by` int(11) NOT NULL,
   `checked_out` int(11) NOT NULL,
-  `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `checked_out_time` datetime DEFAULT NULL,
   `params` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id_idx` (`user_id`)
