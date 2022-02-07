@@ -42,7 +42,7 @@ ALTER TABLE `#__tj_notification_logs` CHANGE `bcc` `bcc` text DEFAULT NULL;
 ALTER TABLE `#__tj_notification_logs` CHANGE `date` `date` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__tj_notification_logs` CHANGE `state` `state` tinyint(2) NOT NULL DEFAULT 0;
 ALTER TABLE `#__tj_notification_logs` CHANGE `params` `params` text DEFAULT NULL;
-ALTER TABLE `#__tj_notification_logs` CHANGE `priority` `priority`int(11) NOT NULL DEFAULT 0;
+ALTER TABLE `#__tj_notification_logs` CHANGE `priority` `priority` int(11) NOT NULL DEFAULT 0;
 ALTER TABLE `#__tj_notification_logs` CHANGE `message` `message` text DEFAULT NULL;
 ALTER TABLE `#__tj_notification_logs` CHANGE `category` `category` text DEFAULT NULL;
 
