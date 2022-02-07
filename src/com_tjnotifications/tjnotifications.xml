@@ -6,8 +6,8 @@
 	<authorUrl>https://techjoomla.com</authorUrl>
 	<copyright>Copyright (C) 2016 - 2022 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<creationDate>25th Jan 2022</creationDate>
-	<version>3.0.0</version>
+	<creationDate>7th Feb 2022</creationDate>
+	<version>3.0.1</version>
 	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
