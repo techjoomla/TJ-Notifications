@@ -323,7 +323,7 @@ class TjnotificationsModelNotifications extends ListModel
 				$db->quoteName(
 					array(
 						't.id', 't.client', 't.key', 't.title', 't.replacement_tags',
-						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id'
+						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id', 'ntc.webhook_url'
 					)
 				)
 			)
@@ -342,7 +342,7 @@ class TjnotificationsModelNotifications extends ListModel
 				$db->quoteName(
 					array(
 						't.id', 't.client', 't.key', 't.title', 't.replacement_tags',
-						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id'
+						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id', 'ntc.webhook_url'
 					)
 				)
 			)

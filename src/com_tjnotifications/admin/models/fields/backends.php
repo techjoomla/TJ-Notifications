@@ -45,6 +45,7 @@ class JFormFieldBackends extends JFormFieldList
 		$options[] = JHtml::_('select.option', 'push',     Text::_('COM_TJNOTIFICATIONS_BACKEND_PUSH'));
 		$options[] = JHtml::_('select.option', 'sms',      Text::_('COM_TJNOTIFICATIONS_BACKEND_SMS'));
 		$options[] = JHtml::_('select.option', 'whatsapp', Text::_('COM_TJNOTIFICATIONS_BACKEND_WHATSAPP'));
+		$options[] = JHtml::_('select.option', 'webhook',  Text::_('COM_TJNOTIFICATIONS_BACKEND_WEBHOOK'));
 
 		return array_merge(parent::getOptions(), array_values($options));
 	}

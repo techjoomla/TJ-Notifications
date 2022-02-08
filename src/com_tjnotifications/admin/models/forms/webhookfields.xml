@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden" />
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
+			required="true"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="webhook_url"
+			type="subform"
+			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_DESC"
+			multiple="true"
+			min="1"
+			formsource="/administrator/components/com_tjnotifications/models/forms/webhookurl.xml"
+		/>
+
+		<field
+			name="body"
+			type="textarea"
+			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_BODY_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_BODY_DESC"
+			rows="10"
+			cols="350"
+			filter="JComponentHelper::filterText"
+			class="validate-json"
+			required="true"
+		/>
+	</fieldset>
+</form>

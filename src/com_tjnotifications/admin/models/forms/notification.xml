@@ -195,6 +195,35 @@
 		</fieldset>
 	</fields>
 
+	<fields name="webhook">
+		<fieldset name="webhook_fieldset">
+			<field
+				name="state"
+				type="radio"
+				default="0"
+				label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_STATUS_LABEL"
+				description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_STATUS_DESC"
+				class="btn-group btn-group-yesno"
+				>
+			  <option value="1">JON</option>
+			  <option value="0">JOFF</option>
+			</field>
+
+			<field
+				name="webhookfields"
+				description="COM_TJNOTIFICATIONS_WEBHOOK_FIELDS_DESC"
+				type="subform"
+				label="COM_TJNOTIFICATIONS_WEBHOOK_FIELDS"
+				min="1"
+				formsource="/administrator/components/com_tjnotifications/models/forms/webhookfields.xml"
+				multiple="true"
+				buttons="add,remove"
+				layout="joomla.form.field.subform.repeatable"
+				groupByFieldset="false"
+			/>
+		</fieldset>
+	</fields>
+
 	<!--
 	<fields name="web">
 		<fieldset name="web_fieldset">
