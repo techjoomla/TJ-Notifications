@@ -10,12 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * Class TJNotificationController
  *
  * @since  1.6
  */
 
-class TJNotificationsController extends JControllerLegacy
+class TJNotificationsController extends BaseController
 {
 }

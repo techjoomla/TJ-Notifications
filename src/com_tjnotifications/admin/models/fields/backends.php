@@ -10,9 +10,11 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of backends
@@ -40,11 +42,11 @@ class JFormFieldBackends extends JFormFieldList
 	{
 		$options = array();
 
-		$options[] = JHtml::_('select.option', '',         Text::_('COM_TJNOTIFICATIONS_BACKEND_LIST_CHOOSE'));
-		$options[] = JHtml::_('select.option', 'email',    Text::_('COM_TJNOTIFICATIONS_BACKEND_EMAIL'));
-		$options[] = JHtml::_('select.option', 'push',     Text::_('COM_TJNOTIFICATIONS_BACKEND_PUSH'));
-		$options[] = JHtml::_('select.option', 'sms',      Text::_('COM_TJNOTIFICATIONS_BACKEND_SMS'));
-		$options[] = JHtml::_('select.option', 'whatsapp', Text::_('COM_TJNOTIFICATIONS_BACKEND_WHATSAPP'));
+		$options[] = HTMLHelper::_('select.option', '',         Text::_('COM_TJNOTIFICATIONS_BACKEND_LIST_CHOOSE'));
+		$options[] = HTMLHelper::_('select.option', 'email',    Text::_('COM_TJNOTIFICATIONS_BACKEND_EMAIL'));
+		$options[] = HTMLHelper::_('select.option', 'push',     Text::_('COM_TJNOTIFICATIONS_BACKEND_PUSH'));
+		$options[] = HTMLHelper::_('select.option', 'sms',      Text::_('COM_TJNOTIFICATIONS_BACKEND_SMS'));
+		$options[] = HTMLHelper::_('select.option', 'whatsapp', Text::_('COM_TJNOTIFICATIONS_BACKEND_WHATSAPP'));
 
 		return array_merge(parent::getOptions(), array_values($options));
 	}

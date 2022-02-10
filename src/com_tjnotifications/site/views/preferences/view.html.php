@@ -66,7 +66,8 @@ class TJNotificationsViewPreferences extends \Joomla\CMS\MVC\View\HtmlView
 		{
 			$message = Text::sprintf('JGLOBAL_YOU_MUST_LOGIN_FIRST');
 			$app     = Factory::getApplication();
-			$app->redirect(Route::_(Uri::root()), $message);
+			$app->enqueueMessage($message);
+			$app->redirect(Route::_(Uri::root()));
 		}
 	}
 }

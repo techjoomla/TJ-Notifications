@@ -6,6 +6,12 @@
  * @license    GNU General Public License version 2 or later.
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
+
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models', 'NotificationsModel');
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models', 'NotificationsModel');
 
@@ -33,7 +39,7 @@ class Tjnotifications
 	 */
 	public static function send($client, $key, $recipients, $replacements, $options)
 	{
-		$model = JModelList::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
+		$model = ListModel::getInstance('Notifications', 'TjnotificationsModel', array('ignore_request' => true));
 
 		$template = $model->getTemplate($client, $key);
 		$addRecipients = self::getRecipients($client, $key, $recipients, $options);
@@ -41,7 +47,7 @@ class Tjnotifications
 		if ($addRecipients)
 		{
 			// Invoke JMail Class
-			$mailer = JFactory::getMailer();
+			$mailer = Factory::getMailer();
 
 			if ($options->get('from') != null && $options->get('fromname') != null)
 			{
@@ -49,7 +55,7 @@ class Tjnotifications
 			}
 			else
 			{
-				$config = JFactory::getConfig();
+				$config = Factory::getConfig();
 				$from = array($config->get('mailfrom'), $config->get('fromname'));
 			}
 
@@ -126,7 +132,7 @@ class Tjnotifications
 	 */
 	public static function getRecipients($client,$key,$recipients,$options)
 	{
-		$model = JModelList::getInstance('Preferences', 'TjnotificationsModel', array('ignore_request' => true));
+		$model = ListModel::getInstance('Preferences', 'TjnotificationsModel', array('ignore_request' => true));
 		$unsubscribed_users = $model->getUnsubscribedUsers($client, $key);
 
 		foreach ($recipients as $recipient)
@@ -172,8 +178,7 @@ class Tjnotifications
 	 */
 	public static function getBody($body_template, $replacements, $client)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onTjNotificationTemplatePrepare', array(&$replacements, &$body_template, $client));
+		Factory::getApplication()->triggerEvent('onTjNotificationTemplatePrepare', array(&$replacements, &$body_template, $client));
 
 		$matches = self::getTags($body_template->email_body);
 

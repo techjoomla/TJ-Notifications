@@ -17,7 +17,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  1.6
  */
-class TjnotificationTableTemplate extends JTable
+class TjnotificationTableTemplate extends Table
 {
 	/**
 	 * Constructor
