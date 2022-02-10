@@ -16,12 +16,23 @@
 		</field>
 
 		<field
+			name="use_gbwh_url"
+			type="radio"
+			default="1"
+			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_USE_GLOBAL_URL_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_USE_GLOBAL_URL_DESC"
+			class="btn-group btn-group-yesno"
+			>
+		  <option value="1">JYES</option>
+		  <option value="0">JNO</option>
+		</field>
+
+		<field
 			name="webhook_url"
 			type="subform"
-			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_LABEL"
-			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_DESC"
+			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_SUBFORM_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_SUBFORM_DESC"
 			multiple="true"
-			min="1"
 			formsource="/administrator/components/com_tjnotifications/models/forms/webhookurl.xml"
 		/>
 

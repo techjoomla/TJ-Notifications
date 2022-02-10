@@ -4,9 +4,9 @@
 		<field
 			name="url"
 			type="url"
-			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_LABEL"
-			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_DESC"
-			size="50"
+			label="COM_TJNOTIFICATIONS_SETTINGS_WEBHOOK_URL_LABEL"
+			description="COM_TJNOTIFICATIONS_SETTINGS_WEBHOOK_URL_DESC"
+			size="100"
 			filter="url"
 			validate="url"
 		/>
