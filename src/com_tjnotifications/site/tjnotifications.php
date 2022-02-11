@@ -10,11 +10,14 @@
 
 defined('_JEXEC') or die;
 
-$controller = JControllerLegacy::getInstance('TJNotifications');
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
+
+$controller = BaseController::getInstance('TJNotifications');
 
 // Perform the Request task
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 $controller->execute($input->getCmd('task'));
 
 // Redirect if set by the controller

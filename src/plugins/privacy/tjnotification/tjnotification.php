@@ -10,9 +10,12 @@
 
 // No direct access.
 defined('_JEXEC') or die();
-jimport('joomla.application.component.model');
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Table\User as UserTable;
 use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
 
@@ -52,8 +55,8 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_PRIVACY_TJNOTIFICATION') => array(
-				JText::_('PLG_PRIVACY_TJNOTIFICATION_PRIVACY_CAPABILITY_USER_DETAIL')
+			Text::_('PLG_PRIVACY_TJNOTIFICATION') => array(
+				Text::_('PLG_PRIVACY_TJNOTIFICATION_PRIVACY_CAPABILITY_USER_DETAIL')
 			)
 		);
 	}
@@ -72,7 +75,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, User $user = null)
 	{
 		if (!$user)
 		{
@@ -80,7 +83,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 		}
 
 		/** @var JTableUser $userTable */
-		$userTable = JUser::getTable();
+		$userTable = UserTable::getTable();
 		$userTable->load($user->id);
 
 		$domains = array();
@@ -100,7 +103,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	private function createTJNotificationsUnsubscriptionDomain(JTableUser $user)
+	private function createTJNotificationsUnsubscriptionDomain(User $user)
 	{
 		$domain = $this->createDomain('TJNotifications unsubscription', 'TJNotifications unsubscription data');
 
@@ -108,8 +111,9 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 			->select('*')
 			->from($this->db->quoteName('#__tj_notification_user_exclusions'))
 			->where(
-						$this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id)
-				);
+				$this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id)
+			);
+
 		$userUnsubscriptionData = $this->db->setQuery($query)->loadAssocList();
 
 		if (!empty($userUnsubscriptionData))
@@ -135,7 +139,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, User $user = null)
 	{
 		$status = new PrivacyRemovalStatus;
 
@@ -159,7 +163,7 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 	 *
 	 * @since   1.0.2
 	 */
-	public function onPrivacyRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyRemoveData(PrivacyTableRequest $request, User $user = null)
 	{
 		// This plugin only processes data for registered user accounts
 		if (!$user)
@@ -177,8 +181,8 @@ class PlgPrivacyTjnotification extends PrivacyPlugin
 
 		// Delete TJNotification user data :
 		$query = $db->getQuery(true)
-				->delete($db->quoteName('#__tj_notification_user_exclusions'))
-				->where('user_id = ' . $user->id);
+			->delete($db->quoteName('#__tj_notification_user_exclusions'))
+			->where('user_id = ' . $user->id);
 		$db->setQuery($query);
 		$db->execute();
 	}

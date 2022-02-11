@@ -10,8 +10,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -58,7 +58,7 @@ $sortFields = $this->getSortFields();
 				<thead>
 					<tr>
 						<th width="5%" class="center hidden-phone">
-							<?php echo JHtml::_('grid.checkall'); ?>
+							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</th>
 
 						<?php
@@ -66,34 +66,34 @@ $sortFields = $this->getSortFields();
 						{
 							?>
 							<th width="5%" class="nowrap center">
-								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<?php
 						}
 						?>
 
 						<th width="15%" class="left">
-							<?php echo JHtml::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_USER', 'a.user_id', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_USER', 'a.user_id', $listDirn, $listOrder); ?>
 						</th>
 
 						<th width="10%"class="left">
-							<?php echo JHtml::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_BACKEND', 'a.backend', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_BACKEND', 'a.backend', $listDirn, $listOrder); ?>
 						</th>
 
 						<th width="30%" class="left">
-							<?php echo JHtml::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_ADDRESS', 'a.address', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_ADDRESS', 'a.address', $listDirn, $listOrder); ?>
 						</th>
 
 						<th width="20%" class="left">
-							<?php echo JHtml::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_DEVICE_ID', 'a.device_id', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_DEVICE_ID', 'a.device_id', $listDirn, $listOrder); ?>
 						</th>
 
 						<th width="10%" class="left">
-							<?php echo JHtml::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_IS_CONFIRMED', 'a.is_confirmed', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_IS_CONFIRMED', 'a.is_confirmed', $listDirn, $listOrder); ?>
 						</th>
 
 						<th width="5%" class="">
-							<?php echo JHtml::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_ID', 'a.id', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TJNOTIFICATIONS_SUBSCRIPTIONS_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
@@ -119,7 +119,7 @@ $sortFields = $this->getSortFields();
 							{
 								?>
 								<td class="center" width="5%">
-									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'subscriptions.', $canChange, 'cb'); ?>
+									<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'subscriptions.', $canChange, 'cb'); ?>
 								</td>
 								<?php
 							}
@@ -129,7 +129,7 @@ $sortFields = $this->getSortFields();
 								<?php
 								if (isset($item->checked_out) && $item->checked_out && ($canEdit || $canChange))
 								{
-									echo JHtml::_('jgrid.checkedout', $i, $item->uEditor, $item->checked_out_time, 'subscriptions.', $canCheckin);
+									echo HTMLHelper::_('jgrid.checkedout', $i, $item->uEditor, $item->checked_out_time, 'subscriptions.', $canCheckin);
 								}
 
 								if ($canEdit)

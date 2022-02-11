@@ -18,4 +18,7 @@
 			value_field="client"
 			/>
 	</fields>
+	<fields name="list">
+		<field name="limit" type="limitbox" class="input-mini" default="20" onchange="this.form.submit();" />
+	</fields>
 </form>

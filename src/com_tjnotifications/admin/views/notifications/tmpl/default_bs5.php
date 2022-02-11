@@ -17,12 +17,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('formbehavior.chosen', 'select');
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $doc       = Factory::getDocument();
 $style     = "
+.table th {
+	white-space: inherit !important;
+}
 .reset-table,
 .reset-table table tr,
 .reset-table tr td,
@@ -46,41 +47,10 @@ $doc->addStyleDeclaration($style);
 ?>
 
 <form action="index.php?option=com_tjnotifications&view=notifications" method="post" id="adminForm" name="adminForm">
-	<?php
-	if (!empty($this->sidebar))
-	{
-		?>
-		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar;?>
-		</div>
-
-		<div id="j-main-container" class="span10">
-		<?php
-	}
-	else
-	{
-		?>
-		<div id="j-main-container">
-		<?php
-	}
-	?>
-			<div class="row-fluid">
-				<div class="span10">
-					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-				</div>
+	<div id="j-sidebar-container" class="j-sidebar-container">
+			<div class="js-stools-container-bar">
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 			</div>
-
-			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible">
-					<?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?>
-				</label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-
-			<br>
-
-			<div class="clearfix"></div>
-
 			<?php
 			if (empty($this->items))
 			{
@@ -94,7 +64,7 @@ $doc->addStyleDeclaration($style);
 			else
 			{
 				?>
-				<table class="table table-striped table-hover">
+				<table class="table table-hover">
 					<thead>
 						<tr>
 							<?php
@@ -111,7 +81,7 @@ $doc->addStyleDeclaration($style);
 							<th width="23%" class="hidden-phone">
 								<?php echo HTMLHelper::_(
 									'grid.sort', Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_TITLE"), 'title', $listDirn, $listOrder
-									); ?>
+								); ?>
 							</th>
 
 							<th width="20%" class="hidden-phone">
@@ -146,14 +116,6 @@ $doc->addStyleDeclaration($style);
 							</th>
 						</tr>
 					</thead>
-
-					<tfoot>
-						<tr>
-							<td colspan="12">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 
 					<tbody>
 						<?php
@@ -199,7 +161,7 @@ $doc->addStyleDeclaration($style);
 										}
 										?>
 
-										<div class="small">
+										<div class="small text-break">
 											<?php echo Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_FIELD_KEY') . ': ' . $row->key; ?>
 										</div>
 									</td>
@@ -211,7 +173,7 @@ $doc->addStyleDeclaration($style);
 
 										foreach ($backendsArray as $keyBackend => $backend)
 										{
-											if ($row->{$backend}['languages'])
+											if ($row->$backend['languages'])
 											{
 												?>
 												<tr>
@@ -221,12 +183,12 @@ $doc->addStyleDeclaration($style);
 
 													<td>
 														<?php
-														foreach ($row->{$backend}['languages'] as $language)
+														foreach ($row->$backend['languages'] as $language)
 														{
 															if ($language == "*")
 															{
 																echo Text::_('JALL');
-																echo (count($row->{$backend}['languages']) > 1) ? ', ' : '';
+																echo (count($row->$backend['languages']) > 1) ? ', ' : '';
 															}
 															else
 															{
@@ -268,7 +230,7 @@ $doc->addStyleDeclaration($style);
 
 										foreach ($backendsArray as $keyBackend => $backend)
 										{
-											if ($row->{$backend}['languages'])
+											if ($row->$backend['languages'])
 											{
 												?>
 												<tr>
@@ -280,7 +242,7 @@ $doc->addStyleDeclaration($style);
 														<?php
 														foreach ($this->languages as $language)
 														{
-															if (!in_array($language->lang_code, $row->{$backend}['languages']))
+															if (!in_array($language->lang_code, $row->$backend['languages']))
 															{
 																if ($language->image)
 																{
@@ -318,7 +280,7 @@ $doc->addStyleDeclaration($style);
 
 										foreach ($backendsArray as $keyBackend => $backend)
 										{
-											if (!isset($row->{$backend}['state']))
+											if (!isset($row->$backend['state']))
 											{
 												continue;
 											}
@@ -336,8 +298,8 @@ $doc->addStyleDeclaration($style);
 														?>
 														<!--
 														<a href="javascript:void(0);" class="hasTooltip"
-															data-original-title="<?php // @echo ( ($row->{$backend}['state'] ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>"
-															onclick=" listItemTask('cb<?php // @echo $i;?>','<?php // @echo ( ($row->{$backend}['state'] ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus'; ?>')">
+															data-original-title="<?php // @echo ( ($row->$backend['state'] ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>"
+															onclick=" listItemTask('cb<?php // @echo $i;?>','<?php // @echo ( ($row->$backend['state'] ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus'; ?>')">
 														</a>
 														-->
 														<?php
@@ -346,7 +308,7 @@ $doc->addStyleDeclaration($style);
 
 													<img src="<?php echo Uri::root() .
 														'administrator/components/com_tjnotifications/images/' .
-														(!empty($row->{$backend}['state']) ? 'publish.png' : 'unpublish.png'); ?>"
+														(!empty($row->$backend['state']) ? 'publish.png' : 'unpublish.png'); ?>"
 														width="16" height="16" border="0" />
 												</td>
 											</tr>
@@ -422,6 +384,7 @@ $doc->addStyleDeclaration($style);
 						?>
 					</tbody>
 				</table>
+				<?php echo $this->pagination->getListFooter(); ?>
 				<?php
 			}
 			?>

@@ -313,7 +313,7 @@ class TjnotificationsModelNotifications extends ListModel
 		*/
 
 		// Use union to get template for language needed, if not found get for language = *
-		$db     = JFactory::getDbo();
+		$db     = Factory::getDbo();
 		$query1 = $db->getQuery(true);
 		$query2 = $db->getQuery(true);
 		$query3 = $db->getQuery(true);

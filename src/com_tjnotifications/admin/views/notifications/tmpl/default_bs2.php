@@ -69,18 +69,8 @@ $doc->addStyleDeclaration($style);
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				</div>
 			</div>
-
-			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible">
-					<?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?>
-				</label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-
 			<br>
-
 			<div class="clearfix"></div>
-
 			<?php
 			if (empty($this->items))
 			{
@@ -211,7 +201,7 @@ $doc->addStyleDeclaration($style);
 
 										foreach ($backendsArray as $keyBackend => $backend)
 										{
-											if ($row->{$backend}['languages'])
+											if ($row->$backend['languages'])
 											{
 												?>
 												<tr>
@@ -221,12 +211,12 @@ $doc->addStyleDeclaration($style);
 
 													<td>
 														<?php
-														foreach ($row->{$backend}['languages'] as $language)
+														foreach ($row->$backend['languages'] as $language)
 														{
 															if ($language == "*")
 															{
 																echo Text::_('JALL');
-																echo (count($row->{$backend}['languages']) > 1) ? ', ' : '';
+																echo (count($row->$backend['languages']) > 1) ? ', ' : '';
 															}
 															else
 															{
@@ -268,7 +258,7 @@ $doc->addStyleDeclaration($style);
 
 										foreach ($backendsArray as $keyBackend => $backend)
 										{
-											if ($row->{$backend}['languages'])
+											if ($row->$backend['languages'])
 											{
 												?>
 												<tr>
@@ -280,7 +270,7 @@ $doc->addStyleDeclaration($style);
 														<?php
 														foreach ($this->languages as $language)
 														{
-															if (!in_array($language->lang_code, $row->{$backend}['languages']))
+															if (!in_array($language->lang_code, $row->$backend['languages']))
 															{
 																if ($language->image)
 																{
@@ -318,7 +308,7 @@ $doc->addStyleDeclaration($style);
 
 										foreach ($backendsArray as $keyBackend => $backend)
 										{
-											if (!isset($row->{$backend}['state']))
+											if (!isset($row->$backend['state']))
 											{
 												continue;
 											}
@@ -336,8 +326,8 @@ $doc->addStyleDeclaration($style);
 														?>
 														<!--
 														<a href="javascript:void(0);" class="hasTooltip"
-															data-original-title="<?php // @echo ( ($row->{$backend}['state'] ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>"
-															onclick=" listItemTask('cb<?php // @echo $i;?>','<?php // @echo ( ($row->{$backend}['state'] ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus'; ?>')">
+															data-original-title="<?php // @echo ( ($row->$backend['state'] ) ? Text::_( 'COM_TJNOTIFICATIONS_STATE_ENABLE' ) : Text::_( 'COM_TJNOTIFICATIONS_STATE_DISABLE' );?>"
+															onclick=" listItemTask('cb<?php // @echo $i;?>','<?php // @echo ( ($row->$backend['state'] ) ? 'notifications.disableEmailStatus' : 'notifications.enableEmailStatus'; ?>')">
 														</a>
 														-->
 														<?php
@@ -346,7 +336,7 @@ $doc->addStyleDeclaration($style);
 
 													<img src="<?php echo Uri::root() .
 														'administrator/components/com_tjnotifications/images/' .
-														(!empty($row->{$backend}['state']) ? 'publish.png' : 'unpublish.png'); ?>"
+														(!empty($row->$backend['state']) ? 'publish.png' : 'unpublish.png'); ?>"
 														width="16" height="16" border="0" />
 												</td>
 											</tr>

@@ -6,6 +6,11 @@
 - Feature Addition (+)
 - Improvement (^)
 
+### TJNotifications v2.0.2
+
+##### ^ Improvements:
+- #173952 Chore: Table changes - adding default values for all the tables of TJnotification(Joomla 4 compatibility)
+
 ### TJNotifications v2.0.1
 
 ##### + Features Added:

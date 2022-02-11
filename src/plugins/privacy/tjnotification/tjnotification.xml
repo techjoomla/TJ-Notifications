@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.9" type="plugin" group="privacy" method="upgrade">
 	<name>plg_privacy_tjnotification</name>
-	<version>2.0.1</version>
-	<creationDate>22nd Jul 2021</creationDate>
+	<version>3.0.1</version>
+	<creationDate>7th Feb 2022</creationDate>
 	<author>Techjoomla</author>
 	<authorEmail>extensions@techjoomla.com</authorEmail>
 	<authorUrl>https://techjoomla.com</authorUrl>
-	<copyright>Copyright (C) 2016 - 2021 Techjoomla. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2016 - 2022 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>PLG_PRIVACY_TJNOTIFICATION_XML_DESCRIPTION</description>
 	<files>
