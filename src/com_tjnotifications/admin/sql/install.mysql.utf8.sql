@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `#__tj_notification_template_configs` (
   `subject` text NOT NULL,
   `body` text NOT NULL,
   `webhook_url` text DEFAULT NULL,
-  `use_gbwh_url` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Use Global Config Webhook URLs',
+  `use_global_webhook_url` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Use Global Config Webhook URLs',
   `params` text NOT NULL,
   `state` int(11) NOT NULL,
   `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

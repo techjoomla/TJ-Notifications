@@ -16,7 +16,7 @@
 		</field>
 
 		<field
-			name="use_gbwh_url"
+			name="use_global_webhook_url"
 			type="radio"
 			default="1"
 			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_USE_GLOBAL_URL_LABEL"

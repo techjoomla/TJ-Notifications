@@ -397,25 +397,25 @@ class TjnotificationsModelNotification extends AdminModel
 			// 2.2 Find existing template config entries to be deleted (i.e. language specific templates removed by user)
 			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
 			{
-				// webhook stuff starts here
+				// Webhook stuff starts here
 				if ($backend == 'webhook' && $data[$backend]['state'])
 				{
 					// If not using global webhook URLs & custom webhooks URLs are also empty
-					if (empty($backendFieldValues['use_gbwh_url']) && empty($backendFieldValues['webhook_url']))
+					if (empty($backendFieldValues['use_global_webhook_url']) && empty($backendFieldValues['webhook_url']))
 					{
 						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_CUSTOM_WEBHOOK_URLS'));
 
 						return false;
 					}
-					// If using global webhook URl & the global urls are empty
-					elseif ($backendFieldValues['use_gbwh_url'] && empty($webhookUrls[0]))
+					// If using global webhook URL & the global URLs are empty
+					elseif ($backendFieldValues['use_global_webhook_url'] && empty($webhookUrls[0]))
 					{
 						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_GLOBAL_WEBHOOK_URLS'));
 
 						return false;
 					}
 				}
-				// webhook stuff ends here
+				// Webhook stuff ends here
 
 				// Iterate through each lang. specific config entry
 				foreach ($existingBackendConfigs as $existingBackendConfig)
@@ -495,7 +495,7 @@ class TjnotificationsModelNotification extends AdminModel
 				// Add URLs for webhook
 				$templateConfigTable->webhook_url  = !empty($backendFieldValues['webhook_url']) ? json_encode($backendFieldValues['webhook_url']): '';
 
-				$templateConfigTable->use_gbwh_url  = !empty($backendFieldValues['use_gbwh_url']) ? $backendFieldValues['use_gbwh_url']: 0;
+				$templateConfigTable->use_global_webhook_url  = !empty($backendFieldValues['use_global_webhook_url']) ? $backendFieldValues['use_global_webhook_url']: 0;
 				// Webhook stuff ends here
 
 				if (!empty($backendFieldValues['provider_template_id']))
