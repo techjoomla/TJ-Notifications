@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tjnotifications/models');
 require_once JPATH_ADMINISTRATOR . '/components/com_tjnotifications/defines.php';
@@ -363,6 +364,11 @@ class TjnotificationsModelNotification extends AdminModel
 		// Get DB
 		$db = Factory::getDbo();
 
+		// Get global configs
+		$notificationsParams = ComponentHelper::getParams('com_tjnotifications');
+		$webhookUrls = $notificationsParams->get('webhook_url');
+		$webhookUrls = array_column((array) $webhookUrls, 'url');
+
 		// 2 - save backend specific config
 		$backendsArray = explode(',', TJNOTIFICATIONS_CONST_BACKENDS_ARRAY);
 
@@ -390,6 +396,26 @@ class TjnotificationsModelNotification extends AdminModel
 			// 2.2 Find existing template config entries to be deleted (i.e. language specific templates removed by user)
 			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
 			{
+				// Webhook stuff starts here
+				if ($backend == 'webhook' && $data[$backend]['state'])
+				{
+					// If not using global webhook URLs & custom webhooks URLs are also empty
+					if (empty($backendFieldValues['use_global_webhook_url']) && empty($backendFieldValues['webhook_url']))
+					{
+						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_CUSTOM_WEBHOOK_URLS'));
+
+						return false;
+					}
+					// If using global webhook URL & the global URLs are empty
+					elseif ($backendFieldValues['use_global_webhook_url'] && empty($webhookUrls[0]))
+					{
+						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_GLOBAL_WEBHOOK_URLS'));
+
+						return false;
+					}
+				}
+				// Webhook stuff ends here
+
 				// Iterate through each lang. specific config entry
 				foreach ($existingBackendConfigs as $existingBackendConfig)
 				{
@@ -463,6 +489,13 @@ class TjnotificationsModelNotification extends AdminModel
 				$templateConfigTable->subject  = !empty($backendFieldValues['subject']) ? $backendFieldValues['subject']: '';
 				$templateConfigTable->body     = $backendFieldValues['body'];
 				$templateConfigTable->language = $backendFieldValues['language'];
+
+				// Webhook stuff starts here
+				// Add URLs for webhook
+				$templateConfigTable->webhook_url  = !empty($backendFieldValues['webhook_url']) ? json_encode($backendFieldValues['webhook_url']): '';
+
+				$templateConfigTable->use_global_webhook_url  = !empty($backendFieldValues['use_global_webhook_url']) ? $backendFieldValues['use_global_webhook_url']: 0;
+				// Webhook stuff ends here
 
 				if (!empty($backendFieldValues['provider_template_id']))
 				{

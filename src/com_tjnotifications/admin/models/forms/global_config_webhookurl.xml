@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="url"
+			type="url"
+			label="COM_TJNOTIFICATIONS_SETTINGS_WEBHOOK_URL_LABEL"
+			description="COM_TJNOTIFICATIONS_SETTINGS_WEBHOOK_URL_DESC"
+			size="100"
+			filter="url"
+			validate="url"
+		/>
+	</fieldset>
+</form>

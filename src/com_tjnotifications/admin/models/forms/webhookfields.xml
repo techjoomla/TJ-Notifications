@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden" />
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
+			required="true"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="use_global_webhook_url"
+			type="radio"
+			default="1"
+			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_USE_GLOBAL_URL_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_USE_GLOBAL_URL_DESC"
+			class="btn-group btn-group-yesno"
+			>
+		  <option value="1">JYES</option>
+		  <option value="0">JNO</option>
+		</field>
+
+		<field
+			name="webhook_url"
+			type="subform"
+			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_SUBFORM_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_URL_SUBFORM_DESC"
+			multiple="true"
+			formsource="/administrator/components/com_tjnotifications/models/forms/webhookurl.xml"
+		/>
+
+		<field
+			name="body"
+			type="textarea"
+			label="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_BODY_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WEBHOOK_BODY_DESC"
+			rows="10"
+			cols="350"
+			filter="JComponentHelper::filterText"
+			class="validate-json"
+			required="true"
+		/>
+	</fieldset>
+</form>
