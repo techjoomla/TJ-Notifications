@@ -34,6 +34,9 @@
 
 		<field name="url_shortening_enabled_backends" type="tjnotificationsbackends" showon="enable_url_shortening:1" default="sms" multiple="multiple" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING_DESC" />
 
+	</fieldset>
+
+	<fieldset name="webhook" label="COM_TJNOTIFICATIONS_SETTINGS_WEBHOOK" description="COM_TJNOTIFICATIONS_SETTINGS_WEBHOOK" addfieldpath="/administrator/components/com_tjnotifications/models/fields">
 		<field
 			name="webhook_url"
 			type="subform"
@@ -43,7 +46,6 @@
 			min="1"
 			formsource="/administrator/components/com_tjnotifications/models/forms/global_config_webhookurl.xml"
 		/>
-
 	</fieldset>
 
 	<fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
