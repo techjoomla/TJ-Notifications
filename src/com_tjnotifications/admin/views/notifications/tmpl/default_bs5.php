@@ -56,7 +56,7 @@ $doc->addStyleDeclaration($style);
 			{
 				?>
 				<div class="clearfix">&nbsp;</div>
-					<div class="alert alert-no-items">
+					<div class="alert alert-info">
 						<?php echo Text::_("COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DEFAULT_NO_MATCHING_RESULTS"); ?>
 					</div>
 				<?php
