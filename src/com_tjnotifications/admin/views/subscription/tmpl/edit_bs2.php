@@ -29,7 +29,7 @@ $script = "
 			Joomla.submitform(task, document.getElementById('subscription-form'));
 		}
 		else {
-			if (task != 'subscription.cancel' && document.formvalidator.isValid(document.id('subscription-form'))) {
+			if (task != 'subscription.cancel' && document.formvalidator.isValid(document.getElementById('subscription-form'))) {
 				Joomla.submitform(task, document.getElementById('subscription-form'));
 			}
 			else {
