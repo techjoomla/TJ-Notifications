@@ -273,7 +273,7 @@ class TjnotificationsModelNotifications extends ListModel
 	 *
 	 * @since    1.6
 	 */
-	public function getTemplate($client, $key, $language, $backend = 'email')
+	public function getTemplate($client, $key, $language = '*', $backend = 'email')
 	{
 		$object = clone $this;
 
