@@ -86,6 +86,12 @@ class TjnotificationsModelNotifications extends ListModel
 
 		// Get pagination request variables
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'int');
+		$list = $app->input->get('list');
+		if (isset($list['limit']) && $list['limit'])
+		{
+			$limit       = $list['limit'];
+		}
+
 		$limitstart = $app->input->get('limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust it
