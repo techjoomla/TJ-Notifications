@@ -44,9 +44,18 @@ $style     = "
 }";
 
 $doc->addStyleDeclaration($style);
+
+if ($this->displayExtension)
+{
+	$link = 'index.php?option=com_tjnotifications&view=notifications&extension=' . $this->displayExtension;
+}
+else
+{
+	$link = 'index.php?option=com_tjnotifications&view=notifications';
+}
 ?>
 
-<form action="index.php?option=com_tjnotifications&view=notifications" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo $link; ?>" method="post" id="adminForm" name="adminForm">
 	<div id="j-sidebar-container" class="j-sidebar-container">
 			<div class="js-stools-container-bar">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>

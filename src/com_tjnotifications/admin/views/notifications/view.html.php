@@ -91,6 +91,7 @@ class TjnotificationsViewNotifications extends HtmlView
 		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models');
 		$model       = AdminModel::getInstance('Preferences', 'TJNotificationsModel');
 		$this->count = $model->count();
+		$this->displayExtension = $extension;
 
 		if ($extension)
 		{
