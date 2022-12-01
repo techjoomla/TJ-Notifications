@@ -126,7 +126,7 @@ class TjnotificationsModelNotifications extends ListModel
 		if (!empty($search))
 		{
 			$like = $db->quote('%' . $search . '%');
-			$query->where($db->quoteName('client') . ' LIKE ' . $like . ' OR ' . $db->quoteName('key') . ' LIKE ' . $like);
+			$query->where($db->quoteName('client') . ' LIKE ' . $like . ' OR ' . $db->quoteName('key') . ' LIKE ' . $like . ' OR ' . $db->quoteName('title') . ' LIKE ' . $like);
 		}
 
 		if ($extension)
