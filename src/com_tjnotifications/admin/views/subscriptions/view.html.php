@@ -26,8 +26,6 @@ use Joomla\CMS\MVC\View\HtmlView;
  */
 class TjnotificationsViewSubscriptions extends HtmlView
 {
-	protected $activeFilters;
-
 	protected $extension;
 
 	public $filterForm;
