@@ -30,6 +30,8 @@
 ##### + Features Added:
 - #175851 Joomla 4 compatible
 
+### TJNotifications v2.0.2
+
 ##### ^ Improvements:
 - #173952 Chore: Table changes - adding default values for all the tables of TJnotification(Joomla 4 compatibility)
 
