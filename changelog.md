@@ -6,7 +6,29 @@
 - Feature Addition (+)
 - Improvement (^)
 
-### TJNotifications v2.0.2
+### TJNotifications v3.0.3
+
+##### - Bug fixes:
+- #187003 Unable to send notification due to fatal error
+- #190387 page limit is not working on the notifications list view
+- #190428 BE > Notification Templates > Limit filter is not working
+- #191132 BE > Notification Templates > Search Tools > Client filter is not working
+- #190428 BE > Notification Templates > If we apply any filter then the extension parameter gets removed from the URL
+
+### TJNotifications v3.0.2
+
+##### - Bug fixes:
+- #184788 BE > Subscriptions > Unable to save the Subscription form for joomla 3.10
+
+### TJNotifications v3.0.1
+
+##### ^ Improvements:
+- #173952 Chore: Table changes - adding default values for tables of TJnotification (Joomla 4 compatibility)
+
+### TJNotifications v3.0.0
+
+##### + Features Added:
+- #175851 Joomla 4 compatible
 
 ##### ^ Improvements:
 - #173952 Chore: Table changes - adding default values for all the tables of TJnotification(Joomla 4 compatibility)
