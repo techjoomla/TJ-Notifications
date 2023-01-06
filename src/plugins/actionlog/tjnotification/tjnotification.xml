@@ -2,7 +2,7 @@
 <extension version="3.9" type="plugin" group="actionlog" method="upgrade">
 	<name>plg_actionlog_tjnotification</name>
 	<author>Techjoomla</author>
-	<creationDate>4th Jan 2023</creationDate>
+	<creationDate>6th Jan 2023</creationDate>
 	<copyright>Copyright (C) 2016 - 2023 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>extensions@techjoomla.com</authorEmail>
