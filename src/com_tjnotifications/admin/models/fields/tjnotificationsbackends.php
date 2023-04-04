@@ -14,6 +14,8 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
+require_once JPATH_ADMINISTRATOR . '/components/com_tjnotifications/defines.php';
+
 FormHelper::loadFieldClass('list');
 
 /**
