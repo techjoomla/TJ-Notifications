@@ -33,6 +33,12 @@
 			default="" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_URL_SHORTENING_PLUGIN" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_URL_SHORTENING_PLUGIN_DESC" query="SELECT element, name FROM #__extensions WHERE type='plugin' AND folder='tjurlshortner' AND enabled=1" key_field="element" value_field="name" />
 
 		<field name="url_shortening_enabled_backends" type="tjnotificationsbackends" showon="enable_url_shortening:1" default="sms" multiple="multiple" label="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING" description="COM_TJNOTIFICATIONS_SETTINGS_CHOOSE_BACKEND_SHORTENING_DESC" />
+		
+		<field name="web_notification_provider" type="list" default="easysocial"
+			description="COM_TJNOTIFICATIONS_WEB_NOTIFICATION_PROVIDER_DESC"
+			label="COM_TJNOTIFICATIONS_WEB_NOTIFICATION_PROVIDER">
+			<option value="easysocial">COM_TJNOTIFICATIONS_WEB_NOTIFICATION_PROVIDER_EASYSOCIAL</option>
+		</field>
 
 	</fieldset>
 
