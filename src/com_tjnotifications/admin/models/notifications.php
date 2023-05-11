@@ -89,7 +89,7 @@ class TjnotificationsModelNotifications extends ListModel
 		$limitstart = $app->input->get('limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust it
-		$limitstart = ($limit !== 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limitstart = ((int)$limit !== 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);
