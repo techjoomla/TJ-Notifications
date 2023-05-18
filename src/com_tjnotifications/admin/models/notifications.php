@@ -85,11 +85,15 @@ class TjnotificationsModelNotifications extends ListModel
 		parent::populateState($ordering, $direction);
 
 		// Get pagination request variables
-		$limit = $app->getUserStateFromRequest($this->context . '.list.limit', 'limit', $app->get('list_limit'), 'int');
+		$limit = (isset($app->input->get('list')['limit'])) ? $app->input->get('list')['limit'] : $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'int');
+
 		$limitstart = $app->input->get('limitstart', 0, 'int');
 
-		// In case limit has been changed, adjust it
-		$limitstart = ($limit !== 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		if ($limitstart != 0)
+		{
+			// In case limit has been changed, adjust it
+			$limitstart = ($limit !== 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		}
 
 		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);
