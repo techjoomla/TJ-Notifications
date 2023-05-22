@@ -6,3 +6,6 @@ Joomla Developers are encouraged to use this to offer better control as well as 
 ## Technical Docs
 - [Integrating with extensions](https://github.com/techjoomla/TJ-Notifications/wiki/integrating-with-extensions)
 - [Database Design](https://github.com/techjoomla/TJ-Notifications/wiki/database-schema)
+
+## Admin Video
+[notifications.webm](https://user-images.githubusercontent.com/673176/216540025-8d35b496-495b-43dc-bfea-8fbc646fd911.webm)
