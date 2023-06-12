@@ -426,9 +426,11 @@ class TjnotificationsModelNotification extends AdminModel
 			// Function call to delete template configs
 			$this->deleteBackendConfigs($backendConfigIdsToBeDeleted);
 
+			$nullDate = Factory::getDbo()->getNullDate();
 			// 2.3 Common data for saving
-			$createdOn = !empty($data['created_on']) ? $data['created_on'] : '';
-			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : '';
+			$createdOn = !empty($data['created_on']) ? $data['created_on'] : $nullDate;
+			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : $nullDate;
+
 
 			// 2.4 try saving all backend specific configs
 			// This has repeatable data eg: $data['email']['emailfields'] or $data['sms']['smsfields']
