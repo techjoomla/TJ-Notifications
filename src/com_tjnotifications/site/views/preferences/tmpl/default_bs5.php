@@ -20,6 +20,8 @@ $language->load('com_tjnotification', JPATH_SITE, 'en-GB', true);
 $language->load('com_tjnotification', JPATH_SITE, null, true);
 
 HTMLHelper::_('script', '/jquery.min.js');
+HTMLHelper::_('script','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js');
+
 Factory::getDocument()->addScriptDeclaration('
 	const tjnBaseurl = "' . Uri::root() . '";
 	jQuery.noConflict();
@@ -119,11 +121,11 @@ Factory::getDocument()->addScriptDeclaration('
 	</div>
 
 	<div id="display_info"></div>
-	<ul class="nav nav-pills" id="myTab" role="tablist">
+	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<?php if (!empty($this->clients)) : ?>
 		<?php foreach ($this->clients as $i => $menu) :?>
 		<li class="nav-item" role="presentation">
-			<button type="button" id="<?php echo($menu->client) . '-tab'; ?>" role="tab" data-bs-target="#<?php echo($menu->client); ?>" class="nav-link <?php echo ($i == 0) ? ' active ' : ''?>">
+			<button type="button" id="<?php echo($menu->client) . '-tab'; ?>" role="tab" data-bs-target="#<?php echo($menu->client); ?>" data-bs-toggle="tab" class="nav-link <?php echo ($i == 0) ? ' active ' : ''?>">
 				<?php echo str_replace("com_","",$menu->client); ?>
 			</button>
 		</li>
@@ -133,7 +135,7 @@ Factory::getDocument()->addScriptDeclaration('
 
 	<div class="tab-content">
 		<?php foreach ($this->clients as $i => $menu) :?>
-		<div class="tab-pane fade <?php echo ($i == 0) ? ' active ' : ''?>" id="<?php echo($menu->client); ?>">
+		<div role="tabpanel" class="tab-pane fade <?php echo ($i == 0) ? ' active show' : ''?>" id="<?php echo($menu->client);?>">
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
