@@ -50,18 +50,13 @@ class TJNotificationsViewPreferences extends \Joomla\CMS\MVC\View\HtmlView
 
 			$this->preferences = $this->get('States');
 			$model = ListModel::getInstance('Providers', 'TJNotificationsModel');
-
 			$this->providers	= $model->getProvider();
-
-			$model_preferences = ListModel::getInstance('Preferences', 'TJNotificationsModel');
+			$modelPreferences = ListModel::getInstance('Preferences', 'TJNotificationsModel');
 
 			for ($i = 0;$i < count($this->providers); $i++)
 			{
-				$this->adminPreferences[$this->providers[$i]->provider] = $model_preferences->adminPreferences($this->providers[$i]->provider);
-				// echo "<pre>";
-				// print_r($this->adminPreferences);
+				$this->adminPreferences[$this->providers[$i]->provider] = $modelPreferences->adminPreferences($this->providers[$i]->provider);
 			}
-
 			parent::display($tpl);
 		}
 		else

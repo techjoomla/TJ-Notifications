@@ -21,7 +21,6 @@ $language->load('com_tjnotification', JPATH_SITE, null, true);
 
 HTMLHelper::_('script', '/jquery.min.js');
 HTMLHelper::_('script','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js');
-
 Factory::getDocument()->addScriptDeclaration('
 	const tjnBaseurl = "' . Uri::root() . '";
 	jQuery.noConflict();
