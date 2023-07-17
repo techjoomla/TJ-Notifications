@@ -18,7 +18,7 @@ use \Joomla\CMS\HTML\HTMLHelper;
 $language = Factory::getLanguage();
 $language->load('com_tjnotification', JPATH_SITE, 'en-GB', true);
 $language->load('com_tjnotification', JPATH_SITE, null, true);
-
+HTMLHelper::_('stylesheet','media/com_tjnotifications/css/tjnotifcations.css');
 HTMLHelper::_('script', '/jquery.min.js');
 HTMLHelper::_('script','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js');
 Factory::getDocument()->addScriptDeclaration('
@@ -168,11 +168,12 @@ Factory::getDocument()->addScriptDeclaration('
 									<?php if (empty($this->preferences)) :  ?>
 
 									<div class="control">
-										<fieldset class="btn-group btn-group-yesno radio pull-left">
-											<input type="radio" id="<?php echo $value.$i; ?>" name="prefer" value="1" onclick="removePreferance('<?php echo $value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
-											<input type="radio" id="<?php echo $key.$i; ?>" name="prefer1" value="0" onclick="addPreferance('<?php echo $value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
-											<label class="btn-success" for="<?php echo $value.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
-											<label class="btn" for="<?php echo $key.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
+										<fieldset class="btn-group radio-btns btn-group-yesno radio pull-left">
+										 <input type="radio" id="<?php echo $key.$i; ?>" name="prefer1" value="0" onclick="addPreferance('<?php echo $value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
+											<label class="btn btn-success" for="<?php echo $value.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
+
+											<input type="radio" id="<?php echo $value.$i; ?>" name="prefer1" value="1" onclick="removePreferance('<?php echo $value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
+											<label class="btn btn-danger" for="<?php echo $key.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
 										</fieldset>
 									</div>
 
@@ -184,11 +185,12 @@ Factory::getDocument()->addScriptDeclaration('
 									<?php if ($prefer->client == $menu->client && $prefer->key == $value && $prefer->provider == $head->provider) : ?>
 									<?php $count++; ?>
 									<div class="control">
-										<fieldset class="btn-group btn-group-yesno radio pull-left">
-											<input type="radio" id="<?php echo $menu->client.$value.$i; ?>" name="prefer" value="1" onclick="removePreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
-											<input type="radio" id="<?php echo $menu->client.$key.$i; ?>" name="prefer1" value="0" onclick="addPreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
-											<label class="btn" for="<?php echo $menu->client.$value.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
-											<label class="btn-danger" for="<?php echo $menu->client.$key.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
+										<fieldset class="btn-group radio-btns btn-group-yesno radio pull-left">
+										<input type="radio" id="<?php echo $menu->client.$key.$i; ?>" name="prefer2" value="0" onclick="addPreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
+											<label class="btn btn-success" for="<?php echo $menu->client.$value.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
+
+											<input type="radio" id="<?php echo $menu->client.$value.$i; ?>" name="prefer2" value="1" onclick="removePreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
+											<label class="btn btn-danger" for="<?php echo $menu->client.$key.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
 										</fieldset>
 									</div>
 									<?php endif;?>
@@ -196,11 +198,13 @@ Factory::getDocument()->addScriptDeclaration('
 
 									<?php if ($count==0): ?>
 									<div class="control">
-										<fieldset class="btn-group btn-group-yesno radio pull-left">
-											<input type="radio" id="<?php echo $menu->client.$value.$i; ?>" name="prefer" value="1" onclick="removePreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
-											<input type="radio" id="<?php echo $menu->client.$key.$i; ?>" name="prefer1" value="0" onclick="addPreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
-											<label class="btn-success" for="<?php echo $menu->client.$value.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
-											<label class="btn" for="<?php echo $menu->client.$key.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
+										<fieldset class="btn-group radio-btns btn-group-yesno radio pull-left">
+										<input type="radio" id="<?php echo $menu->client.$key.$i; ?>" name="prefer3" value="0" onclick="addPreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" />
+											<label class="btn btn-success" for="<?php echo $menu->client.$value.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_ENABLE'); ?></label>
+											<input type="radio" id="<?php echo $menu->client.$value.$i; ?>" name="prefer3" value="1" onclick="removePreferance('<?php echo $menu->client.$value.$i; ?>','<?php echo($menu->client); ?>','<?php echo($head->provider); ?>','<?php echo $value; ?>')" checked="checked" />
+											<label class="btn btn-danger" for="<?php echo $menu->client.$key.$i; ?>"><?php echo Text::_('COM_TJNOTIFICATION_VIEWS_PREFERENCES_FIELD_DISABLE'); ?></label>
+										
+											
 										</fieldset>
 									</div>
 									<?php endif; ?>
