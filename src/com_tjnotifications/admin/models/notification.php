@@ -427,8 +427,9 @@ class TjnotificationsModelNotification extends AdminModel
 			$this->deleteBackendConfigs($backendConfigIdsToBeDeleted);
 
 			// 2.3 Common data for saving
-			$createdOn = !empty($data['created_on']) ? $data['created_on'] : '';
-			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : '';
+			$null = Factory::getDbo()->getNullDate();
+			$createdOn = !empty($data['created_on']) ? $data['created_on'] : $null;
+			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : $null;
 
 			// 2.4 try saving all backend specific configs
 			// This has repeatable data eg: $data['email']['emailfields'] or $data['sms']['smsfields']

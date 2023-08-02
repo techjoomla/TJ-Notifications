@@ -4,3 +4,13 @@
 
 .table-wrap{table-layout: fixed; width: 100%; white-space: initial;}
 .wrap{word-wrap: break-word; white-space: initial; overflow: hidden;}
+
+.radio-btns>.btn:not(:last-child):not(.dropdown-toggle) {
+    margin-left: 5px!important;
+}
+.radio-btns>:not(.btn-check:first-child)+.btn {
+    margin-left: 5px!important;
+}
+.radio-btns>input {
+ margin-left: 10px;
+}
