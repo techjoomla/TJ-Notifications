@@ -138,7 +138,7 @@ Factory::getDocument()->addScriptDeclaration('
 
 	<div class="tab-content">
 		<?php foreach ($this->clients as $i => $menu) :?>
-		<div role="tabpanel" class="tab-pane fade <?php echo ($i == 0) ? ' active show' : ''?>" id="<?php echo($menu->client);?>">
+		<div role="tabpanel" class="tab-pane fade <?php echo ($i == 0) ? ' active show' : ''?>" id="<?php echo($menu->client); ?>">
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
