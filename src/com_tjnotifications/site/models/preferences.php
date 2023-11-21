@@ -249,9 +249,10 @@ class TJNotificationsModelPreferences extends Joomla\CMS\MVC\Model\AdminModel
 		$query    = $db->getQuery(true);
 		$provider = strtolower($provider);
 		$query->select('client,`key`');
-		$query->from($db->quoteName('#__tj_notification_templates'));
-		$query->where($db->quoteName($provider . '_status') . '=' . $db->quote('1'));
-
+		$query->from($db->quoteName('#__tj_notification_templates','tnt'));
+		$query->join('INNER', $db->qn('#__tj_notification_template_configs', 'tntc') . ' ON (' . $db->qn('tntc.template_id') . ' = ' . $db->qn('tnt.id') . ')');
+		$query->where($db->quoteName('tntc.backend') . '=' . $db->quote($provider));
+		$query->where($db->quoteName('tntc.state') . '=' . $db->quote('1'));
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
