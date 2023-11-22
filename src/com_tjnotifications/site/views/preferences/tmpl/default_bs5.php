@@ -123,7 +123,7 @@ Factory::getDocument()->addScriptDeclaration('
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<?php if (!empty($this->clients)) : ?>
 		<?php foreach ($this->clients as $i => $menu) :?>
-		<li class="nav-item" role="presentation">
+		<li class="nav-item" role="tab" role="presentation">
 			<button type="button" id="<?php echo($menu->client) . '-tab'; ?>" role="tab" data-bs-target="#<?php echo($menu->client); ?>" data-bs-toggle="tab" class="nav-link <?php echo ($i == 0) ? ' active ' : ''?>">
 				<?php echo str_replace("com_","",$menu->client); ?>
 			</button>
