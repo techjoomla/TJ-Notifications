@@ -555,7 +555,7 @@ class TjnotificationsModelNotification extends AdminModel
 				$item->$backend['state'] = $singleBackendRow->state;
 
 				// Get params for current backend from any backend config for current template ID
-				$json = (array) json_decode($singleBackendRow->params);
+				$json = (array) json_decode($singleBackendRow->params ? $singleBackendRow->params : '');
 
 				foreach ($json as $fieldKey => $fieldValue)
 				{
