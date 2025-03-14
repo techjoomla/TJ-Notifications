@@ -489,7 +489,8 @@ class TjnotificationsModelNotification extends AdminModel
 				$templateConfigTable->subject  = !empty($backendFieldValues['subject']) ? $backendFieldValues['subject']: '';
 				$templateConfigTable->body     = $backendFieldValues['body'];
 				$templateConfigTable->language = $backendFieldValues['language'];
-
+				$templateConfigTable->is_override = 0;
+				
 				// Webhook stuff starts here
 				// Add URLs for webhook
 				$templateConfigTable->webhook_url  = !empty($backendFieldValues['webhook_url']) ? json_encode($backendFieldValues['webhook_url']): '';
