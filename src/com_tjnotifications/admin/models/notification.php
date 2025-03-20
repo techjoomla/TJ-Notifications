@@ -349,9 +349,10 @@ class TjnotificationsModelNotification extends AdminModel
 		}
 		else
 		{
+			$db    = Factory::getDbo();
 			// IMPORTANT to set new id in state, it is fetched in controller later
 			// Get current Template id
-			$templateId = (int) $this->getState($this->getName() . '.id');
+			$templateId = $db->insertid();
 			$this->setState('com_tjnotifications.edit.notification.id', $templateId);
 			$this->setState('com_tjnotifications.edit.notification.new', $isNew);
 		}
@@ -489,7 +490,8 @@ class TjnotificationsModelNotification extends AdminModel
 				$templateConfigTable->subject  = !empty($backendFieldValues['subject']) ? $backendFieldValues['subject']: '';
 				$templateConfigTable->body     = $backendFieldValues['body'];
 				$templateConfigTable->language = $backendFieldValues['language'];
-
+				$templateConfigTable->is_override = 0;
+				
 				// Webhook stuff starts here
 				// Add URLs for webhook
 				$templateConfigTable->webhook_url  = !empty($backendFieldValues['webhook_url']) ? json_encode($backendFieldValues['webhook_url']): '';
@@ -713,6 +715,7 @@ class TjnotificationsModelNotification extends AdminModel
 						$templateConfigTable->created_on  = Factory::getDate('now')->toSQL();
 						$templateConfigTable->updated_on  = '';
 						$templateConfigTable->is_override = 0;
+						$templateConfigTable->params = json_encode([]);
 						$templateConfigTable->save($templateConfigTable);
 					}
 				}
