@@ -131,7 +131,13 @@ class Com_TjnotificationsInstallerScript
 		$this->addMissingColumns();
 	}
 
-
+	/**
+	 * method to add missing columns
+	 *
+	 * @param   none
+	 *
+	 * @return void
+	 */
 	private function addMissingColumns()
 	{
 		$db = Factory::getDbo();
@@ -151,6 +157,13 @@ class Com_TjnotificationsInstallerScript
 		}
 	}
 
+	/**
+	 * method to check is column exists
+	 *
+	 * @param   none
+	 *
+	 * @return void
+	 */
 	private function getTableColumns($table)
 	{
 		$db = Factory::getDbo();
