@@ -128,6 +128,33 @@ class Com_TjnotificationsInstallerScript
 		$this->installSqlFiles($parent);
 		$this->fix_db_on_update();
 		$this->fixMenuLinks();
+		$this->addMissingColumns();
+	}
+
+	/**
+	 * method to add missing columns
+	 *
+	 * @param   none
+	 *
+	 * @return void
+	 */
+	private function addMissingColumns()
+	{
+		$db = Factory::getDbo();
+		$columns = $db->getTableColumns('#__tj_notification_template_configs');
+		if (!array_key_exists('webhook_url', $columns)) {
+			$db->setQuery("ALTER TABLE `#__tj_notification_template_configs` ADD COLUMN `webhook_url` text DEFAULT NULL AFTER `body`;");
+			$db->execute();
+		}
+		if (!array_key_exists('use_global_webhook_url', $columns)) {
+			$db->setQuery("ALTER TABLE `#__tj_notification_template_configs` ADD COLUMN `use_global_webhook_url` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Use Global Config Webhook URLs' AFTER `webhook_url`;");
+			$db->execute();
+		}
+		$columns = $db->getTableColumns('#__tj_notification_logs');
+		if (!array_key_exists('webhook_url', $columns)) {
+			$db->setQuery("ALTER TABLE `#__tj_notification_logs` ADD COLUMN `webhook_url` TEXT NULL DEFAULT NULL AFTER `body`;");
+			$db->execute();
+		}
 	}
 
 	/**
