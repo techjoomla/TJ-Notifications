@@ -488,7 +488,7 @@ class TjnotificationsModelNotification extends AdminModel
 				}
 				
 				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
-				$isExistingRecord = $templateConfigTable->load(array('template_id' => $templateId, 'backend' => $backendName));
+				$isExistingRecord = $templateConfigTable->load(array('template_id' => $templateId, 'backend' => $backend));
 
 				// Non-repeat data
 				$templateConfigTable->template_id = $templateId;
