@@ -10,7 +10,6 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
-			required="true"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -24,7 +23,6 @@
 			cols="150"
 			filter="JComponentHelper::filterText"
 			class="validate-json"
-			required="true"
 		/>
 	</fieldset>
 </form>
