@@ -10,7 +10,6 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
-			required="true"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -20,7 +19,6 @@
 			type="textarea"
 			label="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_LABEL"
 			description="COM_TJNOTIFICATIONS_FIELD_EMAIL_SUBJECT_DESC"
-			required="true"
 			/>
 
 		<field
@@ -31,7 +29,6 @@
 			buttons="true"
 			filter="JComponentHelper::filterText"
 			height="150px"
-			required="true"
 		/>
 	</fieldset>
 </form>
