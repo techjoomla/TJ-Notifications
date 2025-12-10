@@ -85,11 +85,11 @@ class TjnotificationsModelNotifications extends ListModel
 		parent::populateState($ordering, $direction);
 
 		// Get pagination request variables
-		$limit = $app->getUserStateFromRequest($this->context . '.list.limit', 'limit', $app->get('list_limit'), 'int');
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'int');
 		$limitstart = $app->input->get('limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust it
-		$limitstart = ((int)$limit !== 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limitstart = ($limit !== 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);
@@ -126,7 +126,7 @@ class TjnotificationsModelNotifications extends ListModel
 		if (!empty($search))
 		{
 			$like = $db->quote('%' . $search . '%');
-			$query->where($db->quoteName('client') . ' LIKE ' . $like . ' OR ' . $db->quoteName('key') . ' LIKE ' . $like . ' OR ' . $db->quoteName('title') . ' LIKE ' . $like);
+			$query->where($db->quoteName('client') . ' LIKE ' . $like . ' OR ' . $db->quoteName('key') . ' LIKE ' . $like);
 		}
 
 		if ($extension)
@@ -273,7 +273,7 @@ class TjnotificationsModelNotifications extends ListModel
 	 *
 	 * @since    1.6
 	 */
-	public function getTemplate($client, $key, $language = '*', $backend = 'email')
+	public function getTemplate($client, $key, $language, $backend = 'email')
 	{
 		$object = clone $this;
 
@@ -323,7 +323,7 @@ class TjnotificationsModelNotifications extends ListModel
 				$db->quoteName(
 					array(
 						't.id', 't.client', 't.key', 't.title', 't.replacement_tags',
-						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id'
+						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id', 'ntc.webhook_url', 'ntc.use_global_webhook_url'
 					)
 				)
 			)
@@ -342,7 +342,7 @@ class TjnotificationsModelNotifications extends ListModel
 				$db->quoteName(
 					array(
 						't.id', 't.client', 't.key', 't.title', 't.replacement_tags',
-						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id'
+						'ntc.backend', 'ntc.language', 'ntc.subject', 'ntc.body', 'ntc.params', 'ntc.state', 'ntc.provider_template_id', 'ntc.webhook_url', 'ntc.use_global_webhook_url'
 					)
 				)
 			)

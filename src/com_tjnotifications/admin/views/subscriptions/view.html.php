@@ -26,7 +26,7 @@ use Joomla\CMS\MVC\View\HtmlView;
  */
 class TjnotificationsViewSubscriptions extends HtmlView
 {
-	public $activeFilters = [];
+	protected $activeFilters;
 
 	protected $extension;
 
@@ -40,7 +40,7 @@ class TjnotificationsViewSubscriptions extends HtmlView
 
 	protected $state;
 
-	protected $sidebar;
+	public $sidebar;
 
 	protected $user;
 
@@ -75,8 +75,25 @@ class TjnotificationsViewSubscriptions extends HtmlView
 
 		$this->addToolbar();
 
-		$this->sidebar = JHtmlSidebar::render();
+		// Joomla 6 compatible sidebar rendering
+		$this->sidebar = $this->renderSidebar();
+		
 		parent::display($tpl);
+	}
+
+	/**
+	 * Render the sidebar for Joomla 6
+	 *
+	 * @return string  The rendered sidebar HTML
+	 *
+	 * @since  2.0.0
+	 */
+	protected function renderSidebar()
+	{
+		// Joomla 4+ doesn't use sidebars in the same way as Joomla 3
+		// The addSubmenu() method handles submenu registration
+		// Return empty string as sidebar is handled by Joomla core
+		return '';
 	}
 
 	/**
@@ -91,7 +108,8 @@ class TjnotificationsViewSubscriptions extends HtmlView
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_tjnotifications', '', 0);
 
-		JToolBarHelper::title(Text::_('COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PAGE_TITLE'), 'list.png');
+		// Updated for Joomla 6 - removed .png extension from icon
+		ToolbarHelper::title(Text::_('COM_TJNOTIFICATIONS_SUBSCRIPTIONS_PAGE_TITLE'), 'list');
 
 		// Check if the form exists before showing the add/edit buttons
 		$formPath = JPATH_COMPONENT_ADMINISTRATOR . '/views/subscription';
@@ -100,17 +118,19 @@ class TjnotificationsViewSubscriptions extends HtmlView
 		{
 			if ($canDo->get('core.create'))
 			{
-				JToolBarHelper::addNew('subscription.add', 'JTOOLBAR_NEW');
+				// Updated for Joomla 6 - removed second parameter
+				ToolbarHelper::addNew('subscription.add');
 
 				/*if (isset($this->items[0]))
 				{
-					ToolbarHelper::custom('subscription.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+					ToolbarHelper::custom('subscription.duplicate', 'copy', '', 'TOOLBAR_DUPLICATE', true);
 				}*/
 			}
 
 			if ($canDo->get('core.edit') && isset($this->items[0]))
 			{
-				JToolBarHelper::editList('subscription.edit', 'JTOOLBAR_EDIT');
+				// Updated for Joomla 6 - removed second parameter
+				ToolbarHelper::editList('subscription.edit');
 			}
 		}
 
@@ -118,25 +138,27 @@ class TjnotificationsViewSubscriptions extends HtmlView
 		{
 			if (isset($this->items[0]->state))
 			{
-				JToolBarHelper::divider();
-				JToolBarHelper::custom('subscriptions.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
-				JToolBarHelper::custom('subscriptions.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+				ToolbarHelper::divider();
+				// Updated for Joomla 6 - removed icon parameters
+				ToolbarHelper::publish('subscriptions.publish', 'JTOOLBAR_PUBLISH', true);
+				ToolbarHelper::unpublish('subscriptions.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 			elseif (isset($this->items[0]))
 			{
 				// If this component does not use state then show a direct delete button as we can not trash
-				JToolBarHelper::deleteList('', 'subscriptions.delete', 'JTOOLBAR_DELETE');
+				ToolbarHelper::deleteList('', 'subscriptions.delete', 'JTOOLBAR_DELETE');
 			}
 
 			/*if (isset($this->items[0]->state))
 			{
-				JToolBarHelper::divider();
-				JToolBarHelper::archiveList('subscriptions.archive', 'JTOOLBAR_ARCHIVE');
+				ToolbarHelper::divider();
+				ToolbarHelper::archiveList('subscriptions.archive');
 			}*/
 
 			if (isset($this->items[0]->checked_out))
 			{
-				JToolBarHelper::custom('subscriptions.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+				// Updated for Joomla 6 - removed icon parameters
+				ToolbarHelper::checkin('subscriptions.checkin', 'JTOOLBAR_CHECKIN', true);
 			}
 		}
 
@@ -145,23 +167,23 @@ class TjnotificationsViewSubscriptions extends HtmlView
 		{
 			if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 			{
-				JToolBarHelper::deleteList('', 'subscriptions.delete', 'JTOOLBAR_EMPTY_TRASH');
-				JToolBarHelper::divider();
+				ToolbarHelper::deleteList('', 'subscriptions.delete', 'JTOOLBAR_EMPTY_TRASH');
+				ToolbarHelper::divider();
 			}
 			elseif ($canDo->get('core.edit.state'))
 			{
-				JToolBarHelper::trash('subscriptions.trash', 'JTOOLBAR_TRASH');
-				JToolBarHelper::divider();
+				ToolbarHelper::trash('subscriptions.trash');
+				ToolbarHelper::divider();
 			}
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_tjnotifications');
+			ToolbarHelper::preferences('com_tjnotifications');
 		}
 
-		// Set sidebar action - New in 3.0
-		JHtmlSidebar::setAction('index.php?option=com_tjnotifications&view=subscriptions');
+		// Note: Sidebar action setting removed as HTMLHelperSidebar is deprecated in Joomla 6
+		// If you need to set action for filters, handle it in the form XML or template
 	}
 
 	/**

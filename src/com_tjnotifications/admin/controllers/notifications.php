@@ -53,7 +53,7 @@ class TjnotificationsControllerNotifications extends AdminController
 	public function delete()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or Factory::getApplication()->close();
 
 		$mainframe = Factory::getApplication();
 		$input     = $mainframe->input;

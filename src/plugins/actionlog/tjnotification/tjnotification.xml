@@ -2,12 +2,21 @@
 <extension version="3.9" type="plugin" group="actionlog" method="upgrade">
 	<name>plg_actionlog_tjnotification</name>
 	<author>Techjoomla</author>
+<<<<<<< HEAD
 	<creationDate>22nd Nov 2023</creationDate>
 	<copyright>Copyright (C) 2016 - 2023 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>extensions@techjoomla.com</authorEmail>
 	<authorUrl>https://techjoomla.com</authorUrl>
 	<version>3.0.4</version>
+=======
+	<creationDate>14th Mar 2025</creationDate>
+	<copyright>Copyright (C) 2016 - 2025 Techjoomla. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>extensions@techjoomla.com</authorEmail>
+	<authorUrl>https://techjoomla.com</authorUrl>
+	<version>3.1.0</version>
+>>>>>>> 1ebd38de5856a59d1b21052462e3996364664b29
 	<description>PLG_ACTIONLOG_TJNOTIFICATION_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="tjnotification">tjnotification.php</filename>

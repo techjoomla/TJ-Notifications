@@ -22,7 +22,7 @@
 			description="COM_TJNOTIFICATIONS_FIELD_WHATSAPP_BODY_DESC"
 			rows="10"
 			cols="150"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			required="true"
 		/>
 	</fieldset>

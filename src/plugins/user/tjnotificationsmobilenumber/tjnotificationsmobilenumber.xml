@@ -5,10 +5,17 @@
 	<author>Techjoomla</author>
 	<authorEmail>extensions@techjoomla.com</authorEmail>
 	<authorUrl>https://techjoomla.com</authorUrl>
+<<<<<<< HEAD
 	<creationDate>22nd Nov 2023</creationDate>
 	<copyright>Copyright (C) 2016 - 2023 Techjoomla. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>3.0.4</version>
+=======
+	<creationDate>14th Mar 2025</creationDate>
+	<copyright>Copyright (C) 2016 - 2025 Techjoomla. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>3.1.0</version>
+>>>>>>> 1ebd38de5856a59d1b21052462e3996364664b29
 
 	<files>
 		<filename plugin="tjnotificationsmobilenumber">tjnotificationsmobilenumber.php</filename>

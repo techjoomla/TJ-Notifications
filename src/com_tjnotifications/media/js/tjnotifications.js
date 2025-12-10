@@ -81,7 +81,7 @@ var tjnotificationsAdmin = {
 			var remainingCharLimit = maxSmsLength - curentSmsLength;
 			var parentDiv = document.querySelector("#"+smsBodyId);
 			var smsSubformFieldNum = smsBodyId.split("jform_sms__smsfields__smsfields")["1"].split("__")["0"];
-			var remainingCharLimitMsg = (parseInt(remainingCharLimit) > 0 ) ? remainingCharLimit + " " + Joomla.JText._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_CHARACTER') : (remainingCharLimit * -1) + " " + Joomla.JText._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_EXCEEDED');
+			var remainingCharLimitMsg = (parseInt(remainingCharLimit) > 0 ) ? remainingCharLimit + " " + Joomla.Text._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_CHARACTER') : (remainingCharLimit * -1) + " " + Joomla.Text._('COM_TJNOTIFICATIONS_NOTIFICATION_SMS_REMAINING_EXCEEDED');
 
 			if(parentDiv.parentNode.parentNode.parentNode.querySelector("p") !== null)
 			{

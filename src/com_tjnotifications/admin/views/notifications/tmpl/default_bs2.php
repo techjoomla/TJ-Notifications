@@ -17,7 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.multiselect'); // only for list tables
+
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -43,18 +44,9 @@ $style     = "
 }";
 
 $doc->addStyleDeclaration($style);
-
-if ($this->displayExtension)
-{
-	$link = 'index.php?option=com_tjnotifications&view=notifications&extension=' . $this->displayExtension;
-}
-else
-{
-	$link = 'index.php?option=com_tjnotifications&view=notifications';
-}
 ?>
 
-<form action="<?php echo $link; ?>" method="post" id="adminForm" name="adminForm">
+<form action="index.php?option=com_tjnotifications&view=notifications" method="post" id="adminForm" name="adminForm">
 	<?php
 	if (!empty($this->sidebar))
 	{

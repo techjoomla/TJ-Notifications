@@ -29,7 +29,7 @@
 			label="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_LABEL"
 			description="COM_TJNOTIFICATIONS_FIELD_EMAIL_BODY_DESC"
 			buttons="true"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			height="150px"
 			required="true"
 		/>

@@ -14,20 +14,19 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Custom field to list all client of tjnotification
  *
  * @since  2.0.1
  */
-class JFormFieldClients extends JFormFieldList
+class JFormFieldClients extends ListField
 {
 	/**
 	 * Method to get a list of options for a list input.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array		An array of HTMLHelper options.
 	 *
 	 * @since   2.0.1
 	 */
@@ -38,46 +37,29 @@ class JFormFieldClients extends JFormFieldList
 
 		$options[] = HTMLHelper::_('select.option', '', Text::_('COM_TJNOTIFICATIONS_FIELD_CLIENT_OPTION'));
 
-		$extension = Factory::getApplication()->input->get('extension', '', 'word');
-		if(!$extension)
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		$query->select('DISTINCT (`client`)');
+		$query->from('#__tj_notification_templates');
+		$db->setQuery($query);
+
+		$listobjects = $db->loadObjectList();
+
+		if (!empty($listobjects))
 		{
-			// Create a new query object.
-			$query = $db->getQuery(true);
-
-			$query->select('DISTINCT (`client`)');
-			$query->from('#__tj_notification_templates');
-			$db->setQuery($query);
-
-			$listobjects = $db->loadObjectList();
-
-			if (!empty($listobjects))
+			foreach ($listobjects as $obj)
 			{
-				foreach ($listobjects as $obj)
+				$client = explode('_', $obj->client);
+
+				if (!empty($client[1]))
 				{
-					$client = explode('_', $obj->client);
-
-					if (!empty($client[1]))
-					{
-						$options[] = HTMLHelper::_('select.option', $obj->client, ucfirst($client[1]));
-					}
-					else
-					{
-						$options[] = HTMLHelper::_('select.option', $obj->client, ucfirst($client[0]));
-					}
+					$options[] = HTMLHelper::_('select.option', $obj->client, ucfirst($client[1]));
 				}
-			}
-		}
-		else
-		{
-			$client = explode('_', $extension);
-
-			if (!empty($client[1]))
-			{
-				$options[] = HTMLHelper::_('select.option', $extension, ucfirst($client[1]));
-			}
-			else
-			{
-				$options[] = HTMLHelper::_('select.option', $extension, ucfirst($client[0]));
+				else
+				{
+					$options[] = HTMLHelper::_('select.option', $obj->client, ucfirst($client[0]));
+				}
 			}
 		}
 
