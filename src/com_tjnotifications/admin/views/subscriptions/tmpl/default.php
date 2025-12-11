@@ -18,7 +18,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.multiselect'); // only for list tables
+
 HTMLHelper::_('bootstrap.tooltip');
 
 $userId    = $this->user->get('id');

@@ -18,7 +18,8 @@ use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.multiselect'); // only for list tables
+
 HTMLHelper::_('bootstrap.tooltip');
 
 $doc = Factory::getDocument();

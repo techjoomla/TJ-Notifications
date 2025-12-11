@@ -321,8 +321,7 @@ class TjnotificationsModelNotification extends AdminModel
 	 */
 	public function save($data)
 	{
-		// Determine if this is a new record or edit
-		$isNew = empty($data['id']) || $data['id'] == 0;
+		$isNew = true;
 
 		// 1 - save template first
 		if (!empty($data))
@@ -346,28 +345,30 @@ class TjnotificationsModelNotification extends AdminModel
 
 		if (!parent::save($data))
 		{
-			// Log the error for debugging
-			Factory::getApplication()->getLogger()->error('TJNotifications: Failed to save template - ' . $this->getError());
 			return false;
 		}
 		else
 		{
-			$db = Factory::getDbo();
-			
-			// Get the template ID - use insertid() for new records, or the existing ID for edits
-			if ($isNew) {
-				$templateId = $db->insertid();
-			} else {
+			$db    = Factory::getDbo();
+			// IMPORTANT to set new id in state, it is fetched in controller later
+			// Get current Template id - Fix for existing records
+			if (!empty($data['id']))
+			{
 				$templateId = $data['id'];
+				$isNew = false;
+			}
+			else
+			{
+				$templateId = $db->insertid();
 			}
 			
-			// IMPORTANT to set new id in state, it is fetched in controller later
 			$this->setState('com_tjnotifications.edit.notification.id', $templateId);
 			$this->setState('com_tjnotifications.edit.notification.new', $isNew);
 		}
 
 		if (empty($templateId))
 		{
+			$this->setError(Text::_('COM_TJNOTIFICATIONS_ERROR_TEMPLATE_ID_MISSING'));
 			return false;
 		}
 
@@ -386,7 +387,13 @@ class TjnotificationsModelNotification extends AdminModel
 		{
 			// 2.1 Check if current backend exists in posted data
 			// If not $data['email'] or $data['sms']
-			if (empty($data[$backend]))
+			if (empty($data[$backend]) || !isset($data[$backend][$backend . 'fields']))
+			{
+				continue;
+			}
+			
+			// Validate backend data structure
+			if (!is_array($data[$backend][$backend . 'fields']))
 			{
 				continue;
 			}
@@ -406,57 +413,25 @@ class TjnotificationsModelNotification extends AdminModel
 			// 2.2 Find existing template config entries to be deleted (i.e. language specific templates removed by user)
 			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
 			{
-				// Backend-specific validation - only validate when backend is enabled
-				if ($data[$backend]['state'])
+				// Webhook stuff starts here
+				if ($backend == 'webhook' && $data[$backend]['state'])
 				{
-					// Common validation for all backends
-					if (empty($backendFieldValues['language']))
+					// If not using global webhook URLs & custom webhooks URLs are also empty
+					if (empty($backendFieldValues['use_global_webhook_url']) && empty($backendFieldValues['webhook_url']))
 					{
-						$errorKey = 'COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_' . strtoupper($backend) . '_LANGUAGE_REQUIRED';
-						$this->setError(Text::_($errorKey));
+						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_CUSTOM_WEBHOOK_URLS'));
 
 						return false;
 					}
-
-					if (empty($backendFieldValues['body']))
+					// If using global webhook URL & the global URLs are empty
+					elseif ($backendFieldValues['use_global_webhook_url'] && empty($webhookUrls[0]))
 					{
-						$errorKey = 'COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_' . strtoupper($backend) . '_BODY_REQUIRED';
-						$this->setError(Text::_($errorKey));
+						$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_GLOBAL_WEBHOOK_URLS'));
 
 						return false;
-					}
-
-					// Email-specific validation
-					if ($backend == 'email')
-					{
-						if (empty($backendFieldValues['subject']))
-						{
-							$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_EMAIL_SUBJECT_REQUIRED'));
-
-							return false;
-						}
-					}
-
-					// Webhook-specific validation
-					if ($backend == 'webhook')
-					{
-						// If not using global webhook URLs & custom webhooks URLs are also empty
-						if (empty($backendFieldValues['use_global_webhook_url']) && empty($backendFieldValues['webhook_url']))
-						{
-							$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_CUSTOM_WEBHOOK_URLS'));
-
-							return false;
-						}
-						// If using global webhook URL & the global URLs are empty
-						elseif (!empty($backendFieldValues['use_global_webhook_url']) && empty($webhookUrls[0]))
-						{
-							$this->setError(Text::_('COM_TJNOTIFICATIONS_TEMPLATE_ERR_MSG_GLOBAL_WEBHOOK_URLS'));
-
-							return false;
-						}
 					}
 				}
-				// Backend validation ends here
+				// Webhook stuff ends here
 
 				// Iterate through each lang. specific config entry
 				foreach ($existingBackendConfigs as $existingBackendConfig)
@@ -495,22 +470,44 @@ class TjnotificationsModelNotification extends AdminModel
 			$this->deleteBackendConfigs($backendConfigIdsToBeDeleted);
 
 			// 2.3 Common data for saving
-			$createdOn = !empty($data['created_on']) ? $data['created_on'] : '';
-			$updatedOn = !empty($data['updated_on']) ? $data['updated_on'] : '';
+			$date = Factory::getDate();
+			$currentDateTime = $date->toSql(true);
+			
+			// Always use current datetime for backend configs to avoid empty string issues
+			$createdOn = $currentDateTime;
+			$updatedOn = $currentDateTime;
 
 			// 2.4 try saving all backend specific configs
 			// This has repeatable data eg: $data['email']['emailfields'] or $data['sms']['smsfields']
 			foreach ($data[$backend][$backend . 'fields'] as $backendName => $backendFieldValues)
 			{
+				// Validate backend field values
+				if (!is_array($backendFieldValues) || empty($backendFieldValues))
+				{
+					continue;
+				}
+				
 				$templateConfigTable = Table::getInstance('Template', 'TjnotificationTable', array('dbo', $db));
-				$templateConfigTable->load(array('template_id' => $templateId, 'backend' => $backendName));
+				$isExistingRecord = $templateConfigTable->load(array('template_id' => $templateId, 'backend' => $backend));
 
 				// Non-repeat data
 				$templateConfigTable->template_id = $templateId;
 				$templateConfigTable->backend     = $backend;
 				$templateConfigTable->state       = $data[$backend]['state'];
-				$templateConfigTable->created_on  = $createdOn;
-				$templateConfigTable->updated_on  = $updatedOn;
+				
+				// Set datetime fields with proper values
+				// For existing records, only update the updated_on field
+				if ($isExistingRecord && !empty($templateConfigTable->created_on))
+				{
+					$templateConfigTable->updated_on = $updatedOn;
+					// Keep existing created_on value
+				}
+				else
+				{
+					// For new records, set both created_on and updated_on
+					$templateConfigTable->created_on = $createdOn;
+					$templateConfigTable->updated_on = $updatedOn;
+				}
 
 				// Get params data
 				// State, emailfields / smsfields
@@ -546,14 +543,30 @@ class TjnotificationsModelNotification extends AdminModel
 				}
 
 				// Save backend in config table
-				if (empty($backendFieldValues['id']))
+				try
 				{
-					$templateConfigTable->save($templateConfigTable);
+					if (empty($backendFieldValues['id']))
+					{
+						if (!$templateConfigTable->save($templateConfigTable))
+						{
+							$this->setError(Text::sprintf('COM_TJNOTIFICATIONS_ERROR_SAVE_BACKEND_CONFIG', $backend, $templateConfigTable->getError()));
+							return false;
+						}
+					}
+					else
+					{
+						$templateConfigTable->id = $backendFieldValues['id'];
+						if (!$templateConfigTable->save($templateConfigTable))
+						{
+							$this->setError(Text::sprintf('COM_TJNOTIFICATIONS_ERROR_SAVE_BACKEND_CONFIG', $backend, $templateConfigTable->getError()));
+							return false;
+						}
+					}
 				}
-				else
+				catch (Exception $e)
 				{
-					$templateConfigTable->id = $backendFieldValues['id'];
-					$templateConfigTable->save($templateConfigTable);
+					$this->setError(Text::sprintf('COM_TJNOTIFICATIONS_ERROR_SAVE_BACKEND_CONFIG', $backend, $e->getMessage()));
+					return false;
 				}
 			}
 		}

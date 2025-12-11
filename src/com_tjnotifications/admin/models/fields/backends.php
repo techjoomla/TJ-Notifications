@@ -13,15 +13,14 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Supports an HTML select list of backends
  *
  * @since  2.0.0
  */
-class JFormFieldBackends extends JFormFieldList
+class JFormFieldBackends extends ListField
 {
 	/**
 	 * The form field type.
@@ -34,7 +33,7 @@ class JFormFieldBackends extends JFormFieldList
 	/**
 	 * Method to get a list of options for a list input.
 	 *
-	 * @return  array   An array of JHtml options.
+	 * @return  array   An array of HTMLHelper options.
 	 *
 	 * @since   2.0.0
 	 */
@@ -55,7 +54,7 @@ class JFormFieldBackends extends JFormFieldList
 	/**
 	 * Method to get a list of options for a list input externally and not from xml.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array		An array of HTMLHelper options.
 	 *
 	 * @since   2.1
 	 */

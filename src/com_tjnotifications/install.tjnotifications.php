@@ -11,13 +11,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Installer\Installer;
-use Joomla\Data\DataObject;
+use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Object\CMSObject;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Script file of TJNotification component
@@ -26,6 +27,21 @@ use Joomla\CMS\Table\Table;
  **/
 class Com_TjnotificationsInstallerScript
 {
+	/**
+	 * Database driver
+	 *
+	 * @var DatabaseInterface
+	 */
+	private $db;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->db = Factory::getContainer()->get(DatabaseInterface::class);
+	}
+
 	/** @var array The list of extra modules and plugins to install */
 	private $queue = array(
 		// Plugins => { (folder) => { (element) => (published) }* }*
@@ -71,11 +87,9 @@ class Com_TjnotificationsInstallerScript
 	*
 	* @return void
 	*/
-	public function uninstall($parent)
+	public function uninstall(InstallerAdapter $parent): void
 	{
-
-		$db              = Factory::getDBO();
-		$status          = new CMSObject;
+		$status          = new \stdClass;
 		$status->plugins = array();
 		$src             = $parent->getParent()->getPath('source');
 
@@ -99,7 +113,7 @@ class Com_TjnotificationsInstallerScript
 
 						if ($id)
 						{
-							$installer         = new Installer;
+							$installer         = new Installer();
 							$result            = $installer->uninstall('plugin', $id);
 							$status->plugins[] = array(
 								'name' => 'plg_' . $plugin,
@@ -112,7 +126,6 @@ class Com_TjnotificationsInstallerScript
 			}
 		}
 
-		return $status;
 	}
 
 	/**
@@ -138,22 +151,21 @@ class Com_TjnotificationsInstallerScript
 	 *
 	 * @return void
 	 */
-	private function addMissingColumns()
+	private function addMissingColumns(): void
 	{
-		$db = Factory::getDbo();
-		$columns = $db->getTableColumns('#__tj_notification_template_configs');
+		$columns = $this->db->getTableColumns('#__tj_notification_template_configs');
 		if (!array_key_exists('webhook_url', $columns)) {
-			$db->setQuery("ALTER TABLE `#__tj_notification_template_configs` ADD COLUMN `webhook_url` text DEFAULT NULL AFTER `body`;");
-			$db->execute();
+			$this->db->setQuery("ALTER TABLE `#__tj_notification_template_configs` ADD COLUMN `webhook_url` text DEFAULT NULL AFTER `body`;");
+			$this->db->execute();
 		}
 		if (!array_key_exists('use_global_webhook_url', $columns)) {
-			$db->setQuery("ALTER TABLE `#__tj_notification_template_configs` ADD COLUMN `use_global_webhook_url` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Use Global Config Webhook URLs' AFTER `webhook_url`;");
-			$db->execute();
+			$this->db->setQuery("ALTER TABLE `#__tj_notification_template_configs` ADD COLUMN `use_global_webhook_url` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Use Global Config Webhook URLs' AFTER `webhook_url`;");
+			$this->db->execute();
 		}
-		$columns = $db->getTableColumns('#__tj_notification_logs');
+		$columns = $this->db->getTableColumns('#__tj_notification_logs');
 		if (!array_key_exists('webhook_url', $columns)) {
-			$db->setQuery("ALTER TABLE `#__tj_notification_logs` ADD COLUMN `webhook_url` TEXT NULL DEFAULT NULL AFTER `body`;");
-			$db->execute();
+			$this->db->setQuery("ALTER TABLE `#__tj_notification_logs` ADD COLUMN `webhook_url` TEXT NULL DEFAULT NULL AFTER `body`;");
+			$this->db->execute();
 		}
 	}
 
@@ -180,8 +192,7 @@ class Com_TjnotificationsInstallerScript
 	public function postflight($type, $parent)
 	{
 		$src             = $parent->getParent()->getPath('source');
-		$db              = Factory::getDbo();
-		$status          = new CMSObject;
+		$status          = new \stdClass;
 		$status->plugins = array();
 
 		// Plugins installation
@@ -224,7 +235,7 @@ class Com_TjnotificationsInstallerScript
 						$db->setQuery($query);
 						$count = $db->loadResult();
 
-						$installer = new Installer;
+$installer = new Installer();
 						$result = $installer->install($path);
 
 						$status->plugins[] = array('name' => 'plg_' . $plugin, 'group' => $folder, 'result' => $result);
@@ -259,10 +270,8 @@ class Com_TjnotificationsInstallerScript
 	 *
 	 * @return  void
 	 */
-	public function installSqlFiles($parent)
+	public function installSqlFiles(InstallerAdapter $parent): bool
 	{
-		$db = Factory::getDbo();
-
 		// Obviously you may have to change the path and name if your installation SQL file
 		if (method_exists($parent, 'extension_root'))
 		{
@@ -278,7 +287,7 @@ class Com_TjnotificationsInstallerScript
 
 		if ($buffer !== false)
 		{
-			$queries = \JDatabaseDriver::splitSql($buffer);
+			$queries = $this->db->splitSql($buffer);
 
 			if (count($queries) != 0)
 			{
@@ -288,12 +297,19 @@ class Com_TjnotificationsInstallerScript
 
 					if (!empty($query))
 					{
-						$db->setQuery($query);
+						$this->db->setQuery($query);
 
-						if (!$db->execute())
+						try
 						{
-							JError::raiseWarning(1, Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
-
+							$this->db->execute();
+						}
+						catch (\RuntimeException $e)
+						{
+							Log::add(
+								Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()),
+								Log::WARNING,
+								'jerror'
+							);
 							return false;
 						}
 					}
@@ -301,11 +317,7 @@ class Com_TjnotificationsInstallerScript
 			}
 		}
 
-		$config = Factory::getConfig();
-		$configdb = $config->get('db');
-
-		// Get dbprefix
-		$dbprefix = $config->get('dbprefix');
+		return true;
 	}
 
 	/**

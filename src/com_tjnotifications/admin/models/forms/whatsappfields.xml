@@ -5,23 +5,25 @@
 			name="id"
 			type="hidden" />
 
-	<field
-		name="language"
-		type="contentlanguage"
-		label="JFIELD_LANGUAGE_LABEL"
-		description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
-		>
-		<option value="*">JALL</option>
-	</field>
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_TJNOTIFICATIONS_NOTIFICATION_LANGUAGE_DESC"
+			required="true"
+			>
+			<option value="*">JALL</option>
+		</field>
 
-	<field
-		name="body"
-		type="textarea"
-		label="COM_TJNOTIFICATIONS_FIELD_WHATSAPP_BODY_LABEL"
-		description="COM_TJNOTIFICATIONS_FIELD_WHATSAPP_BODY_DESC"
-		rows="10"
-		cols="150"
-		filter="JComponentHelper::filterText"
-	/>
+		<field
+			name="body"
+			type="textarea"
+			label="COM_TJNOTIFICATIONS_FIELD_WHATSAPP_BODY_LABEL"
+			description="COM_TJNOTIFICATIONS_FIELD_WHATSAPP_BODY_DESC"
+			rows="10"
+			cols="150"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+			required="true"
+		/>
 	</fieldset>
 </form>

@@ -17,7 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.multiselect'); // only for list tables
+
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

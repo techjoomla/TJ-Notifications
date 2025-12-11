@@ -156,7 +156,7 @@ class TjnotificationsModelSubscription extends AdminModel
 		{
 			$db = Factory::getDbo();
 			$db->setQuery('SELECT MAX(ordering) FROM #__tjnotifications_subscriptions');
-			$max             = $db->loadResult();
+			$max             = $db->loadColumn()[0] ?? null;
 			$table->ordering = $max + 1;
 		}
 	}

@@ -36,7 +36,7 @@ class TjnotificationsControllerNotification extends FormController
 	public function save($key = null, $urlVar = '')
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or Factory::getApplication()->close();
 
 		// Initialise variables.
 		$app   = Factory::getApplication();
@@ -407,7 +407,7 @@ class TjnotificationsControllerNotification extends FormController
 	public function add($key = null, $urlVar = null)
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or Factory::getApplication()->close();
 
 		$input     = Factory::getApplication()->input;
 		$extension = $input->get('extension', '', 'STRING');

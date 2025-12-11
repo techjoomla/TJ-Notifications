@@ -68,7 +68,7 @@ class TjnotificationsControllerSubscription extends FormController
 	public function save($key = null, $urlVar = '')
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or Factory::getApplication()->close();
 
 		// Initialise variables.
 		$app   = Factory::getApplication();

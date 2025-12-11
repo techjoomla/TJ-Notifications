@@ -17,7 +17,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
-JLoader::register('TjnotificationsHelper', JPATH_ADMINISTRATOR . '/components/com_tjnotifications/helpers/tjnotifications.php');
+$tjnotificationsHelperPath = JPATH_ADMINISTRATOR . '/components/com_tjnotifications/helpers/tjnotifications.php';
+if (file_exists($tjnotificationsHelperPath)) {
+	require_once $tjnotificationsHelperPath;
+}
 
 /**
  * View class for a list of notifications logs.
@@ -50,7 +53,7 @@ class TjnotificationsViewLogs extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			throw new \Exception(implode('<br />', $errors), 500);
 
 			return false;
 		}
@@ -59,7 +62,7 @@ class TjnotificationsViewLogs extends HtmlView
 
 		TjnotificationsHelper::addSubmenu('logs');
 		$this->addToolBar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = '';;
 
 		parent::display($tpl);
 	}
@@ -78,7 +81,7 @@ class TjnotificationsViewLogs extends HtmlView
 		if ($this->canDo->get('core.export'))
 		{
 			// Adding techjoomla library for csv Export
-			jimport('techjoomla.tjtoolbar.button.csvexport');
+			require_once JPATH_LIBRARIES . '/techjoomla/tjtoolbar/button/csvexport.php';
 
 			$bar = Toolbar::getInstance('toolbar');
 

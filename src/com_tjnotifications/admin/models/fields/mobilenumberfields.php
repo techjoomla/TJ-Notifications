@@ -26,7 +26,7 @@ FormHelper::loadFieldClass('groupedlist');
  * @since       2.0.1
  */
 
-class JFormFieldMobilenumberfields extends JFormFieldGroupedList
+class JFormFieldMobilenumberfields extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -54,7 +54,10 @@ class JFormFieldMobilenumberfields extends JFormFieldGroupedList
 	protected function getGroups()
 	{
 		// Load fields helper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		$fieldsHelperPath = JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php';
+		if (file_exists($fieldsHelperPath)) {
+			require_once $fieldsHelperPath;
+		}
 
 		// Get custom field names by users
 		$customFieldnames = FieldsHelper::getFields('com_users.user');

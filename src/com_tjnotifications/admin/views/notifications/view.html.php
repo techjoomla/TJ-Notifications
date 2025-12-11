@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -44,6 +45,8 @@ class TjnotificationsViewNotifications extends HtmlView
 
 	public $user;
 
+	public $sidebar;
+
 	/**
 	 * Display the view
 	 *
@@ -62,8 +65,7 @@ class TjnotificationsViewNotifications extends HtmlView
 		if (empty($this->user->authorise('core.viewlist', 'com_tjnotifications')))
 		{
 			$msg = Text::_('JERROR_ALERTNOAUTHOR');
-			JError::raiseError(403, $msg);
-			$this->app->redirect(Route::_('index.php?Itemid=0', false));
+			throw new \Exception($msg, 403);
 		}
 
 		// Get data from the model
@@ -78,15 +80,13 @@ class TjnotificationsViewNotifications extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return false;
+			throw new \Exception(implode('<br />', $errors), 500);
 		}
 
 		// Set the tool-bar and number of found items
-		$this->addToolBar();
+		$this->addToolbar();
 
-		$extension = Factory::getApplication()->input->getCmd('extension', '');
+		$extension = $this->app->input->getCmd('extension', '');
 
 		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_tjnotifications/models');
 		$model       = AdminModel::getInstance('Preferences', 'TJNotificationsModel');
@@ -101,11 +101,28 @@ class TjnotificationsViewNotifications extends HtmlView
 				TjnotificationsHelper::addSubmenu('notifications');
 			}
 
-			$this->_setToolBar();
-			$this->sidebar = JHtmlSidebar::render();
+			$this->_setToolbar();
+			
+			// Joomla 6 compatible sidebar rendering
+			$this->sidebar = $this->renderSidebar();
 		}
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Render the sidebar for Joomla 6
+	 *
+	 * @return string  The rendered sidebar HTML
+	 *
+	 * @since  2.0.0
+	 */
+	protected function renderSidebar()
+	{
+		// Joomla 4+ doesn't use sidebars in the same way as Joomla 3
+		// The addSubmenu() method handles submenu registration
+		// Return empty string as sidebar is handled by Joomla core
+		return '';
 	}
 
 	/**
@@ -115,7 +132,7 @@ class TjnotificationsViewNotifications extends HtmlView
 	 *
 	 * @since    0.0.1
 	 */
-	protected function addToolBar()
+	protected function addToolbar()
 	{
 		$title = Text::_('COM_TJNOTIFICATIONS');
 
@@ -139,7 +156,9 @@ class TjnotificationsViewNotifications extends HtmlView
 		if ($this->user->authorise('core.delete', 'com_tjnotifications'))
 		{
 			ToolbarHelper::deleteList(
-			Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DELETE_MESSAGE'), 'notifications.delete', Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DELETE')
+				Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DELETE_MESSAGE'), 
+				'notifications.delete', 
+				Text::_('COM_TJNOTIFICATIONS_VIEW_NOTIFICATIONS_DELETE')
 			);
 		}
 
@@ -156,7 +175,7 @@ class TjnotificationsViewNotifications extends HtmlView
 	 *
 	 * @since	1.8
 	 */
-	public function _setToolBar()
+	public function _setToolbar()
 	{
 		$component = $this->state->get('filter.component');
 		$section   = $this->state->get('filter.section');
@@ -166,6 +185,7 @@ class TjnotificationsViewNotifications extends HtmlView
 		{
 			return;
 		}
+		
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = Factory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true)
@@ -177,17 +197,20 @@ class TjnotificationsViewNotifications extends HtmlView
 			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
-		// Else if the component section string exits, let's use it
 		{
+			// Else if the component section string exits, let's use it
 			$title = Text::sprintf('COM_TJNOTIFICATIONS_NOTIFICATION_TITLE', $this->escape(Text::_($component_section_key)));
 		}
 		else
-		// Else use the base title
 		{
+			// Else use the base title
 			$title = Text::_('COM_TJNOTIFICATIONS_NOTIFICATION_BASE_TITLE');
 		}
 
 		// Prepare the toolbar.
-		ToolbarHelper::title($title, 'folder notifications ' . substr($component, 4) . ($section ? "-$section" : '') . '-notification templates');
+		ToolbarHelper::title(
+			$title, 
+			'folder notifications ' . substr($component, 4) . ($section ? "-$section" : '') . '-notification templates'
+		);
 	}
 }
