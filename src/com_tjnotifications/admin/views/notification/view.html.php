@@ -16,7 +16,10 @@ use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
-JLoader::import('preferences', JPATH_SITE . '/components/com_tjnotifications/models');
+$preferencesPath = JPATH_SITE . '/components/com_tjnotifications/models/preferences.php';
+if (file_exists($preferencesPath)) {
+	require_once $preferencesPath;
+}
 
 /**
  * new notification View
@@ -56,7 +59,7 @@ class TjnotificationsViewNotification extends HtmlView
 		if (empty($this->user->authorise('core.create', 'com_tjnotifications')) || empty($this->user->authorise('core.edit', 'com_tjnotifications')))
 		{
 			$msg = Text::_('JERROR_ALERTNOAUTHOR');
-			JError::raiseError(403, $msg);
+			throw new \Exception($msg, 403);
 			$this->app->redirect(Route::_('index.php?Itemid=0', false));
 		}
 
@@ -74,18 +77,18 @@ class TjnotificationsViewNotification extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			throw new \Exception(implode('<br />', $errors), 500);
 
 			return false;
 		}
 
-		$this->addToolBar();
+		$this->addToolbar();
 
 		$extension  = $this->app->input->getCmd('extension', '');
 
 		if ($extension)
 		{
-			$this->_setToolBar();
+			$this->_setToolbar();
 		}
 
 		parent::display($tpl);
@@ -98,7 +101,7 @@ class TjnotificationsViewNotification extends HtmlView
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolBar()
+	protected function addToolbar()
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
@@ -113,29 +116,29 @@ class TjnotificationsViewNotification extends HtmlView
 			$checkedOut = false;
 		}
 
-		JToolBarHelper::title(Text::_('COM_TJNOTIFICATIONS'), 'edit.png');
+		ToolbarHelper::title(Text::_('COM_TJNOTIFICATIONS'), 'edit.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut)
 		{
-			JToolBarHelper::apply('notification.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('notification.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::custom('notification.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			ToolbarHelper::apply('notification.apply', 'JTOOLBAR_APPLY');
+			ToolbarHelper::save('notification.save', 'JTOOLBAR_SAVE');
+			ToolbarHelper::custom('notification.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew)
 		{
-			JToolBarHelper::custom('notification.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			ToolbarHelper::custom('notification.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 		if (empty($this->item->id))
 		{
-			JToolBarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
+			ToolbarHelper::cancel('notification.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else
 		{
-			JToolBarHelper::cancel('notification.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('notification.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 
@@ -146,7 +149,7 @@ class TjnotificationsViewNotification extends HtmlView
 	 *
 	 * @since	1.8
 	 */
-	public function _setToolBar()
+	public function _setToolbar()
 	{
 		$component  = $this->state->get('filter.component');
 		$section    = $this->state->get('filter.section');

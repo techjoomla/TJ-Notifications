@@ -48,7 +48,7 @@ class TJNotificationsControllerPreferences extends \Joomla\CMS\MVC\Controller\Fo
 		$model = $this->getModel('Preferences', 'TJNotificationsModel');
 		$result = $model->save($data);
 		echo json_encode($result);
-		jexit();
+		Factory::getApplication()->close();
 	}
 
 	/**
@@ -76,6 +76,6 @@ class TJNotificationsControllerPreferences extends \Joomla\CMS\MVC\Controller\Fo
 		$model  = $this->getModel('Preferences', 'TJNotificationsModel');
 		$result = $model->deletePreference($data);
 		echo json_encode($result);
-		jexit();
+		Factory::getApplication()->close();
 	}
 }

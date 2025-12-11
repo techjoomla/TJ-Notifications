@@ -10,7 +10,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('techjoomla.view.csv');
+require_once JPATH_LIBRARIES . '/techjoomla/view/csv.php';
 
 /**
  * View class for a list of notifications logs.

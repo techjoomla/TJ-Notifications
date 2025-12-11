@@ -132,33 +132,33 @@ class TjnotificationsViewSubscription extends HtmlView
 
 		$canDo = ContentHelper::getActions('com_tjnotifications', '', 0);
 
-		JToolBarHelper::title(Text::_('COM_TJNOTIFICATIONS_SUBSCRIPTION_PAGE_TITLE'), 'edit.png');
+		ToolbarHelper::title(Text::_('COM_TJNOTIFICATIONS_SUBSCRIPTION_PAGE_TITLE'), 'edit.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.create'))))
 		{
-			JToolBarHelper::apply('subscription.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('subscription.save', 'JTOOLBAR_SAVE');
+			ToolbarHelper::apply('subscription.apply', 'JTOOLBAR_APPLY');
+			ToolbarHelper::save('subscription.save', 'JTOOLBAR_SAVE');
 		}
 
 		if (!$checkedOut && ($canDo->get('core.create')))
 		{
-			JToolBarHelper::custom('subscription.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			ToolbarHelper::custom('subscription.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolBarHelper::custom('subscription.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			ToolbarHelper::custom('subscription.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 		if (empty($this->item->id))
 		{
-			JToolBarHelper::cancel('subscription.cancel', 'JTOOLBAR_CANCEL');
+			ToolbarHelper::cancel('subscription.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else
 		{
-			JToolBarHelper::cancel('subscription.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('subscription.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }
