@@ -56,7 +56,7 @@ class TjnotificationsViewNotification extends HtmlView
 		if (empty($this->user->authorise('core.create', 'com_tjnotifications')) || empty($this->user->authorise('core.edit', 'com_tjnotifications')))
 		{
 			$msg = Text::_('JERROR_ALERTNOAUTHOR');
-			JError::raiseError(403, $msg);
+			$this->app->enqueueMessage($msg, 'error');
 			$this->app->redirect(Route::_('index.php?Itemid=0', false));
 		}
 
@@ -74,7 +74,7 @@ class TjnotificationsViewNotification extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			$this->app->enqueueMessage(implode('<br />', $errors), 'error');
 
 			return false;
 		}

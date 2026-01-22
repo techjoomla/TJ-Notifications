@@ -50,7 +50,8 @@ class TjnotificationsViewLogs extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			$app = Factory::getApplication();
+			$app->enqueueMessage(implode('<br />', $errors), 'error');
 
 			return false;
 		}
